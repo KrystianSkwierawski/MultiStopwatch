@@ -12,6 +12,8 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material/material.module';
+import { AuthorizeViewComponent } from './utilities/authorize-view/authorize-view.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { MaterialModule } from './material/material.module';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    AuthorizeViewComponent,
+    SideMenuComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

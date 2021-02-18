@@ -1,0 +1,98 @@
+@import '../../scss/shared.scss';
+
+
+.side-menu-toggle-button {
+  transition: 0.15s linear;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: black;
+  display: block;
+  transform: translateX(100%);
+
+
+  @include respond-to(medium) {
+    display: none;
+  }
+
+  &_closed {
+    position: fixed;
+    left: 0;
+    transform: translateX(0);
+  }
+}
+
+
+.side-menu {
+  transition: 0.1s width linear;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #2F3136;
+  width: 80vw;
+  height: 100vh;
+
+  @include respond-to(medium) {
+    width: 20vw;
+  }
+
+  p {
+    color: white;
+    text-align: center;
+    font-size: 1.3rem;
+    padding-top: 2.5rem;
+  }
+}
+
+.side-menu_closed {
+  width: 0;
+
+  & .side-menu-content {
+    display: none;
+  }
+}
+
+
+.side-menu-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorites-projects {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    color: #FF4081;
+  }
+}
+
+.projects {
+  overflow: auto;
+  height: 100%;
+
+    &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.project {
+  display: flex;
+  margin: 1rem;
+  justify-content: center;
+  align-content: center;
+  border-radius: 8px;
+  background-color: white;
+  align-content: center;
+  padding: 5px;
+
+  p {
+    padding: 0;
+    padding-right: 3px;
+    margin: 0;
+    font-size: 17px;
+    color: black;
+  }
+}

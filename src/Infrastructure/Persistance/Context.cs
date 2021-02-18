@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Threading;
 using Project.Domain.Common;
+using Domain.Entities;
 
 namespace Project.Infrastructure.Persistence
 {
@@ -27,6 +28,8 @@ namespace Project.Infrastructure.Persistence
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<StopWatchItem> StopWatchItems { get; set; }
+        public DbSet<ProjectItem> ProjectItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
