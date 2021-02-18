@@ -40,7 +40,6 @@
     color: white;
     text-align: center;
     font-size: 1.3rem;
-    padding-top: 2.5rem;
   }
 }
 
@@ -70,16 +69,20 @@
 }
 
 .projects {
+  display: flex;
+  flex-direction: column;
   overflow: auto;
   height: 100%;
 
-    &::-webkit-scrollbar {
+
+  &::-webkit-scrollbar {
     display: none;
   }
 }
 
-.project {
-  display: flex;
+/*.project {
+
+    display: flex;
   margin: 1rem;
   justify-content: center;
   align-content: center;
@@ -94,5 +97,24 @@
     margin: 0;
     font-size: 17px;
     color: black;
+  }
+}
+*/
+table {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+
+
+  td {
+    padding: 1px;
+
+    p {
+    
+      margin: 0;
+      font-size: 17px;
+      color: white;
+    }
   }
 }

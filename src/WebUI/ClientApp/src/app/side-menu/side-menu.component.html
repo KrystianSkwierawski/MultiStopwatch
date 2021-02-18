@@ -15,82 +15,44 @@
       <p>Favorite</p>
 
       <div class="projects">
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+        <table mat-table
+               *ngIf="projects.length > 0"
+               [dataSource]="projects"
+               cdkDropList
+               [cdkDropListData]="projects"
+               (cdkDropListDropped)="dropped($event)">
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+          <ng-container matColumnDef="title">
+            <td mat-cell *matCellDef="let element">
+              <p>{{element.title}}</p>
+            </td>
+          </ng-container>
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+          <ng-container matColumnDef="time">
+            <td mat-cell *matCellDef="let element">
+              <p>{{element.time}}</p>
+            </td>
+          </ng-container>
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+          <ng-container matColumnDef="dislike-project-button">
+            <td mat-cell *matCellDef="let element; let index = index">
+              <button mat-icon-button
+                      (mouseenter)="handleDislikeProjectButtonMouseEnter(index)"
+                      (mouseleave)="handleDislikeProjectButtonMouseLeave()">
+                <mat-icon color="accent" *ngIf="hoveredDivId !== index">favorite</mat-icon>
+                <mat-icon color="accent" *ngIf="hoveredDivId === index">favorite_border</mat-icon>
+              </button>
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+            </td>
+          </ng-container>
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay"
+              cdkDrag [cdkDragData]="row">
+          </tr>
 
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-        <div class="project">
-          <p>Messenger 15:00</p> <mat-icon color="accent">favorite</mat-icon>
-        </div>
-
-
-
-
+        </table>
       </div>
+
     </div>
 
     <div class="settings">

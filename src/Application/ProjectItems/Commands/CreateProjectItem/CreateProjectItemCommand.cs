@@ -23,7 +23,8 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
             {
                 ProjectItem entity = new ProjectItem
                 {
-                    Title = request.Title
+                    Title = request.Title,
+                    IsFavorite = false
                 };
 
                 await _context.ProjectItems.AddAsync(entity);

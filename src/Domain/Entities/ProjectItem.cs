@@ -7,6 +7,6 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public IList<StopWatchItem> StopWatchItems { get; set; } = new List<StopWatchItem>();
-    }
+        public bool IsFavorite { get; set; }
+        public IList<StopWatchItem> StopWatchItems { get; set; } = new List<StopWatchItem>();    }
 }
