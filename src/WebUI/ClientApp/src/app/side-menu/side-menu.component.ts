@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { ProjectItemDTO } from '../project-items/project-item.module';
 
 @Component({
   selector: 'app-side-menu',
@@ -13,19 +14,21 @@ import { MatTable } from '@angular/material/table';
 export class SideMenuComponent implements OnInit {
   isActivated: boolean = true;
 
-  @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
+  @ViewChild(MatTable) favoriteProjectItemsTable: MatTable<any>;
 
-  projects: Array<any>;
+  projectItems: Array<ProjectItemDTO> = [
+    { title: "messenger", time: "15:00", isFavorite: true },
+    { title: "quess", time: "20:00", isFavorite: true }
+  ];
+
+  favoriteProjectItems: Array<ProjectItemDTO>
 
   columnsToDisplay = ['title', 'time', 'dislike-project-button'];
 
   constructor(public elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    this.projects = [
-      { title: "messenger", time: "15:00" },
-      { title: "quess", time: "20:00" }
-    ];
+    this.favoriteProjectItems = this.projectItems.filter(x => x.isFavorite === true);
   }
 
 
@@ -44,9 +47,11 @@ export class SideMenuComponent implements OnInit {
   }
 
   dropped(event: CdkDragDrop<any[]>) {
-    const previousIndex = this.projects.findIndex(project => project === event.item.data);
-    moveItemInArray(this.projects, previousIndex, event.currentIndex);
-    this.favoriteProjectsTable.renderRows();
+    const previousIndex = this.projectItems.findIndex(project => project === event.item.data);
+    moveItemInArray(this.projectItems, previousIndex, event.currentIndex);
+    this.favoriteProjectItemsTable.renderRows();
+
+    //zapisz w bazie danych kolejnosc
   }
 
   hoveredDivId: number = null;

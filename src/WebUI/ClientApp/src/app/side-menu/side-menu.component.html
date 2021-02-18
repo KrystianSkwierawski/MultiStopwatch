@@ -16,10 +16,10 @@
 
       <div class="projects">
         <table mat-table
-               *ngIf="projects.length > 0"
-               [dataSource]="projects"
+               *ngIf="favoriteProjectItems.length > 0"
+               [dataSource]="favoriteProjectItems"
                cdkDropList
-               [cdkDropListData]="projects"
+               [cdkDropListData]="favoriteProjectItems"
                (cdkDropListDropped)="dropped($event)">
 
           <ng-container matColumnDef="title">
