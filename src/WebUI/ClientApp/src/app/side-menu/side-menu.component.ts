@@ -6,6 +6,9 @@ import { MatTable } from '@angular/material/table';
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.scss'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class SideMenuComponent implements OnInit {
   isActivated: boolean = true;
@@ -35,7 +38,9 @@ export class SideMenuComponent implements OnInit {
 
     if (isDesktopDevice) {
       this.isActivated = true;
+      console.log(event.target.innerWidth);
     }
+    console.log(event.target.innerWidth);
   }
 
   dropped(event: CdkDragDrop<any[]>) {
