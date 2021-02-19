@@ -1,9 +1,14 @@
-.home-container {
- 
-}
+@import '../../scss/shared.scss';
 
-.content{
+
+.content {
+    margin: 0;
+  height: 100vh;
+  width: 100vw;
+  padding-top: 7%;
+
+  @include respond-to(medium) {
     margin-left: 20vw;
-    height: 100vh;
     width: 80vw;
+  }
 }
