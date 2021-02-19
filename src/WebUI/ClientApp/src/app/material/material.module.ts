@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [],
@@ -13,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule,
     MatTableModule,
     DragDropModule,
+    MatProgressSpinnerModule,
   ],
   imports: [
     CommonModule
