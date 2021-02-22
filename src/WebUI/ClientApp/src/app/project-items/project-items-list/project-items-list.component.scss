@@ -1,0 +1,76 @@
+@import '../../../scss/shared.scss';
+
+
+.projects {
+  height: auto;
+  display: flex;
+  margin-top: 2%;
+  flex-direction: column;
+  width: 100%;
+
+  @include respond-to(medium) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.project {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 95%;
+  border-radius: 12px;
+  border: 2px solid blue;
+  color: black;
+  margin-bottom: 2%;
+
+  @include respond-to(medium) {
+    width: calc(calc(100% / 3) - 4%);
+    height: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+  @include respond-to(large) {
+    width: calc(calc(100% / 4) - 4%);
+  }
+}
+
+
+.add-new-project-button {
+  margin-top: 1%;
+  background-color: #464775;
+  color: white;
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+  font-size: 1.5rem;
+}
+
+.project__top{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    & p{
+        font-size: 1.3rem;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+.project__mid {
+  text-align: center;
+
+  & i {
+    font-size: 5rem;
+  }
+
+  & {
+    font-size: 1.3rem;
+  }
+}

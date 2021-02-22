@@ -12,17 +12,14 @@ import { ProjectItemDTO } from '../project-items/project-item.module';
 export class SideMenuComponent implements OnInit {
   menuIsActivated: boolean = true;
 
-  projectItems: Array<ProjectItemDTO> = [
-    { title: "messenger", time: "15:00", isFavorite: true },
-    { title: "quess", time: "20:00", isFavorite: true }
-  ];
+
 
   favoriteProjectItems: Array<ProjectItemDTO>
 
   constructor(public elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    this.favoriteProjectItems = this.projectItems.filter(x => x.isFavorite === true);
+    
   }
 
 

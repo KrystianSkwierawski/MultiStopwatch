@@ -1,0 +1,23 @@
+<button mat-flat-button class="add-new-project-button">Add new project <i class="fas fa-plus"></i></button>
+
+  <app-generic-list [list]="projectItems">
+    <ng-container content>
+      <div class="projects">
+        <div class="project" *ngFor="let projectItem of projectItems">
+
+          <div class="project__top">
+            <button mat-icon-button><i class="fas fa-bars"></i></button>
+            <p>{{projectItem.time}}</p>
+            <button color="accent" mat-icon-button>
+              <mat-icon>favorite</mat-icon>
+            </button>
+          </div>
+
+          <div class="project__mid">
+            <i class="fas fa-folder"></i>
+            <p> {{projectItem.title}}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </app-generic-list>

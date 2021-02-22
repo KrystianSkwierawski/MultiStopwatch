@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
   selector: 'app-favorite-projects-items-list',
@@ -13,11 +14,15 @@ export class FavoriteProjectsItemsListComponent implements OnInit {
 
   @ViewChild(MatTable) favoriteProjectItemsTable: MatTable<any>;
 
-  @Input() favoriteProjectItems;
+  favoriteProjectItems: Array<ProjectItemDTO> = [
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true }
+  ];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.favoriteProjectItems = this.favoriteProjectItems.filter(x => x.isFavorite === true);
   }
 
 

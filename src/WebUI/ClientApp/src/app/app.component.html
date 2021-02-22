@@ -1,12 +1,18 @@
-<app-authorize-view>
-  <ng-container notAuthorized>
-    <div class="main-container">
+<!--<app-authorize-view>
+  <ng-container authorized>
       <router-outlet></router-outlet>
-    </div>
   </ng-container>
 
-  <!--<ng-container notAuthorized>
+  <ng-container notAuthorized>
     <app-login-menu></app-login-menu>
-  </ng-container>-->
+  </ng-container>
+</app-authorize-view>-->
+
+<app-authorize-view>
+  <ng-container notAuthorized>
+    <router-outlet></router-outlet>
+  </ng-container>
 </app-authorize-view>
+
+
 
