@@ -10,5 +10,6 @@
   @include respond-to(medium) {
     margin-left: 20vw;
     width: 80vw;
+    padding-top: 0;
   }
 }
