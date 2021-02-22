@@ -10,7 +10,7 @@ import { ProjectItemDTO } from '../project-items/project-item.module';
   }
 })
 export class SideMenuComponent implements OnInit {
-  isActivated: boolean = true;
+  menuIsActivated: boolean = true;
 
   projectItems: Array<ProjectItemDTO> = [
     { title: "messenger", time: "15:00", isFavorite: true },
@@ -27,14 +27,14 @@ export class SideMenuComponent implements OnInit {
 
 
   handleToggler(): void {
-    this.isActivated = !this.isActivated;
+    this.menuIsActivated = !this.menuIsActivated;
   }
 
   onResize(event): void {
     const isDesktopDevice: boolean = (event.target.innerWidth > 768) ? true : false;
 
     if (isDesktopDevice) {
-      this.isActivated = true;
+      this.menuIsActivated = true;
     }
   }
 

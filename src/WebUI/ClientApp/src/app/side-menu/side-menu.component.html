@@ -1,12 +1,12 @@
-<div [ngClass]="(!isActivated) ? 'side-menu_closed' : ''" class="side-menu">
+<div [ngClass]="(!menuIsActivated) ? 'side-menu_closed' : ''" class="side-menu">
 
   <button mat-icon-button
           class="side-menu-toggle-button"
           (click)="handleToggler()"
-          [ngClass]="(!isActivated) ? 'side-menu-toggle-button_closed' : ''">
+          [ngClass]="(!menuIsActivated) ? 'side-menu-toggle-button_closed' : ''">
 
-    <mat-icon *ngIf="!isActivated">menu</mat-icon>
-    <mat-icon *ngIf="isActivated">chevron_left</mat-icon>
+    <mat-icon *ngIf="!menuIsActivated">menu</mat-icon>
+    <mat-icon *ngIf="menuIsActivated">chevron_left</mat-icon>
   </button>
 
   <div class="side-menu-content">
