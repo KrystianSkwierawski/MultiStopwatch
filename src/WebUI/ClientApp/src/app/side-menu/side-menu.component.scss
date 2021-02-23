@@ -14,6 +14,10 @@
     display: none;
   }
 
+  & mat-icon{
+      font-size: 2rem;
+  }
+
   &_closed {
     position: fixed;
     left: 0;
