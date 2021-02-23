@@ -11,17 +11,17 @@
         <ng-container matColumnDef="column">
           <div class="favorite-project">
             <td mat-cell *matCellDef="let element; let index = index">
-              <a href="project/{{element.id}}">
+              <a href="{{hoveredDivId === index ? 'javascript:void(0);' : 'project/' + element.id}}">
                 {{element.title}} <span>{{element.time}}</span>
+
+
+                <button mat-icon-button
+                        (mouseenter)="handleDislikeProjectButtonMouseEnter(index)"
+                        (mouseleave)="handleDislikeProjectButtonMouseLeave()">
+                  <mat-icon color="accent" *ngIf="hoveredDivId !== index">favorite</mat-icon>
+                  <mat-icon color="accent" *ngIf="hoveredDivId === index">favorite_border</mat-icon>
+                </button>
               </a>
-
-              <button mat-icon-button
-                      (mouseenter)="handleDislikeProjectButtonMouseEnter(index)"
-                      (mouseleave)="handleDislikeProjectButtonMouseLeave()">
-                <mat-icon color="accent" *ngIf="hoveredDivId !== index">favorite</mat-icon>
-                <mat-icon color="accent" *ngIf="hoveredDivId === index">favorite_border</mat-icon>
-              </button>
-
             </td>
           </div>
         </ng-container>

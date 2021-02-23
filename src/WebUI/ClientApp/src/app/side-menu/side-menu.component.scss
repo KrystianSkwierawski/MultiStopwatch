@@ -2,13 +2,13 @@
 
 
 .side-menu-toggle-button {
-  transition: 0.15s linear;
   position: absolute;
   top: 0;
   right: 0;
+  transform: translateX(100%);
+  transition: 0.15s linear;
   color: black;
   display: block;
-  transform: translateX(100%);
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 
 
@@ -29,9 +29,9 @@
   position: fixed;
   left: 0;
   top: 0;
-  background-color: #2D2C2C;
   width: 80vw;
   height: 100vh;
+  background-color: #2D2C2C;
   z-index: 100;
 
   @include respond-to(medium) {
