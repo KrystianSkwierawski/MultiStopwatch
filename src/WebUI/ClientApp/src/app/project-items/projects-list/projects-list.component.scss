@@ -44,11 +44,17 @@
 
 
 .add-new-project-button {
+  @include reset-button;
+  height: 50px;
+  width: 50px;
   margin-top: 2%;
   margin-left: auto;
   display: block;
   margin-right: auto;
   font-size: 1.5rem;
+  color: white;
+  border-radius: 50%;
+  background-color: #6264A7;
 }
 
 .project__top {
@@ -70,9 +76,21 @@
 
   & i {
     font-size: 5rem;
+    opacity: 0.7;
   }
 
-  & {
+  & a{
+      text-decoration: none;
+      display: block;
+      color: white;
+  }
+
+
+  & p {
     font-size: 1.3rem;
   }
+}
+
+.like-or-dislike-project-button {
+  color: #d0cfe4;
 }

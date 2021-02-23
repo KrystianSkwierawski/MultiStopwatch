@@ -1,4 +1,4 @@
-<button mat-flat-button color="primary" class="add-new-project-button">Add new project <i class="fas fa-plus"></i></button>
+<button class="add-new-project-button"><i class="fas fa-plus"></i></button>
 
 <app-generic-list [list]="projects">
   <ng-container content>
@@ -8,13 +8,13 @@
         <div class="project__top">
           <button mat-icon-button><i class="fas fa-ellipsis-h"></i></button>
           <a class="text-white text-decoration-none" href="project/{{project.id}}"><p>{{project.time}}</p></a>
-          <button color="accent" mat-icon-button>
+          <button class="like-or-dislike-project-button" mat-icon-button>
             <mat-icon>favorite</mat-icon>
           </button>
         </div>
 
         <div class="project__mid">
-          <a class="d-block text-white text-decoration-none" href="project/{{project.id}}">
+          <a href="project/{{project.id}}">
             <i class="fas fa-folder"></i>
             <p> {{project.title}}</p>
           </a>

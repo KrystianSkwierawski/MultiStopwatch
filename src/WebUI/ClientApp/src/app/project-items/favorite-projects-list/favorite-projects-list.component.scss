@@ -22,13 +22,13 @@ table {
 
   & a {
     display: block;
-    font-size: 1rem;
+    font-size: 1.1rem;
     text-decoration: none;
-    color: white;
+    color: #b4b3d4;
 
     span {
       font-weight: bold;
-      color: #17A2B8;
+      color: #efeff6;
     }
   }
 
@@ -39,4 +39,8 @@ table {
   & td {
     padding: 1px;
   }
+}
+
+.dislike-project-button {
+  color: #d0cfe4;
 }

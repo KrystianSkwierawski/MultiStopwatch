@@ -15,11 +15,11 @@
               <a href="{{activeLinkWhenDislikeProjectButtonIsNotHovered(index, element.id)}}">
                 {{element.title}} <span>{{element.time}}</span>
 
-                <button mat-icon-button
+                <button mat-icon-button class="dislike-project-button"
                         (mouseenter)="setHoveredDivId(index)"
                         (mouseleave)="setHoveredDivId()">
-                  <mat-icon color="accent" *ngIf="hoveredDivId !== index">favorite</mat-icon>
-                  <mat-icon color="accent" *ngIf="hoveredDivId === index">favorite_border</mat-icon>
+                  <mat-icon *ngIf="hoveredDivId !== index">favorite</mat-icon>
+                  <mat-icon *ngIf="hoveredDivId === index">favorite_border</mat-icon>
                 </button>
               </a>
             </td>
