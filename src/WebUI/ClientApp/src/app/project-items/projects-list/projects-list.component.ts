@@ -10,7 +10,7 @@ export class ProjectsListComponent implements OnInit {
 
   constructor() { }
 
-  projectItems: Array<ProjectItemDTO> = [
+  projects: Array<ProjectItemDTO> = [
     { id: 1, title: "messenger", time: "15:00", isFavorite: true },
     { id: 2, title: "quess", time: "20:00", isFavorite: true },
     { id: 2, title: "quess", time: "20:00", isFavorite: true },

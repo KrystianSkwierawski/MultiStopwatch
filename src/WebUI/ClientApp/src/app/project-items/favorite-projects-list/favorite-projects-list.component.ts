@@ -12,9 +12,9 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   columnsToDisplay = ['column'];
 
-  @ViewChild(MatTable) favoriteProjectItemsTable: MatTable<any>;
+  @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
 
-  favoriteProjectItems: Array<ProjectItemDTO> = [
+  favoriteProjects: Array<ProjectItemDTO> = [
     { id: 1, title: "messenger", time: "15:00", isFavorite: true },
     { id: 2, title: "quess", time: "20:00", isFavorite: true }
   ];
@@ -22,14 +22,14 @@ export class FavoriteProjectsListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.favoriteProjectItems = this.favoriteProjectItems.filter(x => x.isFavorite === true);
+    this.favoriteProjects = this.favoriteProjects.filter(x => x.isFavorite === true);
   }
 
 
   dropped(event: CdkDragDrop<any[]>) {
-    const previousIndex = this.favoriteProjectItems.findIndex(project => project === event.item.data);
-    moveItemInArray(this.favoriteProjectItems, previousIndex, event.currentIndex);
-    this.favoriteProjectItemsTable.renderRows();
+    const previousIndex = this.favoriteProjects.findIndex(project => project === event.item.data);
+    moveItemInArray(this.favoriteProjects, previousIndex, event.currentIndex);
+    this.favoriteProjectsTable.renderRows();
 
     //zapisz w bazie danych kolejnosc
   }

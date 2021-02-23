@@ -35,6 +35,10 @@
   z-index: 100;
 
   @include respond-to(medium) {
+    width: 25vw;
+  }
+
+  @include respond-to(large) {
     width: 20vw;
   }
 

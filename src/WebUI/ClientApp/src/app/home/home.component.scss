@@ -5,10 +5,14 @@
   height: auto;
   width: 100%;
   padding-top: 7%;
-  
+
 
   @include respond-to(medium) {
-    padding-left: 20vw;
+    padding-left: 25vw;
     padding-top: 0;
+  }
+
+  @include respond-to(large) {
+    padding-left: 20vw;
   }
 }
