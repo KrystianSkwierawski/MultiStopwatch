@@ -36,11 +36,11 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   hoveredDivId: number = null;
 
-  handleDislikeProjectButtonMouseEnter(index: number) {
+  setHoveredDivId(index: number = null) {
     this.hoveredDivId = index;
   }
 
-  handleDislikeProjectButtonMouseLeave() {
-    this.hoveredDivId = null;
+  activeLinkWhenDislikeProjectButtonIsNotHovered(index: number, elementId: number): string {
+    return (this.hoveredDivId === index) ? 'javascript:void(0);' : `project/${elementId}`;
   }
 }

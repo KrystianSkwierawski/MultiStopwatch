@@ -7,10 +7,8 @@
   right: 0;
   transform: translateX(100%);
   transition: 0.15s linear;
-  color: black;
+  color: white;
   display: block;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-
 
   @include respond-to(medium) {
     display: none;
