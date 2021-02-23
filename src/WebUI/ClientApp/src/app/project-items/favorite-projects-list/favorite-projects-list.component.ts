@@ -16,7 +16,25 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   favoriteProjects: Array<ProjectItemDTO> = [
     { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true }
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
+    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
+    { id: 2, title: "quess", time: "20:00", isFavorite: true },
   ];
 
   constructor() { }

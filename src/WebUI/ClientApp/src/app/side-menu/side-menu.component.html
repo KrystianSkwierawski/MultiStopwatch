@@ -1,25 +1,25 @@
 <div [ngClass]="(!menuIsActivated) ? 'side-menu_closed' : ''" class="side-menu">
 
-    <button mat-icon-button
-            class="side-menu-toggle-button"
-            (click)="handleToggler()"
-            [ngClass]="(!menuIsActivated) ? 'side-menu-toggle-button_closed' : ''">
+  <button mat-icon-button
+          class="side-menu-toggle-button"
+          (click)="handleToggler()"
+          [ngClass]="(!menuIsActivated) ? 'side-menu-toggle-button_closed' : ''">
 
-      <mat-icon *ngIf="!menuIsActivated">menu</mat-icon>
-      <mat-icon *ngIf="menuIsActivated">chevron_left</mat-icon>
-    </button>
+    <mat-icon *ngIf="!menuIsActivated">menu</mat-icon>
+    <mat-icon *ngIf="menuIsActivated">chevron_left</mat-icon>
+  </button>
 
   <div class="side-menu-content">
 
-    <div class="favorites-projects">
-      <p>Favorites</p>
-
+    <p class="mt-2">Favorites</p>
+    <div class="side-menu-content__favorite-projects">
       <app-favorite-projects-list></app-favorite-projects-list>
     </div>
 
-    <div class="settings">
-      <a class="settings__logout" [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
-      <a class="settings__manage" [routerLink]='["/authentication/profile"]' title="Manage"><i class="fas fa-users-cog"></i></a>
+
+    <div class="side-menu-content__settings">
+      <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
+      <a [routerLink]='["/authentication/profile"]' title="Manage"><i class="fas fa-users-cog"></i></a>
     </div>
   </div>
 </div>
