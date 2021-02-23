@@ -15,8 +15,8 @@ import { MaterialModule } from './material/material.module';
 import { AuthorizeViewComponent } from './utilities/authorize-view/authorize-view.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { GenericListComponent } from './utilities/generic-list/generic-list.component';
-import { FavoriteProjectsItemsListComponent } from './project-items/favorite-projects-items-list/favorite-projects-items-list.component';
-import { ProjectItemsListComponent } from './project-items/project-items-list/project-items-list.component';
+import { FavoriteProjectsListComponent } from './project-items/favorite-projects-list/favorite-projects-list.component';
+import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
 
 
 @NgModule({
@@ -27,8 +27,8 @@ import { ProjectItemsListComponent } from './project-items/project-items-list/pr
     AuthorizeViewComponent,
     SideMenuComponent,
     GenericListComponent,
-    FavoriteProjectsItemsListComponent,
-    ProjectItemsListComponent,
+    FavoriteProjectsListComponent,
+    ProjectsListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

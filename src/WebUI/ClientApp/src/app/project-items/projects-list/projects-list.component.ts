@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
-  selector: 'app-project-items-list',
-  templateUrl: './project-items-list.component.html',
-  styleUrls: ['./project-items-list.component.scss']
+  selector: 'app-projects-list',
+  templateUrl: './projects-list.component.html',
+  styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectItemsListComponent implements OnInit {
+export class ProjectsListComponent implements OnInit {
 
   constructor() { }
 

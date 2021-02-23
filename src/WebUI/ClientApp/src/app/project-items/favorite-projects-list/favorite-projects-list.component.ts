@@ -4,11 +4,11 @@ import { MatTable } from '@angular/material/table';
 import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
-  selector: 'app-favorite-projects-items-list',
-  templateUrl: './favorite-projects-items-list.component.html',
-  styleUrls: ['./favorite-projects-items-list.component.scss']
+  selector: 'app-favorite-projects-list',
+  templateUrl: './favorite-projects-list.component.html',
+  styleUrls: ['./favorite-projects-list.component.scss']
 })
-export class FavoriteProjectsItemsListComponent implements OnInit {
+export class FavoriteProjectsListComponent implements OnInit {
 
   columnsToDisplay = ['column'];
 
