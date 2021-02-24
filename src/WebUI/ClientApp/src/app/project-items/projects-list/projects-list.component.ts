@@ -38,6 +38,8 @@ export class ProjectsListComponent implements OnInit {
       this.searchProjectComponent.cleanInput();
     }
 
+    projectItem.time = "00:00";
+
     //dodaj i zwroc projekt
 
     //dodaj projekt zwrocony z bazy entity id
