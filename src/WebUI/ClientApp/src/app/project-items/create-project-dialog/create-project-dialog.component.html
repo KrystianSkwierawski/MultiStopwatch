@@ -1,7 +1,7 @@
 <div mat-dialog-content>
   <p>Create new project</p>
 
-  <form (submit)="addProject()" [formGroup]="form">
+  <form [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>Title*</mat-label>
       <input formControlName="title" matInput />
@@ -10,8 +10,8 @@
 
 
     <div>
-      <button mat-stroked-button (click)="hideDialog()" class="mr-1">Cancel</button>
-      <button mat-flat-button color="primary" [disabled]="form.invalid">Save Changes</button>
+      <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1">Cancel</button>
+      <button mat-flat-button color="primary" [disabled]="form.invalid" [mat-dialog-close]="form.value">Create Changes</button>
     </div>
   </form>
 </div>

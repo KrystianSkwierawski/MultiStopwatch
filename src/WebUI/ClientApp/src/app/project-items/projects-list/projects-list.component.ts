@@ -13,28 +13,7 @@ export class ProjectsListComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 
-  projects: Array<ProjectItemDTO> = [
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-  ];
+  projects: Array<ProjectItemDTO> = [];
 
   ngOnInit(): void {
     //get project
@@ -42,7 +21,26 @@ export class ProjectsListComponent implements OnInit {
 
 
   openDialog(): void {
-    this.dialog.open(CreateProjectDialogComponent);
+    const dialogRef = this.dialog.open(CreateProjectDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addProject(result);
+      }
+    });
+  }
+
+  addProject(projectItem: ProjectItemDTO) {
+    //dodaj i zwroc projekt
+
+    //dodaj projekt zwrocony z bazy zeby miec id
+    this.projects.push(projectItem);
+  }
+
+  hoveredDivId: number = null;
+
+  setHoveredDivId(index: number = null) {
+    this.hoveredDivId = index;
   }
 }
 

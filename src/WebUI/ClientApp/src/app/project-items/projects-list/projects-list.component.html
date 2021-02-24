@@ -1,15 +1,20 @@
 <button (click)="openDialog()" class="add-new-project-button"><i class="fas fa-plus"></i></button>
 
-<app-generic-list [list]="projects">
+<app-generic-list [list]="projects.reverse()">
   <ng-container content>
     <div class="projects">
-      <div class="project" *ngFor="let project of projects">
+      <div class="project" *ngFor="let project of projects; let index = index">
 
         <div class="project__top">
           <button mat-icon-button><i class="fas fa-ellipsis-h"></i></button>
           <a class="text-white text-decoration-none" href="project/{{project.id}}">{{project.time}}</a>
-          <button class="like-or-dislike-project-button" mat-icon-button>
-            <mat-icon>favorite</mat-icon>
+          <button class="like-or-dislike-project-button"
+                  mat-icon-button
+                  (mouseenter)="setHoveredDivId(index)"
+                  (mouseleave)="setHoveredDivId()">
+
+            <mat-icon *ngIf="project.isFavorite || hoveredDivId === index">favorite</mat-icon>
+            <mat-icon *ngIf="!project.isFavorite && hoveredDivId !== index">favorite_border</mat-icon>
           </button>
         </div>
 

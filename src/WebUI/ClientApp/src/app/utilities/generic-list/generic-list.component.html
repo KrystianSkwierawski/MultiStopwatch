@@ -2,9 +2,9 @@
   <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<div *ngIf="list?.length === 0">
-  <p>You don't have any favorite projects yet</p>
-</div>
+<!--<div *ngIf="list?.length === 0">
+  
+</div>-->
 
 <ng-container *ngIf="list && list.length > 0">
   <ng-content select="[content]"></ng-content>

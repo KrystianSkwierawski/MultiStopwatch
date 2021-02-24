@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
@@ -10,7 +10,9 @@ import { ProjectItemDTO } from '../project-item.module';
 })
 export class CreateProjectDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>, private formBuilder: FormBuilder) { };
+  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: ProjectItemDTO) { };
 
   form: FormGroup
 
@@ -24,12 +26,5 @@ export class CreateProjectDialogComponent implements OnInit {
 
   hideDialog(): void {
     this.dialogRef.close();
-  }
-
-
-  addProject() {
-    const projectItem: ProjectItemDTO = this.form.value;
-    console.log(projectItem);
-    this.hideDialog();  
   }
 }
