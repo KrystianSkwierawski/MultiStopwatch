@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddProjectDialogComponent } from '../add-project-dialog/add-project-dialog.component';
+import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
@@ -42,7 +42,7 @@ export class ProjectsListComponent implements OnInit {
 
 
   openDialog(): void {
-    this.dialog.open(AddProjectDialogComponent);
+    this.dialog.open(CreateProjectDialogComponent);
   }
 }
 

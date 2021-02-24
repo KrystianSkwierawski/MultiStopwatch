@@ -17,7 +17,7 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { GenericListComponent } from './utilities/generic-list/generic-list.component';
 import { FavoriteProjectsListComponent } from './project-items/favorite-projects-list/favorite-projects-list.component';
 import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
-import { AddProjectDialogComponent } from './project-items/add-project-dialog/add-project-dialog.component';
+import { CreateProjectDialogComponent } from './project-items/create-project-dialog/create-project-dialog.component';
 
 
 @NgModule({
@@ -30,7 +30,7 @@ import { AddProjectDialogComponent } from './project-items/add-project-dialog/ad
     GenericListComponent,
     FavoriteProjectsListComponent,
     ProjectsListComponent,
-    AddProjectDialogComponent,
+    CreateProjectDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
