@@ -18,6 +18,7 @@ import { GenericListComponent } from './utilities/generic-list/generic-list.comp
 import { FavoriteProjectsListComponent } from './project-items/favorite-projects-list/favorite-projects-list.component';
 import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
 import { CreateProjectDialogComponent } from './project-items/create-project-dialog/create-project-dialog.component';
+import { SearchProjectComponent } from './project-items/search-project/search-project.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { CreateProjectDialogComponent } from './project-items/create-project-dia
     FavoriteProjectsListComponent,
     ProjectsListComponent,
     CreateProjectDialogComponent,
+    SearchProjectComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
