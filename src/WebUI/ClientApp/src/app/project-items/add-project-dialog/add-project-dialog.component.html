@@ -1,0 +1,18 @@
+<div mat-dialog-content>
+  <p>Create new project</p>
+
+  <form (submit)="addProject()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Title*</mat-label>
+      <input formControlName="title" matInput />
+      <mat-error>The name field is required</mat-error>
+    </mat-form-field>
+
+
+    <div>
+      <button mat-stroked-button (click)="hideDialog()" class="mr-1">Cancel</button>
+      <button mat-flat-button color="primary" [disabled]="form.invalid">Save Changes</button>
+    </div>
+  </form>
+</div>
+

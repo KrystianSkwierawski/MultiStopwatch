@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddProjectDialogComponent } from '../add-project-dialog/add-project-dialog.component';
 import { ProjectItemDTO } from '../project-item.module';
 
 @Component({
@@ -8,7 +10,8 @@ import { ProjectItemDTO } from '../project-item.module';
 })
 export class ProjectsListComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(public dialog: MatDialog) { }
 
   projects: Array<ProjectItemDTO> = [
     { id: 1, title: "messenger", time: "15:00", isFavorite: true },
@@ -34,6 +37,12 @@ export class ProjectsListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    //get project
   }
 
+
+  openDialog(): void {
+    this.dialog.open(AddProjectDialogComponent);
+  }
 }
+

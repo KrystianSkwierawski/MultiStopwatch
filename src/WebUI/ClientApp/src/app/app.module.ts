@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { GenericListComponent } from './utilities/generic-list/generic-list.component';
 import { FavoriteProjectsListComponent } from './project-items/favorite-projects-list/favorite-projects-list.component';
 import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
+import { AddProjectDialogComponent } from './project-items/add-project-dialog/add-project-dialog.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ProjectsListComponent } from './project-items/projects-list/projects-li
     GenericListComponent,
     FavoriteProjectsListComponent,
     ProjectsListComponent,
+    AddProjectDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,7 +39,8 @@ import { ProjectsListComponent } from './project-items/projects-list/projects-li
     ApiAuthorizationModule,
     BrowserAnimationsModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
