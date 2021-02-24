@@ -27,6 +27,8 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
                     IsFavorite = false
                 };
 
+                await _context.ProjectItems.AddAsync(entity);
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return entity.Id;
