@@ -33,7 +33,10 @@ export class ProjectsListComponent implements OnInit {
   addProject(projectItem: ProjectItemDTO) {
     //dodaj i zwroc projekt
 
-    //dodaj projekt zwrocony z bazy zeby miec id
+    //dodaj projekt zwrocony z bazy entity id
+
+    //projectItem.id == result
+
     this.projects.push(projectItem);
   }
 
