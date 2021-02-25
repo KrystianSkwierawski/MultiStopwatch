@@ -24,7 +24,8 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
                 ProjectItem entity = new ProjectItem
                 {
                     Title = request.Title,
-                    IsFavorite = false
+                    IsFavorite = false,
+                    Time = "00:00"
                 };
 
                 await _context.ProjectItems.AddAsync(entity);

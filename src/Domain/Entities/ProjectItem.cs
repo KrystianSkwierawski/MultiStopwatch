@@ -8,6 +8,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public bool IsFavorite { get; set; }
+        public string Time { get; set; }
         public IList<StopWatchItem> StopWatchItems { get; set; } = new List<StopWatchItem>();    
     }
 }

@@ -14,33 +14,11 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
 
-  favoriteProjects: Array<ProjectItemDTO> = [
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-    { id: 1, title: "messenger", time: "15:00", isFavorite: true },
-    { id: 2, title: "quess", time: "20:00", isFavorite: true },
-  ];
+  @Input() favoriteProjects: Array<ProjectItemDTO> = [];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.favoriteProjects = this.favoriteProjects.filter(x => x.isFavorite === true);
   }
 
 

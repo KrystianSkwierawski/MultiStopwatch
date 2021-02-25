@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { ProjectItemDTO } from '../project-items/project-item.module';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +8,22 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 })
 export class HomeComponent implements OnInit {
 
+  projects: Array<ProjectItemDTO>;
+  favoriteProjects: Array<ProjectItemDTO>;
+
   constructor() {}
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  filterFavoritesProjects() {
+    this.favoriteProjects = this.projects.filter(x => x.isFavorite === true);
+  }
+
+  loadProjects() {
+    //await get projects
+    this.projects = [];
+    this.filterFavoritesProjects();
   }
 }

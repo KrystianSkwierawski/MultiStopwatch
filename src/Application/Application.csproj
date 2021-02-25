@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="StopWatchItems\Commands\" />
     <Folder Include="StopWatchItems\Queries\" />
-    <Folder Include="ProjectItems\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

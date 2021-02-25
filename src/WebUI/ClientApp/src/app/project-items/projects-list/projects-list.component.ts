@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
@@ -14,13 +14,13 @@ export class ProjectsListComponent implements OnInit {
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   projects: Array<ProjectItemDTO> = [];
-  oryginalProjects: Array<ProjectItemDTO> = [];
+  @Input() oryginalProjects: Array<ProjectItemDTO> = [];
 
   constructor(public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
-    //get project
+    this.oryginalProjects = this.projects;
   }
 
   openDialog(): void {
@@ -38,15 +38,9 @@ export class ProjectsListComponent implements OnInit {
       this.searchProjectComponent.cleanInput();
     }
 
-    projectItem.time = "00:00";
-    projectItem.isFavorite = false;
+    //await add
 
-    //dodaj projekt zwrocony z bazy entity id
-
-    //projectItem.id == result
-
-    this.oryginalProjects.push(projectItem);
-    this.projects = this.oryginalProjects;
+    //load projects
   }
 
   hoveredDivId: number = null;
@@ -62,6 +56,12 @@ export class ProjectsListComponent implements OnInit {
   filterProjects(searchingTitle: string) {
     const filteredProjects: Array<ProjectItemDTO> = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
     this.projects = filteredProjects;
+  }
+
+  handleLikeOrDislikeProjectButton(projectId: number) {
+    //await like or dis like
+
+    //load projects
   }
 }
 

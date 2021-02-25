@@ -1,8 +1,12 @@
 <div class="home-container">
-  <app-side-menu></app-side-menu>
+  <app-side-menu>
+      <ng-container favoriteProjectsList>
+        <app-favorite-projects-list [favoriteProjects]="favoriteProjects"></app-favorite-projects-list>
+      </ng-container>
+  </app-side-menu>
 
   <main class="content">
-    <app-projects-list></app-projects-list>
+    <app-projects-list [oryginalProjects]="projects"></app-projects-list>  
   </main>
 </div>
 
