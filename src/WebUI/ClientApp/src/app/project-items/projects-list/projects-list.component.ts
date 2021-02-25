@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
-import { ayy } from '../../web-api-client';
+import { ProjectItemClient, ProjectItemDto, CreateProjectItemCommand } from '../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 
 @Component({
@@ -13,14 +13,16 @@ export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
-  projects: Array<ayy> = [];
-  @Input() oryginalProjects: Array<ayy> = [];
+  @Output() onLoadProjects = new EventEmitter<void>();
+ 
+  @Input() oryginalProjects: ProjectItemDto[];
 
-  constructor(public dialog: MatDialog) { }
+  projects: ProjectItemDto[];
 
+  constructor(public dialog: MatDialog, private projectItemClient: ProjectItemClient) { }
 
   ngOnInit(): void {
-    this.oryginalProjects = this.projects;
+    this.projects = this.oryginalProjects; 
   }
 
   openDialog(): void {
@@ -33,14 +35,14 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  addProject(projectItem: ayy) {
+  addProject(projectItem: ProjectItemDto) {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
     }
 
-    //await add
-
-    //load projects
+    this.projectItemClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
+      this.onLoadProjects.emit();
+    });
   }
 
   hoveredDivId: number = null;
@@ -54,7 +56,7 @@ export class ProjectsListComponent implements OnInit {
   }
 
   filterProjects(searchingTitle: string) {
-    const filteredProjects: Array<ayy> = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
+    const filteredProjects: ProjectItemDto[] = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
     this.projects = filteredProjects;
   }
 

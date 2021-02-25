@@ -1,11 +1,11 @@
 <button (click)="openDialog()" class="add-new-project-button"><i class="fas fa-plus"></i></button>
 
-<app-search-item-by-title *ngIf="oryginalProjects.length !== 0"
+<app-search-item-by-title *ngIf="oryginalProjects?.length !== 0"
                           (onKeyUp)="filterProjects($event)"
                           [options]="getTitleArray()">
 </app-search-item-by-title>
 
-<app-generic-list [list]="projects.reverse()">
+<app-generic-list [list]="projects">
   <ng-container content>
     <div class="projects">
       <div class="project" *ngFor="let project of projects; let index = index">

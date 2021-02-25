@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ProjectItemDTO } from '../project-items/project-item.module';
 
 @Component({
   selector: 'app-side-menu',
@@ -12,9 +11,6 @@ import { ProjectItemDTO } from '../project-items/project-item.module';
 export class SideMenuComponent implements OnInit {
   menuIsActivated: boolean = true;
 
-
-
-  favoriteProjectItems: Array<ProjectItemDTO>
 
   constructor(public elementRef: ElementRef) { }
 

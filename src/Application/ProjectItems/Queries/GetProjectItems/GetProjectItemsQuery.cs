@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +28,8 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItems
                 return new ProjectsVm
                 {
                     Projects = await _context.ProjectItems
-                    .ProjectTo<ayy>(_mapper.ConfigurationProvider)
+                    .OrderByDescending(x => x.Id)                 
+                    .ProjectTo<ProjectItemDto>(_mapper.ConfigurationProvider)                    
                     .ToListAsync(cancellationToken)
                 };
             }
