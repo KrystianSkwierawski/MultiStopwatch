@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
-import { ProjectItemDTO } from '../project-item.module';
+import { ProjectItemDto } from '../../web-api-client';
 
 @Component({
   selector: 'app-create-project-dialog',
@@ -12,7 +12,7 @@ export class CreateProjectDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: ProjectItemDTO) { };
+    @Inject(MAT_DIALOG_DATA) public data: ProjectItemDto) { };
 
   form: FormGroup
 

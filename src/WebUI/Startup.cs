@@ -5,14 +5,10 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using NSwag;
-using NSwag.Generation.Processors.Security;
 using Project.Application;
 using Project.Application.Common.Interfaces;
 using Project.Infrastructure;
 using Project.WebUI.Services;
-using System.Linq;
 
 namespace Project.WebUI
 {
@@ -32,16 +28,6 @@ namespace Project.WebUI
             services.AddInfrastructure(Configuration);
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Project API",
-                    Description = "*description*",
-                });
-            });
-
             services.AddControllersWithViews().AddFluentValidation();
 
             services.AddRazorPages();
@@ -51,7 +37,7 @@ namespace Project.WebUI
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddOpenApiDocument();
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,14 +47,9 @@ namespace Project.WebUI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
-           
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Project V1");
-                });
 
-                //app.UseOpenApi();
-                //app.UseSwaggerUi3();
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
             else
             {

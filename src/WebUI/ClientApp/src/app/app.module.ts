@@ -10,7 +10,6 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MaterialModule } from './material/material.module';
 import { AuthorizeViewComponent } from './utilities/authorize-view/authorize-view.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
@@ -19,6 +18,7 @@ import { FavoriteProjectsListComponent } from './project-items/favorite-projects
 import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
 import { CreateProjectDialogComponent } from './project-items/create-project-dialog/create-project-dialog.component';
 import { SearchItemByTitleComponent } from './utilities/search-item-by-title/search-item-by-title.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -42,7 +42,8 @@ import { SearchItemByTitleComponent } from './utilities/search-item-by-title/sea
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

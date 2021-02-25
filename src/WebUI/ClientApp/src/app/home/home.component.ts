@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectItemDTO } from '../project-items/project-item.module';
+import { ProjectItemDto, ProjectItemClient } from '../web-api-client';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +8,10 @@ import { ProjectItemDTO } from '../project-items/project-item.module';
 })
 export class HomeComponent implements OnInit {
 
-  projects: Array<ProjectItemDTO>;
-  favoriteProjects: Array<ProjectItemDTO>;
+  projects: Array<ProjectItemDto>;
+  favoriteProjects: Array<ProjectItemDto>;
 
-  constructor() {}
+  constructor(private projectItemClient: ProjectItemClient) {}
 
   ngOnInit(): void {
     this.loadProjects();
@@ -22,8 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadProjects() {
-    //await get projects
-    this.projects = [];
+    this.projectItemClient.get().then(result => this.projects = result.projects);
     this.filterFavoritesProjects();
   }
 }

@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { ProjectItemDTO } from '../project-item.module';
+import { ProjectItemDto } from '../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -14,7 +14,7 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
 
-  @Input() favoriteProjects: Array<ProjectItemDTO> = [];
+  @Input() favoriteProjects: Array<ProjectItemDto> = [];
 
   constructor() { }
 
