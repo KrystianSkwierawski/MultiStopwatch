@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { ProjectItemDTO } from '../project-item.module';
-import { SearchProjectComponent } from '../search-project/search-project.component';
 
 @Component({
   selector: 'app-projects-list',
@@ -11,7 +11,7 @@ import { SearchProjectComponent } from '../search-project/search-project.compone
 })
 export class ProjectsListComponent implements OnInit {
 
-  @ViewChild(SearchProjectComponent) searchProjectComponent: SearchProjectComponent;
+  @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   projects: Array<ProjectItemDTO> = [];
   oryginalProjects: Array<ProjectItemDTO> = [];

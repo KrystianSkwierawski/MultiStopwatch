@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-search-project',
-  templateUrl: './search-project.component.html',
-  styleUrls: ['./search-project.component.scss']
+  selector: 'app-search-item-by-title',
+  templateUrl: './search-item-by-title.component.html',
+  styleUrls: ['./search-item-by-title.component.scss']
 })
-export class SearchProjectComponent implements OnInit {
+export class SearchItemByTitleComponent implements OnInit {
   myControl = new FormControl();
  
   filteredOptions: Observable<string[]>;
@@ -34,8 +34,6 @@ export class SearchProjectComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
-
-  currentSearchingTitle: string;
 
   keyUp() {
     const searchingTitle = this.searchingTitleInput.nativeElement.value
