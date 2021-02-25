@@ -17,12 +17,11 @@ export class ProjectsListComponent implements OnInit {
  
   @Input() oryginalProjects: ProjectItemDto[];
 
-  projects: ProjectItemDto[];
+  @Input() projects: ProjectItemDto[];
 
   constructor(public dialog: MatDialog, private projectItemClient: ProjectItemClient) { }
 
   ngOnInit(): void {
-    this.projects = this.oryginalProjects; 
   }
 
   openDialog(): void {
