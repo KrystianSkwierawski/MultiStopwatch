@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
-import { ProjectItemDto } from '../../web-api-client';
+import { ayy } from '../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 
 @Component({
@@ -13,8 +13,8 @@ export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
-  projects: Array<ProjectItemDto> = [];
-  @Input() oryginalProjects: Array<ProjectItemDto> = [];
+  projects: Array<ayy> = [];
+  @Input() oryginalProjects: Array<ayy> = [];
 
   constructor(public dialog: MatDialog) { }
 
@@ -33,7 +33,7 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  addProject(projectItem: ProjectItemDto) {
+  addProject(projectItem: ayy) {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
     }
@@ -54,7 +54,7 @@ export class ProjectsListComponent implements OnInit {
   }
 
   filterProjects(searchingTitle: string) {
-    const filteredProjects: Array<ProjectItemDto> = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
+    const filteredProjects: Array<ayy> = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
     this.projects = filteredProjects;
   }
 

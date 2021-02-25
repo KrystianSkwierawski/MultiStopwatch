@@ -27,7 +27,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItems
                 return new ProjectsVm
                 {
                     Projects = await _context.ProjectItems
-                    .ProjectTo<ProjectItemDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<ayy>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken)
                 };
             }

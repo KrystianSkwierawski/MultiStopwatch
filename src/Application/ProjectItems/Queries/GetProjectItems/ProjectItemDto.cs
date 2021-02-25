@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project.Application.ProjectItems.Queries.GetProjectItems
 {
-    public class ProjectItemDto : IMapFrom<ProjectItem>
+    public class ayy : IMapFrom<ProjectItem>
     {
         public int Id { get; set; }
         public string Title { get; set; }
