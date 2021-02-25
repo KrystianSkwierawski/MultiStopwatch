@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { ProjectItemClient, ProjectItemDto, CreateProjectItemCommand } from '../../web-api-client';
@@ -9,19 +9,20 @@ import { CreateProjectDialogComponent } from '../create-project-dialog/create-pr
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit {
+export class ProjectsListComponent implements OnChanges {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   @Output() onLoadProjects = new EventEmitter<void>();
- 
+
   @Input() oryginalProjects: ProjectItemDto[];
 
-  @Input() projects: ProjectItemDto[];
+  projects: ProjectItemDto[];
 
   constructor(public dialog: MatDialog, private projectItemClient: ProjectItemClient) { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.projects = this.oryginalProjects;
   }
 
   openDialog(): void {
