@@ -39,8 +39,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     projectItem.time = "00:00";
-
-    //dodaj i zwroc projekt
+    projectItem.isFavorite = false;
 
     //dodaj projekt zwrocony z bazy entity id
 
