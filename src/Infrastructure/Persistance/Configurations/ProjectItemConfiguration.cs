@@ -9,7 +9,7 @@ namespace Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<ProjectItem> builder)
         {
             builder.Property(t => t.Title)
-                .HasMaxLength(50)
+                .HasMaxLength(20)
                 .IsRequired();
         }
     }

@@ -19,9 +19,23 @@ export class CreateProjectDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       title: ['', {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.maxLength(20)]
       }]
     });
+  }
+
+  getErrorMessageFieldTitle() {
+    const field = this.form.get('title');
+
+    if (field.hasError('required')) {
+      return 'The title field is required';
+    }
+
+    if (field.hasError('maxlength')) {
+      return 'The maximum title length is 20';
+    }
+
+    return '';
   }
 
   hideDialog(): void {

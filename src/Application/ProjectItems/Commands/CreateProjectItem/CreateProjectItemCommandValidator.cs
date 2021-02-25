@@ -7,7 +7,7 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
         public CreateProjectItemCommandValidator()
         {
             RuleFor(v => v.Title)
-              .MaximumLength(50)
+              .MaximumLength(20)
               .NotEmpty();
         }
     }
