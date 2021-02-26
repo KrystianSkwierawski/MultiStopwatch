@@ -7,16 +7,13 @@ import { ProjectItemClient, ProjectItemDto, ProjectsVm } from '../web-api-client
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  vm: ProjectsVm;
-
   projects: ProjectItemDto[];
   favoriteProjects: ProjectItemDto[];
 
   constructor(private projectItemClient: ProjectItemClient) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadProjects();
   }
 
@@ -27,12 +24,8 @@ export class HomeComponent implements OnInit {
   loadProjects() {
     this.projectItemClient.get().subscribe(
       result => {
-        this.vm = result;
-
-        if (this.vm.projects.length) {
-          this.projects = this.vm.projects;
-          this.filterFavoritesProjects();         
-        } 
+        this.projects = result.projects
+        this.filterFavoritesProjects();
       },
       error => console.error(error)
     );
