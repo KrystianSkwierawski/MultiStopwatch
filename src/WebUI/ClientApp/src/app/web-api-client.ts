@@ -147,7 +147,7 @@ export class ProjectItemClient implements IProjectItemClient {
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processLikeOrDislike(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {

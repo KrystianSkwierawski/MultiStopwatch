@@ -22,7 +22,7 @@ namespace Project.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPatch]
         public async Task<ActionResult> LikeOrDislike(LikeOrDislikeProjectItemCommand command)
         {
             await Mediator.Send(command);

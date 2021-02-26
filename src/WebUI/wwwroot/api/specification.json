@@ -56,7 +56,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "tags": [
           "ProjectItem"
         ],
