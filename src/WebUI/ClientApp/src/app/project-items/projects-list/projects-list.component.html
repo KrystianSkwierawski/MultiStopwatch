@@ -2,9 +2,9 @@
 
 <app-search-item-by-title *ngIf="oryginalProjects?.length !== 0"
                           (onKeyUp)="filterProjects($event)"
-                          [options]="getTitleArray()">
+                          [options]="titlesArray">
 </app-search-item-by-title>
-
+                         
 <app-generic-list [list]="projects">
   <ng-container content>
     <div class="projects">

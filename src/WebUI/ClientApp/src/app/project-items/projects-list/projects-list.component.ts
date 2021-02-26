@@ -19,10 +19,13 @@ export class ProjectsListComponent implements OnChanges {
 
   projects: ProjectItemDto[];
 
+  titlesArray: string[];
+
   constructor(public dialog: MatDialog, private projectItemClient: ProjectItemClient) { }
 
   ngOnChanges(): void {
     this.projects = this.oryginalProjects;
+    this.filterTitlesArray();
   }
 
   openDialog(): void {
@@ -51,8 +54,8 @@ export class ProjectsListComponent implements OnChanges {
     this.hoveredDivId = index;
   }
 
-  getTitleArray(): string[] {
-    return this.oryginalProjects.map((e) => { return e.title });
+  filterTitlesArray() {
+    this.titlesArray = this.oryginalProjects.map((e) => { return e.title });
   }
 
   filterProjects(searchingTitle: string) {
