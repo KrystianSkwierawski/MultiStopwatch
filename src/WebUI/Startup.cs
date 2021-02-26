@@ -63,7 +63,7 @@ namespace Project.WebUI
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
-            }
+            }       
 
             app.UseRouting();
 

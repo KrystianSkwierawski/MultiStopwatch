@@ -1,7 +1,7 @@
 <div class="home-container">
   <app-side-menu>
       <ng-container favoriteProjectsList>
-        <app-favorite-projects-list [favoriteProjects]="favoriteProjects"></app-favorite-projects-list>
+        <app-favorite-projects-list (onLoadProjects)="loadProjects()" [favoriteProjects]="favoriteProjects"></app-favorite-projects-list>
       </ng-container>
   </app-side-menu>
 

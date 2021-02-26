@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
-import { ProjectItemClient, ProjectItemDto, CreateProjectItemCommand } from '../../web-api-client';
+import { ProjectItemClient, ProjectItemDto, CreateProjectItemCommand, LikeOrDislikeProjectItemCommand } from '../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 
 @Component({
@@ -61,9 +61,9 @@ export class ProjectsListComponent implements OnChanges {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    //await like or dis like
-
-    //load projects
+    this.projectItemClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+      this.onLoadProjects.emit();
+    });
   }
 }
 

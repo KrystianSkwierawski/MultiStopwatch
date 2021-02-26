@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { ProjectItemDto } from '../../web-api-client';
+import { LikeOrDislikeProjectItemCommand, ProjectItemClient, ProjectItemDto } from '../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -12,11 +12,13 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   columnsToDisplay = ['column'];
 
+  @Output() onLoadProjects = new EventEmitter<void>();
+
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
 
   @Input() favoriteProjects: ProjectItemDto[];
 
-  constructor() { }
+  constructor(private projectItemClient: ProjectItemClient) { }
 
   ngOnInit(): void {
   }
@@ -38,5 +40,11 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   activeLinkWhenDislikeProjectButtonIsNotHovered(index: number, elementId: number): string {
     return (this.hoveredDivId === index) ? 'javascript:void(0);' : `project/${elementId}`;
+  }
+
+  handleLikeOrDislikeProjectButton(projectId: number) {
+    this.projectItemClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+      this.onLoadProjects.emit();
+    });
   }
 }

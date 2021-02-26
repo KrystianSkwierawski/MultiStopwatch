@@ -16,6 +16,7 @@
                 {{element.title}} <span>{{element.time}}</span>
 
                 <button mat-icon-button class="dislike-project-button"
+                        (click)="handleLikeOrDislikeProjectButton(element.id)"
                         (mouseenter)="setHoveredDivId(index)"
                         (mouseleave)="setHoveredDivId()">
                   <mat-icon *ngIf="hoveredDivId !== index">favorite</mat-icon>

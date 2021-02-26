@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
+using Project.Application.ProjectItems.Commands.LikeOrDislikeProjectItem;
 using Project.Application.ProjectItems.Queries.GetProjectItems;
 using System.Threading.Tasks;
 
@@ -14,7 +15,15 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateProjectItemCommand command)
+        public async Task<ActionResult> Create(CreateProjectItemCommand command)
+        {
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> LikeOrDislike(LikeOrDislikeProjectItemCommand command)
         {
             await Mediator.Send(command);
 
