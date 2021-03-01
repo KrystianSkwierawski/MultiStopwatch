@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectItemClient, ProjectItemDto, ProjectsVm } from '../web-api-client';
+import { ProjectItemClient, ProjectItemDto, FavoriteProjectItemDto } from '../web-api-client';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +7,9 @@ import { ProjectItemClient, ProjectItemDto, ProjectsVm } from '../web-api-client
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
   projects: ProjectItemDto[];
-  favoriteProjects: ProjectItemDto[];
+  favoriteProjects: FavoriteProjectItemDto[];
 
   constructor(private projectItemClient: ProjectItemClient) {
   }
@@ -17,15 +18,11 @@ export class HomeComponent implements OnInit {
     this.loadProjects();
   }
 
-  filterFavoritesProjects() {
-    this.favoriteProjects = this.projects.filter(x => x.isFavorite === true);
-  }
-
   loadProjects() {
     this.projectItemClient.get().subscribe(
       result => {
-        this.projects = result.projects
-        this.filterFavoritesProjects();
+        this.projects = result.projects;
+        this.favoriteProjects = result.favoriteProjects;
       },
       error => console.error(error)
     );

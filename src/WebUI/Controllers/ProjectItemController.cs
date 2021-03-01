@@ -11,7 +11,7 @@ namespace Project.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<ProjectsVm>> Get()
         {
-            return await Mediator.Send(new GetProjectItemsQuery());
+            return await Mediator.Send(new GetProjectsQuery());
         }
 
         [HttpPost]

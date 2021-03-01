@@ -101,6 +101,13 @@
             "items": {
               "$ref": "#/components/schemas/ProjectItemDto"
             }
+          },
+          "favoriteProjects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FavoriteProjectItemDto"
+            }
           }
         }
       },
@@ -118,6 +125,28 @@
           },
           "isFavorite": {
             "type": "boolean"
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "FavoriteProjectItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "_title": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
           },
           "time": {
             "type": "string",

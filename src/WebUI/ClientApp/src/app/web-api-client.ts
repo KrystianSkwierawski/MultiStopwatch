@@ -184,6 +184,7 @@ export class ProjectItemClient implements IProjectItemClient {
 
 export class ProjectsVm implements IProjectsVm {
     projects?: ProjectItemDto[] | undefined;
+    favoriteProjects?: FavoriteProjectItemDto[] | undefined;
 
     constructor(data?: IProjectsVm) {
         if (data) {
@@ -200,6 +201,11 @@ export class ProjectsVm implements IProjectsVm {
                 this.projects = [] as any;
                 for (let item of _data["projects"])
                     this.projects!.push(ProjectItemDto.fromJS(item));
+            }
+            if (Array.isArray(_data["favoriteProjects"])) {
+                this.favoriteProjects = [] as any;
+                for (let item of _data["favoriteProjects"])
+                    this.favoriteProjects!.push(FavoriteProjectItemDto.fromJS(item));
             }
         }
     }
@@ -218,12 +224,18 @@ export class ProjectsVm implements IProjectsVm {
             for (let item of this.projects)
                 data["projects"].push(item.toJSON());
         }
+        if (Array.isArray(this.favoriteProjects)) {
+            data["favoriteProjects"] = [];
+            for (let item of this.favoriteProjects)
+                data["favoriteProjects"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
 export interface IProjectsVm {
     projects?: ProjectItemDto[] | undefined;
+    favoriteProjects?: FavoriteProjectItemDto[] | undefined;
 }
 
 export class ProjectItemDto implements IProjectItemDto {
@@ -271,6 +283,54 @@ export interface IProjectItemDto {
     id?: number;
     title?: string | undefined;
     isFavorite?: boolean;
+    time?: string | undefined;
+}
+
+export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
+    _title?: string | undefined;
+    id?: number;
+    title?: string | undefined;
+    time?: string | undefined;
+
+    constructor(data?: IFavoriteProjectItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this._title = _data["_title"];
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.time = _data["time"];
+        }
+    }
+
+    static fromJS(data: any): FavoriteProjectItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FavoriteProjectItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["_title"] = this._title;
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["time"] = this.time;
+        return data; 
+    }
+}
+
+export interface IFavoriteProjectItemDto {
+    _title?: string | undefined;
+    id?: number;
+    title?: string | undefined;
     time?: string | undefined;
 }
 

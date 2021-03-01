@@ -1,0 +1,24 @@
+﻿using Domain.Entities;
+using Project.Application.Common.Mappings;
+
+namespace Project.Application.ProjectItems.Queries.GetProjects
+{
+    public class FavoriteProjectItemDto : IMapFrom<ProjectItem>
+    {
+        public int Id { get; set; }
+        public string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if(value.Length > 13)
+                {
+                    _title = value.Substring(0, 10) + "...";
+                }
+            }
+        }
+
+        public string Time { get; set; }
+    }
+}
