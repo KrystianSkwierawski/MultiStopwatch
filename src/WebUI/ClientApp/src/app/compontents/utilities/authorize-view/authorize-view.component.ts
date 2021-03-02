@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthorizeService } from '../../../api-authorization/authorize.service';
+import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-authorize-view',

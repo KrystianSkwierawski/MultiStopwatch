@@ -1,7 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand } from '../../web-api-client';
+import { ProjectsDataService } from '../../../services/projects-data-service';
+import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand } from '../../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -17,10 +18,12 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   favoriteProjects: FavoriteProjectItemDto[];
 
-  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient) { }
+  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService) { }
 
   ngOnInit(): void {
-    this.loadFavoriteProjects();
+    this.projectsDataService.favoriteProjects.subscribe(result => {
+      this.favoriteProjects = result;
+    });
   }
 
 
@@ -44,15 +47,7 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   handleLikeOrDislikeProjectButton(projectId: number) {
     this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
-      this.loadFavoriteProjects();
-
-      //call project-list
-    });
-  }
-
-  loadFavoriteProjects() {
-    this.favoriteProjectItemsClient.get().subscribe(result => {
-      this.favoriteProjects = result;
+      this.projectsDataService.loadData();
     });
   }
 }

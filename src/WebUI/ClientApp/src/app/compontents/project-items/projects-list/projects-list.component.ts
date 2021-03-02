@@ -1,7 +1,8 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProjectsDataService } from '../../../services/projects-data-service';
+import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
-import { CreateProjectItemCommand, LikeOrDislikeProjectItemCommand, ProjectItemsClient, ProjectItemDto, FavoriteProjectItemsClient } from '../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 
 @Component({
@@ -21,10 +22,15 @@ export class ProjectsListComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private projectItemsClient: ProjectItemsClient,
-    private favoriteProjectItemsClient: FavoriteProjectItemsClient) { }
+    private favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private projectsDataService: ProjectsDataService) { }
 
   ngOnInit(): void {
-    this.loadProjects();
+    this.projectsDataService.projects.subscribe(result => {
+      this.projects = result;
+      this.oryginalProjects = result;
+      this.filterTitlesArray();
+    });
   }
 
   openDialog(): void {
@@ -43,8 +49,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     this.projectItemsClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
-      this.loadProjects();
-      //load favorites
+      this.projectsDataService.loadProjects();
     });
   }
 
@@ -65,20 +70,8 @@ export class ProjectsListComponent implements OnInit {
 
   handleLikeOrDislikeProjectButton(projectId: number) {
     this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
-      this.loadProjects();
-      //call favorites
+      this.projectsDataService.loadData();
     });
-  }
-
-  loadProjects() {
-    this.projectItemsClient.get().subscribe(
-      result => {
-        this.projects = result;
-        this.oryginalProjects = result;
-        this.filterTitlesArray();
-      },
-      error => console.error(error)
-    ); 
   }
 }
 
