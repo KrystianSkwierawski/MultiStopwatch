@@ -6,50 +6,22 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/ProjectItem": {
+    "/api/FavoriteProjectItems": {
       "get": {
         "tags": [
-          "ProjectItem"
+          "FavoriteProjectItems"
         ],
-        "operationId": "ProjectItem_Get",
+        "operationId": "FavoriteProjectItems_Get",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectsVm"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "ProjectItem"
-        ],
-        "operationId": "ProjectItem_Create",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProjectItemCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FavoriteProjectItemDto"
+                  }
                 }
               }
             }
@@ -58,9 +30,9 @@
       },
       "patch": {
         "tags": [
-          "ProjectItem"
+          "FavoriteProjectItems"
         ],
-        "operationId": "ProjectItem_LikeOrDislike",
+        "operationId": "FavoriteProjectItems_LikeOrDislike",
         "requestBody": {
           "x-name": "command",
           "content": {
@@ -87,27 +59,93 @@
           }
         }
       }
+    },
+    "/api/ProjectItems": {
+      "get": {
+        "tags": [
+          "ProjectItems"
+        ],
+        "operationId": "ProjectItems_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectItemDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProjectItems"
+        ],
+        "operationId": "ProjectItems_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectItemCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ProjectsVm": {
+      "FavoriteProjectItemDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "projects": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ProjectItemDto"
-            }
+          "_title": {
+            "type": "string",
+            "nullable": true
           },
-          "favoriteProjects": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/FavoriteProjectItemDto"
-            }
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "LikeOrDislikeProjectItemCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -132,28 +170,6 @@
           }
         }
       },
-      "FavoriteProjectItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "_title": {
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "time": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "CreateProjectItemCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -161,16 +177,6 @@
           "title": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "LikeOrDislikeProjectItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthorizeGuard } from '../api-authorization/authorize.guard';
-import { HomeComponent } from './home/home.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ProjectDetailsComponent } from './project-items/project-details/project-details.component';
+import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
 
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: ProjectsListComponent },
+  { path: 'project/:id', component: ProjectDetailsComponent },
   { path: '**', redirectTo: '' }
 ];
 

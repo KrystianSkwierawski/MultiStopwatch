@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { LikeOrDislikeProjectItemCommand, ProjectItemClient, FavoriteProjectItemDto } from '../../web-api-client';
+import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand } from '../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -12,15 +12,15 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   columnsToDisplay = ['column'];
 
-  @Output() onLoadProjects = new EventEmitter<void>();
 
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
 
-  @Input() favoriteProjects: FavoriteProjectItemDto[];
+  favoriteProjects: FavoriteProjectItemDto[];
 
-  constructor(private projectItemClient: ProjectItemClient) { }
+  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient) { }
 
   ngOnInit(): void {
+    this.loadFavoriteProjects();
   }
 
 
@@ -43,8 +43,16 @@ export class FavoriteProjectsListComponent implements OnInit {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.projectItemClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
-      this.onLoadProjects.emit();
+    this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+      this.loadFavoriteProjects();
+
+      //call project-list
+    });
+  }
+
+  loadFavoriteProjects() {
+    this.favoriteProjectItemsClient.get().subscribe(result => {
+      this.favoriteProjects = result;
     });
   }
 }

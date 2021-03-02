@@ -1,29 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FavoriteProjectsListComponent } from './favorite-project-items/favorite-projects-list/favorite-projects-list.component';
 import { MaterialModule } from './material/material.module';
-import { AuthorizeViewComponent } from './utilities/authorize-view/authorize-view.component';
-import { SideMenuComponent } from './side-menu/side-menu.component';
-import { GenericListComponent } from './utilities/generic-list/generic-list.component';
-import { FavoriteProjectsListComponent } from './project-items/favorite-projects-list/favorite-projects-list.component';
-import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
 import { CreateProjectDialogComponent } from './project-items/create-project-dialog/create-project-dialog.component';
+import { ProjectDetailsComponent } from './project-items/project-details/project-details.component';
+import { ProjectsListComponent } from './project-items/projects-list/projects-list.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
+import { AuthorizeViewComponent } from './utilities/authorize-view/authorize-view.component';
+import { GenericListComponent } from './utilities/generic-list/generic-list.component';
 import { SearchItemByTitleComponent } from './utilities/search-item-by-title/search-item-by-title.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
     AuthorizeViewComponent,
     SideMenuComponent,
     GenericListComponent,
@@ -31,6 +27,7 @@ import { SearchItemByTitleComponent } from './utilities/search-item-by-title/sea
     ProjectsListComponent,
     CreateProjectDialogComponent,
     SearchItemByTitleComponent,
+    ProjectDetailsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

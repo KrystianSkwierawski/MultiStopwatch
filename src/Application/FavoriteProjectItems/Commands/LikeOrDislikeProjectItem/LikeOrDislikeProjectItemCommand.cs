@@ -5,7 +5,7 @@ using Project.Application.Common.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project.Application.ProjectItems.Commands.LikeOrDislikeProjectItem
+namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem
 {
     public class LikeOrDislikeProjectItemCommand : IRequest
     {

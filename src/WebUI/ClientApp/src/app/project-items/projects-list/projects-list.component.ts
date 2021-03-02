@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
-import { ProjectItemClient, ProjectItemDto, CreateProjectItemCommand, LikeOrDislikeProjectItemCommand } from '../../web-api-client';
+import { CreateProjectItemCommand, LikeOrDislikeProjectItemCommand, ProjectItemsClient, ProjectItemDto, FavoriteProjectItemsClient } from '../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 
 @Component({
@@ -9,23 +9,22 @@ import { CreateProjectDialogComponent } from '../create-project-dialog/create-pr
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnChanges {
+export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
-  @Output() onLoadProjects = new EventEmitter<void>();
-
-  @Input() oryginalProjects: ProjectItemDto[];
+  oryginalProjects: ProjectItemDto[];
 
   projects: ProjectItemDto[];
 
   titlesArray: string[];
 
-  constructor(public dialog: MatDialog, private projectItemClient: ProjectItemClient) { }
+  constructor(public dialog: MatDialog,
+    private projectItemsClient: ProjectItemsClient,
+    private favoriteProjectItemsClient: FavoriteProjectItemsClient) { }
 
-  ngOnChanges(): void {
-    this.projects = this.oryginalProjects;
-    this.filterTitlesArray();
+  ngOnInit(): void {
+    this.loadProjects();
   }
 
   openDialog(): void {
@@ -43,8 +42,9 @@ export class ProjectsListComponent implements OnChanges {
       this.searchProjectComponent.cleanInput();
     }
 
-    this.projectItemClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
-      this.onLoadProjects.emit();
+    this.projectItemsClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
+      this.loadProjects();
+      //load favorites
     });
   }
 
@@ -64,9 +64,21 @@ export class ProjectsListComponent implements OnChanges {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.projectItemClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
-      this.onLoadProjects.emit();
+    this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+      this.loadProjects();
+      //call favorites
     });
+  }
+
+  loadProjects() {
+    this.projectItemsClient.get().subscribe(
+      result => {
+        this.projects = result;
+        this.oryginalProjects = result;
+        this.filterTitlesArray();
+      },
+      error => console.error(error)
+    ); 
   }
 }
 

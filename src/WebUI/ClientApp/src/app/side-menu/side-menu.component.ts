@@ -30,6 +30,4 @@ export class SideMenuComponent implements OnInit {
       this.menuIsActivated = true;
     }
   }
-
-
 }

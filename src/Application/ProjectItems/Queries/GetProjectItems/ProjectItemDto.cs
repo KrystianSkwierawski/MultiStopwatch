@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Project.Application.Common.Mappings;
 
-namespace Project.Application.ProjectItems.Queries.GetProjectItems
+namespace Project.Application.GetProjectItems.Queries.GetProjectItems
 {
     public class ProjectItemDto : IMapFrom<ProjectItem>
     {
