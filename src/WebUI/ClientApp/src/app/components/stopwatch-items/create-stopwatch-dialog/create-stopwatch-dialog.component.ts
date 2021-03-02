@@ -10,11 +10,11 @@ import { StopwatchItemDto } from '../../../web-api-client';
 })
 export class CreateStopwatchDialogComponent implements OnInit {
 
+  form: FormGroup
+
   constructor(public dialogRef: MatDialogRef<CreateStopwatchDialogComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: StopwatchItemDto) { };
-
-  form: FormGroup
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

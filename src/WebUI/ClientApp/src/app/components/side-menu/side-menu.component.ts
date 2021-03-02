@@ -9,8 +9,8 @@ import { Component, ElementRef, OnInit } from '@angular/core';
   }
 })
 export class SideMenuComponent implements OnInit {
-  menuIsActivated: boolean = true;
 
+  menuIsActivated: boolean = true;
 
   constructor(public elementRef: ElementRef) { }
 

@@ -263,14 +263,6 @@
           "projectItemId": {
             "type": "integer",
             "format": "int32"
-          },
-          "projectItem": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ProjectItemDto"
-              }
-            ]
           }
         }
       },

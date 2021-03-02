@@ -9,14 +9,11 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./search-item-by-title.component.scss']
 })
 export class SearchItemByTitleComponent implements OnInit {
+
   myControl = new FormControl();
- 
   filteredOptions: Observable<string[]>;
-
   @Input() options: string[];
-
   @Output() onKeyUp = new EventEmitter<string>();
-
   @ViewChild('searcingTitle') searchingTitleInput: ElementRef;
 
   constructor() { }

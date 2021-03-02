@@ -10,11 +10,11 @@ import { ProjectItemDto } from '../../../web-api-client';
 })
 export class CreateProjectDialogComponent implements OnInit {
 
+  form: FormGroup
+
   constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: ProjectItemDto) { };
-
-  form: FormGroup
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

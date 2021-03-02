@@ -11,11 +11,8 @@ import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjec
 })
 export class FavoriteProjectsListComponent implements OnInit {
 
-  columnsToDisplay = ['column'];
-
-
+  columnsToDisplay: string[] = ['column'];
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
-
   favoriteProjects: FavoriteProjectItemDto[];
 
   constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService) { }

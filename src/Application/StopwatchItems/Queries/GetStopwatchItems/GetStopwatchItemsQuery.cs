@@ -29,7 +29,6 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItems
             {
                 return await _context.StopWatchItems
                     .Where(x => x.ProjectItemId == request.ProjectId)
-                    .Include(x => x.ProjectItem)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<StopwatchItemDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);

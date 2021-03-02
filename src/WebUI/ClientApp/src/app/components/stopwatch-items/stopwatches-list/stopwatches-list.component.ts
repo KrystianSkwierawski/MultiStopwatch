@@ -16,9 +16,7 @@ export class StopwatchesListComponent implements OnInit {
 
   oryginalStopwatches: StopwatchItemDto[];
   stopwatches: StopwatchItemDto[];
-
   projectId: number;
-
   titlesArray: string[];
 
   constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private stopwatchItemsClient: StopwatchItemsClient) { }

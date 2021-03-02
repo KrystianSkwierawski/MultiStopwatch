@@ -13,11 +13,8 @@ import { CreateProjectDialogComponent } from '../create-project-dialog/create-pr
 export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-
   oryginalProjects: ProjectItemDto[];
-
   projects: ProjectItemDto[];
-
   titlesArray: string[];
 
   constructor(public dialog: MatDialog,

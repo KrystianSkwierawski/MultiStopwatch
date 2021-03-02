@@ -8,6 +8,5 @@ namespace Domain.Entities
         public string Title { get; set; }
         public string Time { get; set; }
         public int ProjectItemId { get; set; }
-        public ProjectItem ProjectItem { get; set; }
     }
 }

@@ -552,7 +552,6 @@ export class StopwatchItemDto implements IStopwatchItemDto {
     title?: string | undefined;
     time?: string | undefined;
     projectItemId?: number;
-    projectItem?: ProjectItemDto | undefined;
 
     constructor(data?: IStopwatchItemDto) {
         if (data) {
@@ -568,7 +567,6 @@ export class StopwatchItemDto implements IStopwatchItemDto {
             this.title = _data["title"];
             this.time = _data["time"];
             this.projectItemId = _data["projectItemId"];
-            this.projectItem = _data["projectItem"] ? ProjectItemDto.fromJS(_data["projectItem"]) : <any>undefined;
         }
     }
 
@@ -584,7 +582,6 @@ export class StopwatchItemDto implements IStopwatchItemDto {
         data["title"] = this.title;
         data["time"] = this.time;
         data["projectItemId"] = this.projectItemId;
-        data["projectItem"] = this.projectItem ? this.projectItem.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -593,7 +590,6 @@ export interface IStopwatchItemDto {
     title?: string | undefined;
     time?: string | undefined;
     projectItemId?: number;
-    projectItem?: ProjectItemDto | undefined;
 }
 
 export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {

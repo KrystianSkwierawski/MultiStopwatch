@@ -9,7 +9,6 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItems
         public string Title { get; set; }
         public string Time { get; set; }
         public int ProjectItemId { get; set; }
-        public ProjectItemDto ProjectItem { get; set; }
 
     }
 }
