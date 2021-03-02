@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistance.Configurations
 {
-    public class StopWatchItemConfiguration : IEntityTypeConfiguration<StopWatchItem>
+    public class StopWatchItemConfiguration : IEntityTypeConfiguration<StopwatchItem>
     {
-        public void Configure(EntityTypeBuilder<StopWatchItem> builder)
+        public void Configure(EntityTypeBuilder<StopwatchItem> builder)
         {
             builder.Property(t => t.Title)
                 .HasMaxLength(20)

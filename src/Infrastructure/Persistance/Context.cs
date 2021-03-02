@@ -28,7 +28,7 @@ namespace Project.Infrastructure.Persistence
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<StopWatchItem> StopWatchItems { get; set; }
+        public DbSet<StopwatchItem> StopWatchItems { get; set; }
         public DbSet<ProjectItem> ProjectItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

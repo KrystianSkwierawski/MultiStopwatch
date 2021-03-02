@@ -1,0 +1,26 @@
+<h1 class="text-center text-white mt-3">Stopwatches</h1>
+
+<button (click)="openDialog()" class="add-new-stopwatch-button"><i class="fas fa-plus"></i></button>
+
+<app-search-item-by-title *ngIf="oryginalStopwatches?.length > 0"
+                          (onKeyUp)="filterStopwatches($event)"
+                          [options]="titlesArray">
+</app-search-item-by-title>
+
+<app-generic-list [list]="stopwatches">
+  <ng-container content>
+    <div class="stopwatches">
+      <div class="stopwatch" *ngFor="let stopwatch of stopwatches">
+
+        <div class="stopwatch__top">
+          <p>{{stopwatch.time}}</p>
+        </div>
+
+        <div class="stopwatch__bottom">
+          <i class="fas fa-clock"></i>
+          <p>{{stopwatch.title}}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</app-generic-list>

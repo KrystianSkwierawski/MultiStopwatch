@@ -54,7 +54,7 @@ namespace Project.Infrastructure.Persistence.Migrations
                     b.ToTable("ProjectItems");
                 });
 
-            modelBuilder.Entity("Domain.Entities.StopWatchItem", b =>
+            modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -394,10 +394,10 @@ namespace Project.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Entities.StopWatchItem", b =>
+            modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
                 {
                     b.HasOne("Domain.Entities.ProjectItem", "ProjectItem")
-                        .WithMany("StopWatchItems")
+                        .WithMany()
                         .HasForeignKey("ProjectItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -454,11 +454,6 @@ namespace Project.Infrastructure.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProjectItem", b =>
-                {
-                    b.Navigation("StopWatchItems");
                 });
 #pragma warning restore 612, 618
         }

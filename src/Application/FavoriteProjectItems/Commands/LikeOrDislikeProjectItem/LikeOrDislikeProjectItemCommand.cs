@@ -10,6 +10,7 @@ namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProject
     public class LikeOrDislikeProjectItemCommand : IRequest
     {
         public int Id { get; set; }
+
         public class LikeOrDislikeProjectItemCommandHandler : IRequestHandler<LikeOrDislikeProjectItemCommand>
         {
             private readonly IContext _context;

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProjectDetailsComponent } from './compontents/project-items/project-details/project-details.component';
-import { ProjectsListComponent } from './compontents/project-items/projects-list/projects-list.component';
-
+import { ProjectDetailsComponent } from './components/project-items/project-details/project-details.component';
+import { ProjectsListComponent } from './components/project-items/projects-list/projects-list.component';
 
 export const routes: Routes = [
   { path: '', component: ProjectsListComponent },

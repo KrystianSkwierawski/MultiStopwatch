@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class StopWatchItem : AuditableEntity
+    public class StopwatchItem : AuditableEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }

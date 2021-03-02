@@ -1,0 +1,87 @@
+@import '../../../../scss/shared.scss';
+
+.stopwatches {
+  height: auto;
+  display: flex;
+  margin-top: 2%;
+  flex-direction: column;
+  width: 100%;
+
+  @include respond-to(medium) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.stopwatch {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 95%;
+  border-radius: 12px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  color: white;
+  background-color: #6264A7;
+
+  @include respond-to(medium) {
+    width: calc(calc(100% / 3) - 4%);
+    height: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+  @include respond-to(large) {
+    width: calc(calc(100% / 4) - 4%);
+  }
+}
+
+
+.add-new-stopwatch-button {
+  @include reset-button;
+  height: 50px;
+  width: 50px;
+  margin-top: 2%;
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 50%;
+  background-color: #6264A7;
+}
+
+.stopwatch__top {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+
+  & p {
+    font-size: 1.3rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+  }
+}
+
+.stopwatch__bottom {
+  text-align: center;
+
+  & i {
+    font-size: 5rem;
+    opacity: 0.7;
+  }
+
+  & p {
+    padding-left: 4px;
+    padding-right: 4px;
+    word-break: break-all;
+    font-size: 1.3rem;
+  }
+}
