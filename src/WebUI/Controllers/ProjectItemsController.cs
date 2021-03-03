@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Application.GetProjectItems.Queries.GetProjectItems;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
+using Project.Application.ProjectItems.Commands.DeleteProjectItem;
+using Project.Application.ProjectItems.Commands.UpdateProjectItem;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,6 +20,22 @@ namespace Project.WebUI.Controllers
         public async Task<ActionResult> Create(CreateProjectItemCommand command)
         {
             await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateProjectItemCommand command)
+        {
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await Mediator.Send(new DeleteProjectItemCommand { Id = id });
 
             return NoContent();
         }

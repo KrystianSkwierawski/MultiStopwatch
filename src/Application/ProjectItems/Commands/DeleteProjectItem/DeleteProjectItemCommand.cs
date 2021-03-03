@@ -5,22 +5,22 @@ using Project.Application.Common.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem
+namespace Project.Application.ProjectItems.Commands.DeleteProjectItem
 {
-    public class LikeOrDislikeProjectItemCommand : IRequest
+
+    public class DeleteProjectItemCommand : IRequest
     {
         public int Id { get; set; }
-
-        public class LikeOrDislikeProjectItemCommandHandler : IRequestHandler<LikeOrDislikeProjectItemCommand>
+        public class DeleteProjectItemCommandHandler : IRequestHandler<DeleteProjectItemCommand>
         {
             private readonly IContext _context;
 
-            public LikeOrDislikeProjectItemCommandHandler(IContext context)
+            public DeleteProjectItemCommandHandler(IContext context)
             {
                 _context = context;
             }
 
-            public async Task<Unit> Handle(LikeOrDislikeProjectItemCommand request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(DeleteProjectItemCommand request, CancellationToken cancellationToken)
             {
                 ProjectItem entity = await _context.ProjectItems.FindAsync(request.Id);
 
@@ -29,7 +29,7 @@ namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProject
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }
 
-                entity.IsFavorite = !entity.IsFavorite;
+                _context.ProjectItems.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
@@ -37,4 +37,5 @@ namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProject
             }
         }
     }
+
 }

@@ -1,18 +1,19 @@
 <div mat-dialog-content>
-  <p>Create new project</p>
+  <p>Edit project</p>
 
   <form [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>Title*</mat-label>
-      <input formControlName="title" matInput />
+      <input formControlName="title" matInput/>
       <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTitle()}}</mat-error>
     </mat-form-field>
 
 
     <div>
       <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1">Cancel</button>
-      <button mat-flat-button color="primary" [disabled]="form.invalid" [mat-dialog-close]="form.value">Create project</button>
+      <button mat-flat-button color="primary" [disabled]="form.invalid" [mat-dialog-close]="form.value">Save changes</button>
     </div>
+
   </form>
 </div>
 

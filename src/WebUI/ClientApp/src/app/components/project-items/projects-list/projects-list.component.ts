@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient } from '../../../web-api-client';
+import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
+import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
 @Component({
   selector: 'app-projects-list',
@@ -22,7 +23,7 @@ export class ProjectsListComponent implements OnInit {
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.projectsDataService.projects.subscribe(result => {
       this.projects = result;
       this.oryginalProjects = result;
@@ -30,7 +31,7 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openDialogToCreateNewProject() {
     const dialogRef = this.dialog.open(CreateProjectDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -47,6 +48,31 @@ export class ProjectsListComponent implements OnInit {
 
     this.projectItemsClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
       this.projectsDataService.loadProjects();
+    });
+  }
+
+  openDialogToEditProject(projectItem: ProjectItemDto) {
+
+    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+      data: projectItem
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateProject(projectItem.id, result);
+      }
+    });
+  }
+
+  updateProject(projectId, projectItem: ProjectItemDto) {
+    this.projectItemsClient.update(<UpdateProjectItemCommand>{ id: projectId, title: projectItem.title }).subscribe(() => {
+      this.projectsDataService.loadData();
+    });
+  }
+
+  deleteProject(id) {
+    this.projectItemsClient.delete(id).subscribe(() => {
+      this.projectsDataService.loadData();
     });
   }
 

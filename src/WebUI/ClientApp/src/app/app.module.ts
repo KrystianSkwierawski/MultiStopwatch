@@ -18,6 +18,7 @@ import { SearchItemByTitleComponent } from './components/utilities/search-item-b
 import { MaterialModule } from './material/material.module';
 import { StopwatchesListComponent } from './components/stopwatch-items/stopwatches-list/stopwatches-list.component';
 import { CreateStopwatchDialogComponent } from './components/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
+import { EditProjectDialogComponent } from './components/project-items/edit-project-dialog/edit-project-dialog.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CreateStopwatchDialogComponent } from './components/stopwatch-items/cre
     SearchItemByTitleComponent,
     ProjectDetailsComponent,
     StopwatchesListComponent,
+    EditProjectDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
