@@ -46,7 +46,7 @@ export class ProjectsListComponent implements OnInit {
       this.searchProjectComponent.cleanInput();
     }
 
-    this.projectItemsClient.create(<CreateProjectItemCommand>{ title: projectItem.title }).subscribe(() => {
+    this.projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
       this.projectsDataService.loadProjects();
     });
   }
@@ -59,13 +59,14 @@ export class ProjectsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.updateProject(projectItem.id, result);
+        result.id = projectItem.id;
+        this.updateProject(result);
       }
     });
   }
 
-  updateProject(projectId, projectItem: ProjectItemDto) {
-    this.projectItemsClient.update(<UpdateProjectItemCommand>{ id: projectId, title: projectItem.title }).subscribe(() => {
+  updateProject(projectItem: ProjectItemDto) {
+    this.projectItemsClient.update(UpdateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
       this.projectsDataService.loadData();
     });
   }

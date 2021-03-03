@@ -23,7 +23,7 @@ export class StopwatchesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.projectId = params.id;  
+      this.projectId = params.id;
     });
 
     this.loadStopwatches();
@@ -34,12 +34,10 @@ export class StopwatchesListComponent implements OnInit {
       this.searchProjectComponent.cleanInput();
     }
 
-    this.stopwatchItemsClient.create(<CreateStopwatchItemCommand>{
-      title: stopwatchItem.title,
-      projectId: this.projectId
-    }).subscribe(() => {
-      this.loadStopwatches();
-    });
+    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem))
+      .subscribe(() => {
+        this.loadStopwatches();
+      });
   }
 
   openDialog(): void {
