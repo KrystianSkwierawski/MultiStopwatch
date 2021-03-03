@@ -16,9 +16,28 @@
           <p>{{stopwatch.time}}</p>
         </div>
 
-        <div class="stopwatch__bottom">
+        <div class="stopwatch__mid">
           <i class="fas fa-clock"></i>
           <p>{{stopwatch.title}}</p>
+        </div>
+
+        <div class="stopwatch__bottom">
+          <button mat-icon-button
+                  (click)="restartTimer(stopwatch)">
+            <i class="fas fa-redo"></i>
+          </button>
+
+          <button *ngIf="stopwatch.isStarted"
+                  mat-icon-button
+                  (click)="pauseTimer(stopwatch)">
+            <i class="fas fa-pause"></i>
+          </button>
+
+          <button *ngIf="!stopwatch.isStarted"
+                  mat-button
+                  (click)="startTimer(stopwatch)">
+            <i class="fas fa-play"></i>
+          </button>
         </div>
       </div>
     </div>

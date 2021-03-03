@@ -68,4 +68,16 @@ export class StopwatchesListComponent implements OnInit {
       this.filterTitlesArray();
     });
   }
+
+  pauseTimer(stopwatch: StopwatchItemDto) {
+    stopwatch.isStarted = false;
+  }
+
+  restartTimer(stopwatch: StopwatchItemDto) {
+    console.log(stopwatch);
+  }
+
+  startTimer(stopwatch: StopwatchItemDto) {
+    stopwatch.isStarted = true;
+  }
 }
