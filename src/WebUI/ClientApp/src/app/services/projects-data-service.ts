@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { FavoriteProjectItemsClient, ProjectItemDto, ProjectItemsClient } from '../web-api-client';
+import { FavoriteProjectItemsClient, ProjectItemsClient } from '../web-api-client';
 
 @Injectable({
   providedIn: 'root'

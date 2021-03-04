@@ -57,7 +57,7 @@ export class ProjectsListComponent implements OnInit {
       data: projectItem
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: ProjectItemDto) => {
       if (result) {
         result.id = projectItem.id;
         this.updateProject(result);

@@ -34,16 +34,18 @@ export class StopwatchesListComponent implements OnInit {
       this.searchProjectComponent.cleanInput();
     }
 
-    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem))
-      .subscribe(() => {
-        this.loadStopwatches();
-      });
+    this.stopwatchItemsClient.create(<CreateStopwatchItemCommand>{
+      title: stopwatchItem.title,
+      projectId: this.projectId
+    }).subscribe(() => {
+      this.loadStopwatches();
+    });
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateStopwatchDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
       if (result) {
         this.addStopwatch(result)
       }
