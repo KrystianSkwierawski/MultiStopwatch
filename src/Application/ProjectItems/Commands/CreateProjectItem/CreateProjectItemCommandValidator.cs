@@ -2,9 +2,9 @@
 
 namespace Project.Application.ProjectItems.Commands.CreateProjectItem
 {
-    public class CreateStopWatchItemCommandValidator : AbstractValidator<CreateProjectItemCommand>
+    public class CreateProjectItemCommandValidator : AbstractValidator<CreateProjectItemCommand>
     {
-        public CreateStopWatchItemCommandValidator()
+        public CreateProjectItemCommandValidator()
         {
             RuleFor(v => v.Title)
               .MaximumLength(20)

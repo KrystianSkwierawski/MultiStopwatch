@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Project.Application.StopwatchItems.Commands
+namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 {
     public class CreateStopwatchItemCommandValidator : AbstractValidator<CreateStopwatchItemCommand>
     {

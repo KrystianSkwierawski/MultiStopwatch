@@ -9,16 +9,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FavoriteProjectsListComponent } from './components/favorite-project-items/favorite-projects-list/favorite-projects-list.component';
 import { CreateProjectDialogComponent } from './components/project-items/create-project-dialog/create-project-dialog.component';
+import { EditProjectDialogComponent } from './components/project-items/edit-project-dialog/edit-project-dialog.component';
+import { EditStopwatchDialogComponent } from './components/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { ProjectDetailsComponent } from './components/project-items/project-details/project-details.component';
 import { ProjectsListComponent } from './components/project-items/projects-list/projects-list.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { CreateStopwatchDialogComponent } from './components/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
+import { StopwatchesListComponent } from './components/stopwatch-items/stopwatches-list/stopwatches-list.component';
 import { AuthorizeViewComponent } from './components/utilities/authorize-view/authorize-view.component';
 import { GenericListComponent } from './components/utilities/generic-list/generic-list.component';
 import { SearchItemByTitleComponent } from './components/utilities/search-item-by-title/search-item-by-title.component';
 import { MaterialModule } from './material/material.module';
-import { StopwatchesListComponent } from './components/stopwatch-items/stopwatches-list/stopwatches-list.component';
-import { CreateStopwatchDialogComponent } from './components/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
-import { EditProjectDialogComponent } from './components/project-items/edit-project-dialog/edit-project-dialog.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { EditProjectDialogComponent } from './components/project-items/edit-proj
     ProjectDetailsComponent,
     StopwatchesListComponent,
     EditProjectDialogComponent,
+    EditStopwatchDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

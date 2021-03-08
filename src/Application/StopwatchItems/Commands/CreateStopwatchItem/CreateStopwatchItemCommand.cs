@@ -4,7 +4,7 @@ using Project.Application.Common.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project.Application.StopwatchItems.Commands
+namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 {
     public class CreateStopwatchItemCommand : IRequest
     {

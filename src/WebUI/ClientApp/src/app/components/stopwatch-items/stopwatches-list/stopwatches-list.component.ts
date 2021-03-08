@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { CreateStopwatchItemCommand, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
+import { CreateStopwatchItemCommand, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
+import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 
 @Component({
   selector: 'app-stopwatches-list',
@@ -19,7 +20,9 @@ export class StopwatchesListComponent implements OnInit {
   projectId: number;
   titlesArray: string[];
 
-  constructor(public dialog: MatDialog, private activatedRoute: ActivatedRoute, private stopwatchItemsClient: StopwatchItemsClient) { }
+  constructor(public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private stopwatchItemsClient: StopwatchItemsClient) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -42,7 +45,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openDialogToCreateNewStopwatch(): void {
     const dialogRef = this.dialog.open(CreateStopwatchDialogComponent);
 
     dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
@@ -66,6 +69,31 @@ export class StopwatchesListComponent implements OnInit {
       this.stopwatches = result;
       this.oryginalStopwatches = result;
       this.filterTitlesArray();
+    });
+  }
+
+  openDialogToEditStopwatch(stopwatchItem: StopwatchItemDto) {
+    const dialogRef = this.dialog.open(EditStopwatchDialogComponent, {
+      data: stopwatchItem
+    });
+
+    dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
+      if (result) {
+        result.id = stopwatchItem.id;
+        this.updateStopwatch(result);
+      }
+    });
+  }
+
+  updateStopwatch(stopwatchItem: StopwatchItemDto) {
+    this.stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(() => {
+      this.loadStopwatches();
+    });
+  }
+
+  deleteStopwatch(id: number) {
+    this.stopwatchItemsClient.delete(id).subscribe(() => {
+      this.loadStopwatches();
     });
   }
 

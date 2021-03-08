@@ -60,14 +60,21 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+
 
   & p {
     font-size: 1.3rem;
     margin-top: auto;
     margin-bottom: auto;
     font-weight: bold;
+    flex-grow: 1;
+    margin-right: 40px;
   }
+}
+
+.top__stopwatch-actions {
+  flex-grow: 1;
 }
 
 .stopwatch__mid {
