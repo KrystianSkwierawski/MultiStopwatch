@@ -74,8 +74,8 @@
 }
 
 .side-menu-content__settings {
-  align-content: center;
   display: flex;
+  min-height: 56px;
   height: auto;
   justify-content: space-between;
   background-color: #464775;
@@ -85,5 +85,6 @@
     font-size: 1.3rem;
     text-decoration: none;
     color: white;
+    align-self: center;
   }
 }

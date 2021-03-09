@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
+import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand, PaginatedListOfProjectItemDto } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
@@ -14,7 +15,8 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-  oryginalProjects: ProjectItemDto[];
+
+  paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   projects: ProjectItemDto[];
   titlesArray: string[];
 
@@ -24,9 +26,9 @@ export class ProjectsListComponent implements OnInit {
     private projectsDataService: ProjectsDataService) { }
 
   ngOnInit() {
-    this.projectsDataService.projects.subscribe(result => {
-      this.projects = result;
-      this.oryginalProjects = result;
+    this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
+      this.paginatedListOfProjectItemDto = result;
+      this.projects = result.items;    
       this.filterTitlesArray();
     });
   }
@@ -84,11 +86,13 @@ export class ProjectsListComponent implements OnInit {
   }
 
   filterTitlesArray() {
-    this.titlesArray = this.oryginalProjects.map((e) => { return e.title });
+    if (this.paginatedListOfProjectItemDto.items) {
+      this.titlesArray = this.paginatedListOfProjectItemDto.items.map((e) => { return e.title });
+    }
   }
 
   filterProjects(searchingTitle: string) {
-    const filteredProjects: ProjectItemDto[] = this.oryginalProjects.filter(x => x.title.includes(searchingTitle));
+    const filteredProjects: ProjectItemDto[] = this.paginatedListOfProjectItemDto.items.filter(x => x.title.includes(searchingTitle));
     this.projects = filteredProjects;
   }
 
@@ -96,6 +100,10 @@ export class ProjectsListComponent implements OnInit {
     this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
       this.projectsDataService.loadData();
     });
+  }
+
+  updatePagination(event: PageEvent) {
+    this.projectsDataService.loadProjects(event.pageIndex + 1, event.pageSize);
   }
 }
 

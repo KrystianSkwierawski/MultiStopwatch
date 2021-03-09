@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { FavoriteProjectItemsClient, ProjectItemsClient } from '../web-api-client';
+import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemsClient } from '../web-api-client';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +8,8 @@ import { FavoriteProjectItemsClient, ProjectItemsClient } from '../web-api-clien
 
 export class ProjectsDataService implements OnInit {
 
-  private projectsSource = new BehaviorSubject([]);
-  projects = this.projectsSource.asObservable();
+  private paginatedListOfProjectItemDtoSource = new BehaviorSubject(new PaginatedListOfProjectItemDto());
+  paginatedListOfProjectItemDto = this.paginatedListOfProjectItemDtoSource.asObservable();
 
 
   private favoriteProjectsSource = new BehaviorSubject([]);
@@ -38,10 +38,10 @@ export class ProjectsDataService implements OnInit {
     );
   }
 
-  loadProjects() {
-    this.projectItemsClient.get().subscribe(
+  loadProjects(pageNumber: number = 1, pageSize: number = 50) {
+    this.projectItemsClient.getWithPagination(pageNumber, pageSize).subscribe(
       result => {
-        this.projectsSource.next(result);
+        this.paginatedListOfProjectItemDtoSource.next(result)
       },
       error => console.error(error)
     );

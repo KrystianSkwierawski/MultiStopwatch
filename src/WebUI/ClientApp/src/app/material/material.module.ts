@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatInputModule,
     MatAutocompleteModule,
     MatMenuModule,
+    MatPaginatorModule,
   ],
   imports: [
     CommonModule

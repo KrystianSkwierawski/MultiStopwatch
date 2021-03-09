@@ -136,7 +136,7 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
 }
 
 export interface IProjectItemsClient {
-    get(): Observable<ProjectItemDto[]>;
+    getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto>;
     create(command: CreateProjectItemCommand): Observable<FileResponse>;
     update(command: UpdateProjectItemCommand): Observable<FileResponse>;
     delete(id: number | undefined): Observable<FileResponse>;
@@ -155,8 +155,16 @@ export class ProjectItemsClient implements IProjectItemsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(): Observable<ProjectItemDto[]> {
-        let url_ = this.baseUrl + "/api/ProjectItems";
+    getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto> {
+        let url_ = this.baseUrl + "/api/ProjectItems?";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -168,20 +176,20 @@ export class ProjectItemsClient implements IProjectItemsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
+            return this.processGetWithPagination(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(<any>response_);
+                    return this.processGetWithPagination(<any>response_);
                 } catch (e) {
-                    return <Observable<ProjectItemDto[]>><any>_observableThrow(e);
+                    return <Observable<PaginatedListOfProjectItemDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ProjectItemDto[]>><any>_observableThrow(response_);
+                return <Observable<PaginatedListOfProjectItemDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ProjectItemDto[]> {
+    protected processGetWithPagination(response: HttpResponseBase): Observable<PaginatedListOfProjectItemDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -192,11 +200,7 @@ export class ProjectItemsClient implements IProjectItemsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ProjectItemDto.fromJS(item));
-            }
+            result200 = PaginatedListOfProjectItemDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -204,7 +208,7 @@ export class ProjectItemsClient implements IProjectItemsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ProjectItemDto[]>(<any>null);
+        return _observableOf<PaginatedListOfProjectItemDto>(<any>null);
     }
 
     create(command: CreateProjectItemCommand): Observable<FileResponse> {
@@ -666,6 +670,74 @@ export class LikeOrDislikeProjectItemCommand implements ILikeOrDislikeProjectIte
 
 export interface ILikeOrDislikeProjectItemCommand {
     id?: number;
+}
+
+export class PaginatedListOfProjectItemDto implements IPaginatedListOfProjectItemDto {
+    items?: ProjectItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    pageSize?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfProjectItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ProjectItemDto.fromJS(item));
+            }
+            this.pageIndex = _data["pageIndex"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.pageSize = _data["pageSize"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfProjectItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfProjectItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageIndex"] = this.pageIndex;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["pageSize"] = this.pageSize;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data; 
+    }
+}
+
+export interface IPaginatedListOfProjectItemDto {
+    items?: ProjectItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    pageSize?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }
 
 export class ProjectItemDto implements IProjectItemDto {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project.Application.GetProjectItems.Queries.GetProjectItems;
+using Project.Application.Common.Models;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.ProjectItems.Commands.DeleteProjectItem;
 using Project.Application.ProjectItems.Commands.UpdateProjectItem;
-using System.Collections.Generic;
+using Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
@@ -11,9 +11,9 @@ namespace Project.WebUI.Controllers
     public class ProjectItemsController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<ProjectItemDto>>> Get()
+        public async Task<ActionResult<PaginatedList<ProjectItemDto>>> GetWithPagination([FromQuery] GetProjectItemsWithPaginationQuery query)
         {
-            return await Mediator.Send(new GetProjectItemsQuery());
+            return await Mediator.Send(query);
         }
 
         [HttpPost]
