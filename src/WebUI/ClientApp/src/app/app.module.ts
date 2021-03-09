@@ -20,6 +20,7 @@ import { AuthorizeViewComponent } from './components/utilities/authorize-view/au
 import { GenericListComponent } from './components/utilities/generic-list/generic-list.component';
 import { SearchItemByTitleComponent } from './components/utilities/search-item-by-title/search-item-by-title.component';
 import { MaterialModule } from './material/material.module';
+import { PaginatorComponent } from './components/utilities/paginator/paginator.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { MaterialModule } from './material/material.module';
     StopwatchesListComponent,
     EditProjectDialogComponent,
     EditStopwatchDialogComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

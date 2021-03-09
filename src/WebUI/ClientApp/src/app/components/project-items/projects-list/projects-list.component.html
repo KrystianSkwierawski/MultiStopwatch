@@ -60,12 +60,9 @@
       </div>
     </div>
 
-    <mat-paginator *ngIf="paginatedListOfProjectItemDto.totalCount > 10"
-                   showFirstLastButtons
-                   [length]="paginatedListOfProjectItemDto.totalCount"
+    <app-paginator [totalCount]="paginatedListOfProjectItemDto.totalCount"
                    [pageSize]="paginatedListOfProjectItemDto.pageSize"
-                   [pageSizeOptions]="[10, 25, 50, 100]"
-                   (page)="updatePagination($event)">
-    </mat-paginator>
+                   (onUpdatePagination)="updatePagination($event)">
+    </app-paginator>
   </ng-container>
 </app-generic-list>

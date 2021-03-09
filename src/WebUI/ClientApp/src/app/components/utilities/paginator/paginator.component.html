@@ -1,0 +1,7 @@
+<mat-paginator *ngIf="totalCount > 10"
+               showFirstLastButtons
+               [length]="totalCount"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="[10, 25, 50, 100]"
+               (page)="updatePagination($event)">
+</mat-paginator>

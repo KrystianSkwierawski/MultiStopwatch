@@ -1,0 +1,12 @@
+mat-paginator {
+  background-color: transparent;
+  color: white;
+
+  ::ng-deep .mat-select-value {
+    color: white;
+  }
+
+  ::ng-deep .mat-select-arrow {
+    color: white;
+  }
+}
