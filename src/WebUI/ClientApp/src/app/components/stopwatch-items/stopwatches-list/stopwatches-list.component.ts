@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { CreateStopwatchItemCommand, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
+import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -15,7 +16,7 @@ export class StopwatchesListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
-  oryginalStopwatches: StopwatchItemDto[];
+  paginatedListOfStopwatchItemDto: PaginatedListOfStopwatchItemDto;
   stopwatches: StopwatchItemDto[];
   projectId: number;
   titlesArray: string[];
@@ -56,18 +57,20 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   filterTitlesArray() {
-    this.titlesArray = this.stopwatches.map((e) => { return e.title });
+    if (this.paginatedListOfStopwatchItemDto.items) {
+      this.titlesArray = this.stopwatches.map((e) => { return e.title });
+    }
   }
 
   filterStopwatches(searchingTitle: string) {
-    const filteredStopwatches: StopwatchItemDto[] = this.oryginalStopwatches.filter(x => x.title.includes(searchingTitle));
+    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
     this.stopwatches = filteredStopwatches;
   }
 
-  loadStopwatches() {
-    this.stopwatchItemsClient.get(this.projectId).subscribe(result => {
-      this.stopwatches = result;
-      this.oryginalStopwatches = result;
+  loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
+    this.stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
+      this.paginatedListOfStopwatchItemDto = result;
+      this.stopwatches = result.items;
       this.filterTitlesArray();
     });
   }
@@ -107,5 +110,9 @@ export class StopwatchesListComponent implements OnInit {
 
   startTimer(stopwatch: StopwatchItemDto) {
     stopwatch.isStarted = true;
+  }
+
+  updatePagination(event: PageEvent) {
+    this.loadStopwatches(event.pageIndex + 1, event.pageSize);
   }
 }

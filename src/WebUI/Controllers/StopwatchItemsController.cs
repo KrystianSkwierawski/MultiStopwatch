@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project.Application.Common.Models;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using Project.Application.StopwatchItems.Commands.DeleteStopwatchItem;
 using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
-using Project.Application.StopwatchItems.Queries.GetStopwatchItems;
-using System.Collections.Generic;
+using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
 {
     public class StopwatchItemsController : ApiControllerBase
     {
-        [HttpGet("{projectId}")]
-        public async Task<ActionResult<List<StopwatchItemDto>>> Get(int projectId)
+        [HttpGet]
+        public async Task<ActionResult<PaginatedList<StopwatchItemDto>>> GetWithPagination([FromQuery] GetStopwatchItemsWithPaginationQuery command)
         {
-            return await Mediator.Send(new GetStopwatchItemsQuery { ProjectId = projectId });
+            return await Mediator.Send(command);
         }
 
         [HttpPost]

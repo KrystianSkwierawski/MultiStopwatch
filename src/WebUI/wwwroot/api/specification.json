@@ -192,22 +192,39 @@
         }
       }
     },
-    "/api/StopwatchItems/{projectId}": {
+    "/api/StopwatchItems": {
       "get": {
         "tags": [
           "StopwatchItems"
         ],
-        "operationId": "StopwatchItems_Get",
+        "operationId": "StopwatchItems_GetWithPagination",
         "parameters": [
           {
-            "name": "projectId",
-            "in": "path",
-            "required": true,
+            "name": "ProjectId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
             },
             "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
           }
         ],
         "responses": {
@@ -216,18 +233,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StopwatchItemDto"
-                  }
+                  "$ref": "#/components/schemas/PaginatedListOfStopwatchItemDto"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/StopwatchItems": {
+      },
       "post": {
         "tags": [
           "StopwatchItems"
@@ -433,6 +445,41 @@
           "title": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "PaginatedListOfStopwatchItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/StopwatchItemDto"
+            }
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
         }
       },

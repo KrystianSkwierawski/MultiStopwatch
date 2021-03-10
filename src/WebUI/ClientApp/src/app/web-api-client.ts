@@ -363,7 +363,7 @@ export class ProjectItemsClient implements IProjectItemsClient {
 }
 
 export interface IStopwatchItemsClient {
-    get(projectId: number): Observable<StopwatchItemDto[]>;
+    getWithPagination(projectId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfStopwatchItemDto>;
     create(command: CreateStopwatchItemCommand): Observable<FileResponse>;
     update(command: UpdateStopwatchItemCommand): Observable<FileResponse>;
     delete(id: number | undefined): Observable<FileResponse>;
@@ -382,11 +382,20 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(projectId: number): Observable<StopwatchItemDto[]> {
-        let url_ = this.baseUrl + "/api/StopwatchItems/{projectId}";
-        if (projectId === undefined || projectId === null)
-            throw new Error("The parameter 'projectId' must be defined.");
-        url_ = url_.replace("{projectId}", encodeURIComponent("" + projectId));
+    getWithPagination(projectId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfStopwatchItemDto> {
+        let url_ = this.baseUrl + "/api/StopwatchItems?";
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "ProjectId=" + encodeURIComponent("" + projectId) + "&";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -398,20 +407,20 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
+            return this.processGetWithPagination(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(<any>response_);
+                    return this.processGetWithPagination(<any>response_);
                 } catch (e) {
-                    return <Observable<StopwatchItemDto[]>><any>_observableThrow(e);
+                    return <Observable<PaginatedListOfStopwatchItemDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<StopwatchItemDto[]>><any>_observableThrow(response_);
+                return <Observable<PaginatedListOfStopwatchItemDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<StopwatchItemDto[]> {
+    protected processGetWithPagination(response: HttpResponseBase): Observable<PaginatedListOfStopwatchItemDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -422,11 +431,7 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(StopwatchItemDto.fromJS(item));
-            }
+            result200 = PaginatedListOfStopwatchItemDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -434,7 +439,7 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<StopwatchItemDto[]>(<any>null);
+        return _observableOf<PaginatedListOfStopwatchItemDto>(<any>null);
     }
 
     create(command: CreateStopwatchItemCommand): Observable<FileResponse> {
@@ -862,6 +867,74 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
 export interface IUpdateProjectItemCommand {
     id?: number;
     title?: string | undefined;
+}
+
+export class PaginatedListOfStopwatchItemDto implements IPaginatedListOfStopwatchItemDto {
+    items?: StopwatchItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    pageSize?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
+
+    constructor(data?: IPaginatedListOfStopwatchItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(StopwatchItemDto.fromJS(item));
+            }
+            this.pageIndex = _data["pageIndex"];
+            this.totalPages = _data["totalPages"];
+            this.totalCount = _data["totalCount"];
+            this.pageSize = _data["pageSize"];
+            this.hasPreviousPage = _data["hasPreviousPage"];
+            this.hasNextPage = _data["hasNextPage"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfStopwatchItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfStopwatchItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageIndex"] = this.pageIndex;
+        data["totalPages"] = this.totalPages;
+        data["totalCount"] = this.totalCount;
+        data["pageSize"] = this.pageSize;
+        data["hasPreviousPage"] = this.hasPreviousPage;
+        data["hasNextPage"] = this.hasNextPage;
+        return data; 
+    }
+}
+
+export interface IPaginatedListOfStopwatchItemDto {
+    items?: StopwatchItemDto[] | undefined;
+    pageIndex?: number;
+    totalPages?: number;
+    totalCount?: number;
+    pageSize?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }
 
 export class StopwatchItemDto implements IStopwatchItemDto {

@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Project.Application.Common.Mappings;
 
-namespace Project.Application.StopwatchItems.Queries.GetStopwatchItems
+namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination
 {
     public class StopwatchItemDto : IMapFrom<StopwatchItem>
     {
