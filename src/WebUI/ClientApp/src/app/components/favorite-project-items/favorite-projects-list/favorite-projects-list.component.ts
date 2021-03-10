@@ -24,12 +24,18 @@ export class FavoriteProjectsListComponent implements OnInit {
   }
 
 
-  dropped(event: CdkDragDrop<any[]>) {
+  dropped(event) {
     const previousIndex = this.favoriteProjects.findIndex(project => project === event.item.data);
     moveItemInArray(this.favoriteProjects, previousIndex, event.currentIndex);
     this.favoriteProjectsTable.renderRows();
 
     //zapisz w bazie danych kolejnosc
+  }
+
+  onTouchMove(e: Event) {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
   }
 
   hoveredDivId: number = null;

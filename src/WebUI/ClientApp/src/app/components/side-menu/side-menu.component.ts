@@ -45,16 +45,29 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     const element: HTMLEmbedElement = document.querySelector(".content");
     const className: string = "content_disabled-scrolling";
 
-    // disable scroll if menu is hidden or is desktop device
-    if (element.classList.contains(className) && (this.isDesktopDevice() || (!this.isDesktopDevice() && !this.menuIsActivated))) {
-
-      element.classList.remove(className);
+    if (element.classList.contains(className)) {
+      this.disableScrollContentIfMenuIsHiddenOrIsDesktopDevice(element, className);
     }
-    // enable scroll if menu is activated and it is mobile device
-    else if (!element.classList.contains(className) && (!this.isDesktopDevice() && this.menuIsActivated)) {
+    else {
+      this.enableScrollContentIfMenuIsActivatedAndIsMobileDevice(element, className);
+    }
+  }
+
+  disableScrollContentIfMenuIsHiddenOrIsDesktopDevice(element: HTMLElement, className: string) {
+    if (this.isDesktopDevice() || (!this.isDesktopDevice() && !this.menuIsActivated)) {
+      element.classList.remove(className);
+      console.log('disable');
+    }
+  }
+
+  enableScrollContentIfMenuIsActivatedAndIsMobileDevice(element: HTMLElement, className: string) {
+    if (!this.isDesktopDevice() && this.menuIsActivated) {
       element.classList.add(className);
+      console.log('enable');
     }
   }
 }
+
+
 
 

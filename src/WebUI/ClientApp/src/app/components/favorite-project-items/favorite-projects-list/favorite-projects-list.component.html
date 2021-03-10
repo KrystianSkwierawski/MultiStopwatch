@@ -5,6 +5,7 @@
              *ngIf="favoriteProjects?.length > 0"
              [dataSource]="favoriteProjects"
              cdkDropList
+             (touchmove)="onTouchMove($event)"
              [cdkDropListData]="favoriteProjects"
              (cdkDropListDropped)="dropped($event)">
 
