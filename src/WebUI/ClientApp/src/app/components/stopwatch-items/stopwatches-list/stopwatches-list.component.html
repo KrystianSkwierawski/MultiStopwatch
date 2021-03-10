@@ -2,7 +2,7 @@
 
 <button (click)="openDialogToCreateNewStopwatch()" class="add-new-stopwatch-button"><i class="fas fa-plus"></i></button>
 
-<app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto.items?.length > 0"
+<app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
                           (onKeyUp)="filterStopwatches($event)"
                           [options]="titlesArray">
 </app-search-item-by-title>
@@ -60,8 +60,8 @@
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfStopwatchItemDto.totalCount"
-                   [pageSize]="paginatedListOfStopwatchItemDto.pageSize"
+    <app-paginator [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
+                   [pageSize]="paginatedListOfStopwatchItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>
   </ng-container>

@@ -11,20 +11,14 @@ table {
   background-color: transparent;
   text-align: center;
 
-  & a {
-    display: block;
+  & a {   
     font-size: 1.1rem;
-    text-decoration: none;
     color: #b4b3d4;
 
     span {
       font-weight: bold;
       color: #efeff6;
     }
-  }
-
-  & a:hover {
-    background-color: grey;
   }
 
   & td {

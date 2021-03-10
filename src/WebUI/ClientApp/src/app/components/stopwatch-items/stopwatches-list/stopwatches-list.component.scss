@@ -102,4 +102,10 @@
   & i {
     font-size: 1.4rem;
   }
+
+  & button{
+      min-height: 40px;
+      min-width: 40px;
+      padding: 0;
+  }
 }

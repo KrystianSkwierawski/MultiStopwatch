@@ -31,7 +31,7 @@
             </mat-menu>
           </div>
 
-          <a class="text-white text-decoration-none" href="project/{{project.id}}">{{project.time}}</a>
+          <a class="text-white text-decoration-none" [routerLink]="'project/' + project.id">{{project.time}}</a>
           <button class="like-or-dislike-project-button"
                   mat-icon-button
                   (click)="handleLikeOrDislikeProjectButton(project.id)"
@@ -60,8 +60,8 @@
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfProjectItemDto.totalCount"
-                   [pageSize]="paginatedListOfProjectItemDto.pageSize"
+    <app-paginator [totalCount]="paginatedListOfProjectItemDto?.totalCount"
+                   [pageSize]="paginatedListOfProjectItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>
   </ng-container>

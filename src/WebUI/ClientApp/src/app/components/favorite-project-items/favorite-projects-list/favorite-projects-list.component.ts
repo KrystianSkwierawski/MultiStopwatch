@@ -38,10 +38,6 @@ export class FavoriteProjectsListComponent implements OnInit {
     this.hoveredDivId = index;
   }
 
-  activeLinkWhenDislikeProjectButtonIsNotHovered(index: number, elementId: number): string {
-    return (this.hoveredDivId === index) ? 'javascript:void(0);' : `project/${elementId}`;
-  }
-
   handleLikeOrDislikeProjectButton(projectId: number) {
     this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
       this.projectsDataService.loadData();
