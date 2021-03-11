@@ -1,5 +1,4 @@
 ﻿using Project.Domain.Common;
-using System;
 
 namespace Domain.Entities
 {
