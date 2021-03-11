@@ -7,7 +7,7 @@
              cdkDropList
              (touchmove)="onTouchMove($event)"
              [cdkDropListData]="favoriteProjects"
-             (cdkDropListDropped)="dropped($event)">
+             (cdkDropListDropped)="updateOrderIndex($event)">
 
         <ng-container matColumnDef="column">
           <div class="favorite-project">

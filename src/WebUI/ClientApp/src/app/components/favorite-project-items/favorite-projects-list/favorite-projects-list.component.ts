@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand } from '../../../web-api-client';
+import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -24,12 +24,16 @@ export class FavoriteProjectsListComponent implements OnInit {
   }
 
 
-  dropped(event) {
+  updateOrderIndex(event) {
     const previousIndex = this.favoriteProjects.findIndex(project => project === event.item.data);
+
     moveItemInArray(this.favoriteProjects, previousIndex, event.currentIndex);
+
     this.favoriteProjectsTable.renderRows();
 
-    //zapisz w bazie danych kolejnosc
+    this.favoriteProjectItemsClient.updateOrderIndex(<UpdateOrderIndexProjectItemCommand>{
+      currentProjects: this.favoriteProjects
+    }).subscribe();
   }
 
   onTouchMove(e: Event) {

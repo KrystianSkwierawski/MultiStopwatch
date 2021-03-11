@@ -27,7 +27,7 @@ namespace Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsIt
             {
                 return await _context.ProjectItems
                  .Where(x => x.IsFavorite == true)
-                 .OrderByDescending(x => x.Id)
+                 .OrderBy(x => x.OrderIndex)
                  .ProjectTo<FavoriteProjectItemDto>(_mapper.ConfigurationProvider)
                  .ToListAsync(cancellationToken);
             }

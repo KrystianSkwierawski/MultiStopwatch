@@ -58,6 +58,37 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "FavoriteProjectItems"
+        ],
+        "operationId": "FavoriteProjectItems_UpdateOrderIndex",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderIndexProjectItemCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/ProjectItems": {
@@ -355,6 +386,10 @@
           "time": {
             "type": "string",
             "nullable": true
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -365,6 +400,19 @@
           "id": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "UpdateOrderIndexProjectItemCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentProjects": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/FavoriteProjectItemDto"
+            }
           }
         }
       },

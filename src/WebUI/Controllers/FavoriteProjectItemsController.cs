@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem;
+using Project.Application.FavoriteProjectItems.Commands.UpdateOrderIndex;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,6 +17,14 @@ namespace Project.WebUI.Controllers
 
         [HttpPatch]
         public async Task<ActionResult> LikeOrDislike(LikeOrDislikeProjectItemCommand command)
+        {
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateOrderIndex(UpdateOrderIndexProjectItemCommand command)
         {
             await Mediator.Send(command);
 

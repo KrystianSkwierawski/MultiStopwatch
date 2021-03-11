@@ -1,5 +1,5 @@
 ﻿using Project.Domain.Common;
-using System.Collections.Generic;
+using System;
 
 namespace Domain.Entities
 {
@@ -9,5 +9,6 @@ namespace Domain.Entities
         public string Title { get; set; }
         public bool IsFavorite { get; set; }
         public string Time { get; set; }
+        public int OrderIndex { get; set; }
     }
 }
