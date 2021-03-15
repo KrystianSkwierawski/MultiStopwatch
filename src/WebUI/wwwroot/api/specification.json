@@ -32,13 +32,13 @@
         "tags": [
           "FavoriteProjectItems"
         ],
-        "operationId": "FavoriteProjectItems_LikeOrDislike",
+        "operationId": "FavoriteProjectItems_UpdateOrderIndex",
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LikeOrDislikeProjectItemCommand"
+                "$ref": "#/components/schemas/UpdateOrderIndexProjectItemCommand"
               }
             }
           },
@@ -58,24 +58,89 @@
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/FavoriteProjectItems/{id}": {
+      "patch": {
         "tags": [
           "FavoriteProjectItems"
         ],
-        "operationId": "FavoriteProjectItems_UpdateOrderIndex",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateOrderIndexProjectItemCommand"
+        "operationId": "FavoriteProjectItems_LikeOrDislike",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
               }
             }
-          },
-          "required": true,
-          "x-position": 1
-        },
+          }
+        }
+      }
+    },
+    "/api/ProjectItems/{id}": {
+      "get": {
+        "tags": [
+          "ProjectItems"
+        ],
+        "operationId": "ProjectItems_Get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectItemDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProjectItems"
+        ],
+        "operationId": "ProjectItems_Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -178,36 +243,6 @@
           "required": true,
           "x-position": 1
         },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "ProjectItems"
-        ],
-        "operationId": "ProjectItems_Delete",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
         "responses": {
           "200": {
             "description": "",
@@ -332,7 +367,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/StopwatchItems/{id}": {
       "delete": {
         "tags": [
           "StopwatchItems"
@@ -341,7 +378,8 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -393,16 +431,6 @@
           }
         }
       },
-      "LikeOrDislikeProjectItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "UpdateOrderIndexProjectItemCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -416,6 +444,20 @@
           }
         }
       },
+      "ProjectItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "PaginatedListOfProjectItemDto": {
         "type": "object",
         "additionalProperties": false,
@@ -424,7 +466,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/ProjectItemDto"
+              "$ref": "#/components/schemas/ProjectItemDto2"
             }
           },
           "pageIndex": {
@@ -451,7 +493,7 @@
           }
         }
       },
-      "ProjectItemDto": {
+      "ProjectItemDto2": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

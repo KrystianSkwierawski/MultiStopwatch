@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
+import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand, ProjectItemsClient, ProjectItemDto } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -18,18 +18,21 @@ export class StopwatchesListComponent implements OnInit {
 
   paginatedListOfStopwatchItemDto: PaginatedListOfStopwatchItemDto;
   stopwatches: StopwatchItemDto[];
+  project: ProjectItemDto;
   projectId: number;
   titlesArray: string[];
 
   constructor(public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private stopwatchItemsClient: StopwatchItemsClient) { }
+    private stopwatchItemsClient: StopwatchItemsClient,
+    private projectItemsClient: ProjectItemsClient) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.projectId = params.id;
     });
 
+    this.loadProject();
     this.loadStopwatches();
   }
 
@@ -72,6 +75,12 @@ export class StopwatchesListComponent implements OnInit {
       this.paginatedListOfStopwatchItemDto = result;
       this.stopwatches = result.items;
       this.filterTitlesArray();
+    });
+  }
+
+  loadProject() {
+    this.projectItemsClient.get(this.projectId).subscribe(result => {
+      this.project = result;
     });
   }
 

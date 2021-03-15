@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { FavoriteProjectItemDto, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
+import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
 
 @Component({
   selector: 'app-favorite-projects-list',
@@ -49,7 +49,7 @@ export class FavoriteProjectsListComponent implements OnInit {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+    this.favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
       this.projectsDataService.loadData();
     });
   }

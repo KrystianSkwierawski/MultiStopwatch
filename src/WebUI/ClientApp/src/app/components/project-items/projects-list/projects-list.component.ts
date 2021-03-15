@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { CreateProjectItemCommand, FavoriteProjectItemsClient, LikeOrDislikeProjectItemCommand, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand, PaginatedListOfProjectItemDto } from '../../../web-api-client';
+import { CreateProjectItemCommand, FavoriteProjectItemsClient, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand, PaginatedListOfProjectItemDto, ProjectItemDto2 } from '../../../web-api-client';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
@@ -53,13 +53,13 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openDialogToEditProject(projectItem: ProjectItemDto) {
+  openDialogToEditProject(projectItem: ProjectItemDto2) {
 
     const dialogRef = this.dialog.open(EditProjectDialogComponent, {
       data: projectItem
     });
 
-    dialogRef.afterClosed().subscribe((result: ProjectItemDto) => {
+    dialogRef.afterClosed().subscribe((result: ProjectItemDto2) => {
       if (result) {
         result.id = projectItem.id;
         this.updateProject(result);
@@ -97,7 +97,7 @@ export class ProjectsListComponent implements OnInit {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.favoriteProjectItemsClient.likeOrDislike(<LikeOrDislikeProjectItemCommand>{ id: projectId }).subscribe(() => {
+    this.favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
       this.projectsDataService.loadData();
     });
   }

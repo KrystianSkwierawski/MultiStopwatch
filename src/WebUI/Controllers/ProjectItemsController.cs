@@ -3,6 +3,7 @@ using Project.Application.Common.Models;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.ProjectItems.Commands.DeleteProjectItem;
 using Project.Application.ProjectItems.Commands.UpdateProjectItem;
+using Project.Application.ProjectItems.Queries.GetProjectItem;
 using Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination;
 using System.Threading.Tasks;
 
@@ -10,8 +11,14 @@ namespace Project.WebUI.Controllers
 {
     public class ProjectItemsController : ApiControllerBase
     {
+        [HttpGet("{id}")]
+        public async Task<Application.ProjectItems.Queries.GetProjectItem.ProjectItemDto> Get(int id)
+        {
+            return await Mediator.Send(new GetProjectItemQuery { Id = id });
+        }
+
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<ProjectItemDto>>> GetWithPagination([FromQuery] GetProjectItemsWithPaginationQuery query)
+        public async Task<ActionResult<PaginatedList<Application.ProjectItems.Queries.GetProjectItemsWithPagination.ProjectItemDto>>> GetWithPagination([FromQuery] GetProjectItemsWithPaginationQuery query)
         {
             return await Mediator.Send(query);
         }
@@ -32,7 +39,7 @@ namespace Project.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await Mediator.Send(new DeleteProjectItemCommand { Id = id });

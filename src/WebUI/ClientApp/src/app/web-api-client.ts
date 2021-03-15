@@ -16,8 +16,8 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IFavoriteProjectItemsClient {
     get(): Observable<FavoriteProjectItemDto[]>;
-    likeOrDislike(command: LikeOrDislikeProjectItemCommand): Observable<FileResponse>;
     updateOrderIndex(command: UpdateOrderIndexProjectItemCommand): Observable<FileResponse>;
+    likeOrDislike(id: number): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -85,7 +85,7 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
         return _observableOf<FavoriteProjectItemDto[]>(<any>null);
     }
 
-    likeOrDislike(command: LikeOrDislikeProjectItemCommand): Observable<FileResponse> {
+    updateOrderIndex(command: UpdateOrderIndexProjectItemCommand): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/FavoriteProjectItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -97,6 +97,55 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOrderIndex(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOrderIndex(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOrderIndex(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    likeOrDislike(id: number): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/FavoriteProjectItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
                 "Accept": "application/octet-stream"
             })
         };
@@ -134,29 +183,101 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+}
 
-    updateOrderIndex(command: UpdateOrderIndexProjectItemCommand): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/FavoriteProjectItems";
+export interface IProjectItemsClient {
+    get(id: number): Observable<ProjectItemDto>;
+    delete(id: number): Observable<FileResponse>;
+    getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto>;
+    create(command: CreateProjectItemCommand): Observable<FileResponse>;
+    update(command: UpdateProjectItemCommand): Observable<FileResponse>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ProjectItemsClient implements IProjectItemsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    get(id: number): Observable<ProjectItemDto> {
+        let url_ = this.baseUrl + "/api/ProjectItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(command);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ProjectItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ProjectItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<ProjectItemDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProjectItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProjectItemDto>(<any>null);
+    }
+
+    delete(id: number): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/ProjectItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
                 "Accept": "application/octet-stream"
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateOrderIndex(response_);
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateOrderIndex(<any>response_);
+                    return this.processDelete(<any>response_);
                 } catch (e) {
                     return <Observable<FileResponse>><any>_observableThrow(e);
                 }
@@ -165,7 +286,7 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
         }));
     }
 
-    protected processUpdateOrderIndex(response: HttpResponseBase): Observable<FileResponse> {
+    protected processDelete(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -183,27 +304,6 @@ export class FavoriteProjectItemsClient implements IFavoriteProjectItemsClient {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
-    }
-}
-
-export interface IProjectItemsClient {
-    getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto>;
-    create(command: CreateProjectItemCommand): Observable<FileResponse>;
-    update(command: UpdateProjectItemCommand): Observable<FileResponse>;
-    delete(id: number | undefined): Observable<FileResponse>;
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class ProjectItemsClient implements IProjectItemsClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
     getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto> {
@@ -361,63 +461,13 @@ export class ProjectItemsClient implements IProjectItemsClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
-
-    delete(id: number | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/ProjectItems?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
-    }
 }
 
 export interface IStopwatchItemsClient {
     getWithPagination(projectId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfStopwatchItemDto>;
     create(command: CreateStopwatchItemCommand): Observable<FileResponse>;
     update(command: UpdateStopwatchItemCommand): Observable<FileResponse>;
-    delete(id: number | undefined): Observable<FileResponse>;
+    delete(id: number): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -593,12 +643,11 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    delete(id: number | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/StopwatchItems?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    delete(id: number): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/StopwatchItems/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -696,42 +745,6 @@ export interface IFavoriteProjectItemDto {
     orderIndex?: number;
 }
 
-export class LikeOrDislikeProjectItemCommand implements ILikeOrDislikeProjectItemCommand {
-    id?: number;
-
-    constructor(data?: ILikeOrDislikeProjectItemCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): LikeOrDislikeProjectItemCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new LikeOrDislikeProjectItemCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ILikeOrDislikeProjectItemCommand {
-    id?: number;
-}
-
 export class UpdateOrderIndexProjectItemCommand implements IUpdateOrderIndexProjectItemCommand {
     currentProjects?: FavoriteProjectItemDto[] | undefined;
 
@@ -776,8 +789,48 @@ export interface IUpdateOrderIndexProjectItemCommand {
     currentProjects?: FavoriteProjectItemDto[] | undefined;
 }
 
+export class ProjectItemDto implements IProjectItemDto {
+    title?: string | undefined;
+    time?: string | undefined;
+
+    constructor(data?: IProjectItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.time = _data["time"];
+        }
+    }
+
+    static fromJS(data: any): ProjectItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["time"] = this.time;
+        return data; 
+    }
+}
+
+export interface IProjectItemDto {
+    title?: string | undefined;
+    time?: string | undefined;
+}
+
 export class PaginatedListOfProjectItemDto implements IPaginatedListOfProjectItemDto {
-    items?: ProjectItemDto[] | undefined;
+    items?: ProjectItemDto2[] | undefined;
     pageIndex?: number;
     totalPages?: number;
     totalCount?: number;
@@ -799,7 +852,7 @@ export class PaginatedListOfProjectItemDto implements IPaginatedListOfProjectIte
             if (Array.isArray(_data["items"])) {
                 this.items = [] as any;
                 for (let item of _data["items"])
-                    this.items!.push(ProjectItemDto.fromJS(item));
+                    this.items!.push(ProjectItemDto2.fromJS(item));
             }
             this.pageIndex = _data["pageIndex"];
             this.totalPages = _data["totalPages"];
@@ -835,7 +888,7 @@ export class PaginatedListOfProjectItemDto implements IPaginatedListOfProjectIte
 }
 
 export interface IPaginatedListOfProjectItemDto {
-    items?: ProjectItemDto[] | undefined;
+    items?: ProjectItemDto2[] | undefined;
     pageIndex?: number;
     totalPages?: number;
     totalCount?: number;
@@ -844,13 +897,13 @@ export interface IPaginatedListOfProjectItemDto {
     hasNextPage?: boolean;
 }
 
-export class ProjectItemDto implements IProjectItemDto {
+export class ProjectItemDto2 implements IProjectItemDto2 {
     id?: number;
     title?: string | undefined;
     isFavorite?: boolean;
     time?: string | undefined;
 
-    constructor(data?: IProjectItemDto) {
+    constructor(data?: IProjectItemDto2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -868,9 +921,9 @@ export class ProjectItemDto implements IProjectItemDto {
         }
     }
 
-    static fromJS(data: any): ProjectItemDto {
+    static fromJS(data: any): ProjectItemDto2 {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjectItemDto();
+        let result = new ProjectItemDto2();
         result.init(data);
         return result;
     }
@@ -885,7 +938,7 @@ export class ProjectItemDto implements IProjectItemDto {
     }
 }
 
-export interface IProjectItemDto {
+export interface IProjectItemDto2 {
     id?: number;
     title?: string | undefined;
     isFavorite?: boolean;

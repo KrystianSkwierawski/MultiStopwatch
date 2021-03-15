@@ -15,15 +15,15 @@ namespace Project.WebUI.Controllers
             return await Mediator.Send(new GetFavoriteProjectsItemsQuery());
         }
 
-        [HttpPatch]
-        public async Task<ActionResult> LikeOrDislike(LikeOrDislikeProjectItemCommand command)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> LikeOrDislike(int id)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new LikeOrDislikeProjectItemCommand { Id = id });
 
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPatch]
         public async Task<ActionResult> UpdateOrderIndex(UpdateOrderIndexProjectItemCommand command)
         {
             await Mediator.Send(command);

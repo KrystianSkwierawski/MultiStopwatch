@@ -32,7 +32,7 @@ namespace Project.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await Mediator.Send(new DeleteStopwatchItemCommand { Id = id});
