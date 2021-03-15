@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand, ProjectItemsClient, ProjectItemDto } from '../../../web-api-client';
+import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -55,6 +56,16 @@ export class StopwatchesListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
       if (result) {
         this.addStopwatch(result)
+      }
+    });
+  }
+
+  openDialogToConfirmDeleteStopwatch(projectId: number) {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteStopwatch(projectId);
       }
     });
   }
