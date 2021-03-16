@@ -52,7 +52,7 @@
         </div>
 
         <div class="project__bottom">
-          <a href="project/{{project.id}}">
+          <a [routerLink]="'project/' + project.id">
             <i class="fas fa-folder"></i>
             <p>{{project.title}}</p>
           </a>

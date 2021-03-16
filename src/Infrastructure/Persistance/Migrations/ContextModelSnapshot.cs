@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Infrastructure.Persistence;
 
-namespace Project.Infrastructure.Persistence.Migrations
+namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210218190420_AddIsFavoriteToProjectItem")]
-    partial class AddIsFavoriteToProjectItem
+    partial class ContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,17 +41,23 @@ namespace Project.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ProjectItems");
                 });
 
-            modelBuilder.Entity("Domain.Entities.StopWatchItem", b =>
+            modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,8 +84,8 @@ namespace Project.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -370,9 +374,6 @@ namespace Project.Infrastructure.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProjectItemsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -393,20 +394,16 @@ namespace Project.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("ProjectItemsId");
-
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Entities.StopWatchItem", b =>
+            modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
                 {
-                    b.HasOne("Domain.Entities.ProjectItem", "ProjectItem")
-                        .WithMany("StopWatchItems")
+                    b.HasOne("Domain.Entities.ProjectItem", null)
+                        .WithMany("StopwatchItems")
                         .HasForeignKey("ProjectItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ProjectItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -460,18 +457,9 @@ namespace Project.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("Domain.Entities.ProjectItem", "ProjectItems")
-                        .WithMany()
-                        .HasForeignKey("ProjectItemsId");
-
-                    b.Navigation("ProjectItems");
-                });
-
             modelBuilder.Entity("Domain.Entities.ProjectItem", b =>
                 {
-                    b.Navigation("StopWatchItems");
+                    b.Navigation("StopwatchItems");
                 });
 #pragma warning restore 612, 618
         }

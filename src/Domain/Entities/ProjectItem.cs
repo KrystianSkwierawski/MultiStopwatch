@@ -1,4 +1,5 @@
 ﻿using Project.Domain.Common;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -9,5 +10,6 @@ namespace Domain.Entities
         public bool IsFavorite { get; set; }
         public string Time { get; set; }
         public int OrderIndex { get; set; }
+        public IList<StopwatchItem> StopwatchItems { get; set; }
     }
 }
