@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@700&display=swap');
 @import '../../../scss/shared.scss';
 
 
@@ -63,6 +64,25 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.side-menu-content__home-link {
+  @include respond-to(extra-large) {
+    display: flex;
+    justify-content: center;
+  }
+
+  & p {
+    color: #E0C75E;
+    font-size: 1.6rem;
+    font-family: 'Cormorant Unicase', serif;
+  }
+
+  & img {
+    height: 2.2rem;
+    width: 2.2rem;
+    margin-right: 0.5rem;
+  }
 }
 
 .side-menu-content__favorite-projects {
