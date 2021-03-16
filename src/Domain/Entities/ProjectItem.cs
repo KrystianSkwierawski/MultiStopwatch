@@ -10,6 +10,6 @@ namespace Domain.Entities
         public bool IsFavorite { get; set; }
         public string Time { get; set; }
         public int OrderIndex { get; set; }
-        public IList<StopwatchItem> StopwatchItems { get; set; }
+        public IList<StopwatchItem> StopwatchItems { get; private set; } = new List<StopwatchItem>();
     }
 }

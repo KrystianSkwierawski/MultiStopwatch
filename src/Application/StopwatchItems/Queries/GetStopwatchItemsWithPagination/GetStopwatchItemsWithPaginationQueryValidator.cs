@@ -6,6 +6,10 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
     {
         public GetStopwatchItemsWithPaginationQueryValidator()
         {
+            RuleFor(x => x.ProjectId)
+                .NotNull()
+                .NotEmpty().WithMessage("ProjectId is required.");
+
             RuleFor(x => x.PageNumber)
              .GreaterThanOrEqualTo(1).WithMessage("PageNumber at least greater than or equal to 1.");
 
