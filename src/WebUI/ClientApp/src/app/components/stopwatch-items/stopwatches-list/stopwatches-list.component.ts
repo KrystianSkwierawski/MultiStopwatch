@@ -123,7 +123,6 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   pauseTimer(stopwatch: StopwatchItemDto) {
-    //stopwatch.isStarted = false;
     this.timersService.pause(stopwatch);
   }
 
@@ -132,7 +131,6 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
-    //stopwatch.isStarted = true;
     this.timersService.start(stopwatch);
   }
 
