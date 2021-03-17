@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { TimersService } from '../../../services/timers.service';
 import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand, ProjectItemsClient, ProjectItemDto } from '../../../web-api-client';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
@@ -26,7 +27,8 @@ export class StopwatchesListComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private stopwatchItemsClient: StopwatchItemsClient,
-    private projectItemsClient: ProjectItemsClient) { }
+    private projectItemsClient: ProjectItemsClient,
+    private timersService: TimersService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -121,7 +123,8 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   pauseTimer(stopwatch: StopwatchItemDto) {
-    stopwatch.isStarted = false;
+    //stopwatch.isStarted = false;
+    this.timersService.pause(stopwatch);
   }
 
   restartTimer(stopwatch: StopwatchItemDto) {
@@ -129,7 +132,8 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
-    stopwatch.isStarted = true;
+    //stopwatch.isStarted = true;
+    this.timersService.start(stopwatch);
   }
 
   updatePagination(event: PageEvent) {
