@@ -47,8 +47,6 @@ export class TimersService implements OnInit {
     stopwatch.isStarted = false;
     const intervalId: number = this.timers.get(stopwatch.id);
     window.clearInterval(intervalId);
-
-    //save in db
   }
 
   convertTimeString(hours: number, minutes: number, seconds: number): string {

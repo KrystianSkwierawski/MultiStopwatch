@@ -11,6 +11,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
         public class UpdateProjectItemCommandHandler : IRequestHandler<UpdateProjectItemCommand>
         {
             private readonly IContext _context;
@@ -24,7 +25,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
             {
                 ProjectItem entity = await _context.ProjectItems.FindAsync(request.Id);
 
-                if(entity == null)
+                if (entity == null)
                 {
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }

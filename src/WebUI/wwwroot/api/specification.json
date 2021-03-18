@@ -623,6 +623,10 @@
           "title": {
             "type": "string",
             "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

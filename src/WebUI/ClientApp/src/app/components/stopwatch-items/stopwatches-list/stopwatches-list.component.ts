@@ -106,14 +106,13 @@ export class StopwatchesListComponent implements OnInit {
       if (result) {
         result.id = stopwatchItem.id;
         this.updateStopwatch(result);
+        this.loadStopwatches();
       }
     });
   }
 
   updateStopwatch(stopwatchItem: StopwatchItemDto) {
-    this.stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(() => {
-      this.loadStopwatches();
-    });
+    this.stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe();
   }
 
   deleteStopwatch(id: number) {
@@ -124,10 +123,12 @@ export class StopwatchesListComponent implements OnInit {
 
   pauseTimer(stopwatch: StopwatchItemDto) {
     this.timersService.pause(stopwatch);
+    this.updateStopwatch(stopwatch);
   }
 
   restartTimer(stopwatch: StopwatchItemDto) {
-    console.log(stopwatch);
+    stopwatch.time = "00:00:00";
+    this.pauseTimer(stopwatch);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {

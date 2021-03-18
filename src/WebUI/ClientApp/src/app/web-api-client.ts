@@ -1184,6 +1184,7 @@ export interface ICreateStopwatchItemCommand {
 export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
     id?: number;
     title?: string | undefined;
+    time?: string | undefined;
 
     constructor(data?: IUpdateStopwatchItemCommand) {
         if (data) {
@@ -1198,6 +1199,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
         if (_data) {
             this.id = _data["id"];
             this.title = _data["title"];
+            this.time = _data["time"];
         }
     }
 
@@ -1212,6 +1214,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["title"] = this.title;
+        data["time"] = this.time;
         return data; 
     }
 }
@@ -1219,6 +1222,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
 export interface IUpdateStopwatchItemCommand {
     id?: number;
     title?: string | undefined;
+    time?: string | undefined;
 }
 
 export interface FileResponse {
