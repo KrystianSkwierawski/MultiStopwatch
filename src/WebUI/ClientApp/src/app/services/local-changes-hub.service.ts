@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { Subject } from 'rxjs';
 import { ProjectItemDto, StopwatchItemDto } from '../web-api-client';
-import { TimersService } from './timers.service';
+import { TimersService } from './timer/timers.service';
 
 @Injectable({
   providedIn: 'root'
