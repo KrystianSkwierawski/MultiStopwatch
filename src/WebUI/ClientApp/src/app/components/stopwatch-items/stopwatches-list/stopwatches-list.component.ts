@@ -56,8 +56,7 @@ export class StopwatchesListComponent implements OnInit {
     stopwatchItem.projectItemId = this.projectId;
     stopwatchItem.time = "00:00:00";
 
-    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)
-    ).subscribe(async () => {
+    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {   
       this.loadStopwatches();
     });
   }
