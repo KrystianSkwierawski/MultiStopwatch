@@ -84,7 +84,7 @@ export class StopwatchesListComponent implements OnInit {
 
   filterTitlesArray() {
     if (this.paginatedListOfStopwatchItemDto.items) {
-      this.titlesArray = this.stopwatches.map((e) => { return e.title });
+      this.titlesArray = this.paginatedListOfStopwatchItemDto.items.map((e) => { return e.title });
     }
   }
 

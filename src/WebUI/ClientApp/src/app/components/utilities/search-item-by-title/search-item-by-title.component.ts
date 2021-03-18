@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -8,19 +8,31 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './search-item-by-title.component.html',
   styleUrls: ['./search-item-by-title.component.scss']
 })
-export class SearchItemByTitleComponent implements OnInit {
+export class SearchItemByTitleComponent implements OnChanges {
+
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
   @Input() options: string[];
   @Output() onKeyUp = new EventEmitter<string>();
   @ViewChild('searchingTitle') searchingTitleInput: ElementRef;
 
   constructor() { }
 
-  ngOnInit(): void {
- 
+  ngOnChanges(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
   keyUp() {
-    const searchingTitle = this.searchingTitleInput.nativeElement.value
+    const searchingTitle = this.searchingTitleInput.nativeElement.value;
     this.onKeyUp.emit(searchingTitle);
   }
 
