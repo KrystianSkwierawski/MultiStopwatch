@@ -11,6 +11,8 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Time { get; set; }
+
 
         public class UpdateProjectItemCommandHandler : IRequestHandler<UpdateProjectItemCommand>
         {
@@ -31,6 +33,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 }
 
                 entity.Title = request.Title;
+                entity.Time = request.Time;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

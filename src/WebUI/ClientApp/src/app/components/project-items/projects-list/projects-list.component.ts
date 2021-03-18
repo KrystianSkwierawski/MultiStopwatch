@@ -8,6 +8,7 @@ import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
+
 @Component({
   selector: 'app-projects-list',
   templateUrl: './projects-list.component.html',
@@ -72,8 +73,8 @@ export class ProjectsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: ProjectItemDto2) => {
       if (result) {
-        result.id = projectItem.id;
-        this.updateProject(result);
+        projectItem.title = result.title;
+        this.updateProject(projectItem);
       }
     });
   }

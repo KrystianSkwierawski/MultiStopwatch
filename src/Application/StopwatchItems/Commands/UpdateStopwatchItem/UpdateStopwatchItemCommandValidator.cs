@@ -7,8 +7,12 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
         public UpdateStopwatchItemCommandValidator()
         {
             RuleFor(v => v.Title)
-             .MaximumLength(20)
-             .NotEmpty();
+                .MaximumLength(20)
+                .NotEmpty();
+
+            RuleFor(v => v.Time)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }

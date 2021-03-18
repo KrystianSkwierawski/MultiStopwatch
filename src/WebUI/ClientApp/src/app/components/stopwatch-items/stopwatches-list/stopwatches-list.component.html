@@ -1,4 +1,4 @@
-<h1 class="text-center text-white mt-3">{{project.title}}</h1>
+<h1 class="text-center text-white mt-3">{{project.title}} {{project.time}}</h1>
 
 <button (click)="openDialogToCreateNewStopwatch()" class="add-new-stopwatch-button"><i class="fas fa-plus"></i></button>
 
@@ -10,7 +10,7 @@
 <app-generic-list [list]="stopwatches">
   <ng-container content>
     <div class="stopwatches">
-      <div class="stopwatch" *ngFor="let stopwatch of stopwatches">
+      <div class="stopwatch" *ngFor="let stopwatch of stopwatches; let index = index">
 
         <div class="stopwatch__top">
           <div class="top__stopwatch-actions">
@@ -24,7 +24,7 @@
                 <span>Edit</span>
               </button>
               <button mat-menu-item
-                      (click)="openDialogToConfirmDeleteStopwatch(stopwatch.id)">
+                      (click)="openDialogToConfirmDeleteStopwatch(stopwatch.id, index)">
                 <mat-icon color="warn">delete</mat-icon>
                 <span>Delete</span>
               </button>

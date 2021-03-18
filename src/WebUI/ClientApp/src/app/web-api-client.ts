@@ -790,6 +790,7 @@ export interface IUpdateOrderIndexProjectItemCommand {
 }
 
 export class ProjectItemDto implements IProjectItemDto {
+    id?: number;
     title?: string | undefined;
     time?: string | undefined;
 
@@ -804,6 +805,7 @@ export class ProjectItemDto implements IProjectItemDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.title = _data["title"];
             this.time = _data["time"];
         }
@@ -818,6 +820,7 @@ export class ProjectItemDto implements IProjectItemDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["title"] = this.title;
         data["time"] = this.time;
         return data; 
@@ -825,6 +828,7 @@ export class ProjectItemDto implements IProjectItemDto {
 }
 
 export interface IProjectItemDto {
+    id?: number;
     title?: string | undefined;
     time?: string | undefined;
 }
@@ -984,6 +988,7 @@ export interface ICreateProjectItemCommand {
 export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
     id?: number;
     title?: string | undefined;
+    time?: string | undefined;
 
     constructor(data?: IUpdateProjectItemCommand) {
         if (data) {
@@ -998,6 +1003,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
         if (_data) {
             this.id = _data["id"];
             this.title = _data["title"];
+            this.time = _data["time"];
         }
     }
 
@@ -1012,6 +1018,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["title"] = this.title;
+        data["time"] = this.time;
         return data; 
     }
 }
@@ -1019,6 +1026,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
 export interface IUpdateProjectItemCommand {
     id?: number;
     title?: string | undefined;
+    time?: string | undefined;
 }
 
 export class PaginatedListOfStopwatchItemDto implements IPaginatedListOfStopwatchItemDto {
@@ -1142,8 +1150,9 @@ export interface IStopwatchItemDto {
 }
 
 export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
+    projectItemId?: number;
     title?: string | undefined;
-    projectId?: number;
+    time?: string | undefined;
 
     constructor(data?: ICreateStopwatchItemCommand) {
         if (data) {
@@ -1156,8 +1165,9 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
 
     init(_data?: any) {
         if (_data) {
+            this.projectItemId = _data["projectItemId"];
             this.title = _data["title"];
-            this.projectId = _data["projectId"];
+            this.time = _data["time"];
         }
     }
 
@@ -1170,15 +1180,17 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["projectItemId"] = this.projectItemId;
         data["title"] = this.title;
-        data["projectId"] = this.projectId;
+        data["time"] = this.time;
         return data; 
     }
 }
 
 export interface ICreateStopwatchItemCommand {
+    projectItemId?: number;
     title?: string | undefined;
-    projectId?: number;
+    time?: string | undefined;
 }
 
 export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {

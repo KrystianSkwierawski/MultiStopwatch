@@ -32,11 +32,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 }
 
                 entity.Title = request.Title;
-
-                if (request.Time != null)
-                {
-                    entity.Time = request.Time;
-                }
+                entity.Time = request.Time;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

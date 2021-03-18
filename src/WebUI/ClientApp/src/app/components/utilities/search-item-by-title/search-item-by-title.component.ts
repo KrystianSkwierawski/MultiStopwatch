@@ -14,7 +14,7 @@ export class SearchItemByTitleComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   @Input() options: string[];
   @Output() onKeyUp = new EventEmitter<string>();
-  @ViewChild('searcingTitle') searchingTitleInput: ElementRef;
+  @ViewChild('searchingTitle') searchingTitleInput: ElementRef;
 
   constructor() { }
 
@@ -24,7 +24,6 @@ export class SearchItemByTitleComponent implements OnInit {
       map(value => this._filter(value))
     );
   }
-
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

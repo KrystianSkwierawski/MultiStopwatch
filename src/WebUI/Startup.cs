@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Project.Application;
 using Project.Application.Common.Interfaces;
 using Project.Infrastructure;
+using Project.WebUI.Hubs;
 using Project.WebUI.Services;
 
 namespace Project.WebUI
@@ -38,6 +39,16 @@ namespace Project.WebUI
             });
 
             services.AddOpenApiDocument();
+
+            services.AddSignalR();
+
+            //services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+            //    builder
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .AllowCredentials();
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +69,8 @@ namespace Project.WebUI
                 app.UseHsts();
             }
 
+            //app.UseCors("CorsPolicy");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -76,6 +89,7 @@ namespace Project.WebUI
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<LocalChangesHub>("/localchangeshub");
             });
 
             app.UseSpa(spa =>
