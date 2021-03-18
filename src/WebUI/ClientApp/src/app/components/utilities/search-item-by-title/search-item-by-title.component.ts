@@ -9,9 +9,6 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./search-item-by-title.component.scss']
 })
 export class SearchItemByTitleComponent implements OnInit {
-
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
   @Input() options: string[];
   @Output() onKeyUp = new EventEmitter<string>();
   @ViewChild('searchingTitle') searchingTitleInput: ElementRef;
@@ -19,16 +16,7 @@ export class SearchItemByTitleComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+ 
   }
 
   keyUp() {
