@@ -67,12 +67,12 @@ export class TimersService implements OnInit {
 
     stopwatchTime.seconds++;
 
-    if (stopwatchTime.seconds === 3) {
+    if (stopwatchTime.seconds === 60) {
       stopwatchTime.seconds = 0;
       stopwatchTime.minutes++;
     }
 
-    if (stopwatchTime.minutes === 3) {
+    if (stopwatchTime.minutes === 60) {
       stopwatchTime.minutes = 0;
       stopwatchTime.seconds = 0;
       stopwatchTime.hours++;
@@ -84,12 +84,12 @@ export class TimersService implements OnInit {
   updateProjectTimer() {
     this.totalProjectSeconds++;
 
-    if (this.totalProjectSeconds === 3) {
+    if (this.totalProjectSeconds === 60) {
       this.totalProjectSeconds = 0;
       this.totalProjectMinutes++;
     }
 
-    if (this.totalProjectMinutes === 3) {
+    if (this.totalProjectMinutes === 60) {
       this.totalProjectMinutes = 0;
       this.totalProjectSeconds = 0;
       this.totalProjectHours++;
