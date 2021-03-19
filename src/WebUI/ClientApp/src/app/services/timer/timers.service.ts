@@ -24,28 +24,45 @@ export class TimersService implements OnInit {
   initialProjectTime() {
     this.clearAllIntervals();
 
-    const timeArray = this.project.time.split(":");
+    const time: Time = new Time(this.project.time);
 
-    this.totalProjectHours = parseInt(timeArray[0]);
-    this.totalProjectMinutes = parseInt(timeArray[1]);
-    this.totalProjectSeconds = parseInt(timeArray[2]);
+    this.totalProjectHours = time.hours;
+    this.totalProjectMinutes = time.minutes;
+    this.totalProjectSeconds = time.seconds;
   }
 
   pause(stopwatch: StopwatchItemDto) {
     stopwatch.isStarted = false;
+
+    //pause and remove timer
     const intervalId: number = this.timerIntervals.get(stopwatch.id);
     window.clearInterval(intervalId);
     this.timerIntervals.delete(stopwatch.id);
+
+    this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+  }
+
+  async restart(stopwatch: StopwatchItemDto) {
+    await this.updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch);
+
+    stopwatch.time = "00:00:00";
+    this.pause(stopwatch);
+  }
+
+  async updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch: StopwatchItemDto) {
+    const stopwatchTime: Time = new Time(stopwatch.time)
+
+    this.totalProjectHours -= stopwatchTime.hours;
+    this.totalProjectMinutes -= stopwatchTime.minutes;
+    this.totalProjectSeconds -= stopwatchTime.seconds;
+
+    this.project.time = convertTimeToFormatedString(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
+
+    await this.localChangesHubService.storeLocalProjectChanges(this.project);
   }
 
   start(stopwatch: StopwatchItemDto) {
-    const timeArray = stopwatch.time.split(":");
-
-    const stopwatchTime: Time = {
-      hours: parseInt(timeArray[0]),
-      minutes: parseInt(timeArray[1]),
-      seconds: parseInt(timeArray[2])
-    }
+    const stopwatchTime: Time = new Time(stopwatch.time);
 
     this.stopwatchTimes.set(stopwatch.id, stopwatchTime);
 
@@ -53,16 +70,14 @@ export class TimersService implements OnInit {
     const intervalId: number = window.setInterval(async () => {
 
       this.updateStopwatchTimer(stopwatch);
-      this.updateProjectTimer();   
+      this.updateProjectTimer();
 
-      await this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
-      await this.localChangesHubService.storeLocalProjectChanges(this.project);
     }, 1000);
 
     this.timerIntervals.set(stopwatch.id, intervalId);
   }
 
-  updateStopwatchTimer(stopwatch: StopwatchItemDto) {
+  async updateStopwatchTimer(stopwatch: StopwatchItemDto) {
     const stopwatchTime: Time = this.stopwatchTimes.get(stopwatch.id);
 
     stopwatchTime.seconds++;
@@ -79,9 +94,11 @@ export class TimersService implements OnInit {
     }
 
     stopwatch.time = convertTimeToFormatedString(stopwatchTime.hours, stopwatchTime.minutes, stopwatchTime.seconds);
+
+    await this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
-  updateProjectTimer() {
+  async updateProjectTimer() {
     this.totalProjectSeconds++;
 
     if (this.totalProjectSeconds === 60) {
@@ -96,6 +113,8 @@ export class TimersService implements OnInit {
     }
 
     this.project.time = convertTimeToFormatedString(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
+
+    await this.localChangesHubService.storeLocalProjectChanges(this.project);
   }
 
   clearAllIntervals() {
