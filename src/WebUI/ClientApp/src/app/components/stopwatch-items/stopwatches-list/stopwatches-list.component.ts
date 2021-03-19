@@ -145,7 +145,11 @@ export class StopwatchesListComponent implements OnInit {
     this.timersService.start(stopwatch);
   }
 
-  updatePagination(event: PageEvent) {
+  async updatePagination(event: PageEvent) {
+    this.timersService.clearAllIntervals();
+
+    await this.localChangesHubService.saveStopwatchesChangesInDb();
+
     this.loadStopwatches(event.pageIndex + 1, event.pageSize);
   }
 }
