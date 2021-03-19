@@ -8,5 +8,6 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItem
         public int Id { get; set; }
         public string Title { get; set; }
         public string Time { get; set; }
+        public string Theme { get; set; }
     }
 }

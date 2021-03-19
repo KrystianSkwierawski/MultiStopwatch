@@ -459,6 +459,10 @@
           "time": {
             "type": "string",
             "nullable": true
+          },
+          "theme": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

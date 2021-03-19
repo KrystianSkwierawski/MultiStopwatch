@@ -793,6 +793,7 @@ export class ProjectItemDto implements IProjectItemDto {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: IProjectItemDto) {
         if (data) {
@@ -808,6 +809,7 @@ export class ProjectItemDto implements IProjectItemDto {
             this.id = _data["id"];
             this.title = _data["title"];
             this.time = _data["time"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -823,6 +825,7 @@ export class ProjectItemDto implements IProjectItemDto {
         data["id"] = this.id;
         data["title"] = this.title;
         data["time"] = this.time;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -831,6 +834,7 @@ export interface IProjectItemDto {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 }
 
 export class PaginatedListOfProjectItemDto implements IPaginatedListOfProjectItemDto {
