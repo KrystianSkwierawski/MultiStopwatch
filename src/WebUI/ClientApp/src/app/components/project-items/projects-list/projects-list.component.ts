@@ -40,6 +40,10 @@ export class ProjectsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        if (this.searchProjectComponent) {
+          this.searchProjectComponent.cleanInput();
+        }
+
         this.addProject(result);
       }
     });
@@ -56,10 +60,6 @@ export class ProjectsListComponent implements OnInit {
   }
 
   addProject(projectItem: ProjectItemDto) {
-    if (this.searchProjectComponent) {
-      this.searchProjectComponent.cleanInput();
-    }
-
     this.projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
       this.projectsDataService.loadProjects();
     });

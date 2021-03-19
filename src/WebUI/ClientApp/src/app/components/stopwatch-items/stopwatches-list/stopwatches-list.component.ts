@@ -45,14 +45,6 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   async addStopwatch(stopwatchItem: StopwatchItemDto) {
-    if (this.searchProjectComponent) {
-      this.searchProjectComponent.cleanInput();
-    }
-
-    this.timersService.clearAllIntervals();
-
-    await this.localChangesHubService.saveStopwatchesChangesInDb();
-
     stopwatchItem.projectItemId = this.projectId;
     stopwatchItem.time = "00:00:00";
 
@@ -64,8 +56,16 @@ export class StopwatchesListComponent implements OnInit {
   openDialogToCreateNewStopwatch(): void {
     const dialogRef = this.dialog.open(CreateStopwatchDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
+    dialogRef.afterClosed().subscribe(async (result: StopwatchItemDto) => {
       if (result) {
+        if (this.searchProjectComponent) {
+          this.searchProjectComponent.cleanInput();
+        }
+
+        this.timersService.clearAllIntervals();
+
+        await this.localChangesHubService.saveStopwatchesChangesInDb();
+
         this.addStopwatch(result)
       }
     });
@@ -76,6 +76,9 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.pauseTimer(stopwatch);
+        this.timersService.updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch);
+
         this.deleteStopwatch(stopwatch, index);
       }
     });
@@ -124,9 +127,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   deleteStopwatch(stopwatch: StopwatchItemDto, index: number) {
-    this.stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
-      this.timersService.updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch);
-
+    this.stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {     
       this.stopwatches.splice(index, 1);
       this.paginatedListOfStopwatchItemDto.items = this.stopwatches;
       this.filterTitlesArray();
