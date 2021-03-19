@@ -26,7 +26,6 @@
   margin-top: 5%;
   margin-bottom: 5%;
   color: white;
-  background-color: #6264A7;
 
   @include respond-to(medium) {
     width: calc(calc(100% / 3) - 4%);

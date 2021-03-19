@@ -11,7 +11,11 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
         {
             RuleFor(v => v.Title)
                 .MaximumLength(20)
-                .NotEmpty();         
+                .NotEmpty();
+
+            RuleFor(v => v.Theme)
+             .NotNull()
+             .NotEmpty();
 
             RuleFor(v => v.Time)
                 .NotEmpty()

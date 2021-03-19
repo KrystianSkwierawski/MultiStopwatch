@@ -10,7 +10,9 @@
 <app-generic-list [list]="projects">
   <ng-container content>
     <div class="projects">
-      <div class="project" *ngFor="let project of projects; let index = index">
+      <div class="project"
+           *ngFor="let project of projects; let index = index"
+           [ngStyle]="{'background-color': project.theme}">
 
         <div class="project__top">
           <div>

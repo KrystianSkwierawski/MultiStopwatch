@@ -906,6 +906,7 @@ export class ProjectItemDto2 implements IProjectItemDto2 {
     title?: string | undefined;
     isFavorite?: boolean;
     time?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: IProjectItemDto2) {
         if (data) {
@@ -922,6 +923,7 @@ export class ProjectItemDto2 implements IProjectItemDto2 {
             this.title = _data["title"];
             this.isFavorite = _data["isFavorite"];
             this.time = _data["time"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -938,6 +940,7 @@ export class ProjectItemDto2 implements IProjectItemDto2 {
         data["title"] = this.title;
         data["isFavorite"] = this.isFavorite;
         data["time"] = this.time;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -947,10 +950,12 @@ export interface IProjectItemDto2 {
     title?: string | undefined;
     isFavorite?: boolean;
     time?: string | undefined;
+    theme?: string | undefined;
 }
 
 export class CreateProjectItemCommand implements ICreateProjectItemCommand {
     title?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: ICreateProjectItemCommand) {
         if (data) {
@@ -964,6 +969,7 @@ export class CreateProjectItemCommand implements ICreateProjectItemCommand {
     init(_data?: any) {
         if (_data) {
             this.title = _data["title"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -977,18 +983,21 @@ export class CreateProjectItemCommand implements ICreateProjectItemCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["title"] = this.title;
+        data["theme"] = this.theme;
         return data; 
     }
 }
 
 export interface ICreateProjectItemCommand {
     title?: string | undefined;
+    theme?: string | undefined;
 }
 
 export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: IUpdateProjectItemCommand) {
         if (data) {
@@ -1004,6 +1013,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
             this.id = _data["id"];
             this.title = _data["title"];
             this.time = _data["time"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -1019,6 +1029,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
         data["id"] = this.id;
         data["title"] = this.title;
         data["time"] = this.time;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -1027,6 +1038,7 @@ export interface IUpdateProjectItemCommand {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 }
 
 export class PaginatedListOfStopwatchItemDto implements IPaginatedListOfStopwatchItemDto {
@@ -1102,6 +1114,7 @@ export class StopwatchItemDto implements IStopwatchItemDto {
     title?: string | undefined;
     time?: string | undefined;
     projectItemId?: number;
+    theme?: string | undefined;
     isStarted?: boolean;
 
     constructor(data?: IStopwatchItemDto) {
@@ -1119,6 +1132,7 @@ export class StopwatchItemDto implements IStopwatchItemDto {
             this.title = _data["title"];
             this.time = _data["time"];
             this.projectItemId = _data["projectItemId"];
+            this.theme = _data["theme"];
             this.isStarted = _data["isStarted"];
         }
     }
@@ -1136,6 +1150,7 @@ export class StopwatchItemDto implements IStopwatchItemDto {
         data["title"] = this.title;
         data["time"] = this.time;
         data["projectItemId"] = this.projectItemId;
+        data["theme"] = this.theme;
         data["isStarted"] = this.isStarted;
         return data; 
     }
@@ -1146,6 +1161,7 @@ export interface IStopwatchItemDto {
     title?: string | undefined;
     time?: string | undefined;
     projectItemId?: number;
+    theme?: string | undefined;
     isStarted?: boolean;
 }
 
@@ -1153,6 +1169,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
     projectItemId?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: ICreateStopwatchItemCommand) {
         if (data) {
@@ -1168,6 +1185,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
             this.projectItemId = _data["projectItemId"];
             this.title = _data["title"];
             this.time = _data["time"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -1183,6 +1201,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
         data["projectItemId"] = this.projectItemId;
         data["title"] = this.title;
         data["time"] = this.time;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -1191,12 +1210,14 @@ export interface ICreateStopwatchItemCommand {
     projectItemId?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 }
 
 export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 
     constructor(data?: IUpdateStopwatchItemCommand) {
         if (data) {
@@ -1212,6 +1233,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
             this.id = _data["id"];
             this.title = _data["title"];
             this.time = _data["time"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -1227,6 +1249,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
         data["id"] = this.id;
         data["title"] = this.title;
         data["time"] = this.time;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -1235,6 +1258,7 @@ export interface IUpdateStopwatchItemCommand {
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
+    theme?: string | undefined;
 }
 
 export interface FileResponse {

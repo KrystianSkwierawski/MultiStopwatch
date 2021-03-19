@@ -3,11 +3,12 @@
 
   <form [formGroup]="form">
     <mat-form-field appearance="outline">
-      <mat-label>Title*</mat-label>
-      <input formControlName="title" matInput />
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput required />
       <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTitle()}}</mat-error>
     </mat-form-field>
 
+    <app-theme-selector (onSaveChanges)="changeSelectedTheme($event)"></app-theme-selector>
 
     <div>
       <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1">Cancel</button>

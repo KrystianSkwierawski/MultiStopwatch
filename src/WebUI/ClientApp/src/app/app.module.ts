@@ -22,6 +22,7 @@ import { SearchItemByTitleComponent } from './components/utilities/search-item-b
 import { MaterialModule } from './material/material.module';
 import { PaginatorComponent } from './components/utilities/paginator/paginator.component';
 import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-del
     EditStopwatchDialogComponent,
     PaginatorComponent,
     ConfirmDeleteDialogComponent,
+    ThemeSelectorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

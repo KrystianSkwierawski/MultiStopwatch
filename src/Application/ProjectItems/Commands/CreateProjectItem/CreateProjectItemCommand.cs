@@ -11,6 +11,7 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
     public class CreateProjectItemCommand : IRequest
     {
         public string Title { get; set; }
+        public string Theme { get; set; }
 
         public class CreateProjectItemCommandHandler : IRequestHandler<CreateProjectItemCommand>
         {
@@ -26,7 +27,8 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
                 ProjectItem entity = new ProjectItem
                 {
                     Title = request.Title,
-                    IsFavorite = false,
+                    Theme = request.Theme,
+                    IsFavorite = false,                  
                     Time = "00:00:00",
                 };
 

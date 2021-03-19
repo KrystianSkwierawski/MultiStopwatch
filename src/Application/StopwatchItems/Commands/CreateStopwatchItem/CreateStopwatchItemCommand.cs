@@ -11,6 +11,7 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
         public int ProjectItemId { get; set; }
         public string Title { get; set; }
         public string Time { get; set; }
+        public string Theme { get; set; }
 
         public class CreateStopwatchItemCommandHandler : IRequestHandler<CreateStopwatchItemCommand>
         {
@@ -27,7 +28,8 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 {
                     ProjectItemId = request.ProjectItemId,
                     Title = request.Title,
-                    Time = request.Time
+                    Time = request.Time,
+                    Theme = request.Theme                  
                 };
 
                 await _context.StopWatchItems.AddAsync(entity);

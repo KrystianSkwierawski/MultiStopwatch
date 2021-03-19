@@ -20,7 +20,10 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
-      }]
+      }],
+      theme: ['', {
+        validators: Validators.required
+      }],
     });
 
     if (this.data !== undefined) {
@@ -40,6 +43,10 @@ export class EditStopwatchDialogComponent implements OnInit {
     }
 
     return '';
+  }
+
+  changeSelectedTheme(theme: string) {
+    this.form.get('theme').setValue(theme);
   }
 
   hideDialog(): void {

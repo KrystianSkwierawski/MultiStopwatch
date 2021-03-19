@@ -13,6 +13,10 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 .MaximumLength(20)
                 .NotEmpty();
 
+            RuleFor(v => v.Theme)
+             .NotNull()
+             .NotEmpty();
+
             RuleFor(v => v.Time)
                  .NotEmpty()
                  .NotNull()

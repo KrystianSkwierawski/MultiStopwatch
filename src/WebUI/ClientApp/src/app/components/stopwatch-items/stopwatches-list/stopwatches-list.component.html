@@ -10,7 +10,9 @@
 <app-generic-list [list]="stopwatches">
   <ng-container content>
     <div class="stopwatches">
-      <div class="stopwatch" *ngFor="let stopwatch of stopwatches; let index = index">
+      <div class="stopwatch"
+           *ngFor="let stopwatch of stopwatches; let index = index"
+           [ngStyle]="{'background-color': stopwatch.theme}">
 
         <div class="stopwatch__top">
           <div class="top__stopwatch-actions">

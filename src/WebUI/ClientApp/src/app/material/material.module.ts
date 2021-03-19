@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatAutocompleteModule,
     MatMenuModule,
     MatPaginatorModule,
+    MatSelectModule,
   ],
   imports: [
     CommonModule

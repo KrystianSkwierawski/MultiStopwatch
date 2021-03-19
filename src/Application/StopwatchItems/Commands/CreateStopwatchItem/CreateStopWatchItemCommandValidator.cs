@@ -13,12 +13,14 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 .MaximumLength(20)
                 .NotEmpty();
 
+            RuleFor(v => v.Theme)
+             .NotNull()
+             .NotEmpty();
+
             RuleFor(v => v.Time)
                 .NotEmpty()
                 .NotNull()
                 .MustAsync(BeFormated);
-
-
         }
         public async Task<bool> BeFormated(string time, CancellationToken cancellationToken)
         {
