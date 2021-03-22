@@ -119,6 +119,8 @@ export class StopwatchesListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
       if (result) {
         stopwatchItem.title = result.title
+        stopwatchItem.time = result.time;
+
         this.localChangesHubService.storeLocalStopwatchChanges(stopwatchItem);
         this.paginatedListOfStopwatchItemDto.items = this.stopwatches;
         this.filterTitlesArray();

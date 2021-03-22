@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { timeFormated } from '../../../validators/timeFormated';
 import { StopwatchItemDto } from '../../../web-api-client';
 
 @Component({
@@ -20,6 +21,9 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
+      }],
+      time: ['', {
+        validators: [Validators.required, timeFormated()]
       }],
       theme: ['', {
         validators: Validators.required
@@ -44,6 +48,21 @@ export class EditStopwatchDialogComponent implements OnInit {
 
     return '';
   }
+
+  getErrorMessageFieldTime() {
+    const field = this.form.get('time');
+
+    if (field.hasError('required')) {
+      return 'The time field is required';
+    }
+
+    if (field.hasError('timeFormated')) {
+      return field.getError('timeFormated').message;
+    }
+ 
+    return '';
+  }
+
 
   changeSelectedTheme(theme: string) {
     this.form.get('theme').setValue(theme);

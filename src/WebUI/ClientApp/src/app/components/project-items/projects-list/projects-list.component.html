@@ -12,7 +12,7 @@
     <div class="projects">
       <div class="project"
            *ngFor="let project of projects; let index = index"
-           [ngStyle]="{'background-color': project.theme}">
+           [ngStyle]="{'background-color': project?.theme}">
 
         <div class="project__top">
           <div>

@@ -12,12 +12,23 @@ export class Time {
   }
 }
 
-export function convertTimeToFormatedString(hours: number, minutes: number, seconds: number): string {
-  const date = new Date();
+export function totalSecondsToHHMMSS(hours: number, minutes: number, seconds: number): string {
+  let totalSeconds: number = 0;
 
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
+  totalSeconds += hours * 3600;
+  totalSeconds += minutes * 60;
+  totalSeconds += seconds;
 
-  return date.toTimeString().split(' ')[0];
+  return toHHMMSS(totalSeconds);
+}
+
+function toHHMMSS(secs) {
+  var sec_num = parseInt(secs, 10)
+  var hours = Math.floor(sec_num / 3600)
+  var minutes = Math.floor(sec_num / 60) % 60
+  var seconds = sec_num % 60
+
+  return [hours, minutes, seconds]
+    .map(v => v < 10 ? "0" + v : v)
+    .join(":")
 }

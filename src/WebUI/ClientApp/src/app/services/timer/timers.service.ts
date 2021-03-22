@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ProjectItemDto, StopwatchItemDto } from '../../web-api-client';
 import { LocalChangesHubService } from '../local-changes-hub.service';
-import { Time, convertTimeToFormatedString } from './Timer';
+import { Time, totalSecondsToHHMMSS } from './Timer';
 
 
 @Injectable({
@@ -56,7 +56,7 @@ export class TimersService implements OnInit {
     this.totalProjectMinutes -= stopwatchTime.minutes;
     this.totalProjectSeconds -= stopwatchTime.seconds;
 
-    this.project.time = convertTimeToFormatedString(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
+    this.project.time = totalSecondsToHHMMSS(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
 
     await this.localChangesHubService.storeLocalProjectChanges(this.project);
   }
@@ -93,7 +93,7 @@ export class TimersService implements OnInit {
       stopwatchTime.hours++;
     }
 
-    stopwatch.time = convertTimeToFormatedString(stopwatchTime.hours, stopwatchTime.minutes, stopwatchTime.seconds);
+    stopwatch.time = totalSecondsToHHMMSS(stopwatchTime.hours, stopwatchTime.minutes, stopwatchTime.seconds);
 
     await this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
@@ -112,7 +112,7 @@ export class TimersService implements OnInit {
       this.totalProjectHours++;
     }
 
-    this.project.time = convertTimeToFormatedString(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
+    this.project.time = totalSecondsToHHMMSS(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
 
     await this.localChangesHubService.storeLocalProjectChanges(this.project);
   }

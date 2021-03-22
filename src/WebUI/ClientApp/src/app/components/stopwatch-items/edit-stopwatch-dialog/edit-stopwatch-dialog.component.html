@@ -8,6 +8,12 @@
       <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTitle()}}</mat-error>
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Time</mat-label>
+      <input formControlName="time" matInput required />
+      <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTime()}}</mat-error>
+    </mat-form-field>
+
     <app-theme-selector (onSaveChanges)="changeSelectedTheme($event)"></app-theme-selector>
 
     <div>

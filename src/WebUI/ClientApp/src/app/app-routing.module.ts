@@ -5,7 +5,7 @@ import { ProjectsListComponent } from './components/project-items/projects-list/
 
 export const routes: Routes = [
   { path: '', component: ProjectsListComponent },
-  { path: 'project/:id', component: ProjectDetailsComponent },
+  { path: 'project/:id', component: ProjectDetailsComponent},
   { path: '**', redirectTo: '' }
 ];
 

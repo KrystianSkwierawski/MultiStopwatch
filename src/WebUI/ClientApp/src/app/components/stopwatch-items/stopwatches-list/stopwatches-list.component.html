@@ -12,7 +12,7 @@
     <div class="stopwatches">
       <div class="stopwatch"
            *ngFor="let stopwatch of stopwatches; let index = index"
-           [ngStyle]="{'background-color': stopwatch.theme}">
+           [ngStyle]="{'background-color': stopwatch?.theme}">
 
         <div class="stopwatch__top">
           <div class="top__stopwatch-actions">

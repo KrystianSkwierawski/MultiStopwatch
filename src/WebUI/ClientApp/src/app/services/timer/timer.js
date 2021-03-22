@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertTimeToFormatedString = exports.Time = void 0;
+exports.totalSecondsToHHMMSS = exports.Time = void 0;
 var Time = /** @class */ (function () {
     function Time(timeString) {
         var timeArray = timeString.split(":");
@@ -11,12 +11,21 @@ var Time = /** @class */ (function () {
     return Time;
 }());
 exports.Time = Time;
-function convertTimeToFormatedString(hours, minutes, seconds) {
-    var date = new Date();
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(seconds);
-    return date.toTimeString().split(' ')[0];
+function totalSecondsToHHMMSS(hours, minutes, seconds) {
+    var totalSeconds = 0;
+    totalSeconds += hours * 3600;
+    totalSeconds += minutes * 60;
+    totalSeconds += seconds;
+    return toHHMMSS(totalSeconds);
 }
-exports.convertTimeToFormatedString = convertTimeToFormatedString;
+exports.totalSecondsToHHMMSS = totalSecondsToHHMMSS;
+function toHHMMSS(secs) {
+    var sec_num = parseInt(secs, 10);
+    var hours = Math.floor(sec_num / 3600);
+    var minutes = Math.floor(sec_num / 60) % 60;
+    var seconds = sec_num % 60;
+    return [hours, minutes, seconds]
+        .map(function (v) { return v < 10 ? "0" + v : v; })
+        .join(":");
+}
 //# sourceMappingURL=timer.js.map
