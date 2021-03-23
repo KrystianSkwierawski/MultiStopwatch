@@ -74,6 +74,7 @@ export class ProjectsListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: ProjectItemDto2) => {
       if (result) {
         projectItem.title = result.title;
+        projectItem.theme = result.theme;
         this.updateProject(projectItem);
       }
     });

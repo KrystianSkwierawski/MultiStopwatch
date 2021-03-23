@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ProjectItemDto, StopwatchItemDto } from '../../web-api-client';
 import { LocalChangesHubService } from '../local-changes-hub.service';
-import { Time, totalSecondsToHHMMSS } from './Timer';
+import { defaultTime, Time, totalSecondsToHHMMSS } from './Timer';
 
 
 @Injectable({
@@ -43,23 +43,48 @@ export class TimersService implements OnInit {
   }
 
   async restart(stopwatch: StopwatchItemDto) {
-    await this.updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch);
-
-    stopwatch.time = "00:00:00";
+    stopwatch.time = defaultTime;
     this.pause(stopwatch);
   }
 
-  async updateProjectTimeAfterDeletingOrResetingAnyStopwatch(stopwatch: StopwatchItemDto) {
-    const stopwatchTime: Time = new Time(stopwatch.time)
+  async calcAndUpdateProjectTime(stopwatches: StopwatchItemDto[]) {
+    await this.calcTotalProjectTime(stopwatches);
 
-    this.totalProjectHours -= stopwatchTime.hours;
-    this.totalProjectMinutes -= stopwatchTime.minutes;
-    this.totalProjectSeconds -= stopwatchTime.seconds;
-
-    this.project.time = totalSecondsToHHMMSS(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
-
-    await this.localChangesHubService.storeLocalProjectChanges(this.project);
+    await this.updateProjectViewAndStoreLocalChanges();
   }
+
+  async calcTotalProjectTime(stopwatches: StopwatchItemDto[]) {
+    this.totalProjectHours = 0;
+    this.totalProjectMinutes = 0;
+    this.totalProjectSeconds = 0;
+
+    stopwatches.forEach(stopwatch => {
+      const time: Time = new Time(stopwatch.time);
+
+      this.totalProjectHours += time.hours;
+      this.totalProjectMinutes += time.minutes;
+      this.totalProjectSeconds += time.seconds;
+    });
+  }
+
+  //async updateProjectTimeAfterResetingOrRemovingAnyStopwatch(stopwatchTime: string) {
+  //  const time: Time = new Time(stopwatchTime)
+
+  //  this.totalProjectHours -= time.hours;
+  //  this.totalProjectMinutes -= time.minutes;
+  //  this.totalProjectSeconds -= time.seconds;
+
+  //  this.updateProjectViewAndStoreLocalChanges();
+  //}
+
+  //async updateProjectTimeAfterEditingStopwatchTime(previousStopwatchTime: string, currentStopwatchTime: string = defaultTime) {
+  //  const time: Time = getDIffTime(previousStopwatchTime, currentStopwatchTime);
+  //  this.totalProjectHours += time.hours;
+  //  this.totalProjectMinutes += time.minutes;
+  //  this.totalProjectSeconds += time.seconds;
+
+  //  this.updateProjectViewAndStoreLocalChanges();
+  //}
 
   start(stopwatch: StopwatchItemDto) {
     const stopwatchTime: Time = new Time(stopwatch.time);
@@ -112,6 +137,10 @@ export class TimersService implements OnInit {
       this.totalProjectHours++;
     }
 
+    this.updateProjectViewAndStoreLocalChanges();
+  }
+
+  async updateProjectViewAndStoreLocalChanges() {
     this.project.time = totalSecondsToHHMMSS(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
 
     await this.localChangesHubService.storeLocalProjectChanges(this.project);

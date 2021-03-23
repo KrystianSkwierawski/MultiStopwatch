@@ -11,7 +11,7 @@
   <ng-container content>
     <div class="stopwatches">
       <div class="stopwatch"
-           *ngFor="let stopwatch of stopwatches; let index = index"
+           *ngFor="let stopwatch of stopwatches"
            [ngStyle]="{'background-color': stopwatch?.theme}">
 
         <div class="stopwatch__top">
@@ -26,7 +26,7 @@
                 <span>Edit</span>
               </button>
               <button mat-menu-item
-                      (click)="openDialogToConfirmDeleteStopwatch(stopwatch, index)">
+                      (click)="openDialogToConfirmDeleteStopwatch(stopwatch)">
                 <mat-icon color="warn">delete</mat-icon>
                 <span>Delete</span>
               </button>

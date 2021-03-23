@@ -29,7 +29,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(ProjectItem), request.Id);
+                    return Unit.Value;
                 }
 
                 entity.Title = request.Title;
