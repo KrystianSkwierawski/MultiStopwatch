@@ -45,11 +45,11 @@ export class StopwatchesListComponent implements OnInit {
     this.loadStopwatches();
   }
 
-  async addStopwatch(stopwatchItem: StopwatchItemDto) {
+  addStopwatch(stopwatchItem: StopwatchItemDto) {
     stopwatchItem.projectItemId = this.projectId;
     stopwatchItem.time = defaultTime;
 
-    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
+    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(() => {
       this.loadStopwatches();
     });
   }
@@ -93,15 +93,15 @@ export class StopwatchesListComponent implements OnInit {
   filterStopwatches(searchingTitle: string) {
     const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
     this.stopwatches = filteredStopwatches;
-    this.timersService.calcAndUpdateProjectTime(this.stopwatches);
+    this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
   }
 
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
     this.stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
-      this.stopwatches = result.items;
-      this.timersService.calcAndUpdateProjectTime(this.stopwatches);
+      this.stopwatches = result.items;    
       this.filterTitlesArray();
+      this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
     });
   }
 
@@ -129,7 +129,7 @@ export class StopwatchesListComponent implements OnInit {
         this.localChangesHubService.storeLocalStopwatchChanges(stopwatchItem);
         this.paginatedListOfStopwatchItemDto.items = this.stopwatches;
         this.filterTitlesArray();
-        this.timersService.calcAndUpdateProjectTime(this.stopwatches);
+        this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
       }
     });
   }
@@ -146,7 +146,7 @@ export class StopwatchesListComponent implements OnInit {
 
   restartTimer(stopwatch: StopwatchItemDto) {
     this.timersService.restart(stopwatch);
-    this.timersService.calcAndUpdateProjectTime(this.stopwatches);
+    this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
@@ -159,6 +159,5 @@ export class StopwatchesListComponent implements OnInit {
     await this.localChangesHubService.saveStopwatchesChangesInDb();
 
     this.loadStopwatches(event.pageIndex + 1, event.pageSize);
-    this.timersService.calcAndUpdateProjectTime(this.stopwatches);
   }
 }

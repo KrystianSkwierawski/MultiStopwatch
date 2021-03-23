@@ -42,7 +42,7 @@ export class TimersService implements OnInit {
     this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
-  async restart(stopwatch: StopwatchItemDto) {
+  restart(stopwatch: StopwatchItemDto) {
     stopwatch.time = defaultTime;
     this.pause(stopwatch);
   }
@@ -66,25 +66,6 @@ export class TimersService implements OnInit {
       this.totalProjectSeconds += time.seconds;
     });
   }
-
-  //async updateProjectTimeAfterResetingOrRemovingAnyStopwatch(stopwatchTime: string) {
-  //  const time: Time = new Time(stopwatchTime)
-
-  //  this.totalProjectHours -= time.hours;
-  //  this.totalProjectMinutes -= time.minutes;
-  //  this.totalProjectSeconds -= time.seconds;
-
-  //  this.updateProjectViewAndStoreLocalChanges();
-  //}
-
-  //async updateProjectTimeAfterEditingStopwatchTime(previousStopwatchTime: string, currentStopwatchTime: string = defaultTime) {
-  //  const time: Time = getDIffTime(previousStopwatchTime, currentStopwatchTime);
-  //  this.totalProjectHours += time.hours;
-  //  this.totalProjectMinutes += time.minutes;
-  //  this.totalProjectSeconds += time.seconds;
-
-  //  this.updateProjectViewAndStoreLocalChanges();
-  //}
 
   start(stopwatch: StopwatchItemDto) {
     const stopwatchTime: Time = new Time(stopwatch.time);
