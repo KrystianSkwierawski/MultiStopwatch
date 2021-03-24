@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistance.Configurations
 {
-    public class ProjectItemConfiguration : IEntityTypeConfiguration<ProjectItem>
+    public class SplittedTimeConfiguration : IEntityTypeConfiguration<ProjectItem>
     {
         public void Configure(EntityTypeBuilder<ProjectItem> builder)
         {

@@ -258,6 +258,38 @@
         }
       }
     },
+    "/api/Splittedtimes": {
+      "post": {
+        "tags": [
+          "Splittedtimes"
+        ],
+        "operationId": "Splittedtimes_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSplittedTimeCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SplittedTimeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/StopwatchItems": {
       "get": {
         "tags": [
@@ -562,6 +594,34 @@
           }
         }
       },
+      "SplittedTimeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSplittedTimeCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "stopwatchItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "time": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "PaginatedListOfStopwatchItemDto": {
         "type": "object",
         "additionalProperties": false,
@@ -623,6 +683,13 @@
           },
           "isStarted": {
             "type": "boolean"
+          },
+          "splittedTimes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SplittedTimeDto"
+            }
           }
         }
       },

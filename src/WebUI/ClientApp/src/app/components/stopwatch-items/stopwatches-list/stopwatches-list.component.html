@@ -36,7 +36,13 @@
 
           <p>{{stopwatch.time}}</p>
 
-          <button mat-icon-button matBadge="7" class="show-splitted-times-button" matTooltip="Splitted times">           
+          <button [disabled]="!stopwatch.splittedTimes.length > 0"
+                  mat-icon-button
+                  matBadge="{{stopwatch.splittedTimes.length}}"
+                  class="show-splitted-times-button"
+                  matTooltip="Show splitted times"
+                  (click)="openDialogToShowSplittedTimes(stopwatch)">
+            
             <i class="fas fa-columns"></i>
           </button>
         </div>
@@ -50,11 +56,14 @@
           <button mat-icon-button
                   matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)">
+
             <i class="fas fa-redo"></i>
           </button>
 
           <button mat-icon-button
-                  matTooltip="Split timer">
+                  matTooltip="Split timer"
+                  (click)="splitTimer(stopwatch)">
+
             <i class="fas fa-stopwatch"></i>
           </button>
 
@@ -62,6 +71,7 @@
                   mat-icon-button
                   matTooltip="Pause timer"
                   (click)="pauseTimer(stopwatch)">
+
             <i class="fas fa-pause"></i>
           </button>
 
@@ -69,6 +79,7 @@
                   mat-icon-button
                   matTooltip="Start timer"
                   (click)="startTimer(stopwatch)">
+
             <i class="fas fa-play"></i>
           </button>
 

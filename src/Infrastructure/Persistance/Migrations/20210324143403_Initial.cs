@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Infrastructure.Persistance.Migrations
 {
@@ -94,6 +94,7 @@ namespace Infrastructure.Persistance.Migrations
                     Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     IsFavorite = table.Column<bool>(type: "bit", nullable: false),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderIndex = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -220,6 +221,7 @@ namespace Infrastructure.Persistance.Migrations
                     Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProjectItemId = table.Column<int>(type: "int", nullable: false),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -232,6 +234,30 @@ namespace Infrastructure.Persistance.Migrations
                         name: "FK_StopWatchItems_ProjectItems_ProjectItemId",
                         column: x => x.ProjectItemId,
                         principalTable: "ProjectItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SplittedTimes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StopwatchItemId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SplittedTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SplittedTimes_StopWatchItems_StopwatchItemId",
+                        column: x => x.StopwatchItemId,
+                        principalTable: "StopWatchItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -302,6 +328,11 @@ namespace Infrastructure.Persistance.Migrations
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_SplittedTimes_StopwatchItemId",
+                table: "SplittedTimes",
+                column: "StopwatchItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StopWatchItems_ProjectItemId",
                 table: "StopWatchItems",
                 column: "ProjectItemId");
@@ -331,13 +362,16 @@ namespace Infrastructure.Persistance.Migrations
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
-                name: "StopWatchItems");
+                name: "SplittedTimes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "StopWatchItems");
 
             migrationBuilder.DropTable(
                 name: "ProjectItems");

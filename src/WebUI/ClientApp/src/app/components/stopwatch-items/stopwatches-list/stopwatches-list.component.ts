@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalChangesHubService } from '../../../services/local-changes-hub.service';
 import { defaultTime } from '../../../services/timer/Timer';
 import { TimersService } from '../../../services/timer/timers.service';
-import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
+import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, StopwatchItemDto, StopwatchItemsClient, SplittedtimesClient, CreateSplittedTimeCommand, SplittedTimeDto } from '../../../web-api-client';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
+import { ShowSplittedTimesDialogComponent } from '../show-splitted-times-dialog/show-splitted-times-dialog.component';
 
 @Component({
   selector: 'app-stopwatches-list',
@@ -31,7 +32,8 @@ export class StopwatchesListComponent implements OnInit {
     private stopwatchItemsClient: StopwatchItemsClient,
     private projectItemsClient: ProjectItemsClient,
     private timersService: TimersService,
-    private localChangesHubService: LocalChangesHubService) {
+    private localChangesHubService: LocalChangesHubService,
+    private splittedtimesClient: SplittedtimesClient) {
 
     localChangesHubService.ngOnInit();
   }
@@ -79,7 +81,7 @@ export class StopwatchesListComponent implements OnInit {
       if (result) {
         this.timersService.clearAllIntervals();
         await this.localChangesHubService.saveStopwatchesChangesInDb();
-        this.deleteStopwatch(stopwatch);   
+        this.deleteStopwatch(stopwatch);
       }
     });
   }
@@ -99,7 +101,7 @@ export class StopwatchesListComponent implements OnInit {
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
     this.stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
-      this.stopwatches = result.items;    
+      this.stopwatches = result.items;
       this.filterTitlesArray();
       this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
     });
@@ -134,6 +136,13 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
+  openDialogToShowSplittedTimes(stopwatch: StopwatchItemDto) {
+    this.dialog.open(ShowSplittedTimesDialogComponent, {
+      data: stopwatch.splittedTimes,
+      panelClass: 'splitted-times-dialog'
+    });
+  }
+
   deleteStopwatch(stopwatch: StopwatchItemDto) {
     this.stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
       this.loadStopwatches();
@@ -151,6 +160,16 @@ export class StopwatchesListComponent implements OnInit {
 
   startTimer(stopwatch: StopwatchItemDto) {
     this.timersService.start(stopwatch);
+  }
+
+  splitTimer(stopwatch: StopwatchItemDto) {
+    this.splittedtimesClient.create(<CreateSplittedTimeCommand>{
+      stopwatchItemId: stopwatch.id,
+      time: stopwatch.time
+    }).subscribe(splittedTime => {
+      console.log(splittedTime);
+      stopwatch.splittedTimes.push(splittedTime);
+    });
   }
 
   async updatePagination(event: PageEvent) {

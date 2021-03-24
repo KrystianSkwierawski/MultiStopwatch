@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.Mappings;
 using Project.Application.Common.Models;
@@ -30,6 +31,7 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
             public async Task<PaginatedList<StopwatchItemDto>> Handle(GetStopwatchItemsWithPaginationQuery request, CancellationToken cancellationToken)
             {
                 return await _context.StopWatchItems
+                     .AsNoTracking()
                     .Where(x => x.ProjectItemId == request.ProjectId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<StopwatchItemDto>(_mapper.ConfigurationProvider)
