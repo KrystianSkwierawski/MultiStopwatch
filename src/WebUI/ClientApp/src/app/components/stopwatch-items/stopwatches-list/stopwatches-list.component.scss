@@ -67,13 +67,11 @@
     margin-top: auto;
     margin-bottom: auto;
     font-weight: bold;
-    flex-grow: 1;
-    margin-right: 40px;
   }
 }
 
-.top__stopwatch-actions {
-  flex-grow: 1;
+.show-splitted-times-button {
+    font-size: 1.2rem;
 }
 
 .stopwatch__mid {
@@ -100,11 +98,5 @@
 
   & i {
     font-size: 1.4rem;
-  }
-
-  & button{
-      min-height: 40px;
-      min-width: 40px;
-      padding: 0;
   }
 }

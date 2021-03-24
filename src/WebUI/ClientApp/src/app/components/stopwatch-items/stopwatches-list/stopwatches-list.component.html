@@ -15,10 +15,11 @@
            [ngStyle]="{'background-color': stopwatch?.theme}">
 
         <div class="stopwatch__top">
-          <div class="top__stopwatch-actions">
+          <div>
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <i class="fas fa-ellipsis-h"></i>
             </button>
+
             <mat-menu #menu="matMenu">
               <button mat-menu-item
                       (click)="openDialogToEditStopwatch(stopwatch)">
@@ -34,6 +35,10 @@
           </div>
 
           <p>{{stopwatch.time}}</p>
+
+          <button mat-icon-button matBadge="7" class="show-splitted-times-button" matTooltip="Splitted times">           
+            <i class="fas fa-columns"></i>
+          </button>
         </div>
 
         <div class="stopwatch__mid">
@@ -43,21 +48,31 @@
 
         <div class="stopwatch__bottom">
           <button mat-icon-button
+                  matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)">
             <i class="fas fa-redo"></i>
           </button>
 
+          <button mat-icon-button
+                  matTooltip="Split timer">
+            <i class="fas fa-stopwatch"></i>
+          </button>
+
           <button *ngIf="stopwatch.isStarted"
                   mat-icon-button
+                  matTooltip="Pause timer"
                   (click)="pauseTimer(stopwatch)">
             <i class="fas fa-pause"></i>
           </button>
 
           <button *ngIf="!stopwatch.isStarted"
-                  mat-button
+                  mat-icon-button
+                  matTooltip="Start timer"
                   (click)="startTimer(stopwatch)">
             <i class="fas fa-play"></i>
           </button>
+
+
         </div>
       </div>
     </div>

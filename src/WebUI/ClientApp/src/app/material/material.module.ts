@@ -13,6 +13,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatMenuModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatBadgeModule,
+    MatTooltipModule,
   ],
   imports: [
     CommonModule
