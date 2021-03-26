@@ -56,7 +56,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  openDialogToCreateNewStopwatch(): void {
+  openCreateStopwatchDialog(): void {
     const dialogRef = this.dialog.open(CreateStopwatchDialogComponent);
 
     dialogRef.afterClosed().subscribe(async (result: StopwatchItemDto) => {
@@ -74,7 +74,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  openDialogToConfirmDeleteStopwatch(stopwatch: StopwatchItemDto) {
+  openConfirmDeleteDialog(stopwatch: StopwatchItemDto) {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(async result => {
@@ -115,7 +115,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  openDialogToEditStopwatch(stopwatchItem: StopwatchItemDto) {
+  openEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
     this.pauseTimer(stopwatchItem);
 
     const dialogRef = this.dialog.open(EditStopwatchDialogComponent, {
@@ -136,7 +136,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  openDialogToShowSplittedTimes(stopwatch: StopwatchItemDto) {
+  openShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
     this.dialog.open(ShowSplittedTimesDialogComponent, {
       data: stopwatch.splittedTimes,
       panelClass: 'splitted-times-dialog'

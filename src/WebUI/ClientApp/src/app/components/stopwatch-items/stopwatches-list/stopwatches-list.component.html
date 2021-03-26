@@ -1,6 +1,6 @@
 <h1 [ngStyle]="{'color': project.theme}" class="text-center mt-3">{{project.title}} <span class="text-white">{{project.time}}</span></h1>
 
-<button (click)="openDialogToCreateNewStopwatch()" class="add-new-stopwatch-button"><i class="fas fa-plus"></i></button>
+<button (click)="openCreateStopwatchDialog()" class="add-new-stopwatch-button"><i class="fas fa-plus"></i></button>
 
 <app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
                           (onKeyUp)="filterStopwatches($event)"
@@ -22,12 +22,12 @@
 
             <mat-menu #menu="matMenu">
               <button mat-menu-item
-                      (click)="openDialogToEditStopwatch(stopwatch)">
+                      (click)="openEditStopwatchDialog(stopwatch)">
                 <mat-icon>done</mat-icon>
                 <span>Edit</span>
               </button>
               <button mat-menu-item
-                      (click)="openDialogToConfirmDeleteStopwatch(stopwatch)">
+                      (click)="openConfirmDeleteDialog(stopwatch)">
                 <mat-icon color="warn">delete</mat-icon>
                 <span>Delete</span>
               </button>
@@ -41,7 +41,7 @@
                   matBadge="{{stopwatch.splittedTimes.length}}"
                   class="show-splitted-times-button"
                   matTooltip="Show splitted times"
-                  (click)="openDialogToShowSplittedTimes(stopwatch)">
+                  (click)="openShowSplittedTimesDialog(stopwatch)">
             
             <i class="fas fa-columns"></i>
           </button>

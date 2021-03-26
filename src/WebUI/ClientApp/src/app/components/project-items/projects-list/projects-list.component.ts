@@ -35,7 +35,7 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openDialogToCreateNewProject() {
+  openCreateProjectDialog() {
     const dialogRef = this.dialog.open(CreateProjectDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -49,7 +49,7 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openDialogToConfirmDeleteProject(projectId: number) {
+  openConfirmDeleteDialog(projectId: number) {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -65,7 +65,7 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openDialogToEditProject(projectItem: ProjectItemDto2) {
+  openEditProjectDialog(projectItem: ProjectItemDto2) {
 
     const dialogRef = this.dialog.open(EditProjectDialogComponent, {
       data: projectItem
