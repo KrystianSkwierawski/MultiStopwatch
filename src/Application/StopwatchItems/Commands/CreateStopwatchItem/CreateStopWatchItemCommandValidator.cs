@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
+using Project.Application.Common.Validators;
 
 namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 {
+    using static TimeBeFormated;
     public class CreateStopwatchItemCommandValidator : AbstractValidator<CreateStopwatchItemCommand>
     {
         public CreateStopwatchItemCommandValidator()
@@ -21,12 +20,6 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 .NotEmpty()
                 .NotNull()
                 .MustAsync(BeFormated);
-        }
-        public async Task<bool> BeFormated(string time, CancellationToken cancellationToken)
-        {
-            Regex pattern = new Regex(@"^[0-9]{2,5}:[0-9]{2}:[0-9]{2}$");
-
-            return pattern.IsMatch(time);
         }
     }
 }
