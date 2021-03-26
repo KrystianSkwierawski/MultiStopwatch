@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { SplittedTimeDto } from '../../../web-api-client';
+import { SplittedTimeDto, SplittedtimesClient } from '../../../web-api-client';
 
 @Component({
   selector: 'app-show-splitted-times-dialog',
@@ -14,15 +14,22 @@ export class ShowSplittedTimesDialogComponent implements OnInit {
 
   dataSource;
 
-  constructor(public dialogRef: MatDialogRef<ShowSplittedTimesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SplittedTimeDto[]) { }
+  constructor(
+    public dialogRef: MatDialogRef<ShowSplittedTimesDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: SplittedTimeDto[],
+    private splittedtimesClient: SplittedtimesClient) { }
 
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<SplittedTimeDto>(this.data);
   }
 
-  hideDialog(): void {
-    this.dialogRef.close();
+  deleteSplittedTime(id: number) {
+    this.splittedtimesClient.delete(id).subscribe(() => {
+      this.data = this.data.filter(x => x.id !== id);
+      this.dataSource = new MatTableDataSource<SplittedTimeDto>(this.data); 
+    },
+      error => console.error(error)
+    );
   }
 }

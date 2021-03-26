@@ -137,9 +137,15 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   openShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
-    this.dialog.open(ShowSplittedTimesDialogComponent, {
+    const dialogRef = this.dialog.open(ShowSplittedTimesDialogComponent, {
       data: stopwatch.splittedTimes,
       panelClass: 'splitted-times-dialog'
+    });
+
+    dialogRef.afterClosed().subscribe((result: SplittedTimeDto[]) => {
+      if (result) {
+        stopwatch.splittedTimes = result;
+      }
     });
   }
 
@@ -167,7 +173,6 @@ export class StopwatchesListComponent implements OnInit {
       stopwatchItemId: stopwatch.id,
       time: stopwatch.time
     }).subscribe(splittedTime => {
-      console.log(splittedTime);
       stopwatch.splittedTimes.push(splittedTime);
     });
   }
