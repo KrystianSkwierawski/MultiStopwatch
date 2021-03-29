@@ -6,11 +6,11 @@ import { LocalChangesHubService } from '../../../services/local-changes-hub.serv
 import { defaultTime } from '../../../services/timer/Timer';
 import { TimersService } from '../../../services/timer/timers.service';
 import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, StopwatchItemDto, StopwatchItemsClient, SplittedtimesClient, CreateSplittedTimeCommand, SplittedTimeDto } from '../../../web-api-client';
+import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
-import { ShowSplittedTimesDialogComponent } from '../show-splitted-times-dialog/show-splitted-times-dialog.component';
 
 @Component({
   selector: 'app-stopwatches-list',
@@ -137,7 +137,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   openShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
-    const dialogRef = this.dialog.open(ShowSplittedTimesDialogComponent, {
+    const dialogRef = this.dialog.open(SplittedTimesListDialogComponent, {
       data: stopwatch.splittedTimes,
       panelClass: 'splitted-times-dialog'
     });

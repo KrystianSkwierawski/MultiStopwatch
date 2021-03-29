@@ -4,18 +4,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SplittedTimeDto, SplittedtimesClient } from '../../../web-api-client';
 
 @Component({
-  selector: 'app-show-splitted-times-dialog',
-  templateUrl: './show-splitted-times-dialog.component.html',
-  styleUrls: ['./show-splitted-times-dialog.component.scss']
+  selector: 'app-splitted-times-list-dialog',
+  templateUrl: './splitted-times-list-dialog.component.html',
+  styleUrls: ['./splitted-times-list-dialog.component.scss']
 })
-export class ShowSplittedTimesDialogComponent implements OnInit {
+export class SplittedTimesListDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['index', 'time', 'delete'];
 
   dataSource;
 
   constructor(
-    public dialogRef: MatDialogRef<ShowSplittedTimesDialogComponent>,
+    public dialogRef: MatDialogRef<SplittedTimesListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SplittedTimeDto[],
     private splittedtimesClient: SplittedtimesClient) { }
 

@@ -23,7 +23,8 @@ import { MaterialModule } from './material/material.module';
 import { PaginatorComponent } from './components/utilities/paginator/paginator.component';
 import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
-import { ShowSplittedTimesDialogComponent } from './components/stopwatch-items/show-splitted-times-dialog/show-splitted-times-dialog.component';
+import { SplittedTimesListDialogComponent } from './components/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
+
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { ShowSplittedTimesDialogComponent } from './components/stopwatch-items/s
     PaginatorComponent,
     ConfirmDeleteDialogComponent,
     ThemeSelectorComponent,
-    ShowSplittedTimesDialogComponent,
+    SplittedTimesListDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
