@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.totalSecondsToHHMMSS = exports.Time = exports.defaultTime = void 0;
+exports.calcTotalSeconds = exports.totalSecondsToHHMMSS = exports.Time = exports.defaultTime = void 0;
 exports.defaultTime = "00:00:00";
 var Time = /** @class */ (function () {
     function Time(timeString) {
@@ -22,13 +22,18 @@ exports.Time = Time;
 //  return new Time(diffTime);
 //}
 function totalSecondsToHHMMSS(hours, minutes, seconds) {
-    var totalSeconds = 0;
-    totalSeconds += hours * 3600;
-    totalSeconds += minutes * 60;
-    totalSeconds += seconds;
+    var totalSeconds = calcTotalSeconds(hours, minutes, seconds);
     return toHHMMSS(totalSeconds);
 }
 exports.totalSecondsToHHMMSS = totalSecondsToHHMMSS;
+function calcTotalSeconds(hours, minutes, seconds) {
+    var o_totalSeconds = 0;
+    o_totalSeconds += hours * 3600;
+    o_totalSeconds += minutes * 60;
+    o_totalSeconds += seconds;
+    return o_totalSeconds;
+}
+exports.calcTotalSeconds = calcTotalSeconds;
 function toHHMMSS(secs) {
     var sec_num = parseInt(secs, 10);
     var hours = Math.floor(sec_num / 3600);

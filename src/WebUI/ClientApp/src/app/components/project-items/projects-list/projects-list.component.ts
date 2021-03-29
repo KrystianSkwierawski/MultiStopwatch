@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ProjectsDataService } from '../../../services/projects-data-service';
 import { CreateProjectItemCommand, FavoriteProjectItemsClient, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand, PaginatedListOfProjectItemDto, ProjectItemDto2 } from '../../../web-api-client';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
@@ -78,6 +79,13 @@ export class ProjectsListComponent implements OnInit {
         this.updateProject(projectItem);
       }
     });
+  }
+
+  openChartDialog() {
+    this.dialog.open(ChartDialogComponent, {
+      data: this.paginatedListOfProjectItemDto.items,
+      panelClass: 'chart-dialog'
+    })
   }
 
   updateProject(projectItem: ProjectItemDto) {

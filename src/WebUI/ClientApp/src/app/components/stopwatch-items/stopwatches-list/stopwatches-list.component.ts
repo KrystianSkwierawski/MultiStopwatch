@@ -8,6 +8,7 @@ import { TimersService } from '../../../services/timer/timers.service';
 import { CreateStopwatchItemCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, StopwatchItemDto, StopwatchItemsClient, SplittedtimesClient, CreateSplittedTimeCommand, SplittedTimeDto } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -175,6 +176,13 @@ export class StopwatchesListComponent implements OnInit {
     }).subscribe(splittedTime => {
       stopwatch.splittedTimes.push(splittedTime);
     });
+  }
+
+  openChartDialog() {
+    this.dialog.open(ChartDialogComponent, {
+      data: this.paginatedListOfStopwatchItemDto.items,
+      panelClass: 'chart-dialog'
+    })
   }
 
   async updatePagination(event: PageEvent) {

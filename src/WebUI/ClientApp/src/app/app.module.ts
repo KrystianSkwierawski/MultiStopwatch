@@ -24,6 +24,7 @@ import { PaginatorComponent } from './components/utilities/paginator/paginator.c
 import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 import { SplittedTimesListDialogComponent } from './components/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
+import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-dialog.component';
 
 
 
@@ -46,6 +47,7 @@ import { SplittedTimesListDialogComponent } from './components/splitted-times/sp
     ConfirmDeleteDialogComponent,
     ThemeSelectorComponent,
     SplittedTimesListDialogComponent,
+    ChartDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

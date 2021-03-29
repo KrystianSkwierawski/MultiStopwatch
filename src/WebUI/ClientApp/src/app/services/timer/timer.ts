@@ -9,8 +9,8 @@ export class Time {
     const timeArray = timeString.split(":");
 
     this.hours = parseInt(timeArray[0]),
-    this.minutes = parseInt(timeArray[1]),
-    this.seconds = parseInt(timeArray[2])
+      this.minutes = parseInt(timeArray[1]),
+      this.seconds = parseInt(timeArray[2])
   }
 }
 
@@ -28,13 +28,18 @@ export class Time {
 //}
 
 export function totalSecondsToHHMMSS(hours: number, minutes: number, seconds: number): string {
-  let totalSeconds: number = 0;
-
-  totalSeconds += hours * 3600;
-  totalSeconds += minutes * 60;
-  totalSeconds += seconds;
-
+  const totalSeconds: number = calcTotalSeconds(hours, minutes, seconds);
   return toHHMMSS(totalSeconds);
+}
+
+export function calcTotalSeconds(hours: number, minutes: number, seconds: number): number {
+  let o_totalSeconds: number = 0;
+
+  o_totalSeconds += hours * 3600;
+  o_totalSeconds += minutes * 60;
+  o_totalSeconds += seconds;
+
+  return o_totalSeconds;
 }
 
 function toHHMMSS(secs) {
