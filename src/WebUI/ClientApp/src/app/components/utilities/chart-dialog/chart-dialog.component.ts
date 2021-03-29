@@ -17,8 +17,6 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
-
     var chart = new CanvasJS.Chart("chartContainer", {
       exportEnabled: true,
       animationEnabled: true,

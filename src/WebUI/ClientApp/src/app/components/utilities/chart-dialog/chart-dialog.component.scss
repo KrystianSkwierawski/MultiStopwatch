@@ -1,7 +1,12 @@
+@import '../../../../scss/shared.scss';
+
 ::ng-deep .chart-dialog {
-  min-height: 100vh;
-  min-width: 100vw;
+  min-width: 100%;
   height: auto;
   width: auto;
   max-width: none !important;
+
+  @include respond-to(medium) {
+    min-width: 60%;
+  }
 }

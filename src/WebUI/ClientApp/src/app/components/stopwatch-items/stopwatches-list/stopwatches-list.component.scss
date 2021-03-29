@@ -13,11 +13,12 @@
   }
 }
 
-.show-diagram-button{
-    font-size: 1.3rem;
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
+.show-diagram-button {
+  font-size: 1.5rem;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
 }
 
 .stopwatch {
