@@ -18,6 +18,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.toggleContent_disabledScrolling();
+    this.toggleDisplayNoneInShowDiagramButtonIfMobileDevice();
   }
 
   ngOnInit(): void {
@@ -34,7 +35,15 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     this.menuIsActivated = !this.menuIsActivated;
 
     this.toggleContent_disabledScrolling();
+
+    this.toggleDisplayNoneInShowDiagramButtonIfMobileDevice();
   }
+
+  toggleDisplayNoneInShowDiagramButtonIfMobileDevice() {
+    const showDiagramButton: HTMLElement = document.querySelector(".open-chart-dialog-button");
+    this.menuIsActivated && !this.isDesktopDevice() ? showDiagramButton.classList.add("d-none") : showDiagramButton.classList.remove("d-none");
+  }
+
 
   onResize(): void {
     if (this.isDesktopDevice()) {
@@ -42,6 +51,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     }
 
     this.toggleContent_disabledScrolling();
+    this.toggleDisplayNoneInShowDiagramButtonIfMobileDevice();
   }
 
   isDesktopDevice() {
