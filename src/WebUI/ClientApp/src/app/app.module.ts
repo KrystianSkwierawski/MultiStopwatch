@@ -25,6 +25,7 @@ import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-del
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 import { SplittedTimesListDialogComponent } from './components/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-dialog.component';
+import { PertCalculatorDialogComponent } from './components/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
 
 
@@ -48,6 +49,7 @@ import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-
     ThemeSelectorComponent,
     SplittedTimesListDialogComponent,
     ChartDialogComponent,
+    PertCalculatorDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

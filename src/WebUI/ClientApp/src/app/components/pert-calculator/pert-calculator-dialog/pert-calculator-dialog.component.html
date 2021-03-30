@@ -1,0 +1,59 @@
+<p class="text-break"><a href="https://www.linkedin.com/pulse/what-pert-how-can-we-use-dave-fourie-pmp-prince2-/" target="_blank">PERT</a> is a three point activity estimating technique that considers estimation uncertainty and risk by using three estimates to define an approximate probability for an activity's cost or duration</p>
+
+<div mat-dialog-content>
+  <button mat-icon-button
+          (click)="hideDialog()"
+          class="hide-dialog-button text-center mt-3">
+
+    <i class="fas fa-times"></i>
+  </button>
+
+  <div class="form-container">
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Optimistic</mat-label>
+        <input formControlName="optimistic" matInput required type="number" />
+        <mat-error>The optimistic field is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Realistic</mat-label>
+        <input formControlName="realistic" matInput required type="number" />
+        <mat-error>The realistic field is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pessimistically</mat-label>
+        <input formControlName="pessimistically" matInput required type="number" />
+        <mat-error>The pessimistically field is required</mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button
+              color="primary"
+              class="mb-5 mb-md-0"
+              [disabled]="form.invalid"
+              (click)="calculate()">
+
+        <i class="fas fa-calculator"></i> PERT Calculator
+      </button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="chance">
+        <th mat-header-cell *matHeaderCellDef> Chance </th>
+        <td mat-cell *matCellDef="let element"> {{element.chance + "%"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef> Unit </th>
+        <td mat-cell *matCellDef="let element"> {{element.unit.toFixed(2)}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

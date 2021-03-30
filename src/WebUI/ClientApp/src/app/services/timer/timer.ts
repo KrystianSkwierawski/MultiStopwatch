@@ -14,19 +14,6 @@ export class Time {
   }
 }
 
-//export function getDIffTime(previousStopwatchTime: string, currentStopwatchTime: string) {
-//  const previousTime: Time = new Time(previousStopwatchTime);
-//  const currentTime: Time = new Time(currentStopwatchTime);
-
-//  const diffHours = currentTime.hours - previousTime.hours;
-//  const diffMinutes = currentTime.minutes - previousTime.minutes;
-//  const diffSeconds = currentTime.seconds - previousTime.minutes;
-
-//  const diffTime: string = `${diffHours}:${diffMinutes}:${diffSeconds}`;
-
-//  return new Time(diffTime);
-//}
-
 export function totalSecondsToHHMMSS(hours: number, minutes: number, seconds: number): string {
   const totalSeconds: number = calcTotalSeconds(hours, minutes, seconds);
   return toHHMMSS(totalSeconds);

@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
 @Component({
   selector: 'app-side-menu',
@@ -12,7 +14,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   menuIsActivated: boolean = true;
 
-  constructor(public elementRef: ElementRef) { }
+  constructor(public elementRef: ElementRef, public dialog: MatDialog) { }
 
   ngAfterViewInit(): void {
     this.toggleContent_disabledScrolling();
@@ -22,6 +24,11 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   }
 
+  showPertCalculatorDialog() {
+    this.dialog.open(PertCalculatorDialogComponent, {
+      panelClass: 'pert-calculator-dialog'
+    });
+  }
 
   handleToggler(): void {
     this.menuIsActivated = !this.menuIsActivated;

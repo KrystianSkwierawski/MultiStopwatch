@@ -15,6 +15,13 @@
       <p> MultiStopwatch</p>
     </a>
 
+    <button mat-raised-button
+            class="show-pert-calculator-dialog-button"
+            (click)="showPertCalculatorDialog()">
+
+      <i class="fas fa-calculator"></i> PERT Calculator
+    </button>
+
     <p class="mt-2">Favorites</p>
     <div class="side-menu-content__favorite-projects">
       <app-favorite-projects-list></app-favorite-projects-list>
@@ -28,4 +35,4 @@
   </div>
 </div>
 
-<ng-container favoriteProjectsList>
+<!--<ng-container favoriteProjectsList>-->
