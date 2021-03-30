@@ -819,6 +819,7 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
     title?: string | undefined;
     time?: string | undefined;
     orderIndex?: number;
+    theme?: string | undefined;
 
     constructor(data?: IFavoriteProjectItemDto) {
         if (data) {
@@ -836,6 +837,7 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
             this.title = _data["title"];
             this.time = _data["time"];
             this.orderIndex = _data["orderIndex"];
+            this.theme = _data["theme"];
         }
     }
 
@@ -853,6 +855,7 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
         data["title"] = this.title;
         data["time"] = this.time;
         data["orderIndex"] = this.orderIndex;
+        data["theme"] = this.theme;
         return data; 
     }
 }
@@ -863,6 +866,7 @@ export interface IFavoriteProjectItemDto {
     title?: string | undefined;
     time?: string | undefined;
     orderIndex?: number;
+    theme?: string | undefined;
 }
 
 export class UpdateOrderIndexProjectItemCommand implements IUpdateOrderIndexProjectItemCommand {

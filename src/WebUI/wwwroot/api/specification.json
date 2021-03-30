@@ -493,6 +493,10 @@
           "orderIndex": {
             "type": "integer",
             "format": "int32"
+          },
+          "theme": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
