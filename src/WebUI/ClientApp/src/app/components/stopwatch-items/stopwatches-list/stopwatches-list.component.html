@@ -7,7 +7,13 @@
                           [options]="titlesArray">
 </app-search-item-by-title>
 
-<button class="show-diagram-button text-white bg-dark" mat-icon-button (click)="openChartDialog()"><i class="fas fa-chart-pie"></i></button>
+<button class="show-diagram-button"
+        mat-icon-button
+        (click)="openChartDialog()"
+        matTooltip="Show chart">
+
+  <i class="fas fa-chart-pie"></i>
+</button>
 
 <app-generic-list [list]="stopwatches">
   <ng-container content>
@@ -44,7 +50,7 @@
                   class="show-splitted-times-button"
                   matTooltip="Show splitted times"
                   (click)="openShowSplittedTimesDialog(stopwatch)">
-            
+
             <i class="fas fa-columns"></i>
           </button>
         </div>

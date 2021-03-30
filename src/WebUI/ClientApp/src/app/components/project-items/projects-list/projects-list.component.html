@@ -7,7 +7,13 @@
                           [options]="titlesArray">
 </app-search-item-by-title>
 
-<button class="show-diagram-button text-white bg-dark" mat-icon-button (click)="openChartDialog()"><i class="fas fa-chart-pie"></i></button>
+<button class="show-diagram-button"
+        mat-icon-button
+        (click)="openChartDialog()"
+        matTooltip="Show chart">
+
+  <i class="fas fa-chart-pie"></i>
+</button>
                          
 <app-generic-list [list]="projects">
   <ng-container content>
