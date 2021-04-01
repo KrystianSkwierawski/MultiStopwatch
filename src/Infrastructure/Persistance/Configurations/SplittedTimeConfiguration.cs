@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistance.Configurations
 {
-    public class ProjectItemConfiguration : IEntityTypeConfiguration<ProjectItem>
+    public class SplittedTimeConfiguration : IEntityTypeConfiguration<SplittedTime>
     {
-        public void Configure(EntityTypeBuilder<ProjectItem> builder)
+        public void Configure(EntityTypeBuilder<SplittedTime> builder)
         {
-            builder.Property(t => t.Title)
-                .HasMaxLength(20)
+            builder.Property(t => t.Time)
                 .IsRequired();
         }
     }
