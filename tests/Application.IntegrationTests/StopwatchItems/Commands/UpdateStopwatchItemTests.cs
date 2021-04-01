@@ -3,10 +3,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
