@@ -10,37 +10,6 @@ namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
     using static Testing;
     public class UpdateStopwatchItemTests
     {
-        [Test]
-        public async Task ShouldRequireFormatedTime()
-        {
-            ProjectItem project = new ProjectItem
-            {
-                Title = "project"
-            };
-            await AddAsync(project);
-
-            StopwatchItem stopwatch = new StopwatchItem
-            {
-                ProjectItemId = project.Id,
-                Title = "stopwatch",
-                Theme = "violet",
-                Time = "00:00:00"
-            };
-            await AddAsync(stopwatch);
-
-            var command = new UpdateStopwatchItemCommand
-            {
-                Id = stopwatch.Id,
-                Title = "stopwatch1",
-                Theme = "violet",
-                Time = "00:00"
-            };
-
-            FluentActions.Invoking(() =>
-                SendAsync(command))
-                    .Should().Throw<ValidationException>().Where(ex => ex.Errors.ContainsKey("Time"))
-                    .And.Errors["Time"].Should().Contain("Title must be formated \"00:00:00\".");
-        }
 
         [Test]
         public async Task ShouldUpdateStopwatchItem()
@@ -78,7 +47,6 @@ namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
             result.Title.Should().Be(command.Title);
             result.Theme.Should().Be(command.Theme);
             result.Time.Should().Be(command.Time);
-
         }
     }
 }
