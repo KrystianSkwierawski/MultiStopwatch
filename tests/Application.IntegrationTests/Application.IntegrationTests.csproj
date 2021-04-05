@@ -34,4 +34,8 @@
     <ProjectReference Include="..\..\src\WebUI\WebUI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FavoriteProjectItems\Commands\" />
+  </ItemGroup>
+
 </Project>

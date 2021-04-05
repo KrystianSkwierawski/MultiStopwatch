@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Project.Infrastructure.Persistence;
 using Project.WebUI;
 using Respawn;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -144,6 +145,21 @@ public class Testing
         var context = scope.ServiceProvider.GetService<Context>();
 
         context.Add(entity);
+
+        await context.SaveChangesAsync();
+    }
+
+    public static async Task AddAllAsync<TEntity>(TEntity[] entities)
+      where TEntity : class
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var context = scope.ServiceProvider.GetService<Context>();
+
+        foreach (var entity in entities)
+        {
+            context.Add(entity);
+        }
 
         await context.SaveChangesAsync();
     }

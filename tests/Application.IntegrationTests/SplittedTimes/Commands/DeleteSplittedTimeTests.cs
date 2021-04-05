@@ -3,6 +3,10 @@ using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.SplittedTimes.Commands.DeleteSplittedTime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CleanArchitecture.Application.IntegrationTests.SplittedTimes.Commands
@@ -55,6 +59,7 @@ namespace CleanArchitecture.Application.IntegrationTests.SplittedTimes.Commands
 
             //Assert
             SplittedTime result = await FindAsync<SplittedTime>(splittedTime.Id);
+            result.Should().BeNull();
         }
     }
 }
