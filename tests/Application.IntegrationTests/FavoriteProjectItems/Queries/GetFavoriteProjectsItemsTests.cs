@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
         public async Task ShouldReturnAllFavoriteProjectItems()
         {
             //Arrange
-            await AddAllAsync(new ProjectItem[] {
+            await AddAllAsync(new List<ProjectItem> {
                 new ProjectItem { IsFavorite = true, Title = "favorite"},
                 new ProjectItem { IsFavorite = true, Title = "favorite"},
                 new ProjectItem { IsFavorite = false, Title = "not a favorite"}
@@ -26,8 +27,8 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
             var result = await SendAsync(query);
 
             //Assert
-            result.Should().HaveCount(2);
-            result.First().Title.Should().Be("favorite");
+            result.Should().NotBeNull();
+            result.All(x => x.Title == "favorite").Should().BeTrue();
         }
     }
 }
