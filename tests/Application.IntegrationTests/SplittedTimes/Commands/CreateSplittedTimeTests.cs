@@ -1,18 +1,16 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
+using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
+namespace CleanArchitecture.Application.IntegrationTests.SplittedTimes.Commands
 {
     using static Testing;
-
-    public class CreateStopwatchItemTests : TestBase
+    public class CreateSplittedTimeTests
     {
-
         [Test]
-        public async Task ShouldCreateStopwatchItem()
+        public async Task ShouldCreteAndReturnSplittedTime()
         {
             //Arrange
             ProjectItem project = new ProjectItem
@@ -30,22 +28,18 @@ namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
             };
             await AddAsync(stopwatch);
 
-            var command = new CreateStopwatchItemCommand
+            var command = new CreateSplittedTimeCommand
             {
-                ProjectItemId = project.Id,
-                Title = stopwatch.Title,
-                Theme = stopwatch.Theme,
+                StopwatchItemId = stopwatch.Id,
                 Time = stopwatch.Time
             };
 
             //Act
-            await SendAsync(command);
-
+            SplittedTimeDto result = await SendAsync(command);
 
             //Assert
-            StopwatchItem result = await FindAsync<StopwatchItem>(stopwatch.Id);
             result.Should().NotBeNull();
-            result.Title.Should().Be(command.Title);
+            result.Time.Should().Be(command.Time);
         }
     }
 }

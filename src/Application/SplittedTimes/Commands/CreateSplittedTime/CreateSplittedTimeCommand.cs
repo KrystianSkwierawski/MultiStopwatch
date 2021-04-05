@@ -2,7 +2,6 @@
 using Domain.Entities;
 using MediatR;
 using Project.Application.Common.Interfaces;
-using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination;
 using System.Threading;
 using System.Threading.Tasks;
 
