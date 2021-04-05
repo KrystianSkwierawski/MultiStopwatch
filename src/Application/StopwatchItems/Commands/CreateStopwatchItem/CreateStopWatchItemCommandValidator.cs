@@ -14,13 +14,13 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 .NotEmpty().WithMessage("Title is required.");
 
             RuleFor(v => v.Theme)
-             .NotNull().WithMessage("Title is required.")
-             .NotEmpty().WithMessage("Title is required.");
+             .NotNull().WithMessage("Theme is required.")
+             .NotEmpty().WithMessage("Theme is required.");
 
             RuleFor(v => v.Time)
-                .NotEmpty().WithMessage("Title is required.")
-                .NotNull().WithMessage("Title is required.")
-                .MustAsync(BeFormated).WithMessage("Title must be formated \"00:00:00\".");
+                .NotEmpty().WithMessage("Time is required.")
+                .NotNull().WithMessage("Time is required.")
+                .MustAsync(BeFormated).WithMessage("Time must be formated \"00:00:00\".");
         }
     }
 }

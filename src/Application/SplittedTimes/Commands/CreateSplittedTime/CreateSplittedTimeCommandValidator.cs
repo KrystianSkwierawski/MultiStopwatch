@@ -9,9 +9,9 @@ namespace Project.Application.SplittedTimes.Commands.CreateSplittedTime
         public CreateSplittedTimeCommandValidator()
         {
             RuleFor(v => v.Time)
-                .NotEmpty()
-                .NotNull()
-                .MustAsync(BeFormated);
+                .NotEmpty().WithMessage("Time is required.")
+                .NotNull().WithMessage("Time is required.")
+                .MustAsync(BeFormated).WithMessage("Time must be formated \"00:00:00\".");
         }     
     }
 }
