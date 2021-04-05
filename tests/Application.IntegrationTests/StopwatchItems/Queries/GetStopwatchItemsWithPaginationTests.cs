@@ -6,7 +6,7 @@ using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Queries
+namespace Project.Application.IntegrationTests.StopwatchItems.Queries
 {
     using static Testing;
 

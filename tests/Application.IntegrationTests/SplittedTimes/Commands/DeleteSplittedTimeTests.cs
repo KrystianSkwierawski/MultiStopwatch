@@ -3,13 +3,9 @@ using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.SplittedTimes.Commands.DeleteSplittedTime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.SplittedTimes.Commands
+namespace Project.Application.IntegrationTests.SplittedTimes.Commands
 {
     using static Testing;
     public class DeleteSplittedTimeTests

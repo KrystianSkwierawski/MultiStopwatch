@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>CleanArchitecture.Application.IntegrationTests</RootNamespace>
-    <AssemblyName>CleanArchitecture.Application.IntegrationTests</AssemblyName>
+    <RootNamespace>Project.Application.IntegrationTests</RootNamespace>
+    <AssemblyName>Project.Application.IntegrationTests</AssemblyName>
     
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -32,10 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\WebUI\WebUI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="FavoriteProjectItems\Commands\" />
   </ItemGroup>
 
 </Project>

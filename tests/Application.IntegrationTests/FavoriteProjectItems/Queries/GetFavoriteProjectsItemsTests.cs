@@ -5,7 +5,7 @@ using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.FavoriteProjectItems.Queries
+namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
 {
     using static Testing;
     public class GetFavoriteProjectsItemsTests

@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.StopwatchItems.Commands
+namespace Project.Application.IntegrationTests.StopwatchItems.Commands
 {
     using static Testing;
 

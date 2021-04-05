@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.IntegrationTests.SplittedTimes.Commands
+namespace Project.Application.IntegrationTests.SplittedTimes.Commands
 {
     using static Testing;
     public class CreateSplittedTimeTests

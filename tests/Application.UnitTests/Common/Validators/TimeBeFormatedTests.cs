@@ -4,7 +4,7 @@ using Project.Application.Common.Validators;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.Application.UnitTests.Common.Validators
+namespace Project.Application.UnitTests.Common.Validators
 {
     public class TimeBeFormatedTests
     {
