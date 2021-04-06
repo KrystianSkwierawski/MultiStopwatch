@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using System.Threading.Tasks;
 

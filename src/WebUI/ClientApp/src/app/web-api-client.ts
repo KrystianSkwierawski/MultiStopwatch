@@ -189,7 +189,7 @@ export interface IProjectItemsClient {
     get(id: number): Observable<ProjectItemDto>;
     delete(id: number): Observable<FileResponse>;
     getWithPagination(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfProjectItemDto>;
-    create(command: CreateProjectItemCommand): Observable<FileResponse>;
+    create(command: CreateProjectItemCommand): Observable<number>;
     update(command: UpdateProjectItemCommand): Observable<FileResponse>;
 }
 
@@ -362,7 +362,7 @@ export class ProjectItemsClient implements IProjectItemsClient {
         return _observableOf<PaginatedListOfProjectItemDto>(<any>null);
     }
 
-    create(command: CreateProjectItemCommand): Observable<FileResponse> {
+    create(command: CreateProjectItemCommand): Observable<number> {
         let url_ = this.baseUrl + "/api/ProjectItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -374,7 +374,7 @@ export class ProjectItemsClient implements IProjectItemsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -385,31 +385,33 @@ export class ProjectItemsClient implements IProjectItemsClient {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<FileResponse> {
+    protected processCreate(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
     update(command: UpdateProjectItemCommand): Observable<FileResponse> {
@@ -585,7 +587,7 @@ export class SplittedtimesClient implements ISplittedtimesClient {
 
 export interface IStopwatchItemsClient {
     getWithPagination(projectId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfStopwatchItemDto>;
-    create(command: CreateStopwatchItemCommand): Observable<FileResponse>;
+    create(command: CreateStopwatchItemCommand): Observable<number>;
     update(command: UpdateStopwatchItemCommand): Observable<FileResponse>;
     delete(id: number): Observable<FileResponse>;
 }
@@ -663,7 +665,7 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
         return _observableOf<PaginatedListOfStopwatchItemDto>(<any>null);
     }
 
-    create(command: CreateStopwatchItemCommand): Observable<FileResponse> {
+    create(command: CreateStopwatchItemCommand): Observable<number> {
         let url_ = this.baseUrl + "/api/StopwatchItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -675,7 +677,7 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -686,31 +688,33 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<FileResponse> {
+    protected processCreate(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
     update(command: UpdateStopwatchItemCommand): Observable<FileResponse> {

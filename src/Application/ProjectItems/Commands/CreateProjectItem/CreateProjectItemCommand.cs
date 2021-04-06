@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Project.Application.ProjectItems.Commands.CreateProjectItem
 {
-    public class CreateProjectItemCommand : IRequest
+    public class CreateProjectItemCommand : IRequest<int>
     {
         public string Title { get; set; }
         public string Theme { get; set; }
 
-        public class CreateProjectItemCommandHandler : IRequestHandler<CreateProjectItemCommand>
+        public class CreateProjectItemCommandHandler : IRequestHandler<CreateProjectItemCommand, int>
         {
             private readonly IContext _context;
 
@@ -22,7 +22,7 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
                 _context = context;
             }
 
-            public async Task<Unit> Handle(CreateProjectItemCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateProjectItemCommand request, CancellationToken cancellationToken)
             {
                 ProjectItem entity = new ProjectItem
                 {
@@ -34,9 +34,9 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
 
                 await _context.ProjectItems.AddAsync(entity);
 
-                await _context.SaveChangesAsync(cancellationToken);            
+                await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return entity.Id;
             }
         }
     }

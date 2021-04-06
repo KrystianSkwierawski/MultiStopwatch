@@ -24,11 +24,9 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateProjectItemCommand command)
+        public async Task<ActionResult<int>> Create(CreateProjectItemCommand command)
         {
-            await Mediator.Send(command);
-
-            return NoContent();
+            return await Mediator.Send(command);
         }
 
         [HttpPut]

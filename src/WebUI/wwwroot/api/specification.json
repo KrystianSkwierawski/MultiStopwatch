@@ -216,10 +216,10 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -392,10 +392,10 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }

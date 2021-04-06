@@ -17,11 +17,9 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateStopwatchItemCommand command)
+        public async Task<ActionResult<int>> Create(CreateStopwatchItemCommand command)
         {
-            await Mediator.Send(command);
-
-            return NoContent();
+            return await Mediator.Send(command);
         }
 
         [HttpPut]

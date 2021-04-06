@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
+using System;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.StopwatchItems.Commands
@@ -10,7 +12,6 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
 
     public class CreateStopwatchItemTests : TestBase
     {
-
         [Test]
         public async Task ShouldCreateStopwatchItem()
         {
@@ -21,29 +22,19 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
             };
             await AddAsync(project);
 
-            StopwatchItem stopwatch = new StopwatchItem
+            var command = new CreateStopwatchItemCommand
             {
                 ProjectItemId = project.Id,
                 Title = "stopwatch",
                 Theme = "violet",
                 Time = "00:00:00"
             };
-            await AddAsync(stopwatch);
-
-            var command = new CreateStopwatchItemCommand
-            {
-                ProjectItemId = project.Id,
-                Title = stopwatch.Title,
-                Theme = stopwatch.Theme,
-                Time = stopwatch.Time
-            };
 
             //Act
-            await SendAsync(command);
-
+            var stopwatchId = await SendAsync(command);
 
             //Assert
-            StopwatchItem result = await FindAsync<StopwatchItem>(stopwatch.Id);
+            StopwatchItem result = await FindAsync<StopwatchItem>(stopwatchId);
             result.Should().NotBeNull();
             result.Title.Should().Be(command.Title);
         }

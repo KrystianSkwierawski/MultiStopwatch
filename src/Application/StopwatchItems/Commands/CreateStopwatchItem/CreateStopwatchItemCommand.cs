@@ -1,19 +1,20 @@
 ﻿using Domain.Entities;
 using MediatR;
 using Project.Application.Common.Interfaces;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 {
-    public class CreateStopwatchItemCommand : IRequest
+    public class CreateStopwatchItemCommand : IRequest<int>
     {
         public int ProjectItemId { get; set; }
         public string Title { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
 
-        public class CreateStopwatchItemCommandHandler : IRequestHandler<CreateStopwatchItemCommand>
+        public class CreateStopwatchItemCommandHandler : IRequestHandler<CreateStopwatchItemCommand, int>
         {
             private readonly IContext _context;
 
@@ -22,7 +23,7 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 _context = context;
             }
 
-            public async Task<Unit> Handle(CreateStopwatchItemCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateStopwatchItemCommand request, CancellationToken cancellationToken)
             {
                 StopwatchItem entity = new StopwatchItem
                 {
@@ -36,7 +37,7 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return entity.Id;
             }
         }
     }
