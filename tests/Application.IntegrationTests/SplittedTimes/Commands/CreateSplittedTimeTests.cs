@@ -1,8 +1,9 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using Project.Application.Common.Exceptions;
+using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
+using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.SplittedTimes.Commands
@@ -14,25 +15,24 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
         public async Task ShouldCreteAndReturnSplittedTime()
         {
             //Arrange
-            ProjectItem project = new ProjectItem
+            var projectId = await SendAsync(new CreateProjectItemCommand
             {
-                Title = "project"
-            };
-            await AddAsync(project);
+                Title = "project",
+                Theme = "violet"
+            });
 
-            StopwatchItem stopwatch = new StopwatchItem
+            var stopwatchId = await SendAsync(new CreateStopwatchItemCommand
             {
-                ProjectItemId = project.Id,
+                ProjectItemId = projectId,
                 Title = "stopwatch",
                 Theme = "violet",
                 Time = "00:00:00"
-            };
-            await AddAsync(stopwatch);
+            });
 
             var command = new CreateSplittedTimeCommand
             {
-                StopwatchItemId = stopwatch.Id,
-                Time = stopwatch.Time
+                StopwatchItemId = stopwatchId,
+                Time = "00:00:00"
             };
 
             //Act

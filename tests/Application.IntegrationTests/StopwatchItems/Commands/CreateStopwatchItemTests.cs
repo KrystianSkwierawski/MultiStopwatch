@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using Project.Application.Common.Exceptions;
+using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
-using System;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.StopwatchItems.Commands
@@ -16,15 +15,15 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
         public async Task ShouldCreateStopwatchItem()
         {
             //Arrange
-            ProjectItem project = new ProjectItem
+            var projectId = await SendAsync(new CreateProjectItemCommand
             {
-                Title = "project"
-            };
-            await AddAsync(project);
+                Title = "project",
+                Theme = "violet"
+            });
 
             var command = new CreateStopwatchItemCommand
             {
-                ProjectItemId = project.Id,
+                ProjectItemId = projectId,
                 Title = "stopwatch",
                 Theme = "violet",
                 Time = "00:00:00"

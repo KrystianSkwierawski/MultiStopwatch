@@ -4,10 +4,6 @@ using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.ProjectItems.Commands.DeleteProjectItem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.ProjectItems.Commands

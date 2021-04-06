@@ -2,18 +2,16 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
-using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
-using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
+using Project.Application.ProjectItems.Commands.UpdateProjectItem;
 using System.Threading.Tasks;
 
-namespace Project.Application.IntegrationTests.StopwatchItems.Commands
+namespace Project.Application.IntegrationTests.ProjectItems.Commands
 {
     using static Testing;
-    public class UpdateStopwatchItemTests
+    public class UpdateProjectItemTests
     {
-
         [Test]
-        public async Task ShouldUpdateStopwatchItem()
+        public async Task ShouldUpdateProjectItem()
         {
             //Arrange
             var projectId = await SendAsync(new CreateProjectItemCommand
@@ -22,18 +20,10 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Theme = "violet"
             });
 
-            var stopwatchId = await SendAsync(new CreateStopwatchItemCommand
+            var command = new UpdateProjectItemCommand
             {
-                ProjectItemId = projectId,
-                Title = "stopwatch",
-                Theme = "violet",
-                Time = "00:00:00"
-            });
-
-            var command = new UpdateStopwatchItemCommand
-            {
-                Id = stopwatchId,
-                Title = "stopwatch2",
+                Id = projectId,
+                Title = "project2",
                 Theme = "red",
                 Time = "50:00:00"
             };
@@ -42,7 +32,8 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
             await SendAsync(command);
 
             //Assert
-            StopwatchItem result = await FindAsync<StopwatchItem>(stopwatchId);
+            ProjectItem result = await FindAsync<ProjectItem>(projectId);
+
             result.Should().NotBeNull();
             result.Title.Should().Be(command.Title);
             result.Theme.Should().Be(command.Theme);
