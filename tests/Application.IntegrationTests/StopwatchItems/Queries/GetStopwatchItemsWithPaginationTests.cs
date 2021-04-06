@@ -2,7 +2,9 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Models;
+using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,23 +18,34 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
         public async Task ShouldReturnStopwatchItemsWithPagination()
         {
             //Arrange
-            ProjectItem projectItem = new ProjectItem
+            var projectId = await SendAsync(new CreateProjectItemCommand
             {
-                Title = "Project"
-            };
-            await AddAsync(projectItem);
+                Title = "project",
+                Theme = "violet"
+            });
 
 
-            StopwatchItem stopwatchItem = new StopwatchItem
-            {
-                ProjectItemId = projectItem.Id,
-                Title = "Stopwatch"
-            };
-            await AddAsync(stopwatchItem);
+            await AddAllAsync(new List<StopwatchItem> {
+                new StopwatchItem
+                {
+                    ProjectItemId = projectId,
+                    Title = "stopwatch",
+                },
+                new StopwatchItem
+                {
+                     ProjectItemId = projectId,
+                    Title = "stopwatch",
+                },
+                new StopwatchItem
+                {
+                     ProjectItemId = projectId,
+                    Title = "stopwatch",
+                }
+            });
 
             var query = new GetStopwatchItemsWithPaginationQuery
             {
-                ProjectId = projectItem.Id,
+                ProjectId = projectId,
                 PageNumber = 1,
                 PageSize = 50
             };
@@ -42,8 +55,14 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
 
             //Assert
             result.Should().NotBeNull();
-            result.Items.Should().HaveCount(1);
-            result.Items.First().Title.Should().Be(stopwatchItem.Title);
+            result.Items.Should().HaveCount(3);
+
+            result.PageIndex.Should().Be(query.PageNumber);         
+            result.TotalCount.Should().Be(result.Items.Count());
+            result.PageSize.Should().Be(query.PageSize);
+
+            int totalPages = (int)System.Math.Ceiling(result.TotalCount / (double)result.PageSize);
+            result.TotalPages.Should().Be(totalPages);
         }
     }
 }
