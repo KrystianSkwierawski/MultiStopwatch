@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
 {
     using static Testing;
-    public class GetFavoriteProjectsItemsTests
+    public class GetFavoriteProjectsItemsTests : TestBase
     {
         [Test]
         public async Task ShouldReturnAllFavoriteProjectItems()
@@ -28,6 +28,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
 
             //Assert
             result.Should().NotBeNull();
+            result.Should().HaveCount(2);
             result.All(x => x.Title == "favorite").Should().BeTrue();
         }
     }

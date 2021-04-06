@@ -34,8 +34,4 @@
     <ProjectReference Include="..\..\src\WebUI\WebUI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ProjectItems\Queries\" />
-  </ItemGroup>
-
 </Project>

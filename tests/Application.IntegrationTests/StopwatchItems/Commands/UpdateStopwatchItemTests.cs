@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Project.Application.IntegrationTests.StopwatchItems.Commands
 {
     using static Testing;
-    public class UpdateStopwatchItemTests
+    public class UpdateStopwatchItemTests : TestBase
     {
 
         [Test]

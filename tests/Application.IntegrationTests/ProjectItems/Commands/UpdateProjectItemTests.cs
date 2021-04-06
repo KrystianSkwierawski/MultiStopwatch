@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Project.Application.IntegrationTests.ProjectItems.Commands
 {
     using static Testing;
-    public class UpdateProjectItemTests
+    public class UpdateProjectItemTests : TestBase
     {
         [Test]
         public async Task ShouldUpdateProjectItem()

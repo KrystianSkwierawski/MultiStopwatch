@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Project.Application.IntegrationTests.ProjectItems.Commands
 {
     using static Testing;
-    public class CreateProjectItemTests
+    public class CreateProjectItemTests : TestBase
     {
         [Test]
         public async Task ShouldCreateProjectItem()

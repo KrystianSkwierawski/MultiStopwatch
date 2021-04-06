@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace  Project.Application.IntegrationTests.SplittedTimes.Commands
 {
     using static Testing;
-    public class LikeOrDislikeProjectItemTests
+    public class LikeOrDislikeProjectItemTests : TestBase
     {
         [Test]
         public async Task ShouldLikeProjectItem()

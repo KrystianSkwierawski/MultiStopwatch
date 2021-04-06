@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Project.Application.IntegrationTests.ProjectItems.Commands
 {
     using static Testing;
-    public class DeleteProjectItemTests
+    public class DeleteProjectItemTests : TestBase
     {
         [Test]
         public void ShouldRequireValidSplittedTimeId()
