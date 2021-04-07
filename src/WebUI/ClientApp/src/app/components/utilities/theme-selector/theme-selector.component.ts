@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class ThemeSelectorComponent implements OnInit {
 
+  @Input() theme: string;
   selected;
 
   @Output() onSaveChanges: EventEmitter<string> = new EventEmitter<string>();
@@ -15,12 +16,18 @@ export class ThemeSelectorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.setDefault("#6264A7");
+    this.setTheme();
   }
 
-  setDefault(defaultTheme: string) {
-    this.saveChanges(defaultTheme);
-    this.selected = new FormControl(defaultTheme);
+  setTheme() {
+    if (!this.theme) {
+      const defaultTheme = "#6264A7";
+
+      this.theme = defaultTheme;
+      this.saveChanges(this.theme);
+    }
+
+    this.selected = new FormControl(this.theme);
   }
 
 
