@@ -15,7 +15,7 @@ export class PertCalculatorDialogComponent implements OnInit {
   pessimisticallyValue: number = 0;
 
   form: FormGroup
-  displayedColumns: string[] = ['chance', 'unit'];
+  displayedColumns: string[] = ['chance', 'time'];
   dataSource;
 
   constructor(public dialogRef: MatDialogRef<PertCalculatorDialogComponent>, private formBulider: FormBuilder) { }
@@ -49,11 +49,11 @@ export class PertCalculatorDialogComponent implements OnInit {
       const expected: number = this.calculateExpected();
       const deviation: number = this.calculateDeviation();
 
-      const unit: number = index <= 7 ? expected - (values[index] * deviation) : expected + (values[index] * deviation);
+      const time: number = index <= 7 ? expected - (values[index] * deviation) : expected + (values[index] * deviation);
 
       estimates.push({
         chance: chance,
-        unit: unit
+        time: time
       });
     });
 

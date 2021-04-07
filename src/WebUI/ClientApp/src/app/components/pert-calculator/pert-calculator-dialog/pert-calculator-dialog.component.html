@@ -34,7 +34,7 @@
               [disabled]="form.invalid"
               (click)="calculate()">
 
-        <i class="fas fa-calculator"></i> PERT Calculator
+        <i class="fas fa-calculator"></i> Calculate
       </button>
     </form>
   </div>
@@ -47,8 +47,8 @@
         <td mat-cell *matCellDef="let element"> {{element.chance + "%"}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef> Unit </th>
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Time </th>
         <td mat-cell *matCellDef="let element"> {{element.unit.toFixed(2)}} </td>
       </ng-container>
 

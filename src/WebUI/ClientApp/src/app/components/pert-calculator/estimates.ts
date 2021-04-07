@@ -1,4 +1,4 @@
 interface Estimates {
   chance: number,
-  unit: number
+  time: number
 }
