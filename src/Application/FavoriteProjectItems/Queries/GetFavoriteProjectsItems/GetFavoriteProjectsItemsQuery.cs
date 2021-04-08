@@ -16,17 +16,19 @@ namespace Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsIt
         {
             private readonly IContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetFavoriteProjectsItemsQueryHandler(IContext context, IMapper mapper)
+            public GetFavoriteProjectsItemsQueryHandler(IContext context, IMapper mapper, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<List<FavoriteProjectItemDto>> Handle(GetFavoriteProjectsItemsQuery request, CancellationToken cancellationToken)
             {
                 return await _context.ProjectItems
-                 .Where(x => x.IsFavorite == true)
+                 .Where(x => x.CreatedBy == _currentUserService.UserId && x.IsFavorite == true)
                  .OrderBy(x => x.OrderIndex)
                  .ProjectTo<FavoriteProjectItemDto>(_mapper.ConfigurationProvider)
                  .ToListAsync(cancellationToken);

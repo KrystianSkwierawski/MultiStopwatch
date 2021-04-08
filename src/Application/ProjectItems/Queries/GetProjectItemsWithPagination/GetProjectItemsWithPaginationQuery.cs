@@ -19,16 +19,19 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
         {
             private readonly IContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetProjectItemsWithPaginationQueryHandler(IContext context, IMapper mapper)
+            public GetProjectItemsWithPaginationQueryHandler(IContext context, IMapper mapper, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<PaginatedList<ProjectItemDto>> Handle(GetProjectItemsWithPaginationQuery request, CancellationToken cancellationToken)
             {
                 return await _context.ProjectItems
+                    .Where(x => x.CreatedBy == _currentUserService.UserId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<ProjectItemDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);

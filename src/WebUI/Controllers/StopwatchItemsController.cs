@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.Models;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using Project.Application.StopwatchItems.Commands.DeleteStopwatchItem;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
 {
+    [Authorize]
     public class StopwatchItemsController : ApiControllerBase
     {
         [HttpGet]

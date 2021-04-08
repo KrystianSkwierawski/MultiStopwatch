@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ProjectsDataService } from '../../../services/projects-data-service';
@@ -15,7 +15,7 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit {
+export class ProjectsListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
@@ -27,6 +27,11 @@ export class ProjectsListComponent implements OnInit {
     private projectItemsClient: ProjectItemsClient,
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService) { }
+
+
+  ngAfterViewInit(): void {
+    
+  }
 
   ngOnInit() {
     this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {

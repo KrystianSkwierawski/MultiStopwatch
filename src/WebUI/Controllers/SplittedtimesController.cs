@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using Project.Application.SplittedTimes.Commands.DeleteSplittedTime;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
 {
+    [Authorize]
     public class SplittedtimesController : ApiControllerBase
     {
         [HttpPost]

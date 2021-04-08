@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.Models;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.ProjectItems.Commands.DeleteProjectItem;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
 {
+    [Authorize]
     public class ProjectItemsController : ApiControllerBase
     {
         [HttpGet("{id}")]
