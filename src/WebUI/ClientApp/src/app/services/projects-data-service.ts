@@ -22,14 +22,21 @@ export class ProjectsDataService {
   }
 
   loadDataAfterAuthenticate() {
-    const timer = setTimeout(() => {
-      if (this.authorize.isAuthenticated()) {
-        this.loadData();
 
-        clearInterval(timer);
-        return;
+    this.authorize.isAuthenticated().subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.loadData();
       }
-    }, 3000);
+    });
+
+    //const timer = setTimeout(() => {
+    //  if (this.authorize.isAuthenticated()) {
+    //    this.loadData();
+
+    //    clearInterval(timer);
+    //    return;
+    //  }
+    //}, 3000);
   }
 
 
