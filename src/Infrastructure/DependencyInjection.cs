@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Project.Infrastructure
 {
@@ -42,6 +43,14 @@ namespace Project.Infrastructure
           
             services.AddAuthentication()
             .AddIdentityServerJwt();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+                options.ExpireTimeSpan = TimeSpan.FromDays(20);
+                options.SlidingExpiration = true;
+            });
+
 
             return services;
         }

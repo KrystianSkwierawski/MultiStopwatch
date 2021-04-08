@@ -31,7 +31,7 @@ namespace Project.WebUI.Hubs
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
-        {          
+        {
             await SaveStopwatchesChangesInDb();
             await SaveProjectChangesInDb();
 
@@ -60,7 +60,7 @@ namespace Project.WebUI.Hubs
                     Id = stopwatch.Id,
                     Title = stopwatch.Title,
                     Time = stopwatch.Time,
-                    Theme = stopwatch.Theme                  
+                    Theme = stopwatch.Theme
                 });
             }
         }
@@ -76,7 +76,7 @@ namespace Project.WebUI.Hubs
             {
                 Id = project.Id,
                 Title = project.Title,
-                Time = project.Time,   
+                Time = project.Time,
                 Theme = project.Theme
             });
         }
@@ -86,12 +86,24 @@ namespace Project.WebUI.Hubs
             if (stopwatchItemDto == null)
                 return;
 
-            if (_localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id) == null)
+            StopwatchItemDto entity = await GetStopwatchChanges(stopwatchItemDto);
+
+            entity.Title = stopwatchItemDto.Title;
+            entity.Theme = stopwatchItemDto.Theme;
+            entity.Time = stopwatchItemDto.Time;
+        }
+
+        public async Task<StopwatchItemDto> GetStopwatchChanges(StopwatchItemDto stopwatchItemDto)
+        {
+            StopwatchItemDto entity = _localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id);
+
+            if (entity == null)
             {
-                _localStopwatchesChanges[Context.ConnectionId].Remove(stopwatchItemDto);
+                _localStopwatchesChanges[Context.ConnectionId].Add(stopwatchItemDto);
+                entity = _localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id);
             }
 
-            _localStopwatchesChanges[Context.ConnectionId].Add(stopwatchItemDto);
+            return entity;
         }
 
         public async Task SaveLocalProjectChanges(ProjectItemDto projectItemDto)
