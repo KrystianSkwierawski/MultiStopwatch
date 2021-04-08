@@ -1,9 +1,9 @@
 # <a href="https://wiktoriaskorek.com/"><p align="center"><img src="https://user-images.githubusercontent.com/52860350/113839280-d7b4cd00-978f-11eb-926b-e6e16d6f0999.png" alt="multistopwatch"/></p><a/>
   
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen  book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+Multistopwatch is an application for the organization of work. In simply way you can measure time of every project and every task. This application helps to calculate the duration of the project. It might be helpful in optimizing and predicting project time. Thanks to built-in PERT-Calculator you can also estimate project implementation time.  It will allow you to build good habits and manage your time. In each project you will find a diagram that shows the time of the tasks performed as a percentage. 
+You can create any number of project with tasks in a pleasant color palette. Projects can be added to favorites by cliking on the heart icon. 
 
-Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+This project arose in need of projects time calculation as well as optimization and  time prediction.
 
 
 
