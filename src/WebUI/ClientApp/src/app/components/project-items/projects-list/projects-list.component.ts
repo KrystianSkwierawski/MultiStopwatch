@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { CreateProjectItemCommand, FavoriteProjectItemsClient, ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand, PaginatedListOfProjectItemDto, ProjectItemDto2 } from '../../../web-api-client';
-import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
+import { CreateProjectItemCommand, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
@@ -15,7 +15,7 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit, AfterViewInit {
+export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
@@ -29,16 +29,12 @@ export class ProjectsListComponent implements OnInit, AfterViewInit {
     private projectsDataService: ProjectsDataService) { }
 
 
-  ngAfterViewInit(): void {
-    
-  }
-
   ngOnInit() {
     this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
       this.projects = result.items;
       this.filterTitlesArray();
-    });
+    }); 
   }
 
   openCreateProjectDialog() {

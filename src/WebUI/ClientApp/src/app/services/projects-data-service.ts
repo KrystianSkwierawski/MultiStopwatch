@@ -1,12 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemsClient } from '../web-api-client';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ProjectsDataService implements OnInit {
+export class ProjectsDataService {
 
   private paginatedListOfProjectItemDtoSource = new BehaviorSubject(new PaginatedListOfProjectItemDto());
   paginatedListOfProjectItemDto = this.paginatedListOfProjectItemDtoSource.asObservable();
@@ -16,13 +17,21 @@ export class ProjectsDataService implements OnInit {
   favoriteProjects = this.favoriteProjectsSource.asObservable();
 
 
-  constructor(private projectItemsClient: ProjectItemsClient, private favoriteProjectItemsClient: FavoriteProjectItemsClient) {
-    this.loadData();
+  constructor(private projectItemsClient: ProjectItemsClient, private favoriteProjectItemsClient: FavoriteProjectItemsClient, private authorize: AuthorizeService) {
+    this.loadDataAfterAuthenticate();
   }
 
-  ngOnInit(): void {
+  loadDataAfterAuthenticate() {
+    const timer = setTimeout(() => {
+      if (this.authorize.isAuthenticated()) {
+        this.loadData();
 
+        clearInterval(timer);
+        return;
+      }
+    }, 3000);
   }
+
 
   loadData() {
     this.loadFavoriteProjects();

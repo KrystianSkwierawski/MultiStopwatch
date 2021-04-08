@@ -21,18 +21,20 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
         {
             private readonly IContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetStopwatchItemsWithPaginationQueryHandler(IContext context, IMapper mapper)
+            public GetStopwatchItemsWithPaginationQueryHandler(IContext context, IMapper mapper, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<PaginatedList<StopwatchItemDto>> Handle(GetStopwatchItemsWithPaginationQuery request, CancellationToken cancellationToken)
             {
                 return await _context.StopWatchItems
-                     .AsNoTracking()
-                    .Where(x => x.ProjectItemId == request.ProjectId)
+                    .AsNoTracking()
+                    .Where(x => x.ProjectItemId == request.ProjectId && x.CreatedBy == _currentUserService.UserId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<StopwatchItemDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);

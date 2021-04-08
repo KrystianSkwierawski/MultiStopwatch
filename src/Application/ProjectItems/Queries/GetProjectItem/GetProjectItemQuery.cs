@@ -3,6 +3,7 @@ using Domain.Entities;
 using MediatR;
 using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,16 +18,19 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItem
         {
             private readonly IContext _context;
             private readonly IMapper _mapper;
+            private readonly ICurrentUserService _currentUserService;
 
-            public GetProjectItemQueryHandler(IContext context, IMapper mapper)
+            public GetProjectItemQueryHandler(IContext context, IMapper mapper, ICurrentUserService currentUserService)
             {
                 _context = context;
                 _mapper = mapper;
+                _currentUserService = currentUserService;
             }
 
             public async Task<ProjectItemDto> Handle(GetProjectItemQuery request, CancellationToken cancellationToken)
             {
-                ProjectItem entity = await _context.ProjectItems.FindAsync(request.Id);
+                ProjectItem entity = _context.ProjectItems
+                    .FirstOrDefault(x => x.Id == request.Id && x.CreatedBy == _currentUserService.UserId);
 
                 if (entity == null)
                 {
