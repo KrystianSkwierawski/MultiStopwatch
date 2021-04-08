@@ -7,7 +7,6 @@ import { ProjectsListComponent } from './components/project-items/projects-list/
 
 export const routes: Routes = [
   { path: '', component: ProjectsListComponent, canActivate: [AuthorizeGuard] },
-  { path: 'login', component: LoginMenuComponent },
   { path: 'project/:id', component: ProjectDetailsComponent, canActivate: [AuthorizeGuard]},
   { path: '**', redirectTo: '' }
 ];

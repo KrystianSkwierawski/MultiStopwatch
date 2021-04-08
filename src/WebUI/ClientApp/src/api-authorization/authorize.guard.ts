@@ -20,7 +20,7 @@ export class AuthorizeGuard implements CanActivate {
 
   private handleAuthorization(isAuthenticated: boolean, state: RouterStateSnapshot) {
     if (!isAuthenticated) {
-      this.router.navigateByUrl("/login");
+      /*this.router.navigateByUrl("/login");*/
       return false;
     }
 
