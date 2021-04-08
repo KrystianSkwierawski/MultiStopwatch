@@ -16,6 +16,7 @@ a {
   border-radius: 8px;
   color: white;
   transition: .2s;
+  text-decoration: none;
 }
 
   a:hover {

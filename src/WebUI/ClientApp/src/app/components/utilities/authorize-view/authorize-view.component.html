@@ -1,2 +1,2 @@
-<ng-content *ngIf="!(isAuthenticated | async)" select="[notAuthorized]"></ng-content>
-<ng-content *ngIf="isAuthenticated | async" select="[authorized]"></ng-content>
+<ng-content *ngIf="!isAuthenticated" select="[notAuthorized]"></ng-content>
+<ng-content *ngIf="isAuthenticated" select="[authorized]"></ng-content>

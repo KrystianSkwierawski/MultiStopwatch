@@ -8,11 +8,11 @@ import { AuthorizeService } from '../../../../api-authorization/authorize.servic
   styleUrls: ['./authorize-view.component.scss']
 })
 export class AuthorizeViewComponent implements OnInit {
-  public isAuthenticated: Observable<boolean>;
+  isAuthenticated;
 
   constructor(private authorizeService: AuthorizeService) { }
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizeService.isAuthenticated();
+    this.authorizeService.isAuthenticated().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
 }
