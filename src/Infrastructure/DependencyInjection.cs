@@ -51,6 +51,7 @@ namespace Project.Infrastructure
                 options.SlidingExpiration = true;
             });
 
+            services.AddSignalR();
 
             return services;
         }

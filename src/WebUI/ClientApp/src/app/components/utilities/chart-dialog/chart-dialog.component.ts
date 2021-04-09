@@ -42,7 +42,6 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
       e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
     }
     e.chart.render();
-
   }
 
   getDataPoints(): unknown[] {
@@ -63,7 +62,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   getPercentage(item: any) {
     let o_percentage = 0;
 
-    const itemsTotalSeconds = this.calcItemsTotalSeconds();
+    const itemsTotalSeconds = this.calcAllItemsTotalSeconds();
     const itemTotalSeconds: number = this.calcItemTotalSeconds(item.time);
 
     o_percentage = Math.round((itemTotalSeconds / itemsTotalSeconds) * 100);
@@ -71,7 +70,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
     return o_percentage;
   }
 
-  calcItemsTotalSeconds(): number {
+  calcAllItemsTotalSeconds(): number {
     let o_totalSeconds: number = 0;
 
     this.data.forEach(x => {
