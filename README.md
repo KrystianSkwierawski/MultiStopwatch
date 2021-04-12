@@ -11,7 +11,7 @@ This project arose in need of projects time calculation as well as optimization 
 <div style="text-align:center">
   <a href="https://user-images.githubusercontent.com/52860350/113852921-5cf2ae80-979d-11eb-8c63-95925a100543.mp4">   
     <p align="center">
-      <img width="90%" height="80%" src="https://user-images.githubusercontent.com/52860350/113831771-41c97400-9788-11eb-9fd4-ae19f82f2572.png" />
+      <img width="90%" height="80%" src="https://user-images.githubusercontent.com/52860350/113831771-41c97400-9788-11eb-9fd4-ae19f82f2572.png" alt=""/>
     </p>
   </a>
 </div>
