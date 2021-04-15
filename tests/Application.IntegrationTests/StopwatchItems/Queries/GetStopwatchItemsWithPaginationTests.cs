@@ -25,7 +25,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
             });
 
 
-            await AddAllAsync(new List<StopwatchItem> {
+            await AddRangeAsync(new List<StopwatchItem> {
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,

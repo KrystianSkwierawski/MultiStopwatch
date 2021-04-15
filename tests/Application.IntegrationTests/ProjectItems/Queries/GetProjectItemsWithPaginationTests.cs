@@ -17,7 +17,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
         {
             //Arrange
 
-            await AddAllAsync(new List<ProjectItem> {
+            await AddRangeAsync(new List<ProjectItem> {
                 new ProjectItem
                 {
                     Title = "stopwatch",

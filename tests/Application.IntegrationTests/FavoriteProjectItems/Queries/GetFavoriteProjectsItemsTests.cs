@@ -15,7 +15,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
         public async Task ShouldReturnAllFavoriteProjectItems()
         {
             //Arrange
-            await AddAllAsync(new List<ProjectItem> {
+            await AddRangeAsync(new List<ProjectItem> {
                 new ProjectItem { IsFavorite = true, Title = "favorite"},
                 new ProjectItem { IsFavorite = true, Title = "favorite"},
                 new ProjectItem { IsFavorite = false, Title = "not a favorite"}

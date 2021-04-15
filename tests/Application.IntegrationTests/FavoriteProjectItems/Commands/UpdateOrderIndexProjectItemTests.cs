@@ -16,7 +16,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Commands
         public async Task ShouldUpdateOrderIndex()
         {
             //Arrange
-            await AddAllAsync(new List<ProjectItem> {
+            await AddRangeAsync(new List<ProjectItem> {
                 new ProjectItem
                 {
                     Title = "favorite",
