@@ -27,9 +27,9 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
             {
                 StopwatchItem entity = await _context.StopWatchItems.FindAsync(request.Id);
 
-                if (entity == null)
+                if (entity is null)
                 {
-                    return Unit.Value;
+                    throw new NotFoundException(nameof(StopwatchItem), request.Id);
                 }
 
                 entity.Title = request.Title;

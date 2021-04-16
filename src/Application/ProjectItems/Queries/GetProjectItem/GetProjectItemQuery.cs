@@ -32,7 +32,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItem
                 ProjectItem entity = _context.ProjectItems
                     .FirstOrDefault(x => x.Id == request.Id && x.CreatedBy == _currentUserService.UserId);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }

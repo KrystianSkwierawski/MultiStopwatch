@@ -12,7 +12,7 @@ namespace Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsIt
             get => _title;
             set
             {
-                if(value.Length > 15)
+                if (value.Length > 15)
                 {
                     _title = value.Substring(0, 12) + "...";
                 }

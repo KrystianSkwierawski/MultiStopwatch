@@ -28,7 +28,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
             {
                 ProjectItem entity = await _context.ProjectItems.FindAsync(request.Id);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }

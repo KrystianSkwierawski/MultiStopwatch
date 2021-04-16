@@ -24,7 +24,7 @@ namespace Project.Application.SplittedTimes.Commands.DeleteSplittedTime
             {
                 SplittedTime entity = await _context.SplittedTimes.FindAsync(request.Id);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     throw new NotFoundException(nameof(SplittedTime), request.Id);
                 }

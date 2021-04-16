@@ -24,7 +24,7 @@ namespace Project.Application.StopwatchItems.Commands.DeleteStopwatchItem
             {
                 StopwatchItem entity = await _context.StopWatchItems.FindAsync(request.Id);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }

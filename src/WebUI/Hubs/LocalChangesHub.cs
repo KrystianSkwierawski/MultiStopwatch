@@ -50,7 +50,7 @@ namespace Project.WebUI.Hubs
         {
             List<StopwatchItemDto> stopwatches = _localStopwatchesChanges[Context.ConnectionId];
 
-            if (stopwatches == null)
+            if (stopwatches is null)
                 return;
 
             foreach (var stopwatch in stopwatches)
@@ -69,7 +69,7 @@ namespace Project.WebUI.Hubs
         {
             ProjectItemDto project = _localProjectChanges[Context.ConnectionId];
 
-            if (project == null)
+            if (project is null)
                 return;
 
             await _mediator.Send(new UpdateProjectItemCommand
@@ -83,7 +83,7 @@ namespace Project.WebUI.Hubs
 
         public async Task SaveLocalStopwatchChanges(StopwatchItemDto stopwatchItemDto)
         {
-            if (stopwatchItemDto == null)
+            if (stopwatchItemDto is null)
                 return;
 
             StopwatchItemDto entity = await GetStopwatchChanges(stopwatchItemDto);
@@ -97,7 +97,7 @@ namespace Project.WebUI.Hubs
         {
             StopwatchItemDto entity = _localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id);
 
-            if (entity == null)
+            if (entity is null)
             {
                 _localStopwatchesChanges[Context.ConnectionId].Add(stopwatchItemDto);
                 entity = _localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id);
@@ -108,7 +108,7 @@ namespace Project.WebUI.Hubs
 
         public async Task SaveLocalProjectChanges(ProjectItemDto projectItemDto)
         {
-            if (projectItemDto == null)
+            if (projectItemDto is null)
                 return;
 
             _localProjectChanges[Context.ConnectionId] = projectItemDto;

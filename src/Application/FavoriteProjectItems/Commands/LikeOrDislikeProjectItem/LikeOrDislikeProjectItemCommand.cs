@@ -24,7 +24,7 @@ namespace Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProject
             {
                 ProjectItem entity = await _context.ProjectItems.FindAsync(request.Id);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     throw new NotFoundException(nameof(ProjectItem), request.Id);
                 }
