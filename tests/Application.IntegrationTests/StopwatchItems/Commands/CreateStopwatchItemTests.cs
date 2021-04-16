@@ -21,7 +21,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Theme = "violet"
             });
 
-            var command = new CreateStopwatchItemCommand
+            CreateStopwatchItemCommand command = new()
             {
                 ProjectItemId = projectId,
                 Title = "stopwatch",

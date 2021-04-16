@@ -15,7 +15,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
         [Test]
         public void ShouldRequireValidStopwatchItemId()
         {
-            var command = new DeleteStopwatchItemCommand { Id = 99 };
+            DeleteStopwatchItemCommand command = new() { Id = 99 };
 
             FluentActions.Invoking(() =>
                 SendAsync(command)).Should().Throw<NotFoundException>();
@@ -39,7 +39,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Time = "00:00:00"
             });
 
-            var command = new DeleteStopwatchItemCommand
+            DeleteStopwatchItemCommand command = new()
             {
                 Id = stopwatchId
             };

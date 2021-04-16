@@ -20,7 +20,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Theme = "violet"
             });
 
-            var command = new UpdateProjectItemCommand
+            UpdateProjectItemCommand command = new()
             {
                 Id = projectId,
                 Title = "project2",

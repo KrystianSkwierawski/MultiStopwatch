@@ -24,11 +24,11 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
 
             public async Task<int> Handle(CreateProjectItemCommand request, CancellationToken cancellationToken)
             {
-                ProjectItem entity = new ProjectItem
+                ProjectItem entity = new()
                 {
                     Title = request.Title,
                     Theme = request.Theme,
-                    IsFavorite = false,                  
+                    IsFavorite = false,
                     Time = "00:00:00",
                 };
 

@@ -38,7 +38,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Commands
             });
 
             List<FavoriteProjectItemDto> projectItems = await SendAsync(new GetFavoriteProjectsItemsQuery());
-            var command = new UpdateOrderIndexProjectItemCommand { CurrentProjects = projectItems.OrderByDescending(x => x.Id).ToList() };
+            UpdateOrderIndexProjectItemCommand command = new() { CurrentProjects = projectItems.OrderByDescending(x => x.Id).ToList() };
 
             //Act
             await SendAsync(command);

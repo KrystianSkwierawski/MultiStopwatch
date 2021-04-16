@@ -36,7 +36,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
                 }
             });
 
-            var query = new GetProjectItemsWithPaginationQuery
+            GetProjectItemsWithPaginationQuery query = new()
             {
                 PageNumber = 1,
                 PageSize = 50

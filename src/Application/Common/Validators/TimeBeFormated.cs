@@ -8,7 +8,7 @@ namespace Project.Application.Common.Validators
     {
         public static async Task<bool> BeFormated(string time, CancellationToken cancellationToken)
         {
-            Regex pattern = new Regex(@"^[0-9]{2,5}:[0-9]{2}:[0-9]{2}$");
+            Regex pattern = new(@"^[0-9]{2,5}:[0-9]{2}:[0-9]{2}$");
 
             return pattern.IsMatch(time);
         }

@@ -25,12 +25,12 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 
             public async Task<int> Handle(CreateStopwatchItemCommand request, CancellationToken cancellationToken)
             {
-                StopwatchItem entity = new StopwatchItem
+                StopwatchItem entity = new()
                 {
                     ProjectItemId = request.ProjectItemId,
                     Title = request.Title,
                     Time = request.Time,
-                    Theme = request.Theme                  
+                    Theme = request.Theme
                 };
 
                 await _context.StopWatchItems.AddAsync(entity);
