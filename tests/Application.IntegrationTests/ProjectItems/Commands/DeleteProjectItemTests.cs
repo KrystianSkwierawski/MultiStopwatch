@@ -14,7 +14,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
         [Test]
         public void ShouldRequireValidSplittedTimeId()
         {
-            var command = new DeleteProjectItemCommand { Id = 99 };
+            DeleteProjectItemCommand command = new() { Id = 99 };
 
             FluentActions.Invoking(() =>
                 SendAsync(command)).Should().Throw<NotFoundException>();

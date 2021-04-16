@@ -30,7 +30,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Time = "00:00:00"
             });
 
-            var command = new UpdateStopwatchItemCommand
+            UpdateStopwatchItemCommand command = new()
             {
                 Id = stopwatchId,
                 Title = "stopwatch2",

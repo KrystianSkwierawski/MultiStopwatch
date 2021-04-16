@@ -26,7 +26,7 @@ namespace Project.Application.SplittedTimes.Commands.CreateSplittedTime
 
             public async Task<SplittedTimeDto> Handle(CreateSplittedTimeCommand request, CancellationToken cancellationToken)
             {
-                SplittedTime entity = new SplittedTime
+                SplittedTime entity = new()
                 {
                     StopwatchItemId = request.StopwatchItemId,
                     Time = request.Time

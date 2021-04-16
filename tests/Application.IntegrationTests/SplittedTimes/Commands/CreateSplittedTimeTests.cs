@@ -29,7 +29,7 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
                 Time = "00:00:00"
             });
 
-            var command = new CreateSplittedTimeCommand
+            CreateSplittedTimeCommand command = new()
             {
                 StopwatchItemId = stopwatchId,
                 Time = "00:00:00"

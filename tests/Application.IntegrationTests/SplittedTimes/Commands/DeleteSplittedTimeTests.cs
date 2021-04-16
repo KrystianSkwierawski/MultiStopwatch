@@ -16,7 +16,7 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
         [Test]
         public void ShouldRequireValidSplittedTimeId()
         {
-            var command = new DeleteSplittedTimeCommand { Id = 99 };
+            DeleteSplittedTimeCommand command = new() { Id = 99 };
 
             FluentActions.Invoking(() =>
                 SendAsync(command)).Should().Throw<NotFoundException>();
@@ -46,7 +46,7 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
                 Time = "00:00:00"
             });
 
-            var command = new DeleteSplittedTimeCommand
+            DeleteSplittedTimeCommand command = new()
             {
                 Id = splittedTime.Id
             };

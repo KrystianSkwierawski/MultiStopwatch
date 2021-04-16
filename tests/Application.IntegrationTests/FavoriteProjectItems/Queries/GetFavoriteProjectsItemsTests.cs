@@ -21,7 +21,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 new ProjectItem { IsFavorite = false, Title = "not a favorite"}
             });
 
-            var query = new GetFavoriteProjectsItemsQuery();
+            GetFavoriteProjectsItemsQuery query = new();
 
             //Act
             var result = await SendAsync(query);

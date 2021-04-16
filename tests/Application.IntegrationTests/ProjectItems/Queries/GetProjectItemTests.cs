@@ -14,7 +14,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
         public async Task ShouldReturnProjectItem()
         {
             //Arrange
-            ProjectItem project = new ProjectItem
+            ProjectItem project = new()
             {
                 Title = "project",
                 Theme = "violet"
@@ -26,7 +26,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
                 Theme = project.Theme
             });
 
-            var query = new GetProjectItemQuery { Id = projectId };
+            GetProjectItemQuery query = new() { Id = projectId };
 
             //Act
             ProjectItemDto result = await SendAsync(query);

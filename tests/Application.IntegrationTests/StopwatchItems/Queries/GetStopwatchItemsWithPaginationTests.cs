@@ -43,7 +43,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
                 }
             });
 
-            var query = new GetStopwatchItemsWithPaginationQuery
+            GetStopwatchItemsWithPaginationQuery query = new()
             {
                 ProjectId = projectId,
                 PageNumber = 1,
@@ -57,7 +57,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
             result.Should().NotBeNull();
             result.Items.Should().HaveCount(3);
 
-            result.PageIndex.Should().Be(query.PageNumber);         
+            result.PageIndex.Should().Be(query.PageNumber);
             result.TotalCount.Should().Be(result.Items.Count());
             result.PageSize.Should().Be(query.PageSize);
 

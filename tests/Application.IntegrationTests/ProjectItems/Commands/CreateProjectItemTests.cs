@@ -13,7 +13,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
         public async Task ShouldCreateProjectItem()
         {
             //Arrange
-            var command = new CreateProjectItemCommand { Title = "project", Theme = "violet" };
+            CreateProjectItemCommand command = new() { Title = "project", Theme = "violet" };
 
             //Act
             var projectId = await SendAsync(command);
