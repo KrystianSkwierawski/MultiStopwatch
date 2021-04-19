@@ -14,8 +14,8 @@ export class Time {
   }
 }
 
-export function totalSecondsToHHMMSS(hours: number, minutes: number, seconds: number): string {
-  const totalSeconds: number = calcTotalSeconds(hours, minutes, seconds);
+export function timeToHHMMSS(time: Time): string {
+  const totalSeconds: number = calcTotalSeconds(time.hours, time.minutes, time.seconds);
   return toHHMMSS(totalSeconds);
 }
 

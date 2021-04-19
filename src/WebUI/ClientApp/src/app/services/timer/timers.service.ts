@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ProjectItemDto, StopwatchItemDto } from '../../web-api-client';
 import { LocalChangesHubService } from '../local-changes-hub.service';
-import { defaultTime, Time, totalSecondsToHHMMSS } from './Timer';
+import { defaultTime, Time, timeToHHMMSS } from './Timer';
 
 
 @Injectable({
@@ -99,7 +99,7 @@ export class TimersService implements OnInit {
       stopwatchTime.hours++;
     }
 
-    stopwatch.time = totalSecondsToHHMMSS(stopwatchTime.hours, stopwatchTime.minutes, stopwatchTime.seconds);
+    stopwatch.time = timeToHHMMSS(stopwatchTime);
 
     await this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
@@ -122,7 +122,8 @@ export class TimersService implements OnInit {
   }
 
   async updateProjectViewAndStoreLocalChanges() {
-    this.project.time = totalSecondsToHHMMSS(this.totalProjectHours, this.totalProjectMinutes, this.totalProjectSeconds);
+    const time: Time = new Time(`${this.totalProjectHours}:${this.totalProjectMinutes}:${this.totalProjectSeconds}`);
+    this.project.time = timeToHHMMSS(time);
 
     await this.localChangesHubService.storeLocalProjectChanges(this.project);
   }
