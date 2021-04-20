@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,16 +75,25 @@ namespace Project.WebUI
                 app.UseHsts();
             }
 
-            //app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
     
             app.UseRouting();
+
+            const string cacheMaxAge = "604800";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append(
+                         "Cache-Control",
+                         $"public, max-age={cacheMaxAge}");
+                }
+            });
 
             app.UseIdentityServer();
             app.UseAuthorization();
