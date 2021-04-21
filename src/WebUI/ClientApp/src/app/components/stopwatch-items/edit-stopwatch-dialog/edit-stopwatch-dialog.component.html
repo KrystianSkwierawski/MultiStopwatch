@@ -17,8 +17,8 @@
     <app-theme-selector [theme]="data.theme" (onSaveChanges)="changeSelectedTheme($event)"></app-theme-selector>
 
     <div>
-      <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1">Cancel</button>
-      <button mat-flat-button color="primary" [disabled]="form.invalid" [mat-dialog-close]="form.value">Save changes</button>
+      <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1" aria-label="cancel">Cancel</button>
+      <button mat-flat-button color="primary" [disabled]="form.invalid" [mat-dialog-close]="form.value" aria-label="save">Save changes</button>
     </div>
 
   </form>

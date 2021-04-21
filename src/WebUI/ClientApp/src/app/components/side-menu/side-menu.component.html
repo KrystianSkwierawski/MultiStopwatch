@@ -3,7 +3,8 @@
   <button mat-icon-button
           class="side-menu-toggle-button"
           (click)="handleToggler()"
-          [ngClass]="(!menuIsActivated) ? 'side-menu-toggle-button_closed' : ''">
+          [ngClass]="(!menuIsActivated) ? 'side-menu-toggle-button_closed' : ''"
+          aria-label="toggle side menu">
 
     <mat-icon *ngIf="!menuIsActivated">menu</mat-icon>
     <mat-icon *ngIf="menuIsActivated">chevron_left</mat-icon>
@@ -17,7 +18,8 @@
 
     <button mat-raised-button
             class="show-pert-calculator-dialog-button"
-            (click)="showPertCalculatorDialog()">
+            (click)="showPertCalculatorDialog()"
+            aria-label="show pert calculator dialog">
 
       <i class="fas fa-calculator"></i> PERT Calculator
     </button>

@@ -1,6 +1,6 @@
 <h1 class="text-center text-white mt-3">Projects</h1>
 
-<button (click)="openCreateProjectDialog()" class="add-new-project-button"><i class="fas fa-plus"></i></button>
+<button (click)="openCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
 <app-search-item-by-title *ngIf="paginatedListOfProjectItemDto.items?.length > 0"
                           (onKeyUp)="filterProjects($event)"
@@ -10,7 +10,8 @@
 <button class="open-chart-dialog-button"
         mat-icon-button
         (click)="openChartDialog()"
-        matTooltip="Show chart">
+        matTooltip="Show chart"
+        aria-label="show chart">
 
   <i class="fas fa-chart-pie"></i>
 </button>
@@ -24,17 +25,19 @@
 
         <div class="project__top">
           <div>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item
-                      (click)="openEditProjectDialog(project)">
+                      (click)="openEditProjectDialog(project)"
+                      aria-label="edit">
                 <mat-icon>done</mat-icon>
                 <span>Edit</span>
               </button>
               <button mat-menu-item
-                      (click)="openConfirmDeleteDialog(project.id)">
+                      (click)="openConfirmDeleteDialog(project.id)"
+                      aria-label="delete">
                 <mat-icon color="warn">delete</mat-icon>
                 <span>Delete</span>
               </button>
@@ -46,7 +49,8 @@
                   mat-icon-button
                   (click)="handleLikeOrDislikeProjectButton(project.id)"
                   (mouseenter)="setHoveredDivId(index)"
-                  (mouseleave)="setHoveredDivId()">
+                  (mouseleave)="setHoveredDivId()"
+                  aria-label="like or dislike">
 
             <mat-icon *ngIf="(project.isFavorite && hoveredDivId !== index) ||
                       (!project.isFavorite && hoveredDivId === index)">

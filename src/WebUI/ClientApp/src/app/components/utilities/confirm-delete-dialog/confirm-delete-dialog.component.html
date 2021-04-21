@@ -2,8 +2,8 @@
   <p>Are you sure to delete this?</p>
 
   <div class="text-center">
-    <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1">No</button>
-    <button mat-flat-button color="warn" [mat-dialog-close]="true">Yes</button>
+    <button mat-stroked-button (click)="hideDialog()" class="mr-1 mb-1" aria-label="no">No</button>
+    <button mat-flat-button color="warn" [mat-dialog-close]="true" aria-label="yes">Yes</button>
   </div>
 </div>
 

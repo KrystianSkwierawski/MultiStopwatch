@@ -3,7 +3,8 @@
 <div mat-dialog-content>
   <button mat-icon-button
           (click)="hideDialog()"
-          class="hide-dialog-button text-center mt-3">
+          class="hide-dialog-button text-center mt-3"
+          aria-label="hide">
 
     <i class="fas fa-times"></i>
   </button>
@@ -32,7 +33,8 @@
               color="primary"
               class="mb-5 mb-md-0"
               [disabled]="form.invalid"
-              (click)="calculate()">
+              (click)="calculate()"
+              aria-label="calculate">
 
         <i class="fas fa-calculator"></i> Calculate
       </button>

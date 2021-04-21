@@ -20,7 +20,8 @@
               <button mat-icon-button class="dislike-project-button"
                       (click)="handleLikeOrDislikeProjectButton(project.id)"
                       (mouseenter)="setHoveredDivId(index)"
-                      (mouseleave)="setHoveredDivId()">
+                      (mouseleave)="setHoveredDivId()"
+                      aria-label="dislike">
                 <mat-icon *ngIf="hoveredDivId !== index">favorite</mat-icon>
                 <mat-icon *ngIf="hoveredDivId === index">favorite_border</mat-icon>
               </button>
