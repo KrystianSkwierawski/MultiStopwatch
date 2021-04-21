@@ -26,7 +26,7 @@ namespace Project.Application.StopwatchItems.Commands.DeleteStopwatchItem
 
                 if (entity is null)
                 {
-                    throw new NotFoundException(nameof(ProjectItem), request.Id);
+                    return Unit.Value;
                 }
 
                 _context.StopWatchItems.Remove(entity);
