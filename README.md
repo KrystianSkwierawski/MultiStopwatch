@@ -21,6 +21,8 @@ This project arose in need of projects time calculation as well as optimization 
  * Microsoft SQL Server
  * MediatR
  * SignalR
+ * NSwag
+ * AutoMapper
  * NUnit
 
 ### Front-end
