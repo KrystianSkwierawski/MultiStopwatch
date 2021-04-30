@@ -30,3 +30,7 @@ This project arose in need of projects time calculation as well as optimization 
  * Sass
  * HTML5
 
+## Status
+Project is finished.
+
+
