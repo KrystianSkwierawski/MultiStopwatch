@@ -13,8 +13,9 @@ This project arose in need of projects time calculation as well as optimization 
   </a>
 </div>
 
-### Main technologies: 
-#### - Back-end
+## Main technologies: 
+
+### Back-end
  * C#
  * .NET 5.0
  * Microsoft SQL Server
@@ -23,7 +24,7 @@ This project arose in need of projects time calculation as well as optimization 
  * AutoMapper
  * NUnit
 
-#### - Front-end
+### Front-end
  * Angular
  * TypeScript
  * Sass
