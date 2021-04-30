@@ -20,9 +20,7 @@ This project arose in need of projects time calculation as well as optimization 
  * .NET 5.0
  * Microsoft SQL Server
  * MediatR
- * NSwag
  * SignalR
- * AutoMapper
  * NUnit
 
 ### Front-end
