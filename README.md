@@ -18,6 +18,7 @@ During the project I had a lof of fun. In pratcice I exercised <a href="https://
 ### Back-end
  * C#
  * .NET 5.0
+ * Entity Framework
  * Microsoft SQL Server
  * MediatR
  * SignalR
