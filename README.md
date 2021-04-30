@@ -5,9 +5,6 @@ You can create any number of project with tasks in a pleasant color palette. Pro
 
 This project arose in need of projects time calculation as well as optimization and  time prediction.
 
-
-
-
 <div style="text-align:center">
   <a href="https://user-images.githubusercontent.com/52860350/113852921-5cf2ae80-979d-11eb-8c63-95925a100543.mp4">   
     <p align="center">
@@ -15,3 +12,20 @@ This project arose in need of projects time calculation as well as optimization 
     </p>
   </a>
 </div>
+
+### Main technologies: 
+#### - Back-end
+ * C#
+ * .NET 5.0
+ * Microsoft SQL Server
+ * MediatR
+ * NSwag
+ * AutoMapper
+ * NUnit
+
+#### - Front-end
+ * Angular
+ * TypeScript
+ * Sass
+ * HTML5
+
