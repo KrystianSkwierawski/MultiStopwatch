@@ -13,7 +13,7 @@ export class ProjectsDataService {
   paginatedListOfProjectItemDto = this.paginatedListOfProjectItemDtoSource.asObservable();
 
 
-  private favoriteProjectsSource = new BehaviorSubject([]);
+  private favoriteProjectsSource = new BehaviorSubject(null);
   favoriteProjects = this.favoriteProjectsSource.asObservable();
 
 
@@ -28,7 +28,6 @@ export class ProjectsDataService {
       }
     });
   }
-
 
   loadData() {
     this.loadFavoriteProjects();
