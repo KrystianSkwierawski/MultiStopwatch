@@ -32,18 +32,23 @@ namespace Project.WebUI.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await SaveStopwatchesChangesInDb();
-            await SaveProjectChangesInDb();
-
-            CleanUnusingChanges();
+            await SaveAllChangesInDb();
+            await RemoveUnusingChanges();
 
             await base.OnDisconnectedAsync(exception);
         }
 
-        public void CleanUnusingChanges()
+        public async Task RemoveUnusingChanges()
         {
             _localProjectChanges.Remove(Context.ConnectionId);
+
             _localStopwatchesChanges.Remove(Context.ConnectionId);
+        }
+
+        public async Task SaveAllChangesInDb()
+        {
+            await SaveStopwatchesChangesInDb();
+            await SaveProjectChangesInDb();
         }
 
         public async Task SaveStopwatchesChangesInDb()
