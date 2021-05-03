@@ -1,4 +1,4 @@
-<h1 [ngStyle]="{'color': project.theme}" class="text-center mt-3">{{project.title}} <span class="text-white">{{project.time}}</span></h1>
+<h1 [ngStyle]="{'color': project?.theme}" class="text-center mt-3">{{project?.title}} <span class="text-white">{{project?.time}}</span></h1>
 
 <button (click)="openCreateStopwatchDialog()" class="add-new-stopwatch-button" aria-label="open create stopwatch dialog"><i class="fas fa-plus"></i></button>
 
