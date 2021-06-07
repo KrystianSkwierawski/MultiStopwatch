@@ -10,7 +10,7 @@ import { ProjectItemDto, StopwatchItemDto } from '../../../web-api-client';
 })
 export class EditProjectDialogComponent implements OnInit {
 
-  form: FormGroup
+  form: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<EditProjectDialogComponent>,
     private formBuilder: FormBuilder,
