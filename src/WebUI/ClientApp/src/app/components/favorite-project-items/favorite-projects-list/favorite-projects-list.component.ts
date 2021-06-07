@@ -16,28 +16,27 @@ export class FavoriteProjectsListComponent implements OnInit {
   columnsToDisplay: string[] = ['column'];
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
   favoriteProjects: FavoriteProjectItemDto[];
-  favoriteProjectsSub: Subscription;
 
   constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService, private authorize: AuthorizeService) { }
 
-  ngOnDestroy(): void {
-    this.favoriteProjectsSub.unsubscribe();
-  }
-
   ngOnInit(): void {
-    this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
+    this.projectsDataService.favoriteProjects.subscribe(result => {
       this.favoriteProjects = result;
     });
 
     this.loadFavoriteProjectsAfterAuthenticate();
-
-    window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   loadFavoriteProjectsAfterAuthenticate() {
-    this.authorize.isAuthenticated().subscribe(isAuthenticated => {
+    let authorizeSub: Subscription;
+
+    authorizeSub = this.authorize.isAuthenticated().subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.projectsDataService.loadFavoriteProjects();
+
+        if (authorizeSub)
+          authorizeSub.unsubscribe();
+
       }
     });
   }

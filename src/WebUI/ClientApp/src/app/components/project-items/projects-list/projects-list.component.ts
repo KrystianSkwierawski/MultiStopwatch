@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 import { ProjectsDataService } from '../../../services/projects-data-service';
 import { CreateProjectItemCommand, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
@@ -17,12 +17,11 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit, OnDestroy {
+export class ProjectsListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
-  paginatedListOfProjectItemDtoSub: Subscription;
 
   projects: ProjectItemDto[];
   titlesArray: string[];
@@ -33,26 +32,26 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private projectsDataService: ProjectsDataService,
     private authorize: AuthorizeService) { }
 
-  ngOnDestroy(): void {
-    this.paginatedListOfProjectItemDtoSub.unsubscribe();
-  }
-
   ngOnInit() {
-    this.paginatedListOfProjectItemDtoSub = this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
+    this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
       this.projects = result.items;
       this.filterTitlesArray();
     });
 
     this.loadProjectsAfterAuthenticate();
-
-    window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   loadProjectsAfterAuthenticate() {
-    this.authorize.isAuthenticated().subscribe(isAuthenticated => {
+    let authorizeSub: Subscription;
+
+    authorizeSub = this.authorize.isAuthenticated().subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.projectsDataService.loadProjects();
+
+        if (authorizeSub)
+          authorizeSub.unsubscribe();
+
       }
     });
   }
