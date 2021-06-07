@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
+import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 import { ProjectsDataService } from '../../../services/projects-data-service';
 import { CreateProjectItemCommand, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
@@ -15,26 +17,44 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit {
+export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
+  paginatedListOfProjectItemDtoSub: Subscription;
+
   projects: ProjectItemDto[];
   titlesArray: string[];
 
   constructor(public dialog: MatDialog,
     private projectItemsClient: ProjectItemsClient,
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
-    private projectsDataService: ProjectsDataService) { }
+    private projectsDataService: ProjectsDataService,
+    private authorize: AuthorizeService) { }
 
+  ngOnDestroy(): void {
+    this.paginatedListOfProjectItemDtoSub.unsubscribe();
+  }
 
   ngOnInit() {
-    this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
+    this.paginatedListOfProjectItemDtoSub = this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
       this.projects = result.items;
       this.filterTitlesArray();
-    }); 
+    });
+
+    this.loadProjectsAfterAuthenticate();
+
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+
+  loadProjectsAfterAuthenticate() {
+    this.authorize.isAuthenticated().subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.projectsDataService.loadProjects();
+      }
+    });
   }
 
   openCreateProjectDialog() {

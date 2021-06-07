@@ -37,7 +37,6 @@ export class StopwatchesListComponent implements OnInit {
     private localChangesHubService: LocalChangesHubService,
     private splittedtimesClient: SplittedtimesClient) {
 
-    this.localChangesHubService.startConnection();
   }
 
   setProjectId() {
@@ -47,6 +46,8 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.localChangesHubService.startConnection();
+
     this.setProjectId();
 
     this.loadProject();

@@ -1,6 +1,8 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 import { ProjectsDataService } from '../../../services/projects-data-service';
 import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
 
@@ -14,15 +16,31 @@ export class FavoriteProjectsListComponent implements OnInit {
   columnsToDisplay: string[] = ['column'];
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
   favoriteProjects: FavoriteProjectItemDto[];
+  favoriteProjectsSub: Subscription;
 
-  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService) { }
+  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService, private authorize: AuthorizeService) { }
 
-  ngOnInit(): void {
-    this.projectsDataService.favoriteProjects.subscribe(result => {
-      this.favoriteProjects = result;
-    });
+  ngOnDestroy(): void {
+    this.favoriteProjectsSub.unsubscribe();
   }
 
+  ngOnInit(): void {
+    this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
+      this.favoriteProjects = result;
+    });
+
+    this.loadFavoriteProjectsAfterAuthenticate();
+
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+
+  loadFavoriteProjectsAfterAuthenticate() {
+    this.authorize.isAuthenticated().subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.projectsDataService.loadFavoriteProjects();
+      }
+    });
+  }
 
   updateOrderIndex(event) {
     const previousIndex = this.favoriteProjects.findIndex(project => project === event.item.data);
