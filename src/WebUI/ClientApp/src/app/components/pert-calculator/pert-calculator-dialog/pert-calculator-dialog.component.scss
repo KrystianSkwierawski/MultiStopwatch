@@ -37,10 +37,10 @@ mat-form-field {
   @include respond-to(medium) {
     overflow: visible;
     min-width: 50%;
-  }
+  } 
 }
 
-::ng-deep .mat-dialog-content {
+::ng-deep .pert-calculator {
   overflow: visible;
 
   @include respond-to(medium) {
