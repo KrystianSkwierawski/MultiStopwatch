@@ -38,7 +38,7 @@ export class PertCalculatorDialogComponent implements OnInit {
     let estimates: Estimates[] = [];
 
     const chances: number[] = [2, 10, 16, 20, 25, 30, 40, 50, 60, 70, 75, 80, 84, 90, 98];
-    const values: number[] = [2, 1.28, 1, 0.84, 0.67, 0.52, 0.25, 0, 0.25, 0.52, 0.67, 0.84, 1, 1.28, 2]
+    const values: number[] = [2, 1.28, 1, 0.84, 0.67, 0.52, 0.25, 0, 0.25, 0.52, 0.67, 0.84, 1, 1.28, 2];
 
     this.optimisticValue = this.form.get('optimistic').value;
     this.realisticValue = this.form.get('realistic').value;

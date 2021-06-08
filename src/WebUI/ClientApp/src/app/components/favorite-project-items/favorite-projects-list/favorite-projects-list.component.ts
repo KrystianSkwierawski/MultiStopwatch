@@ -1,6 +1,7 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 import { ProjectsDataService } from '../../../services/projects-data-service';
@@ -17,7 +18,10 @@ export class FavoriteProjectsListComponent implements OnInit {
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
   favoriteProjects: FavoriteProjectItemDto[];
 
-  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient, private projectsDataService: ProjectsDataService, private authorize: AuthorizeService) { }
+  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private projectsDataService: ProjectsDataService,
+    private authorize: AuthorizeService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.projectsDataService.favoriteProjects.subscribe(result => {
@@ -67,7 +71,16 @@ export class FavoriteProjectsListComponent implements OnInit {
 
   handleLikeOrDislikeProjectButton(projectId: number) {
     this.favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
-      this.projectsDataService.loadData();
+
+      const homePath = (this.router.url === '/') ? true : false;
+
+      if (homePath) {
+        this.projectsDataService.loadData();
+        return;
+      }
+
+      this.projectsDataService.loadFavoriteProjects();
+
     });
   }
 }

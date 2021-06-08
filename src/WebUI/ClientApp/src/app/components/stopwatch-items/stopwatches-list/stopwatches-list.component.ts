@@ -76,7 +76,7 @@ export class StopwatchesListComponent implements OnInit {
 
         await this.localChangesHubService.saveStopwatchesChangesInDb();
 
-        this.addStopwatch(result)
+        this.addStopwatch(result);
       }
     });
   }
@@ -131,7 +131,7 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: StopwatchItemDto) => {
       if (result) {
-        stopwatchItem.title = result.title
+        stopwatchItem.title = result.title;
         stopwatchItem.time = result.time;
         stopwatchItem.theme = result.theme;
 
