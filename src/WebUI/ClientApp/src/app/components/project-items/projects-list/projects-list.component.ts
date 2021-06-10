@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 import { ProjectsDataService } from '../../../services/projects-data-service';
-import { CreateProjectItemCommand, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
+import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient } from '../../../web-api-client';
 import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
@@ -56,21 +56,21 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  openCreateProjectDialog() {
+  onOpenCreateProjectDialog() {
     const dialogRef = this.dialog.open(CreateProjectDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe(success => {
+      if (success) {
         if (this.searchProjectComponent) {
           this.searchProjectComponent.cleanInput();
         }
 
-        this.addProject(result);
+        this.projectsDataService.loadProjects();
       }
     });
   }
 
-  openConfirmDeleteDialog(projectId: number) {
+  onOpenConfirmDeleteDialog(projectId: number) {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -80,37 +80,22 @@ export class ProjectsListComponent implements OnInit {
     });
   }
 
-  addProject(projectItem: ProjectItemDto) {
-    this.projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
-      this.projectsDataService.loadProjects();
-    });
-  }
-
-  openEditProjectDialog(projectItem: ProjectItemDto2) {
-
+  onOpenEditProjectDialog(projectItem: ProjectItemDto2) {
     const dialogRef = this.dialog.open(EditProjectDialogComponent, {
       data: projectItem
     });
 
-    dialogRef.afterClosed().subscribe((result: ProjectItemDto2) => {
-      if (result) {
-        projectItem.title = result.title;
-        projectItem.theme = result.theme;
-        this.updateProject(projectItem);
+    dialogRef.afterClosed().subscribe(success => {
+      if (success) {
+        this.projectsDataService.loadData();
       }
     });
   }
 
-  openChartDialog() {
+  onOpenChartDialog() {
     this.dialog.open(ChartDialogComponent, {
       data: this.paginatedListOfProjectItemDto.items,
       panelClass: 'chart-dialog'
-    })
-  }
-
-  updateProject(projectItem: ProjectItemDto) {
-    this.projectItemsClient.update(UpdateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
-      this.projectsDataService.loadData();
     });
   }
 

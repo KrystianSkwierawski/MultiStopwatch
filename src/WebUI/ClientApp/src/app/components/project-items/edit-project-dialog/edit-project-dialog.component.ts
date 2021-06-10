@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProjectItemDto, StopwatchItemDto } from '../../../web-api-client';
+import { ProjectItemDto, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 
 @Component({
   selector: 'app-edit-project-dialog',
@@ -14,7 +14,8 @@ export class EditProjectDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditProjectDialogComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: ProjectItemDto) { };
+    @Inject(MAT_DIALOG_DATA) public projectItem: ProjectItemDto,
+    private projectItemsClient: ProjectItemsClient) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -26,9 +27,18 @@ export class EditProjectDialogComponent implements OnInit {
       }],
     });
 
-    if (this.data !== undefined) {
-      this.form.patchValue(this.data);
+    if (this.projectItem !== undefined) {
+      this.form.patchValue(this.projectItem);
     }
+  }
+
+  onSubmit(form) {
+    this.projectItem.title = form.title;
+    this.projectItem.theme = form.theme;
+
+    this.projectItemsClient.update(UpdateProjectItemCommand.fromJS(this.projectItem)).subscribe(() => {
+      this.closeDialog("success");
+    });
   }
 
   getErrorMessageFieldTitle() {
@@ -49,7 +59,7 @@ export class EditProjectDialogComponent implements OnInit {
     this.form.get('theme').setValue(theme);
   }
 
-  hideDialog(): void {
-    this.dialogRef.close();
+  closeDialog(success?): void {
+    this.dialogRef.close(success);
   }
 }

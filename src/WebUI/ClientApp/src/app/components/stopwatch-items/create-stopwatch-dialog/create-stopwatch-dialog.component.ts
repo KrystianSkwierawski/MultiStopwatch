@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StopwatchItemDto } from '../../../web-api-client';
+import { defaultTime } from '../../../services/timer/Timer';
+import { CreateStopwatchItemCommand, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
 
 @Component({
   selector: 'app-create-stopwatch-dialog',
@@ -10,11 +11,13 @@ import { StopwatchItemDto } from '../../../web-api-client';
 })
 export class CreateStopwatchDialogComponent implements OnInit {
 
-  form: FormGroup
+  form: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<CreateStopwatchDialogComponent>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: StopwatchItemDto) { };
+    @Inject(MAT_DIALOG_DATA) public projectId: number,
+    private stopwatchItemsClient: StopwatchItemsClient,
+   ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -24,6 +27,15 @@ export class CreateStopwatchDialogComponent implements OnInit {
       theme: ['', {
         validators: Validators.required
       }],
+    });
+  }
+
+  onSubmit(stopwatchItem: StopwatchItemDto) {
+    stopwatchItem.projectItemId = this.projectId;
+    stopwatchItem.time = defaultTime;
+
+    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
+      this.closeDialog("success");
     });
   }
 
@@ -45,7 +57,7 @@ export class CreateStopwatchDialogComponent implements OnInit {
     this.form.get('theme').setValue(theme);
   }
 
-  hideDialog(): void {
-    this.dialogRef.close();
+  closeDialog(success?): void {
+    this.dialogRef.close(success);
   }
 }
