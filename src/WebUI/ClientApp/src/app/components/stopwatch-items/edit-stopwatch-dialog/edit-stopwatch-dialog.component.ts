@@ -37,7 +37,7 @@ export class EditStopwatchDialogComponent implements OnInit {
     }
   }
 
-  onSubmit(form) {
+  onSubmit(form: HTMLFormElement) {
     this.stopwatchItem.title = form.title;
     this.stopwatchItem.time = form.time;
     this.stopwatchItem.theme = form.theme;

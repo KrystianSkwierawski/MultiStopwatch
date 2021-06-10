@@ -32,7 +32,7 @@ export class EditProjectDialogComponent implements OnInit {
     }
   }
 
-  onSubmit(form) {
+  onSubmit(form: HTMLFormElement) {
     this.projectItem.title = form.title;
     this.projectItem.theme = form.theme;
 
