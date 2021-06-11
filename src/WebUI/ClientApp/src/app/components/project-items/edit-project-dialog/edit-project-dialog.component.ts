@@ -57,6 +57,7 @@ export class EditProjectDialogComponent implements OnInit {
 
   changeSelectedTheme(theme: string) {
     this.form.get('theme').setValue(theme);
+    this.form.markAsDirty();
   }
 
   closeDialog(success?): void {
