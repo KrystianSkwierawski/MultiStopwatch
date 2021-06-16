@@ -4,7 +4,7 @@
   <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input formControlName="title" matInput required />
+      <input formControlName="title" matInput  />
       <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTitle()}}</mat-error>
     </mat-form-field>
 
