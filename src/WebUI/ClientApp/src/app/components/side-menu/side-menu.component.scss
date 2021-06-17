@@ -29,6 +29,10 @@
 .show-pert-calculator-dialog-button {
   margin-top: .5rem;
   margin-block: 1rem;
+
+  &:hover{
+      opacity: .8;
+  }
 }
 
 .side-menu {
