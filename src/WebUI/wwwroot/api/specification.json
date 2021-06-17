@@ -544,10 +544,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "_title": {
-            "type": "string",
-            "nullable": true
-          },
           "id": {
             "type": "integer",
             "format": "int32"

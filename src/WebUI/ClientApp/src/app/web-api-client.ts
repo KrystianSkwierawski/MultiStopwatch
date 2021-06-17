@@ -818,7 +818,6 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
 }
 
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
-    _title?: string | undefined;
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
@@ -836,7 +835,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
 
     init(_data?: any) {
         if (_data) {
-            this._title = _data["_title"];
             this.id = _data["id"];
             this.title = _data["title"];
             this.time = _data["time"];
@@ -854,7 +852,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["_title"] = this._title;
         data["id"] = this.id;
         data["title"] = this.title;
         data["time"] = this.time;
@@ -865,7 +862,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
 }
 
 export interface IFavoriteProjectItemDto {
-    _title?: string | undefined;
     id?: number;
     title?: string | undefined;
     time?: string | undefined;
