@@ -23,15 +23,15 @@ export class PertCalculatorDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBulider.group({
       optimistic: [0, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.min(1)]
       }],
       realistic: [0, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.min(1)]
       }],
       pessimistically: [0, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.min(1)]
       }]
-    })
+    });
   }
 
   calculate() {
@@ -60,6 +60,19 @@ export class PertCalculatorDialogComponent implements OnInit {
     this.dataSource = new MatTableDataSource<any>(estimates);
   }
 
+  getErrorMessage(inputName) {
+    const field = this.form.get(inputName);
+
+    if (field.hasError('required')) {
+      return `The ${inputName} field is required`;
+    }
+
+    if (field.hasError('min')) {
+      return `Minimum ${inputName} value is 1`;
+    }
+
+    return '';
+  }
 
   calculateExpected(): number {
     return (this.optimisticValue + (4 * this.realisticValue) + this.pessimisticallyValue) / 6;

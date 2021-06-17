@@ -13,20 +13,20 @@
     <form [formGroup]="form">
       <mat-form-field appearance="outline">
         <mat-label>Optimistic</mat-label>
-        <input formControlName="optimistic" matInput required type="number" />
-        <mat-error>The optimistic field is required</mat-error>
+        <input formControlName="optimistic" matInput type="number" />
+        <mat-error>{{getErrorMessage('optimistic')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Realistic</mat-label>
-        <input formControlName="realistic" matInput required type="number" />
-        <mat-error>The realistic field is required</mat-error>
+        <input formControlName="realistic" matInput type="number" />
+        <mat-error>{{getErrorMessage('realistic')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Pessimistically</mat-label>
-        <input formControlName="pessimistically" matInput required type="number" />
-        <mat-error>The pessimistically field is required</mat-error>
+        <input formControlName="pessimistically" matInput type="number" />
+        <mat-error>{{getErrorMessage('pessimistically')}}</mat-error>
       </mat-form-field>
 
       <button mat-flat-button
