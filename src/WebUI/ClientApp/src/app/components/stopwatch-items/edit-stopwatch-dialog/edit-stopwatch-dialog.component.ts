@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalChangesHubService } from '../../../services/local-changes-hub.service';
+import { LocalChangesHubService } from '../../../services/local-changes-hub/local-changes-hub.service';
 import { StopwatchItemDto } from '../../../web-api-client';
 
 @Component({

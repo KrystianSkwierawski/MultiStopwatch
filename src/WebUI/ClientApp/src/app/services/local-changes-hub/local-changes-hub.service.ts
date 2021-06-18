@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
-import { ProjectItemDto, StopwatchItemDto } from '../web-api-client';
+import { ProjectItemDto, StopwatchItemDto } from '../../web-api-client';
 
 @Injectable({
   providedIn: 'root'

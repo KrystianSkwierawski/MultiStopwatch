@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { LocalChangesHubService } from '../../../services/local-changes-hub.service';
+import { LocalChangesHubService } from '../../../services/local-changes-hub/local-changes-hub.service';
 import { TimersService } from '../../../services/timer/timers.service';
 import { CreateSplittedTimeCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTimeDto, SplittedtimesClient, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
@@ -172,7 +172,7 @@ export class StopwatchesListComponent implements OnInit {
     this.dialog.open(ChartDialogComponent, {
       data: this.paginatedListOfStopwatchItemDto.items,
       panelClass: 'chart-dialog'
-    })
+    });
   }
 
   async updatePagination(event: PageEvent) {

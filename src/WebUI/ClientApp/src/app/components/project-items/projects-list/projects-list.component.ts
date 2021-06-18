@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
-import { ProjectsDataService } from '../../../services/projects-data-service';
+import { ProjectsDataService } from '../../../services/projects-data/projects-data-service';
 import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient } from '../../../web-api-client';
 import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dialog/confirm-delete-dialog.component';

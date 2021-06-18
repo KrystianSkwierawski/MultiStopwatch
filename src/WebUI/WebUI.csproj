@@ -58,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\components\pert-calculator\estimates.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\pert-calculator\estimates.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\timer\timer.ts" />
   </ItemGroup>
 

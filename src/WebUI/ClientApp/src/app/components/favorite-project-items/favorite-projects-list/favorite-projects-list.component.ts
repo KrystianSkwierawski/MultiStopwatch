@@ -4,7 +4,7 @@ import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
-import { ProjectsDataService } from '../../../services/projects-data-service';
+import { ProjectsDataService } from '../../../services/projects-data/projects-data-service';
 import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
 
 @Component({
