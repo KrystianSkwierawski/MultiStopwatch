@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
@@ -17,11 +17,12 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class ProjectsListComponent implements OnInit {
+export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
 
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
+  paginatedListOfProjectItemDtoSub: Subscription;
 
   projects: ProjectItemDto[];
   titlesArray: string[];
@@ -31,9 +32,9 @@ export class ProjectsListComponent implements OnInit {
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
     private authorize: AuthorizeService) { }
-
+  
   ngOnInit() {
-    this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
+    this.paginatedListOfProjectItemDtoSub = this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
       this.projects = result.items;
       this.filterTitlesArray();
@@ -130,6 +131,10 @@ export class ProjectsListComponent implements OnInit {
 
   updatePagination(event: PageEvent) {
     this.projectsDataService.loadProjects(event.pageIndex + 1, event.pageSize);
+  }
+
+  ngOnDestroy(): void {
+    this.paginatedListOfProjectItemDtoSub.unsubscribe();
   }
 }
 

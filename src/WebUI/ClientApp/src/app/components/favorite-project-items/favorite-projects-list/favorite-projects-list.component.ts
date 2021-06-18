@@ -1,5 +1,5 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,11 +12,12 @@ import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexPro
   templateUrl: './favorite-projects-list.component.html',
   styleUrls: ['./favorite-projects-list.component.scss']
 })
-export class FavoriteProjectsListComponent implements OnInit {
+export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
 
   columnsToDisplay: string[] = ['column'];
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
   favoriteProjects: FavoriteProjectItemDto[];
+  favoriteProjectsSub: Subscription;
 
   constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
@@ -24,7 +25,7 @@ export class FavoriteProjectsListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.projectsDataService.favoriteProjects.subscribe(result => {
+    this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
       this.favoriteProjects = result;
     });
 
@@ -82,5 +83,9 @@ export class FavoriteProjectsListComponent implements OnInit {
       this.projectsDataService.loadFavoriteProjects();
 
     });
+  }
+
+  ngOnDestroy(): void {
+    this.favoriteProjectsSub.unsubscribe();
   }
 }
