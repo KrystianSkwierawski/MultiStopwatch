@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { PertCalculatorService } from '../../../services/pert-calculator/pert-calculator.service';
 
 @Component({
@@ -9,11 +10,13 @@ import { PertCalculatorService } from '../../../services/pert-calculator/pert-ca
   templateUrl: './pert-calculator-dialog.component.html',
   styleUrls: ['./pert-calculator-dialog.component.scss']
 })
-export class PertCalculatorDialogComponent implements OnInit {
+export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   displayedColumns: string[] = ['chance', 'time'];
   dataSource;
+
+  estimatesSub: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<PertCalculatorDialogComponent>,
@@ -33,6 +36,10 @@ export class PertCalculatorDialogComponent implements OnInit {
         validators: [Validators.required, Validators.min(1)]
       }]
     });
+
+    this.estimatesSub = this.pertCalculatorService.estimates.subscribe((estimates: Estimates[]) => {
+      this.updateTableDataSource(estimates);
+    });
   }
 
   calculate() {
@@ -40,12 +47,10 @@ export class PertCalculatorDialogComponent implements OnInit {
     const realisticValue = this.form.get('realistic').value;
     const pessimisticallyValue = this.form.get('pessimistically').value;
 
-    const estimates: Estimates[] = this.pertCalculatorService.calculate(optimisticValue, realisticValue, pessimisticallyValue);
-
-    this.updateTableData(estimates);
+    this.pertCalculatorService.calculate(optimisticValue, realisticValue, pessimisticallyValue);
   }
 
-  updateTableData(estimates: Estimates[]) {
+  updateTableDataSource(estimates: Estimates[]) {
     this.dataSource = new MatTableDataSource<Estimates>(estimates);
   }
 
@@ -65,5 +70,9 @@ export class PertCalculatorDialogComponent implements OnInit {
 
   hideDialog(): void {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.estimatesSub.unsubscribe();
   }
 }
