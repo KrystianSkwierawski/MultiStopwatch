@@ -63,8 +63,6 @@ export class PertCalculatorDialogComponent implements OnInit {
     return '';
   }
 
-
-
   hideDialog(): void {
     this.dialogRef.close();
   }

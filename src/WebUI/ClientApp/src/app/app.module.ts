@@ -26,7 +26,7 @@ import { ThemeSelectorComponent } from './components/utilities/theme-selector/th
 import { SplittedTimesListDialogComponent } from './components/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-dialog.component';
 import { PertCalculatorDialogComponent } from './components/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
-import { ShortenPipe } from './components/favorite-project-items/favorite-projects-list/shorten.pipe';
+import { ShortenPipe } from './pipes/shorten.pipe';
 
 
 @NgModule({
