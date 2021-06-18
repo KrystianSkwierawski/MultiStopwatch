@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { PertCalculatorService } from '../../../services/pert-calculator/pert-calculator.service';
 
 @Component({
   selector: 'app-pert-calculator-dialog',
@@ -10,15 +11,15 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PertCalculatorDialogComponent implements OnInit {
 
-  optimisticValue: number = 0;
-  realisticValue: number = 0;
-  pessimisticallyValue: number = 0;
-
-  form: FormGroup
+  form: FormGroup;
   displayedColumns: string[] = ['chance', 'time'];
   dataSource;
 
-  constructor(public dialogRef: MatDialogRef<PertCalculatorDialogComponent>, private formBulider: FormBuilder) { }
+  constructor(
+    public dialogRef: MatDialogRef<PertCalculatorDialogComponent>,
+    private formBulider: FormBuilder,
+    private pertCalculatorService: PertCalculatorService
+  ) { }
 
   ngOnInit(): void {
     this.form = this.formBulider.group({
@@ -35,29 +36,17 @@ export class PertCalculatorDialogComponent implements OnInit {
   }
 
   calculate() {
-    let estimates: Estimates[] = [];
+    const optimisticValue = this.form.get('optimistic').value;
+    const realisticValue = this.form.get('realistic').value;
+    const pessimisticallyValue = this.form.get('pessimistically').value;
 
-    const chances: number[] = [2, 10, 16, 20, 25, 30, 40, 50, 60, 70, 75, 80, 84, 90, 98];
-    const values: number[] = [2, 1.28, 1, 0.84, 0.67, 0.52, 0.25, 0, 0.25, 0.52, 0.67, 0.84, 1, 1.28, 2];
+    const estimates: Estimates[] = this.pertCalculatorService.calculate(optimisticValue, realisticValue, pessimisticallyValue);
 
-    this.optimisticValue = this.form.get('optimistic').value;
-    this.realisticValue = this.form.get('realistic').value;
-    this.pessimisticallyValue = this.form.get('pessimistically').value;
+    this.updateTableData(estimates);
+  }
 
-
-    chances.forEach((chance, index) => {
-      const expected: number = this.calculateExpected();
-      const deviation: number = this.calculateDeviation();
-
-      const time: number = index <= 7 ? expected - (values[index] * deviation) : expected + (values[index] * deviation);
-
-      estimates.push({
-        chance: chance,
-        time: time
-      });
-    });
-
-    this.dataSource = new MatTableDataSource<any>(estimates);
+  updateTableData(estimates: Estimates[]) {
+    this.dataSource = new MatTableDataSource<Estimates>(estimates);
   }
 
   getErrorMessage(inputName) {
@@ -74,13 +63,7 @@ export class PertCalculatorDialogComponent implements OnInit {
     return '';
   }
 
-  calculateExpected(): number {
-    return (this.optimisticValue + (4 * this.realisticValue) + this.pessimisticallyValue) / 6;
-  }
 
-  calculateDeviation(): number {
-    return (this.pessimisticallyValue - this.optimisticValue) / 6;
-  }
 
   hideDialog(): void {
     this.dialogRef.close();
