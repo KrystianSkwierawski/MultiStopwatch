@@ -2,6 +2,7 @@
 using Domain.Entities;
 using NUnit.Framework;
 using Project.Application.Common.Mappings;
+using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
 using Project.Application.ProjectItems.Queries.GetProjectItem;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination;
@@ -33,6 +34,7 @@ namespace Project.Application.UnitTests.Common.Mappings
         
         [Test]
         [TestCase(typeof(ProjectItem), typeof(ProjectItemDto))]
+        [TestCase(typeof(ProjectItem), typeof(FavoriteProjectItemDto))]
         [TestCase(typeof(StopwatchItem), typeof(StopwatchItemDto))]
         [TestCase(typeof(SplittedTime), typeof(SplittedTimeDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
