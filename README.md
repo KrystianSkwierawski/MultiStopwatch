@@ -5,13 +5,7 @@ You can create any number of project with tasks in a pleasant color palette. Pro
 
 During the project I had a lof of fun. In pratcice I exercised <a href="https://angular.io/">Angular</a> and <a href="https://github.com/jasontaylordev/CleanArchitecture">CleanArchitecture:</a> AutoMaper - creating <a href="https://www.infoworld.com/article/3192900/how-to-work-with-automapper-in-csharp.html">DTOs</a>, NSwag - testing API and genereting web api client, validations on several layers and more.
 
-<div style="text-align:center">
-  <a href="https://user-images.githubusercontent.com/52860350/113852921-5cf2ae80-979d-11eb-8c63-95925a100543.mp4">   
-    <p align="center">
-      <img width="90%" height="80%" src="https://user-images.githubusercontent.com/52860350/113831771-41c97400-9788-11eb-9fd4-ae19f82f2572.png" alt=""/>
-    </p>
-  </a>
-</div>
+![multistopwatch](https://user-images.githubusercontent.com/52860350/123107278-ad42e980-d439-11eb-8e12-1677857b525a.jpg)
 
 ## Main technologies: 
 
