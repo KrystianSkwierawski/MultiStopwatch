@@ -7,12 +7,12 @@ import { ProjectItemDto, StopwatchItemDto } from '../../web-api-client';
 })
 export class LocalChangesHubService implements OnInit {
 
-  hub;
+  hub: signalR.HubConnection;
 
   constructor() { }
 
   ngOnInit(): void {
-    
+
   }
 
   startConnection() {
@@ -30,15 +30,19 @@ export class LocalChangesHubService implements OnInit {
     await this.hub.invoke("SaveLocalStopwatchChanges", stopwatch);
   }
 
- async storeLocalProjectChanges(project: ProjectItemDto) {
+  async storeLocalProjectChanges(project: ProjectItemDto) {
     await this.hub.invoke("SaveLocalProjectChanges", project);
   }
 
   async saveStopwatchesChangesInDb() {
-   await this.hub.invoke("SaveStopwatchesChangesInDb");
+    await this.hub.invoke("SaveStopwatchesChangesInDb");
   }
 
   async saveAllChangesInDb() {
     await this.hub.invoke("SaveAllChangesInDb");
+  }
+
+  disconnect() {
+    this.hub.stop();
   }
 }
