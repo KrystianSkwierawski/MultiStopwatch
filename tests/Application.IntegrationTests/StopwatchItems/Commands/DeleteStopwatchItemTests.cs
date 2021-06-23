@@ -12,14 +12,6 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
     using static Testing;
     public class DeleteStopwatchItemTests : TestBase
     {
-        [Test]
-        public void ShouldRequireValidStopwatchItemId()
-        {
-            DeleteStopwatchItemCommand command = new() { Id = 99 };
-
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<NotFoundException>();
-        }
 
         [Test]
         public async Task ShouldDeleteStopwatchItem()

@@ -12,15 +12,6 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
     public class DeleteProjectItemTests : TestBase
     {
         [Test]
-        public void ShouldRequireValidSplittedTimeId()
-        {
-            DeleteProjectItemCommand command = new() { Id = 99 };
-
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<NotFoundException>();
-        }
-
-        [Test]
         public async Task ShouldDeleteProjectItem()
         {
             //Arrange
