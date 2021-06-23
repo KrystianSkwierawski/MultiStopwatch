@@ -15,7 +15,7 @@ export class LocalChangesHubService implements OnInit {
 
   }
 
-  startConnection() {
+  connect() {
     this.hub = new signalR.HubConnectionBuilder()
       .withUrl('/localChangesHub')
       .build();

@@ -42,7 +42,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localChangesHubService.startConnection();
+    this.localChangesHubService.connect();
 
     this.setProjectId();
 

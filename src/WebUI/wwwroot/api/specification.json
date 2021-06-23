@@ -552,10 +552,6 @@
             "type": "string",
             "nullable": true
           },
-          "time": {
-            "type": "string",
-            "nullable": true
-          },
           "orderIndex": {
             "type": "integer",
             "format": "int32"

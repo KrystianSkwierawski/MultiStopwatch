@@ -823,7 +823,6 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
     id?: number;
     title?: string | undefined;
-    time?: string | undefined;
     orderIndex?: number;
     theme?: string | undefined;
 
@@ -840,7 +839,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
         if (_data) {
             this.id = _data["id"];
             this.title = _data["title"];
-            this.time = _data["time"];
             this.orderIndex = _data["orderIndex"];
             this.theme = _data["theme"];
         }
@@ -857,7 +855,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["title"] = this.title;
-        data["time"] = this.time;
         data["orderIndex"] = this.orderIndex;
         data["theme"] = this.theme;
         return data; 
@@ -867,7 +864,6 @@ export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
 export interface IFavoriteProjectItemDto {
     id?: number;
     title?: string | undefined;
-    time?: string | undefined;
     orderIndex?: number;
     theme?: string | undefined;
 }
