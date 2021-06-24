@@ -14,8 +14,8 @@ export class AuthenticationService {
 
   constructor(private route: Router, private accountsClient: AccountsClient) { }
 
-  register(body) {
-    this.accountsClient.register(body).subscribe(
+  register(user) {
+    this.accountsClient.register(user).subscribe(
       () => {
         this.route.navigateByUrl("authentication/login");
       },
@@ -23,8 +23,8 @@ export class AuthenticationService {
     );
   }
 
-  login(body) {
-    this.accountsClient.login(body).subscribe(
+  login(user) {
+    this.accountsClient.login(user).subscribe(
       (authResponse) => {
         this.user.next(authResponse.token);
         localStorage.setItem("token", authResponse.token);

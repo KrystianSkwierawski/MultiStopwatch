@@ -63,14 +63,7 @@ namespace Project.WebUI
                 configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
-            {
-                opt.Password.RequiredLength = 3;
-                opt.Password.RequireDigit = false;
-
-                opt.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<Context>();
+          
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
@@ -92,7 +85,6 @@ namespace Project.WebUI
                 };
             });
 
-            services.AddScoped<JwtHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Project.Application.Common.JwtFeatures;
 
 namespace Project.Infrastructure
 {
@@ -41,6 +42,19 @@ namespace Project.Infrastructure
             //    options.ExpireTimeSpan = TimeSpan.FromDays(20);
             //    options.SlidingExpiration = true;
             //});
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.User.RequireUniqueEmail = true;
+            })
+          .AddEntityFrameworkStores<Context>();
+
+
+            services.AddScoped<JwtHandler>();
+
 
             services.AddSignalR();
 
