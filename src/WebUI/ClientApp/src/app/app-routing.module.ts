@@ -10,8 +10,6 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'projects', component: ProjectsListComponent },
   { path: 'project/:id', component: ProjectDetailsComponent },
-  { path: 'authentication/login', component: LoginComponent },
-  { path: 'authentication/register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];
 

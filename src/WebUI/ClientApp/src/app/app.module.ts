@@ -29,6 +29,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 
 @NgModule({
@@ -53,8 +54,6 @@ import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
     ChartDialogComponent,
     PertCalculatorDialogComponent,
     ShortenPipe,
-    LoginComponent,
-    RegisterComponent,
     HomeComponent
   ],
   imports: [
@@ -63,8 +62,9 @@ import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    AuthenticationModule,
     AppRoutingModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

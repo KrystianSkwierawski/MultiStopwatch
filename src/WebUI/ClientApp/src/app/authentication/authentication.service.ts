@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AccountsClient } from '../web-api-client';
-import { EnvironmentUrlService } from './environment-url.service';
 
 
 @Injectable({
@@ -19,7 +18,6 @@ export class AuthenticationService {
     this.accountsClient.register(body).subscribe(
       () => {
         this.route.navigateByUrl("authentication/login");
-
       },
       error => console.log(error)
     );

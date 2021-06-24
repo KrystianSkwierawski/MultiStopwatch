@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { PasswordConfirmationValidatorService } from '../password-confirmation-validator.service';
 
 @Component({
   selector: 'app-register',
