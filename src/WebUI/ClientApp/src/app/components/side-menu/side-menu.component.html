@@ -31,7 +31,7 @@
 
 
     <div class="side-menu-content__settings">
-      <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
+      <button (click)="logout()" [state]='{ local: true }' title="Logout">Logout</button>
       <a [routerLink]='["/authentication/profile"]' title="Manage"><i class="fas fa-users-cog"></i></a>
     </div>
   </div>

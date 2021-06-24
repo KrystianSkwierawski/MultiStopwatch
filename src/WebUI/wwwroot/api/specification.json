@@ -6,6 +6,72 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/accounts/Registration": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_RegisterUser",
+        "requestBody": {
+          "x-name": "userForRegistration",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserForRegistration"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/Login": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_Login",
+        "requestBody": {
+          "x-name": "userForAuthentication",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserForAuthentication"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/FavoriteProjectItems": {
       "get": {
         "tags": [
@@ -540,6 +606,46 @@
   },
   "components": {
     "schemas": {
+      "UserForRegistration": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confirmPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserForAuthentication": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
       "FavoriteProjectItemDto": {
         "type": "object",
         "additionalProperties": false,

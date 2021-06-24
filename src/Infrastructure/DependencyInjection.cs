@@ -30,26 +30,17 @@ namespace Project.Infrastructure
 
             services.AddScoped<IContext>(provider => provider.GetService<Context>());
 
-            services
-            .AddDefaultIdentity<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<Context>();
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, Context>();      
 
             services.AddTransient<IDateTime, DateTimeService>();
 
-          
-            services.AddAuthentication()
-            .AddIdentityServerJwt();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.ExpireTimeSpan = TimeSpan.FromDays(20);
-                options.SlidingExpiration = true;
-            });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.Name = ".AspNetCore.Identity.Application";
+            //    options.ExpireTimeSpan = TimeSpan.FromDays(20);
+            //    options.SlidingExpiration = true;
+            //});
 
             services.AddSignalR();
 

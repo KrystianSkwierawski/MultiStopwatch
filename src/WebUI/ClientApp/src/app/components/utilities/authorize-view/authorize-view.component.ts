@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AuthorizeService } from '../../../../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-authorize-view',
@@ -10,9 +8,18 @@ import { AuthorizeService } from '../../../../api-authorization/authorize.servic
 export class AuthorizeViewComponent implements OnInit {
   isAuthenticated;
 
-  constructor(private authorizeService: AuthorizeService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.authorizeService.isAuthenticated().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    //this.authorizeService.isAuthenticated().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    const user = localStorage.getItem("token");
+
+    if (user) {
+      this.isAuthenticated = true;
+    }
+    else {
+      this.isAuthenticated = false;
+
+    }
   }
 }

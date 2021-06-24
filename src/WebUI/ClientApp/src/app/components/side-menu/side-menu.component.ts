@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthenticationService } from '../../authentication/authentication.service';
 import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
 @Component({
@@ -14,7 +15,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   menuIsActivated: boolean = true;
 
-  constructor(public elementRef: ElementRef, public dialog: MatDialog) { }
+  constructor(public elementRef: ElementRef, public dialog: MatDialog, private authenticationService: AuthenticationService) { }
 
   ngAfterViewInit(): void {
     this.toggleContent_disabledScrolling();
@@ -23,6 +24,10 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 
   showPertCalculatorDialog() {
