@@ -15,8 +15,8 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAccountsClient {
-    registerUser(userForRegistration: UserForRegistration): Observable<FileResponse>;
-    login(userForAuthentication: UserForAuthentication): Observable<FileResponse>;
+    register(userForRegistration: UserForRegistration): Observable<FileResponse>;
+    login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
 }
 
 @Injectable({
@@ -32,8 +32,8 @@ export class AccountsClient implements IAccountsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    registerUser(userForRegistration: UserForRegistration): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/Registration";
+    register(userForRegistration: UserForRegistration): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/accounts/Register";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(userForRegistration);
@@ -49,11 +49,11 @@ export class AccountsClient implements IAccountsClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRegisterUser(response_);
+            return this.processRegister(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processRegisterUser(<any>response_);
+                    return this.processRegister(<any>response_);
                 } catch (e) {
                     return <Observable<FileResponse>><any>_observableThrow(e);
                 }
@@ -62,7 +62,7 @@ export class AccountsClient implements IAccountsClient {
         }));
     }
 
-    protected processRegisterUser(response: HttpResponseBase): Observable<FileResponse> {
+    protected processRegister(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -82,7 +82,7 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    login(userForAuthentication: UserForAuthentication): Observable<FileResponse> {
+    login(userForAuthentication: UserForAuthentication): Observable<AuthResponse> {
         let url_ = this.baseUrl + "/api/accounts/Login";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -94,7 +94,7 @@ export class AccountsClient implements IAccountsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -105,31 +105,33 @@ export class AccountsClient implements IAccountsClient {
                 try {
                     return this.processLogin(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<AuthResponse>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<AuthResponse>><any>_observableThrow(response_);
         }));
     }
 
-    protected processLogin(response: HttpResponseBase): Observable<FileResponse> {
+    protected processLogin(response: HttpResponseBase): Observable<AuthResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<AuthResponse>(<any>null);
     }
 }
 
@@ -981,6 +983,50 @@ export interface IUserForRegistration {
     email: string;
     password: string;
     confirmPassword?: string | undefined;
+}
+
+export class AuthResponse implements IAuthResponse {
+    isAuthSuccessful?: boolean;
+    errorMessage?: string | undefined;
+    token?: string | undefined;
+
+    constructor(data?: IAuthResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isAuthSuccessful = _data["isAuthSuccessful"];
+            this.errorMessage = _data["errorMessage"];
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any): AuthResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isAuthSuccessful"] = this.isAuthSuccessful;
+        data["errorMessage"] = this.errorMessage;
+        data["token"] = this.token;
+        return data; 
+    }
+}
+
+export interface IAuthResponse {
+    isAuthSuccessful?: boolean;
+    errorMessage?: string | undefined;
+    token?: string | undefined;
 }
 
 export class UserForAuthentication implements IUserForAuthentication {

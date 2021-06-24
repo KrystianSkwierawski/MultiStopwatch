@@ -6,12 +6,12 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/accounts/Registration": {
+    "/api/accounts/Register": {
       "post": {
         "tags": [
           "Accounts"
         ],
-        "operationId": "Accounts_RegisterUser",
+        "operationId": "Accounts_Register",
         "requestBody": {
           "x-name": "userForRegistration",
           "content": {
@@ -61,10 +61,9 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
@@ -623,6 +622,23 @@
             "minLength": 1
           },
           "confirmPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "isAuthSuccessful": {
+            "type": "boolean"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
             "type": "string",
             "nullable": true
           }

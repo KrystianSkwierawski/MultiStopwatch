@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
 using Project.Domain.Entities;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,13 +26,17 @@ namespace Project.WebUI.Controllers
             _jwtHandler = jwtHandler;
         }
 
-        [HttpPost("Registration")] 
-        public async Task<IActionResult> RegisterUser([FromBody] UserForRegistration userForRegistration) 
+        [HttpPost("Register")] 
+        public async Task<ActionResult> Register(UserForRegistration userForRegistration) 
         {
             if (userForRegistration == null || !ModelState.IsValid) 
-                return BadRequest(); 
-            
-            var user = _mapper.Map<ApplicationUser>(userForRegistration);
+                return BadRequest();
+
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = userForRegistration.Email,
+                UserName = Guid.NewGuid().ToString()    
+            };
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password); 
             if (!result.Succeeded) 
@@ -40,14 +45,14 @@ namespace Project.WebUI.Controllers
                 
                 return BadRequest(new RegistrationResponse { Errors = errors }); 
             }
-            
-            return StatusCode(201); 
+
+            return Ok();
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] UserForAuthentication userForAuthentication)
+        public async Task<ActionResult<AuthResponse>> Login(UserForAuthentication userForAuthentication)
         {
-            var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
+            var user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                 return Unauthorized(new AuthResponse { ErrorMessage = "Invalid Authentication" });
@@ -57,7 +62,7 @@ namespace Project.WebUI.Controllers
             var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+            return new AuthResponse { IsAuthSuccessful = true, Token = token };
         }
     }
 }

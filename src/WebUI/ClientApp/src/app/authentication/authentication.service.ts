@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AccountsClient } from '../web-api-client';
 import { EnvironmentUrlService } from './environment-url.service';
 
 
@@ -9,30 +11,35 @@ import { EnvironmentUrlService } from './environment-url.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private _authChangeSub = new Subject<boolean>();
-  public authChanged = this._authChangeSub.asObservable();
+  user: Subject<any> = new Subject();
 
-  constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService, private route: Router) { }
+  constructor(private route: Router, private accountsClient: AccountsClient) { }
 
-  public registerUser = (route: string, body) => {
-    return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
+  register(body) {
+    this.accountsClient.register(body).subscribe(
+      () => {
+        this.route.navigateByUrl("authentication/login");
+
+      },
+      error => console.log(error)
+    );
   }
 
-  public loginUser = (route: string, body) => {
-    return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
+  login(body) {
+    this.accountsClient.login(body).subscribe(
+      (authResponse) => {
+        this.user.next(authResponse.token);
+        localStorage.setItem("token", authResponse.token);
+        this.route.navigateByUrl("/projects");
+      },
+      error => console.log(error)
+    );
   }
 
-  public logout = () => {
+  logout() {
     localStorage.removeItem("token");
-    this.route.navigateByUrl("projects");
-    //this.sendAuthStateChangeNotification(false);
+    this.user.next(null);
+    this.route.navigateByUrl("");
   }
 
-  public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
-    this._authChangeSub.next(isAuthenticated);
-  }
-
-  private createCompleteRoute = (route: string, envAddress: string) => {
-    return `${envAddress}/${route}`;
-  }
 }

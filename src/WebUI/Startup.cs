@@ -68,7 +68,7 @@ namespace Project.WebUI
                 opt.Password.RequiredLength = 3;
                 opt.Password.RequireDigit = false;
 
-                opt.User.RequireUniqueEmail = false;
+                opt.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<Context>();
 
@@ -77,6 +77,7 @@ namespace Project.WebUI
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -87,7 +88,7 @@ namespace Project.WebUI
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
                     ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value)),
                 };
             });
 

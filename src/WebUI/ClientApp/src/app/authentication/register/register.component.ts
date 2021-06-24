@@ -10,12 +10,10 @@ import { PasswordConfirmationValidatorService } from '../password-confirmation-v
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  public registerForm: FormGroup;
-  public errorMessage: string = '';
-  public showError: boolean;
 
-  constructor(private _authService: AuthenticationService, private _passConfValidator: PasswordConfirmationValidatorService,
-    private _router: Router) { }
+  public registerForm: FormGroup;
+
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -23,35 +21,17 @@ export class RegisterComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
     });
-    this.registerForm.get('confirm').setValidators([Validators.required,
-      this._passConfValidator.validateConfirmPassword(this.registerForm.get('password'))]);
   }
 
-  public validateControl = (controlName: string) => {
-    return this.registerForm.controls[controlName].invalid && this.registerForm.controls[controlName].touched
-  }
 
-  public hasError = (controlName: string, errorName: string) => {
-    return this.registerForm.controls[controlName].hasError(errorName)
-  }
+   register() {
 
-  public registerUser = (registerFormValue) => {
-    this.showError = false;
-    const formValues = { ...registerFormValue };
-
-    const user = {
-      email: formValues.email,
-      password: formValues.password,
-      confirmPassword: formValues.confirm
+     const user = {
+       email: this.registerForm.value.email,
+       password: this.registerForm.value.password,
+       confirmPassword: this.registerForm.value.confirm
     };
 
-    this._authService.registerUser("api/accounts/registration", user)
-    .subscribe(_ => {
-      this._router.navigate(["/authentication/login"]);
-    },
-    error => {
-      this.errorMessage = error;
-      this.showError = true;
-    })
+    this.authService.register(user);
   }
 }

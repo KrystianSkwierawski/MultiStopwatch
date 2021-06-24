@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../authentication/authentication.service';
 import { ProjectsDataService } from '../../../services/projects-data/projects-data-service';
 import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexProjectItemCommand } from '../../../web-api-client';
 
@@ -20,7 +21,8 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
 
   constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
-    private router: Router) { }
+    private router: Router,
+    private authorize: AuthenticationService) { }
 
   ngOnInit(): void {
     this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
@@ -31,17 +33,15 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadFavoriteProjectsAfterAuthenticate() {
-    //let authorizeSub: Subscription;
+    let authorizeSub: Subscription;
 
-    //authorizeSub = this.authorize.isAuthenticated().subscribe(isAuthenticated => {
-    //  if (isAuthenticated) {
-    //    this.projectsDataService.loadFavoriteProjects();
+    authorizeSub = this.authorize.user.subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.projectsDataService.loadFavoriteProjects();
 
-    //    if (authorizeSub)
-    //      authorizeSub.unsubscribe();
 
-    //  }
-    //});
+      }
+    });
   }
 
   updateOrderIndex(event) {
