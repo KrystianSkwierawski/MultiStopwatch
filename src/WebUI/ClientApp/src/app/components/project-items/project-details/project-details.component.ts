@@ -10,11 +10,11 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private localChangesHubService: LocalChangesHubService) { }
 
+  ngOnInit(): void {
+    this.localChangesHubService.connect();
+  }
+
   ngOnDestroy(): void {
     this.localChangesHubService.disconnect();
   }
-
-  ngOnInit(): void {
-  }
-
 }
