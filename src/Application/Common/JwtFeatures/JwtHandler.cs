@@ -32,8 +32,8 @@ namespace Project.Application.Common.JwtFeatures
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email),
-                //new Claim(ClaimTypes.Email, user.Email),
-                //new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             return claims;
