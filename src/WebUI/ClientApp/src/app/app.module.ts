@@ -26,7 +26,8 @@ import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { HomeComponent } from './components/home/home.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
+import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
 
 
 @NgModule({
@@ -50,7 +51,9 @@ import { AuthenticationModule } from './authentication/authentication.module';
     ChartDialogComponent,
     PertCalculatorDialogComponent,
     ShortenPipe,
-    HomeComponent
+    HomeComponent,
+    LoginDialogComponent,
+    RegisterDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -58,7 +61,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    AuthenticationModule,
     AppRoutingModule,
     ReactiveFormsModule,
   ],

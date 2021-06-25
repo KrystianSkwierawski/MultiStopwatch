@@ -6,11 +6,11 @@ import { AuthenticationService } from '../authentication.service';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-login-dialog',
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginDialogComponent implements OnInit {
 
   public loginForm: FormGroup;
 

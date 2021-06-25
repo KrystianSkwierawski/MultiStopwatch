@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthorizeGuard } from './authentication/authorize.guard';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProjectDetailsComponent } from './components/project-items/project-details/project-details.component';
 import { ProjectsListComponent } from './components/project-items/projects-list/projects-list.component';

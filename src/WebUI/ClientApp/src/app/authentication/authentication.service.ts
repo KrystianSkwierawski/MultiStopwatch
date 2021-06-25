@@ -18,7 +18,7 @@ export class AuthenticationService {
   register(user) {
     this.accountsClient.register(user).subscribe(
       () => {
-        this.route.navigateByUrl("authentication/login");
+        this.route.navigateByUrl("/");
       },
       error => console.log(error)
     );
