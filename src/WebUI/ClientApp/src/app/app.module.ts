@@ -16,7 +16,6 @@ import { SplittedTimesListDialogComponent } from './components/splitted-times/sp
 import { CreateStopwatchDialogComponent } from './components/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from './components/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { StopwatchesListComponent } from './components/stopwatch-items/stopwatches-list/stopwatches-list.component';
-import { AuthorizeViewComponent } from './components/utilities/authorize-view/authorize-view.component';
 import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { GenericListComponent } from './components/utilities/generic-list/generic-list.component';
@@ -26,8 +25,6 @@ import { ThemeSelectorComponent } from './components/utilities/theme-selector/th
 import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
 import { AuthenticationModule } from './authentication/authentication.module';
 
@@ -35,7 +32,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 @NgModule({
   declarations: [
     AppComponent,
-    AuthorizeViewComponent,
     SideMenuComponent,
     GenericListComponent,
     FavoriteProjectsListComponent,
