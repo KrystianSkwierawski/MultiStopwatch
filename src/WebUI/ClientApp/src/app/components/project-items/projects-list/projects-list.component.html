@@ -1,29 +1,36 @@
 <app-side-menu></app-side-menu>
 
-<h1 class="text-center text-white mt-3">Projects</h1>
+<div *ngIf="paginatedListOfProjectItemDto.items?.length > 0">
+  <h1 class="text-center text-white mt-3">Projects</h1>
 
-<button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
+  <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
-<app-search-item-by-title *ngIf="paginatedListOfProjectItemDto.items?.length > 0"
-                          (onKeyUp)="filterProjects($event)"
-                          [options]="titlesArray">
-</app-search-item-by-title>
+  <app-search-item-by-title (onKeyUp)="filterProjects($event)"
+                            [options]="titlesArray">
+  </app-search-item-by-title>
 
-<button class="open-chart-dialog-button"
-        mat-icon-button
-        (click)="onOpenChartDialog()"
-        matTooltip="Show chart"
-        aria-label="show chart">
+  <button class="open-chart-dialog-button"
+          mat-icon-button
+          (click)="onOpenChartDialog()"
+          matTooltip="Show chart"
+          aria-label="show chart">
 
-  <i class="fas fa-chart-pie"></i>
-</button>
-                         
+    <i class="fas fa-chart-pie"></i>
+  </button>
+</div>
+
 <app-generic-list [list]="projects">
 
-  <!--<ng-container emptyState>
-    <h1>empty</h1>
-    wywal to do komponentu
-  </ng-container>-->
+  <ng-container emptyState>
+    <div class="empty-state">
+      <h2>Let's getcha started!</h2>
+      <p>
+        Every great journey begins with the <br />
+        first ste... project.
+      </p>
+      <button (click)="onOpenCreateProjectDialog()" mat-button><i class="fas fa-plus"></i> Add a project</button>
+    </div>
+  </ng-container>
 
   <ng-container content>
     <div class="projects">

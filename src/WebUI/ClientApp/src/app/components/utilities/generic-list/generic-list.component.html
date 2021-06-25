@@ -2,11 +2,11 @@
   <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<!--<div *ngIf="list?.length === 0">
+<div *ngIf="list?.length === 0">
   <div #emptyState>
     <ng-content select="[emptyState]"></ng-content>
   </div>
-</div>-->
+</div>
 
 <ng-container *ngIf="list && list.length > 0">
   <ng-content select="[content]"></ng-content>
