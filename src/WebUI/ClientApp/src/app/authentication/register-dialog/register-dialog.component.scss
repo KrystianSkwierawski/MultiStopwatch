@@ -18,7 +18,7 @@ p {
 
   ::ng-deep .register-dialog .mat-dialog-container {
     background-color: #36393F;
-    min-width: 75vw;
+    min-width: 85vw;
 
     @include respond-to(medium) {
       min-width: 35vw;
