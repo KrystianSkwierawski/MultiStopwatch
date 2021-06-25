@@ -33,7 +33,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private projectItemsClient: ProjectItemsClient,
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
-    private authorize: AuthenticationService
+    private authService: AuthenticationService
     ) { }
   
   ngOnInit() {
@@ -47,7 +47,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadProjectsAfterAuthenticate() {
-    this.authorize.token.pipe(take(1)).subscribe(isAuthenticated => {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.projectsDataService.loadProjects();
       }

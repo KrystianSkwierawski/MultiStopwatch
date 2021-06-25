@@ -11,7 +11,7 @@ import { AccountsClient } from '../web-api-client';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  token: BehaviorSubject<string> = new BehaviorSubject(null);
+  isAuthenticated: BehaviorSubject<string> = new BehaviorSubject(null);
 
   constructor(private route: Router, private accountsClient: AccountsClient) { }
 
@@ -27,7 +27,7 @@ export class AuthenticationService {
   login(user) {
     this.accountsClient.login(user).subscribe(
       (authResponse) => {
-        this.token.next(authResponse.token);
+        this.isAuthenticated.next(authResponse.token);
         localStorage.setItem("token", authResponse.token);
         this.route.navigateByUrl("/projects");
       },
@@ -37,14 +37,11 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem("token");
-    this.token.next(null);
+    this.isAuthenticated.next(null);
     this.route.navigateByUrl("");
   }
 
-  isAuthenticated() {
-    if (this.token)
-      return this.token;
-
+  getToken() {
     return localStorage.getItem("token");
   }
 }

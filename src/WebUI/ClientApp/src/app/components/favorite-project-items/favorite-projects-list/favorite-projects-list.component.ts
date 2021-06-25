@@ -23,7 +23,7 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
     private router: Router,
-    private authorize: AuthenticationService) { }
+    private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
@@ -34,7 +34,7 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadFavoriteProjectsAfterAuthenticate() {
-    this.authorize.token.pipe(take(1)).subscribe(isAuthenticated => {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.projectsDataService.loadFavoriteProjects();
       }

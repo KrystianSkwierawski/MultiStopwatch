@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthorizeGuard } from './authentication/authorize.guard';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { HomeComponent } from './components/home/home.component';
@@ -8,8 +9,8 @@ import { ProjectsListComponent } from './components/project-items/projects-list/
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'projects', component: ProjectsListComponent },
-  { path: 'project/:id', component: ProjectDetailsComponent },
+  { path: 'projects', component: ProjectsListComponent, canActivate: [AuthorizeGuard] },
+  { path: 'project/:id', component: ProjectDetailsComponent, canActivate: [AuthorizeGuard] },
   { path: '**', redirectTo: '' }
 ];
 
