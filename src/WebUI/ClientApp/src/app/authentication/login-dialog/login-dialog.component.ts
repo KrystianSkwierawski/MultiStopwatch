@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
@@ -8,35 +9,40 @@ import { AuthenticationService } from '../authentication.service';
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.css']
+  styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent implements OnInit {
 
-  public loginForm: FormGroup;
+  form: FormGroup;
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService, private formBulider: FormBuilder, public dialogRef: MatDialogRef<LoginDialogComponent>) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      username: new FormControl("", [Validators.required]),
-      password: new FormControl("", [Validators.required])
+    this.form = this.formBulider.group({
+      email: ['', {
+        validators: [Validators.required, Validators.email]
+      }],
+      password: ['', {
+        validators: [Validators.required]
+      }],
     });
-
   }
-
 
   logout() {
     this.authService.logout();
   }
 
-  login() {
-    const userForAuth = {
-      email: this.loginForm.value.username,
-      password: this.loginForm.value.password
-    };
-
-
-    this.authService.login(userForAuth);
+  onSubmit(form: HTMLFormElement) {
+    this.authService.login(form).subscribe(authResponse => {
+      if (authResponse.token) {
+        this.closeDialog("success");
+      }
+    },
+      error => console.log(error)
+    );
   }
 
+  closeDialog(success?: string): void {
+    this.dialogRef.close(success);
+  }
 }

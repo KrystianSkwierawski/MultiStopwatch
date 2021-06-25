@@ -22,7 +22,7 @@
 <app-generic-list [list]="projects">
 
   <ng-container emptyState>
-    <div class="empty-state" *ngIf="paginatedListOfProjectItemDto.items.length === 0">
+    <div class="empty-state" *ngIf="paginatedListOfProjectItemDto.items?.length === 0">
       <h2>Let's getcha started!</h2>
       <p>
         Every great journey begins with the <br />

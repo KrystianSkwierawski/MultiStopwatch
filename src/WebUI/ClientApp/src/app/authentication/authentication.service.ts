@@ -16,23 +16,14 @@ export class AuthenticationService {
   constructor(private route: Router, private accountsClient: AccountsClient) { }
 
   register(user) {
-    this.accountsClient.register(user).subscribe(
-      () => {
-        this.route.navigateByUrl("/");
-      },
-      error => console.log(error)
-    );
+    return this.accountsClient.register(user);
   }
 
   login(user) {
-    this.accountsClient.login(user).subscribe(
-      (authResponse) => {
-        this.isAuthenticated.next(authResponse.token);
-        localStorage.setItem("token", authResponse.token);
-        this.route.navigateByUrl("/projects");
-      },
-      error => console.log(error)
-    );
+    return this.accountsClient.login(user).pipe(tap(authResponse => {
+      this.isAuthenticated.next(authResponse.token);
+      localStorage.setItem("token", authResponse.token);
+    }));
   }
 
   logout() {

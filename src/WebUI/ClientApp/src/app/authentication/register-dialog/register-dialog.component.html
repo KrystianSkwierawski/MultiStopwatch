@@ -1,32 +1,35 @@
-<div class="card">
-    <div class="card-body">
+<div mat-dialog-content>
 
+  <button mat-icon-button
+          (click)="closeDialog()"
+          class="hide-dialog-button text-center mt-3"
+          aria-label="hide">
 
-        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="register()">
-            <div class="form-group row">
-                <label for="email" class="col-form-label col-sm-2">Email:</label>
-                <div class="col-md-5">
-                    <input type="email" id="email" formControlName="email" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="password" class="col-form-label col-sm-2">Password:</label>
-                <div class="col-md-5">
-                    <input type="password" id="password" formControlName="password" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="confirm" class="col-form-label col-sm-2">Confirm Password:</label>
-                <div class="col-md-5">
-                    <input type="password" id="confirm" formControlName="confirm" class="form-control" />
-                </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <div class="col-md-1">          
-                    <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Register</button>
-                </div>
-            </div>
-        </form>
-    </div>
+    <i class="fas fa-times"></i>
+  </button>
+
+  <p>Get Started for Free</p>
+
+  <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+    <mat-form-field appearance="legacy">
+      <mat-label>Email</mat-label>
+      <input formControlName="email" matInput />
+      <mat-error *ngIf="form.invalid">The email field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Password</mat-label>
+      <input type="password" formControlName="password" matInput />
+      <mat-error *ngIf="form.invalid">The password field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Confirm password</mat-label>
+      <input type="password" formControlName="confirmPassword" matInput />
+      <mat-error *ngIf="form.invalid">The confirm password field is required</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" class="create-account-button" [disabled]="form.invalid" aria-label="create" type="submit">Create account</button>
+  </form>
 </div>
+
