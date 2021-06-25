@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AuthenticationService } from '../../../authentication/authentication.service';
 
 import { ProjectsDataService } from '../../../services/projects-data/projects-data-service';
 import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient } from '../../../web-api-client';
@@ -31,6 +33,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private projectItemsClient: ProjectItemsClient,
     private favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private projectsDataService: ProjectsDataService,
+    private authorize: AuthenticationService
     ) { }
   
   ngOnInit() {
@@ -44,17 +47,11 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadProjectsAfterAuthenticate() {
-    //let authorizeSub: Subscription;
-
-    //authorizeSub = this.authorize.isAuthenticated().subscribe(isAuthenticated => {
-    //  if (isAuthenticated) {
-    //    this.projectsDataService.loadProjects();
-
-    //    if (authorizeSub)
-    //      authorizeSub.unsubscribe();
-
-    //  }
-    //});
+    this.authorize.token.pipe(take(1)).subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.projectsDataService.loadProjects();
+      }
+    });
   }
 
   onOpenCreateProjectDialog() {

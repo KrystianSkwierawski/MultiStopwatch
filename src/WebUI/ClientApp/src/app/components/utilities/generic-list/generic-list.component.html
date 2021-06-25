@@ -3,7 +3,9 @@
 </div>
 
 <!--<div *ngIf="list?.length === 0">
-  
+  <div #emptyState>
+    <ng-content select="[emptyState]"></ng-content>
+  </div>
 </div>-->
 
 <ng-container *ngIf="list && list.length > 0">

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Local } from 'protractor/built/driverProviders';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AccountsClient } from '../web-api-client';
 
@@ -10,7 +11,7 @@ import { AccountsClient } from '../web-api-client';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  user: Subject<any> = new Subject();
+  token: BehaviorSubject<string> = new BehaviorSubject(null);
 
   constructor(private route: Router, private accountsClient: AccountsClient) { }
 
@@ -26,7 +27,7 @@ export class AuthenticationService {
   login(user) {
     this.accountsClient.login(user).subscribe(
       (authResponse) => {
-        this.user.next(authResponse.token);
+        this.token.next(authResponse.token);
         localStorage.setItem("token", authResponse.token);
         this.route.navigateByUrl("/projects");
       },
@@ -36,8 +37,14 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem("token");
-    this.user.next(null);
+    this.token.next(null);
     this.route.navigateByUrl("");
   }
 
+  isAuthenticated() {
+    if (this.token)
+      return this.token;
+
+    return localStorage.getItem("token");
+  }
 }
