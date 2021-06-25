@@ -29,7 +29,7 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem("token");
     this.isAuthenticated.next(null);
-    this.route.navigateByUrl("/");
+    this.route.navigate(['/']);
   }
 
   getToken() {
