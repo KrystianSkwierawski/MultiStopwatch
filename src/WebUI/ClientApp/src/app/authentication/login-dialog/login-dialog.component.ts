@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication.service';
 
 
@@ -15,7 +16,10 @@ export class LoginDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private authService: AuthenticationService, private formBulider: FormBuilder, public dialogRef: MatDialogRef<LoginDialogComponent>) { }
+  constructor(private authService: AuthenticationService,
+    private formBulider: FormBuilder,
+    public dialogRef: MatDialogRef<LoginDialogComponent>,
+  ) { }
 
   ngOnInit(): void {
     this.form = this.formBulider.group({

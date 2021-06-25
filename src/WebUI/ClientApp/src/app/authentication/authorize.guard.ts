@@ -16,6 +16,6 @@ export class AuthorizeGuard implements CanActivate {
     if (this.authService.getToken())
       return true;
 
-    this.router.navigateByUrl("/");
+    this.router.navigate(['/']);
   }
 }

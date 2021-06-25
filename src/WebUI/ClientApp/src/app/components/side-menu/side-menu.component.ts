@@ -15,7 +15,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   menuIsActivated: boolean = true;
 
-  constructor(public elementRef: ElementRef, public dialog: MatDialog, private authenticationService: AuthenticationService) { }
+  constructor(public elementRef: ElementRef, public dialog: MatDialog, private authService: AuthenticationService) { }
 
   ngAfterViewInit(): void {
     this.toggleContent_disabledScrolling();
@@ -27,7 +27,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.authenticationService.logout();
+    this.authService.logout();
   }
 
   showPertCalculatorDialog() {

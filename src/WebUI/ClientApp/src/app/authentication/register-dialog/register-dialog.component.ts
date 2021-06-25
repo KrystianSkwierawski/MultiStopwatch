@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-dialog',
@@ -13,7 +14,10 @@ export class RegisterDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private authService: AuthenticationService, private formBulider: FormBuilder, public dialogRef: MatDialogRef<RegisterDialogComponent>) { }
+  constructor(private authService: AuthenticationService,
+    private formBulider: FormBuilder,
+    public dialogRef: MatDialogRef<RegisterDialogComponent>,
+  ) { }
 
   ngOnInit(): void {
     this.form = this.formBulider.group({

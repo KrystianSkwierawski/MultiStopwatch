@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { AuthenticationService } from '../../authentication/authentication.service';
 import { LoginDialogComponent } from '../../authentication/login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../../authentication/register-dialog/register-dialog.component';
 
@@ -11,12 +13,25 @@ import { RegisterDialogComponent } from '../../authentication/register-dialog/re
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private route: Router) { }
+  isAuthenticated: string;
+
+  constructor(private dialog: MatDialog,
+    private route: Router,
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated;
+    });
   }
 
   openRegisterDialog() {
+    if (this.isAuthenticated) {
+      this.route.navigateByUrl("/projects");
+      return;
+    }
+
     const dialogRef = this.dialog.open(RegisterDialogComponent, {
       panelClass: 'register-dialog'
     });
@@ -30,6 +45,11 @@ export class HomeComponent implements OnInit {
   }
 
   openLoginDialog() {
+    if (this.isAuthenticated) {
+      this.route.navigateByUrl("/projects");
+      return;
+    }
+
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
 
