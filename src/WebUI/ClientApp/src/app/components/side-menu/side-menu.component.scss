@@ -30,8 +30,8 @@
   margin-top: .5rem;
   margin-block: 1rem;
 
-  &:hover{
-      opacity: .8;
+  &:hover {
+    opacity: .8;
   }
 }
 
@@ -107,11 +107,16 @@
   justify-content: space-between;
   background-color: #464775;
 
-  & a {
+  & a, button {
     padding: 5px;
     font-size: 1.3rem;
     text-decoration: none;
     align-self: center;
     color: white;
+  }
+
+  & button {
+    border: none;
+    background: none;
   }
 }

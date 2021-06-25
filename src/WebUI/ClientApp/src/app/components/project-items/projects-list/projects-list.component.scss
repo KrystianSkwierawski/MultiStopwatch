@@ -2,11 +2,11 @@
 
 
 .projects {
+  width: 100%;
   flex-grow: 1;
   display: flex;
   margin-top: 2%;
   flex-direction: column;
-  width: 100%;
 
   @include respond-to(medium) {
     flex-direction: row;
@@ -48,10 +48,10 @@
   }
 
   & button {
+    font-size: 1.3rem;
+    border-radius: 8px;
     background-color: #6264A7;
     color: white;
-    border-radius: 8px;
-    font-size: 1.3rem;
   }
 }
 
