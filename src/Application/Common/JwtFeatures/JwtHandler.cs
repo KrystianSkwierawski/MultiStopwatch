@@ -45,7 +45,7 @@ namespace Project.Application.Common.JwtFeatures
                 issuer: _jwtSettings.GetSection("validIssuer").Value,
                 audience: _jwtSettings.GetSection("validAudience").Value,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.GetSection("expiryInMinutes").Value)),
+                expires: DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.GetSection("expiryInDays").Value)),
                 signingCredentials: signingCredentials);
 
             return tokenOptions;
