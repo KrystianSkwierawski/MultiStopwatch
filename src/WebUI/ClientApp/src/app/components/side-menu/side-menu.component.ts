@@ -13,7 +13,7 @@ import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculato
 })
 export class SideMenuComponent implements OnInit, AfterViewInit {
 
-  menuIsActivated: boolean = true;
+  menuIsActivated: boolean;
 
   constructor(public elementRef: ElementRef, public dialog: MatDialog, private authService: AuthenticationService) { }
 
@@ -23,7 +23,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    this.menuIsActivated = this.isDesktopDevice();
   }
 
   logout() {
@@ -63,7 +63,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   isDesktopDevice() {
-    return (window.innerWidth > 768) ? true : false;;
+    return (window.innerWidth > 768) ? true : false;
   }
 
   toggleContent_disabledScrolling() {
