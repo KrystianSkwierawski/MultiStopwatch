@@ -25,6 +25,9 @@ p {
   }
 }
 
+::ng-deep .mat-dialog-content::-webkit-scrollbar {
+  display: none;
+}
 
 .hide-dialog-button {
   font-size: 1.2rem;
