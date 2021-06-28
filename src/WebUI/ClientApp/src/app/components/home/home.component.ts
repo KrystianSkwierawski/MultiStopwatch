@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
+    this.authService.token.pipe(take(1)).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
   }
