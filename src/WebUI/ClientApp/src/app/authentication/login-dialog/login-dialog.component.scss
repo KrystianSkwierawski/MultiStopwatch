@@ -1,8 +1,12 @@
 @import '../../../scss/shared.scss';
 
-mat-form-field {
+mat-form-field, mat-checkbox {
   padding-bottom: 1rem;
   display: block;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: #6264A7 !important;
 }
 
 p {

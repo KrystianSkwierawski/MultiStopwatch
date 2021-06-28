@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -35,6 +36,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatBadgeModule,
     MatTooltipModule,
+    MatCheckboxModule,
   ],
   imports: [
     CommonModule

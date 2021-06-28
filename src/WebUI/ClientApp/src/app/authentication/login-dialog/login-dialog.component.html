@@ -14,7 +14,7 @@
 
   <p>Sign in</p>
 
-  <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+  <form (ngSubmit)="onSubmit(form.value, rememberMe.checked)" [formGroup]="form">
     <mat-form-field appearance="legacy">
       <mat-label>Email</mat-label>
       <input formControlName="email" matInput />
@@ -27,6 +27,10 @@
       <mat-error *ngIf="form.invalid">The password field is required</mat-error>
     </mat-form-field>
 
+    <mat-checkbox class="text-white"
+                  #rememberMe>
+      Remember me
+    </mat-checkbox>
 
     <button mat-flat-button class="sign-in-button" [disabled]="form.invalid" aria-label="sign in" type="submit">Sign in</button>
   </form>

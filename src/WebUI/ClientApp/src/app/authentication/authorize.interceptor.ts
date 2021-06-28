@@ -10,11 +10,9 @@ export class AuthorizeInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const user = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-    return this.processRequestWithToken(user, req, next);
-
-
+    return this.processRequestWithToken(token, req, next);
   }
 
   // Checks if there is an access_token available in the authorize service

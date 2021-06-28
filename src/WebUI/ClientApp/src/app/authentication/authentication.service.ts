@@ -28,7 +28,7 @@ export class AuthenticationService {
     );
   }
 
-  login(user) {
+  login(user, rememberMe: boolean) {
     return this.accountsClient.login(user).pipe(catchError(authResponse => {
       let error = JSON.parse(authResponse.response).errorMessage;
 

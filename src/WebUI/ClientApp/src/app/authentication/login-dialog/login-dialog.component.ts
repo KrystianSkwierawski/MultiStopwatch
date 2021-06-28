@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,8 +41,8 @@ export class LoginDialogComponent implements OnInit {
     this.authService.logout();
   }
 
-  onSubmit(form: HTMLFormElement) {
-    this.authService.login(form).subscribe(authResponse => {
+  onSubmit(form: HTMLFormElement, rememberMe: boolean) {
+    this.authService.login(form, rememberMe).subscribe(authResponse => {
       if (authResponse.token) {
 
         this.closeDialog();
