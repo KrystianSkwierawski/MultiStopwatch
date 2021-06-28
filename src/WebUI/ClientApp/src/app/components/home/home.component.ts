@@ -35,8 +35,6 @@ export class HomeComponent implements OnInit {
     this.dialog.open(RegisterDialogComponent, {
       panelClass: 'register-dialog'
     });
-
-
   }
 
   openLoginDialog() {
@@ -48,6 +46,5 @@ export class HomeComponent implements OnInit {
     this.dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
     });
-
   }
 }
