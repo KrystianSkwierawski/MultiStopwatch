@@ -20,13 +20,13 @@
     <mat-form-field appearance="legacy">
       <mat-label>Password</mat-label>
       <input type="password" formControlName="password" matInput />
-      <mat-error *ngIf="form.invalid">The password field is required</mat-error>
+      <mat-error *ngIf="form.invalid">{{getErrorMessageFieldPassword('password')}}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="legacy">
       <mat-label>Confirm password</mat-label>
       <input type="password" formControlName="confirmPassword" matInput />
-      <mat-error *ngIf="form.invalid">The confirm password field is required</mat-error>
+      <mat-error *ngIf="form.invalid">{{getErrorMessageFieldPassword('confirmPassword')}}</mat-error>
     </mat-form-field>
 
     <button mat-flat-button color="primary" class="create-account-button" [disabled]="form.invalid" aria-label="create" type="submit">Create account</button>

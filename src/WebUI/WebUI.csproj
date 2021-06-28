@@ -47,6 +47,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\components\splitted-times\Estimates.ts" />
     <None Remove="ClientApp\src\app\services\Timer.ts" />
+    <None Remove="ClientApp\src\app\validators\must-match.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +58,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\services\pert-calculator\estimates.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\timer\timer.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\validators\must-match.ts" />
   </ItemGroup>
 
   <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">

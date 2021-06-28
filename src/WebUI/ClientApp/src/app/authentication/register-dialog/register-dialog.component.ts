@@ -1,9 +1,8 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../authentication.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { MustMatch } from '../../validators/must-match';
+import { AuthenticationService } from '../authentication.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
@@ -31,7 +30,9 @@ export class RegisterDialogComponent implements OnInit {
       }],
       confirmPassword: ['', {
         validators: [Validators.required]
-      }],
+      }]
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
     });
   }
 
@@ -57,5 +58,20 @@ export class RegisterDialogComponent implements OnInit {
     this.dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
     });
+  }
+
+
+  getErrorMessageFieldPassword(controlName) {
+    const field = this.form.get(controlName);
+
+    if (field.hasError('required')) {
+      return `The ${controlName} field is required`;
+    }
+
+    if (field.hasError('mustMatch')) {
+      return field.getError('mustMatch').message;
+    }
+
+    return '';
   }
 }
