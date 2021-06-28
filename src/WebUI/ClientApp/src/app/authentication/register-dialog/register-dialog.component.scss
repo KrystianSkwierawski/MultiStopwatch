@@ -16,14 +16,14 @@ p {
   position: relative !important;
 }
 
-  ::ng-deep .register-dialog .mat-dialog-container {
-    background-color: #36393F;
-    min-width: 85vw;
+::ng-deep .register-dialog .mat-dialog-container {
+  background-color: #36393F;
+  min-width: 85vw;
 
-    @include respond-to(medium) {
-      min-width: 35vw;
-    }
+  @include respond-to(medium) {
+    min-width: 35vw;
   }
+}
 
 .hide-dialog-button {
   font-size: 1.2rem;
@@ -42,6 +42,26 @@ p {
   background-color: #6264A7;
   color: white;
 }
+
+.open-login-dialog-button {
+  margin-top: 3rem;
+  text-align: center;
+
+  & p {
+    color: #FFE4E5;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  & button {
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    color: #6264A7;
+  }
+}
+
 
 /* input color class */
 ::ng-deep .register-dialog input.mat-input-element {

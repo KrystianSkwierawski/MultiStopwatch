@@ -2,8 +2,9 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-register-dialog',
@@ -15,6 +16,7 @@ export class RegisterDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(private authService: AuthenticationService,
+    private dialog: MatDialog,
     private formBulider: FormBuilder,
     public dialogRef: MatDialogRef<RegisterDialogComponent>,
   ) { }
@@ -39,13 +41,21 @@ export class RegisterDialogComponent implements OnInit {
 
   onSubmit(form: HTMLFormElement) {
     this.authService.register(form).subscribe(() => {
-      this.closeDialog("success");
+      this.openLoginDialog();
     },
       error => console.log(error)
     );
   }
 
-  closeDialog(success?: string): void {
-    this.dialogRef.close(success);
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  openLoginDialog() {
+    this.closeDialog();
+
+    this.dialog.open(LoginDialogComponent, {
+      panelClass: 'login-dialog'
+    });
   }
 }

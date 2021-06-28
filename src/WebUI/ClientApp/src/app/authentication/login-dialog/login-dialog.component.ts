@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as EventEmitter from 'events';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication.service';
+import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 
 
 @Component({
@@ -17,8 +19,10 @@ export class LoginDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(private authService: AuthenticationService,
+    private dialog: MatDialog,
     private formBulider: FormBuilder,
     public dialogRef: MatDialogRef<LoginDialogComponent>,
+    private route: Router
   ) { }
 
   ngOnInit(): void {
@@ -39,14 +43,26 @@ export class LoginDialogComponent implements OnInit {
   onSubmit(form: HTMLFormElement) {
     this.authService.login(form).subscribe(authResponse => {
       if (authResponse.token) {
-        this.closeDialog("success");
+
+        this.closeDialog();
+        this.route.navigateByUrl("/projects");
+
       }
     },
       error => console.log(error)
     );
   }
 
-  closeDialog(success?: string): void {
-    this.dialogRef.close(success);
+  closeDialog(): void {
+    this.dialogRef.close();
   }
+
+  openRegisterDialog() {
+    this.closeDialog();
+
+    this.dialog.open(RegisterDialogComponent, {
+      panelClass: 'register-dialog'
+    });
+  }
+
 }

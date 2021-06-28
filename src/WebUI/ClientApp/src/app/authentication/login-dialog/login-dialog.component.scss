@@ -44,6 +44,26 @@ p {
 }
 
 
+.open-register-dialog-button {
+  margin-top: 3rem;
+  text-align: center;
+
+  & p {
+    color: #FFE4E5;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  & button {
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    color: #6264A7;
+  }
+}
+
+
 /* input color class */
 ::ng-deep .login-dialog input.mat-input-element {
   color: white;

@@ -32,16 +32,11 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialog.open(RegisterDialogComponent, {
+    this.dialog.open(RegisterDialogComponent, {
       panelClass: 'register-dialog'
     });
 
-    dialogRef.afterClosed().subscribe(success => {
-      if (success) {
-        this.openLoginDialog();
-      }
 
-    });
   }
 
   openLoginDialog() {
@@ -50,15 +45,9 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
+    this.dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
-
     });
 
-    dialogRef.afterClosed().subscribe(success => {
-      if (success) {
-        this.route.navigateByUrl("/projects");
-      }
-    });
   }
 }
