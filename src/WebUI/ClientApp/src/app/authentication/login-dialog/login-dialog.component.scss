@@ -22,7 +22,7 @@ p {
 
 ::ng-deep .login-dialog .mat-dialog-container {
   background-color: #36393F;
-  min-width: 85vw;
+  min-width: 75vw;
 
   @include respond-to(medium) {
     min-width: 35vw;
