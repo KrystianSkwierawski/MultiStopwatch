@@ -28,10 +28,9 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/RegistrationResponse"
                 }
               }
             }
@@ -605,6 +604,22 @@
   },
   "components": {
     "schemas": {
+      "RegistrationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "isSuccessfulRegistration": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "UserForRegistration": {
         "type": "object",
         "additionalProperties": false,

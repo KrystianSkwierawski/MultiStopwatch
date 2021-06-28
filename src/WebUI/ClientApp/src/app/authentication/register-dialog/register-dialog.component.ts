@@ -13,6 +13,7 @@ import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 export class RegisterDialogComponent implements OnInit {
 
   form: FormGroup;
+  errors;
 
   constructor(private authService: AuthenticationService,
     private dialog: MatDialog,
@@ -44,7 +45,7 @@ export class RegisterDialogComponent implements OnInit {
     this.authService.register(form).subscribe(() => {
       this.openLoginDialog();
     },
-      error => console.log(error)
+      errors => this.errors = errors
     );
   }
 

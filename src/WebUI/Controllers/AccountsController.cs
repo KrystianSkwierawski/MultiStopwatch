@@ -27,7 +27,7 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPost("Register")] 
-        public async Task<ActionResult> Register(UserForRegistration userForRegistration) 
+        public async Task<ActionResult<RegistrationResponse>> Register(UserForRegistration userForRegistration) 
         {
             if (userForRegistration == null || !ModelState.IsValid) 
                 return BadRequest();
@@ -35,7 +35,7 @@ namespace Project.WebUI.Controllers
             ApplicationUser user = new ApplicationUser
             {
                 Email = userForRegistration.Email,
-                UserName = Guid.NewGuid().ToString()    
+                UserName = userForRegistration.Email
             };
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password); 
@@ -54,15 +54,18 @@ namespace Project.WebUI.Controllers
         {
             var user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
-                return Unauthorized(new AuthResponse { ErrorMessage = "Invalid Authentication" });
+            if(user is null)
+                return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
+
+            if (!await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+                return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
 
             var signingCredentials = _jwtHandler.GetSigningCredentials();
             var claims = _jwtHandler.GetClaims(user);
             var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return new AuthResponse { IsAuthSuccessful = true, Token = token };
+            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
     }
 }

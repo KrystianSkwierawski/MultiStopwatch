@@ -17,6 +17,7 @@ import { RegisterDialogComponent } from '../register-dialog/register-dialog.comp
 export class LoginDialogComponent implements OnInit {
 
   form: FormGroup;
+  error;
 
   constructor(private authService: AuthenticationService,
     private dialog: MatDialog,
@@ -49,7 +50,7 @@ export class LoginDialogComponent implements OnInit {
 
       }
     },
-      error => console.log(error)
+      error => this.error = error
     );
   }
 

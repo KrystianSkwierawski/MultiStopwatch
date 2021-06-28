@@ -15,7 +15,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAccountsClient {
-    register(userForRegistration: UserForRegistration): Observable<FileResponse>;
+    register(userForRegistration: UserForRegistration): Observable<RegistrationResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
 }
 
@@ -32,7 +32,7 @@ export class AccountsClient implements IAccountsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    register(userForRegistration: UserForRegistration): Observable<FileResponse> {
+    register(userForRegistration: UserForRegistration): Observable<RegistrationResponse> {
         let url_ = this.baseUrl + "/api/accounts/Register";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -44,7 +44,7 @@ export class AccountsClient implements IAccountsClient {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -55,31 +55,33 @@ export class AccountsClient implements IAccountsClient {
                 try {
                     return this.processRegister(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<RegistrationResponse>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<RegistrationResponse>><any>_observableThrow(response_);
         }));
     }
 
-    protected processRegister(response: HttpResponseBase): Observable<FileResponse> {
+    protected processRegister(response: HttpResponseBase): Observable<RegistrationResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RegistrationResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<RegistrationResponse>(<any>null);
     }
 
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse> {
@@ -939,6 +941,54 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+}
+
+export class RegistrationResponse implements IRegistrationResponse {
+    isSuccessfulRegistration?: boolean;
+    errors?: string[] | undefined;
+
+    constructor(data?: IRegistrationResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isSuccessfulRegistration = _data["isSuccessfulRegistration"];
+            if (Array.isArray(_data["errors"])) {
+                this.errors = [] as any;
+                for (let item of _data["errors"])
+                    this.errors!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): RegistrationResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegistrationResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isSuccessfulRegistration"] = this.isSuccessfulRegistration;
+        if (Array.isArray(this.errors)) {
+            data["errors"] = [];
+            for (let item of this.errors)
+                data["errors"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IRegistrationResponse {
+    isSuccessfulRegistration?: boolean;
+    errors?: string[] | undefined;
 }
 
 export class UserForRegistration implements IUserForRegistration {
