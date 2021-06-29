@@ -47,7 +47,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadProjectsAfterAuthenticate() {
-    this.authService.token.pipe(take(1)).subscribe(isAuthenticated => {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.projectsDataService.loadProjects();
       }

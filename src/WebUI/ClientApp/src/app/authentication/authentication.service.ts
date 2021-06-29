@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -8,10 +8,19 @@ import { AccountsClient } from '../web-api-client';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
-  token: BehaviorSubject<string> = new BehaviorSubject(null);
+export class AuthenticationService implements OnInit {
+
+  private _token: string;
+  isAuthenticated = new BehaviorSubject<boolean>(false);
 
   constructor(private route: Router, private accountsClient: AccountsClient) { }
+
+  ngOnInit(): void {
+    const token = this.getTokenFromLocalStorage();
+
+    this.setToken(token);
+    this.isAuthenticated.next(!!token);
+  }
 
   register(user) {
     return this.accountsClient.register(user).pipe(
@@ -32,19 +41,23 @@ export class AuthenticationService {
 
       if (!error)
         error = "An unexpected server error occurred.";
-      
+
 
       return throwError(error);
     }),
       tap(authResponse => {
         this.setToken(authResponse.token);
-        localStorage.setItem("token", authResponse.token);
+        this.isAuthenticated.next(true);
+
+        if (rememberMe)
+          localStorage.setItem("token", authResponse.token);
       }
       ));
   }
 
   logout() {
     localStorage.removeItem("token");
+    this.isAuthenticated.next(false);
     this.setToken(null);
     this.route.navigate(['/']);
   }
@@ -53,7 +66,11 @@ export class AuthenticationService {
     return localStorage.getItem("token");
   }
 
+  getToken(): string {
+    return this._token;
+  }
+
   setToken(token: string) {
-    this.token.next(token);
+    this._token = token;
   }
 }

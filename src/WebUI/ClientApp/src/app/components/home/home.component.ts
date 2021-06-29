@@ -13,7 +13,7 @@ import { RegisterDialogComponent } from '../../authentication/register-dialog/re
 })
 export class HomeComponent implements OnInit {
 
-  isAuthenticated: string;
+  isAuthenticated: boolean;
 
   constructor(private dialog: MatDialog,
     private route: Router,
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.token.pipe(take(1)).subscribe(isAuthenticated => {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
   }
