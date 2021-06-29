@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
 using Project.Domain.Entities;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;

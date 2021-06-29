@@ -5,7 +5,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
+import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
+import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
 import { FavoriteProjectsListComponent } from './components/favorite-project-items/favorite-projects-list/favorite-projects-list.component';
+import { HomeComponent } from './components/home/home.component';
 import { PertCalculatorDialogComponent } from './components/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 import { CreateProjectDialogComponent } from './components/project-items/create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from './components/project-items/edit-project-dialog/edit-project-dialog.component';
@@ -24,10 +28,6 @@ import { SearchItemByTitleComponent } from './components/utilities/search-item-b
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
-import { HomeComponent } from './components/home/home.component';
-import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
-import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
-import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
 
 
 @NgModule({

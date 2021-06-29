@@ -4,7 +4,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
-
 import { ProjectsDataService } from '../../../services/projects-data/projects-data-service';
 import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient } from '../../../web-api-client';
 import { ChartDialogComponent } from '../../utilities/chart-dialog/chart-dialog.component';
@@ -12,6 +11,7 @@ import { ConfirmDeleteDialogComponent } from '../../utilities/confirm-delete-dia
 import { SearchItemByTitleComponent } from '../../utilities/search-item-by-title/search-item-by-title.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
+
 
 
 @Component({

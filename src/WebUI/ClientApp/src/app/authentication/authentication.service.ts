@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Local } from 'protractor/built/driverProviders';
-import { BehaviorSubject, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AccountsClient, AuthResponse, RegistrationResponse } from '../web-api-client';
+import { AccountsClient } from '../web-api-client';
 
 
 @Injectable({

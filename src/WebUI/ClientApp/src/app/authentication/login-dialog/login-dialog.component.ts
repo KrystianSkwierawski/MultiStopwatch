@@ -1,10 +1,7 @@
-import { Component, ElementRef, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as EventEmitter from 'events';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 
