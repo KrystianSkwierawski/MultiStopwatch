@@ -16,7 +16,7 @@ export class AuthenticationService implements OnInit {
   constructor(private _router: Router, private _accountsClient: AccountsClient) { }
 
   ngOnInit(): void {
-    this.token = this.getTokenFromLocalStorage();
+    this.setToken(this.getTokenFromLocalStorage());
   }
 
   register(user) {
@@ -43,7 +43,7 @@ export class AuthenticationService implements OnInit {
       return throwError(error);
     }),
       tap(authResponse => {
-        this._token = authResponse.token;
+        this.setToken(authResponse.token);
 
         if (rememberMe)
           localStorage.setItem("token", authResponse.token);
@@ -53,7 +53,7 @@ export class AuthenticationService implements OnInit {
 
   logout() {
     localStorage.removeItem("token");
-    this.token = null;
+    this.setToken(null);
     this._router.navigate(['/']);
   }
 
@@ -61,11 +61,11 @@ export class AuthenticationService implements OnInit {
     return localStorage.getItem("token");
   }
 
-  get token(): string {
+  getToken(): string {
     return this._token;
   }
 
-  set token(token: string) {
+  setToken(token: string) {
     this._token = token;
     this.isAuthenticated.next(!!token);
   }
