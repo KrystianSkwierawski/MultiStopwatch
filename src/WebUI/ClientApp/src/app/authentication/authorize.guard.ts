@@ -13,7 +13,7 @@ export class AuthorizeGuard implements CanActivate {
     _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (this.authService.getToken())
+    if (this.authService.getTokenFromLocalStorage())
       return true;
 
     this.router.navigate(['/']);

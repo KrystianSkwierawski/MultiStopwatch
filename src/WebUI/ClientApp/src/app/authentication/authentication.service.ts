@@ -37,7 +37,7 @@ export class AuthenticationService {
       return throwError(error);
     }),
       tap(authResponse => {
-        this.token.next(authResponse.token);
+        this.setToken(authResponse.token);
         localStorage.setItem("token", authResponse.token);
       }
       ));
@@ -45,11 +45,15 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem("token");
-    this.token.next(null);
+    this.setToken(null);
     this.route.navigate(['/']);
   }
 
-  getToken() {
+  getTokenFromLocalStorage() {
     return localStorage.getItem("token");
+  }
+
+  setToken(token: string) {
+    this.token.next(token);
   }
 }

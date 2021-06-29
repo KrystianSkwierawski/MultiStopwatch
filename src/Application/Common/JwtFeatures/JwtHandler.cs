@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -43,6 +44,7 @@ namespace Project.Application.Common.JwtFeatures
                 issuer: _jwtSettings.GetSection("validIssuer").Value,
                 audience: _jwtSettings.GetSection("validAudience").Value,
                 claims: claims,
+                expires: DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.GetSection("expiryInDays").Value)),
                 signingCredentials: signingCredentials);
 
             return tokenOptions;
