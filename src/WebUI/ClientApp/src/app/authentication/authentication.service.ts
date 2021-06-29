@@ -13,17 +13,14 @@ export class AuthenticationService implements OnInit {
   private _token: string;
   isAuthenticated = new BehaviorSubject<boolean>(false);
 
-  constructor(private route: Router, private accountsClient: AccountsClient) { }
+  constructor(private _router: Router, private _accountsClient: AccountsClient) { }
 
   ngOnInit(): void {
-    const token = this.getTokenFromLocalStorage();
-
-    this.setToken(token);
-    this.isAuthenticated.next(!!token);
+    this.token = this.getTokenFromLocalStorage();
   }
 
   register(user) {
-    return this.accountsClient.register(user).pipe(
+    return this._accountsClient.register(user).pipe(
       catchError(errorResponse => {
         const errors = JSON.parse(errorResponse.response).errors;
 
@@ -36,7 +33,7 @@ export class AuthenticationService implements OnInit {
   }
 
   login(user, rememberMe: boolean) {
-    return this.accountsClient.login(user).pipe(catchError(authResponse => {
+    return this._accountsClient.login(user).pipe(catchError(authResponse => {
       let error = JSON.parse(authResponse.response).errorMessage;
 
       if (!error)
@@ -46,8 +43,7 @@ export class AuthenticationService implements OnInit {
       return throwError(error);
     }),
       tap(authResponse => {
-        this.setToken(authResponse.token);
-        this.isAuthenticated.next(true);
+        this._token = authResponse.token;
 
         if (rememberMe)
           localStorage.setItem("token", authResponse.token);
@@ -57,20 +53,20 @@ export class AuthenticationService implements OnInit {
 
   logout() {
     localStorage.removeItem("token");
-    this.isAuthenticated.next(false);
-    this.setToken(null);
-    this.route.navigate(['/']);
+    this.token = null;
+    this._router.navigate(['/']);
   }
 
   getTokenFromLocalStorage() {
     return localStorage.getItem("token");
   }
 
-  getToken(): string {
+  get token(): string {
     return this._token;
   }
 
-  setToken(token: string) {
+  set token(token: string) {
     this._token = token;
+    this.isAuthenticated.next(!!token);
   }
 }

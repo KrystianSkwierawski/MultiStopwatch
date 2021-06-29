@@ -10,7 +10,9 @@ import { calcTotalSeconds, Time } from '../../../services/timer/Timer';
 })
 export class ChartDialogComponent implements OnInit, AfterViewInit {
 
-  constructor(public dialogRef: MatDialogRef<ChartDialogComponent>, private elementRef: ElementRef, @Inject(MAT_DIALOG_DATA) public data: any[]) { }
+  constructor(private _dialogRef: MatDialogRef<ChartDialogComponent>,
+    private _elementRef: ElementRef,
+    @Inject(MAT_DIALOG_DATA) public data: any[]) { }
 
   ngAfterViewInit() {
     this.addCanvasJsScript();
@@ -90,10 +92,10 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
     const canvasJsScript = document.createElement("script");
     canvasJsScript.type = "text/javascript";
     canvasJsScript.src = "https://canvasjs.com/assets/script/canvasjs.min.js";
-    this.elementRef.nativeElement.appendChild(canvasJsScript);
+    this._elementRef.nativeElement.appendChild(canvasJsScript);
   }
 
   hideDialog(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 }

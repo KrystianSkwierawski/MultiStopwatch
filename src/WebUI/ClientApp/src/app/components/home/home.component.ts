@@ -15,35 +15,35 @@ export class HomeComponent implements OnInit {
 
   isAuthenticated: boolean;
 
-  constructor(private dialog: MatDialog,
-    private route: Router,
-    private authService: AuthenticationService
+  constructor(private _dialog: MatDialog,
+    private _router: Router,
+    private _authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
+    this._authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
   }
 
   openRegisterDialog() {
     if (this.isAuthenticated) {
-      this.route.navigateByUrl("/projects");
+      this._router.navigateByUrl("/projects");
       return;
     }
 
-    this.dialog.open(RegisterDialogComponent, {
+    this._dialog.open(RegisterDialogComponent, {
       panelClass: 'register-dialog'
     });
   }
 
   openLoginDialog() {
     if (this.isAuthenticated) {
-      this.route.navigateByUrl("/projects");
+      this._router.navigateByUrl("/projects");
       return;
     }
 
-    this.dialog.open(LoginDialogComponent, {
+    this._dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
     });
   }

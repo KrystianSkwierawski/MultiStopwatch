@@ -9,16 +9,16 @@ import { AuthenticationService } from './authentication.service';
 })
 export class AuthorizeGuard implements CanActivate {
 
-  constructor(private router: Router, private authService: AuthenticationService) {
+  constructor(private _router: Router, private _authService: AuthenticationService) {
   }
 
   canActivate(
     _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (this.authService.getToken())
+    if (this._authService.token)
       return true;
 
-    this.router.navigate(['/']);
+    this._router.navigate(['/']);
   }
 }

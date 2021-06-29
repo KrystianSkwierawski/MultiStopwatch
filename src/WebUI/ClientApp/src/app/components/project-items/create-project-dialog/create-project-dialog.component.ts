@@ -12,13 +12,13 @@ export class CreateProjectDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
-    private formBuilder: FormBuilder,
+  constructor(public _dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+    private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public projectItem: ProjectItemDto,
-    private projectItemsClient: ProjectItemsClient) { }
+    private _projectItemsClient: ProjectItemsClient) { }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
       }],
@@ -29,7 +29,7 @@ export class CreateProjectDialogComponent implements OnInit {
   }
 
   onSubmit(projectItem: ProjectItemDto) {
-    this.projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
+    this._projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
       this.closeDialog("success");
     });
   }
@@ -53,6 +53,6 @@ export class CreateProjectDialogComponent implements OnInit {
   }
 
   closeDialog(success?: string): void {
-    this.dialogRef.close(success);
+    this._dialogRef.close(success);
   }
 }

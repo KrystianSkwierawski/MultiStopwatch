@@ -20,13 +20,13 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   favoriteProjects: FavoriteProjectItemDto[];
   favoriteProjectsSub: Subscription;
 
-  constructor(private favoriteProjectItemsClient: FavoriteProjectItemsClient,
-    private projectsDataService: ProjectsDataService,
-    private router: Router,
-    private authService: AuthenticationService) { }
+  constructor(private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private _projectsDataService: ProjectsDataService,
+    private _router: Router,
+    private _authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.favoriteProjectsSub = this.projectsDataService.favoriteProjects.subscribe(result => {
+    this.favoriteProjectsSub = this._projectsDataService.favoriteProjects.subscribe(result => {
       this.favoriteProjects = result;
     });
 
@@ -34,9 +34,9 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadFavoriteProjectsAfterAuthenticate() {
-    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
+    this._authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
-        this.projectsDataService.loadFavoriteProjects();
+        this._projectsDataService.loadFavoriteProjects();
       }
     });
   }
@@ -48,7 +48,7 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
 
     this.favoriteProjectsTable.renderRows();
 
-    this.favoriteProjectItemsClient.updateOrderIndex(<UpdateOrderIndexProjectItemCommand>{
+    this._favoriteProjectItemsClient.updateOrderIndex(<UpdateOrderIndexProjectItemCommand>{
       currentProjects: this.favoriteProjects
     }).subscribe();
   }
@@ -66,16 +66,16 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
+    this._favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
 
-      const homePath = (this.router.url === '/') ? true : false;
+      const homePath = (this._router.url === '/') ? true : false;
 
       if (homePath) {
-        this.projectsDataService.loadData();
+        this._projectsDataService.loadData();
         return;
       }
 
-      this.projectsDataService.loadFavoriteProjects();
+      this._projectsDataService.loadFavoriteProjects();
 
     });
   }

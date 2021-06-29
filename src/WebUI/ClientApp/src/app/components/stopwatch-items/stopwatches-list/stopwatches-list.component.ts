@@ -28,17 +28,17 @@ export class StopwatchesListComponent implements OnInit {
   projectId: number;
   titlesArray: string[];
 
-  constructor(public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private stopwatchItemsClient: StopwatchItemsClient,
-    private projectItemsClient: ProjectItemsClient,
-    private timersService: TimersService,
-    private localChangesHubService: LocalChangesHubService,
-    private splittedtimesClient: SplittedtimesClient) {
+  constructor(private _dialog: MatDialog,
+    private _activatedRoute: ActivatedRoute,
+    private _stopwatchItemsClient: StopwatchItemsClient,
+    private _projectItemsClient: ProjectItemsClient,
+    private _timersService: TimersService,
+    private _localChangesHubService: LocalChangesHubService,
+    private _splittedtimesClient: SplittedtimesClient) {
   }
 
   setProjectId() {
-    this.projectId = this.activatedRoute.snapshot.params['id'];
+    this.projectId = this._activatedRoute.snapshot.params['id'];
   }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   onOpenCreateStopwatchDialog(): void {
-    const dialogRef = this.dialog.open(CreateStopwatchDialogComponent, {
+    const dialogRef = this._dialog.open(CreateStopwatchDialogComponent, {
       data: this.projectId
     });
 
@@ -59,9 +59,9 @@ export class StopwatchesListComponent implements OnInit {
           this.searchProjectComponent.cleanInput();
         }
 
-        this.timersService.clearAllIntervals();
+        this._timersService.clearAllIntervals();
 
-        await this.localChangesHubService.saveStopwatchesChangesInDb();
+        await this._localChangesHubService.saveStopwatchesChangesInDb();
 
         this.loadStopwatches();
       }
@@ -69,12 +69,12 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   onOpenConfirmDeleteDialog(stopwatch: StopwatchItemDto) {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
+    const dialogRef = this._dialog.open(ConfirmDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        this.timersService.clearAllIntervals();
-        await this.localChangesHubService.saveStopwatchesChangesInDb();
+        this._timersService.clearAllIntervals();
+        await this._localChangesHubService.saveStopwatchesChangesInDb();
         this.deleteStopwatch(stopwatch);
       }
     });
@@ -89,30 +89,30 @@ export class StopwatchesListComponent implements OnInit {
   filterStopwatches(searchingTitle: string) {
     const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
     this.stopwatches = filteredStopwatches;
-    this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
+    this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
   }
 
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
-    this.stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
+    this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
       this.stopwatches = result.items;
       this.filterTitlesArray();
-      this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
+      this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
     });
   }
 
   loadProject() {
-    this.projectItemsClient.get(this.projectId).subscribe(result => {
+    this._projectItemsClient.get(this.projectId).subscribe(result => {
       this.project = result;
-      this.timersService.project = result;
-      this.timersService.initialProjectTime();
+      this._timersService.project = result;
+      this._timersService.initialProjectTime();
     });
   }
 
   onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
     this.pauseTimer(stopwatchItem);
 
-    const dialogRef = this.dialog.open(EditStopwatchDialogComponent, {
+    const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
       data: stopwatchItem
     });
 
@@ -120,13 +120,13 @@ export class StopwatchesListComponent implements OnInit {
       if (success) {
         this.paginatedListOfStopwatchItemDto.items = this.stopwatches;
         this.filterTitlesArray();
-        this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
+        this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
       }
     });
   }
 
   onOpenShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
-    const dialogRef = this.dialog.open(SplittedTimesListDialogComponent, {
+    const dialogRef = this._dialog.open(SplittedTimesListDialogComponent, {
       data: stopwatch.splittedTimes,
       panelClass: 'splitted-times-dialog'
     });
@@ -139,26 +139,26 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   deleteStopwatch(stopwatch: StopwatchItemDto) {
-    this.stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
+    this._stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
       this.loadStopwatches();
     });
   }
 
   pauseTimer(stopwatch: StopwatchItemDto) {
-    this.timersService.pause(stopwatch);
+    this._timersService.pause(stopwatch);
   }
 
   restartTimer(stopwatch: StopwatchItemDto) {
-    this.timersService.restart(stopwatch);
-    this.timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
+    this._timersService.restart(stopwatch);
+    this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
-    this.timersService.start(stopwatch);
+    this._timersService.start(stopwatch);
   }
 
   splitTimer(stopwatch: StopwatchItemDto) {
-    this.splittedtimesClient.create(<CreateSplittedTimeCommand>{
+    this._splittedtimesClient.create(<CreateSplittedTimeCommand>{
       stopwatchItemId: stopwatch.id,
       time: stopwatch.time
     }).subscribe(splittedTime => {
@@ -167,16 +167,16 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   onOpenChartDialog() {
-    this.dialog.open(ChartDialogComponent, {
+    this._dialog.open(ChartDialogComponent, {
       data: this.paginatedListOfStopwatchItemDto.items,
       panelClass: 'chart-dialog'
     });
   }
 
   async updatePagination(event: PageEvent) {
-    this.timersService.clearAllIntervals();
+    this._timersService.clearAllIntervals();
 
-    await this.localChangesHubService.saveStopwatchesChangesInDb();
+    await this._localChangesHubService.saveStopwatchesChangesInDb();
 
     this.loadStopwatches(event.pageIndex + 1, event.pageSize);
   }

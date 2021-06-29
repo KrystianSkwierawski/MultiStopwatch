@@ -13,14 +13,14 @@ export class CreateStopwatchDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<CreateStopwatchDialogComponent>,
-    private formBuilder: FormBuilder,
+  constructor(private _dialogRef: MatDialogRef<CreateStopwatchDialogComponent>,
+    private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public projectId: number,
-    private stopwatchItemsClient: StopwatchItemsClient,
+    private _stopwatchItemsClient: StopwatchItemsClient,
    ) { }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
       }],
@@ -34,7 +34,7 @@ export class CreateStopwatchDialogComponent implements OnInit {
     stopwatchItem.projectItemId = this.projectId;
     stopwatchItem.time = defaultTime;
 
-    this.stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
+    this._stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
       this.closeDialog("success");
     });
   }
@@ -58,6 +58,6 @@ export class CreateStopwatchDialogComponent implements OnInit {
   }
 
   closeDialog(success?): void {
-    this.dialogRef.close(success);
+    this._dialogRef.close(success);
   }
 }

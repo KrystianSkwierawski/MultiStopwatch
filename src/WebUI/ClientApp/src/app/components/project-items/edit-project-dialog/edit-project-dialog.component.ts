@@ -12,13 +12,13 @@ export class EditProjectDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<EditProjectDialogComponent>,
-    private formBuilder: FormBuilder,
+  constructor(private _dialogRef: MatDialogRef<EditProjectDialogComponent>,
+    private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public projectItem: ProjectItemDto,
-    private projectItemsClient: ProjectItemsClient) { }
+    private _projectItemsClient: ProjectItemsClient) { }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
       }],
@@ -36,7 +36,7 @@ export class EditProjectDialogComponent implements OnInit {
     this.projectItem.title = form.title;
     this.projectItem.theme = form.theme;
 
-    this.projectItemsClient.update(UpdateProjectItemCommand.fromJS(this.projectItem)).subscribe(() => {
+    this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(this.projectItem)).subscribe(() => {
       this.closeDialog("success");
     });
   }
@@ -61,6 +61,6 @@ export class EditProjectDialogComponent implements OnInit {
   }
 
   closeDialog(success?): void {
-    this.dialogRef.close(success);
+    this._dialogRef.close(success);
   }
 }

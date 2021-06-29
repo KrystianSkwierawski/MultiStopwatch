@@ -13,13 +13,13 @@ export class EditStopwatchDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<EditStopwatchDialogComponent>,
-    private formBuilder: FormBuilder,
+  constructor(private _dialogRef: MatDialogRef<EditStopwatchDialogComponent>,
+    private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public stopwatchItem: StopwatchItemDto,
-    private localChangesHubService: LocalChangesHubService  ) { }
+    private _localChangesHubService: LocalChangesHubService  ) { }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       title: ['', {
         validators: [Validators.required, Validators.maxLength(20)]
       }],
@@ -40,7 +40,7 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.stopwatchItem.title = form.title;
     this.stopwatchItem.time = form.time;
     this.stopwatchItem.theme = form.theme;
-    this.localChangesHubService.storeLocalStopwatchChanges(this.stopwatchItem);
+    this._localChangesHubService.storeLocalStopwatchChanges(this.stopwatchItem);
     this.closeDialog("success");
   }
 
@@ -79,6 +79,6 @@ export class EditStopwatchDialogComponent implements OnInit {
   }
 
   closeDialog(success?): void {
-    this.dialogRef.close(success);
+    this._dialogRef.close(success);
   }
 }

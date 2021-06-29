@@ -29,15 +29,15 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   projects: ProjectItemDto[];
   titlesArray: string[];
 
-  constructor(public dialog: MatDialog,
-    private projectItemsClient: ProjectItemsClient,
-    private favoriteProjectItemsClient: FavoriteProjectItemsClient,
-    private projectsDataService: ProjectsDataService,
-    private authService: AuthenticationService
+  constructor(private _dialog: MatDialog,
+    private _projectItemsClient: ProjectItemsClient,
+    private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private _projectsDataService: ProjectsDataService,
+    private _authService: AuthenticationService
     ) { }
   
   ngOnInit() {
-    this.paginatedListOfProjectItemDtoSub = this.projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
+    this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
       this.projects = result.items;
       this.filterTitlesArray();
@@ -47,15 +47,15 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   loadProjectsAfterAuthenticate() {
-    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
+    this._authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
-        this.projectsDataService.loadProjects();
+        this._projectsDataService.loadProjects();
       }
     });
   }
 
   onOpenCreateProjectDialog() {
-    const dialogRef = this.dialog.open(CreateProjectDialogComponent);
+    const dialogRef = this._dialog.open(CreateProjectDialogComponent);
 
     dialogRef.afterClosed().subscribe(success => {
       if (success) {
@@ -63,13 +63,13 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
           this.searchProjectComponent.cleanInput();
         }
 
-        this.projectsDataService.loadProjects();
+        this._projectsDataService.loadProjects();
       }
     });
   }
 
   onOpenConfirmDeleteDialog(projectId: number) {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
+    const dialogRef = this._dialog.open(ConfirmDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -79,27 +79,27 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   onOpenEditProjectDialog(projectItem: ProjectItemDto2) {
-    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+    const dialogRef = this._dialog.open(EditProjectDialogComponent, {
       data: projectItem
     });
 
     dialogRef.afterClosed().subscribe(success => {
       if (success) {
-        this.projectsDataService.loadData();
+        this._projectsDataService.loadData();
       }
     });
   }
 
   onOpenChartDialog() {
-    this.dialog.open(ChartDialogComponent, {
+    this._dialog.open(ChartDialogComponent, {
       data: this.paginatedListOfProjectItemDto.items,
       panelClass: 'chart-dialog'
     });
   }
 
   deleteProject(id) {
-    this.projectItemsClient.delete(id).subscribe(() => {
-      this.projectsDataService.loadData();
+    this._projectItemsClient.delete(id).subscribe(() => {
+      this._projectsDataService.loadData();
     });
   }
 
@@ -121,13 +121,13 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   handleLikeOrDislikeProjectButton(projectId: number) {
-    this.favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
-      this.projectsDataService.loadData();
+    this._favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
+      this._projectsDataService.loadData();
     });
   }
 
   updatePagination(event: PageEvent) {
-    this.projectsDataService.loadProjects(event.pageIndex + 1, event.pageSize);
+    this._projectsDataService.loadProjects(event.pageIndex + 1, event.pageSize);
   }
 
   ngOnDestroy(): void {

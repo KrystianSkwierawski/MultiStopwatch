@@ -16,15 +16,15 @@ export class LoginDialogComponent implements OnInit {
   form: FormGroup;
   error;
 
-  constructor(private authService: AuthenticationService,
-    private dialog: MatDialog,
-    private formBulider: FormBuilder,
-    public dialogRef: MatDialogRef<LoginDialogComponent>,
-    private route: Router
+  constructor(private _authService: AuthenticationService,
+    private _dialog: MatDialog,
+    private _formBulider: FormBuilder,
+    private _dialogRef: MatDialogRef<LoginDialogComponent>,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
-    this.form = this.formBulider.group({
+    this.form = this._formBulider.group({
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
@@ -35,14 +35,14 @@ export class LoginDialogComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this._authService.logout();
   }
 
   onSubmit(form: HTMLFormElement, rememberMe: boolean) {
-    this.authService.login(form, rememberMe).subscribe(authResponse => {
+    this._authService.login(form, rememberMe).subscribe(authResponse => {
       if (authResponse.token) {
         this.closeDialog();
-        this.route.navigateByUrl("/projects");
+        this._router.navigateByUrl("/projects");
       }
     },
       error => this.error = error
@@ -50,13 +50,13 @@ export class LoginDialogComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 
   openRegisterDialog() {
     this.closeDialog();
 
-    this.dialog.open(RegisterDialogComponent, {
+    this._dialog.open(RegisterDialogComponent, {
       panelClass: 'register-dialog'
     });
   }

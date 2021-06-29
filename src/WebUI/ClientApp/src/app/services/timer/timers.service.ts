@@ -15,7 +15,7 @@ export class TimersService implements OnInit {
   stopwatchTimes = new Map<number, Time>();
   timerIntervals = new Map<number, number>();
 
-  constructor(private localChangesHubService: LocalChangesHubService) { }
+  constructor(private _localChangesHubService: LocalChangesHubService) { }
 
   ngOnInit(): void {
 
@@ -39,7 +39,7 @@ export class TimersService implements OnInit {
     window.clearInterval(intervalId);
     this.timerIntervals.delete(stopwatch.id);
 
-    this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+    this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
   restart(stopwatch: StopwatchItemDto) {
@@ -101,7 +101,7 @@ export class TimersService implements OnInit {
 
     stopwatch.time = timeToHHMMSS(stopwatchTime);
 
-    await this.localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
   async updateProjectTimer() {
@@ -125,7 +125,7 @@ export class TimersService implements OnInit {
     const time: Time = new Time(`${this.totalProjectHours}:${this.totalProjectMinutes}:${this.totalProjectSeconds}`);
     this.project.time = timeToHHMMSS(time);
 
-    await this.localChangesHubService.storeLocalProjectChanges(this.project);
+    await this._localChangesHubService.storeLocalProjectChanges(this.project);
   }
 
   clearAllIntervals() {

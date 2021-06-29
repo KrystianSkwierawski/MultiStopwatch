@@ -9,10 +9,10 @@ import { AuthenticationService } from './authentication.service';
 })
 export class AuthorizeInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private _authService: AuthenticationService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.processRequestWithToken(this.authService.getToken(), req, next);
+    return this.processRequestWithToken(this._authService.token, req, next);
   }
 
   // Checks if there is an access_token available in the authorize service

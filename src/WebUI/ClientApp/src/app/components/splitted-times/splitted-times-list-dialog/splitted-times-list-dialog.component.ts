@@ -15,9 +15,9 @@ export class SplittedTimesListDialogComponent implements OnInit {
   dataSource;
 
   constructor(
-    public dialogRef: MatDialogRef<SplittedTimesListDialogComponent>,
+    private _dialogRef: MatDialogRef<SplittedTimesListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SplittedTimeDto[],
-    private splittedtimesClient: SplittedtimesClient) { }
+    private _splittedtimesClient: SplittedtimesClient) { }
 
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class SplittedTimesListDialogComponent implements OnInit {
   }
 
   deleteSplittedTime(id: number) {
-    this.splittedtimesClient.delete(id).subscribe(() => {
+    this._splittedtimesClient.delete(id).subscribe(() => {
       this.data = this.data.filter(x => x.id !== id);
       this.dataSource = new MatTableDataSource<SplittedTimeDto>(this.data); 
     },

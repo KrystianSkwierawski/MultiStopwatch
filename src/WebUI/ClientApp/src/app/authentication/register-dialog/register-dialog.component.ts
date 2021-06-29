@@ -15,14 +15,14 @@ export class RegisterDialogComponent implements OnInit {
   form: FormGroup;
   errors;
 
-  constructor(private authService: AuthenticationService,
-    private dialog: MatDialog,
-    private formBulider: FormBuilder,
-    public dialogRef: MatDialogRef<RegisterDialogComponent>,
+  constructor(private _authService: AuthenticationService,
+    private _dialog: MatDialog,
+    private _formBulider: FormBuilder,
+    public _dialogRef: MatDialogRef<RegisterDialogComponent>,
   ) { }
 
   ngOnInit(): void {
-    this.form = this.formBulider.group({
+    this.form = this._formBulider.group({
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
@@ -38,11 +38,11 @@ export class RegisterDialogComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this._authService.logout();
   }
 
   onSubmit(form: HTMLFormElement) {
-    this.authService.register(form).subscribe(() => {
+    this._authService.register(form).subscribe(() => {
       this.openLoginDialog();
     },
       errors => this.errors = errors
@@ -50,13 +50,13 @@ export class RegisterDialogComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 
   openLoginDialog() {
     this.closeDialog();
 
-    this.dialog.open(LoginDialogComponent, {
+    this._dialog.open(LoginDialogComponent, {
       panelClass: 'login-dialog'
     });
   }

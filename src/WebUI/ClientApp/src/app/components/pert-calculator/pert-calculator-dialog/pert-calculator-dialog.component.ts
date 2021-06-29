@@ -19,13 +19,13 @@ export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
   estimatesSub: Subscription;
 
   constructor(
-    public dialogRef: MatDialogRef<PertCalculatorDialogComponent>,
-    private formBulider: FormBuilder,
-    private pertCalculatorService: PertCalculatorService
+    private _dialogRef: MatDialogRef<PertCalculatorDialogComponent>,
+    private _formBulider: FormBuilder,
+    private _pertCalculatorService: PertCalculatorService
   ) { }
 
   ngOnInit(): void {
-    this.form = this.formBulider.group({
+    this.form = this._formBulider.group({
       optimistic: [0, {
         validators: [Validators.required, Validators.min(1)]
       }],
@@ -37,7 +37,7 @@ export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
       }]
     });
 
-    this.estimatesSub = this.pertCalculatorService.estimates.subscribe((estimates: Estimates[]) => {
+    this.estimatesSub = this._pertCalculatorService.estimates.subscribe((estimates: Estimates[]) => {
       this.updateTableDataSource(estimates);
     });
   }
@@ -47,7 +47,7 @@ export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
     const realisticValue = this.form.get('realistic').value;
     const pessimisticallyValue = this.form.get('pessimistically').value;
 
-    this.pertCalculatorService.calculate(optimisticValue, realisticValue, pessimisticallyValue);
+    this._pertCalculatorService.calculate(optimisticValue, realisticValue, pessimisticallyValue);
   }
 
   updateTableDataSource(estimates: Estimates[]) {
@@ -69,7 +69,7 @@ export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
   }
 
   hideDialog(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 
   ngOnDestroy(): void {

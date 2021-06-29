@@ -8,13 +8,13 @@ import { LocalChangesHubService } from '../../../services/local-changes-hub/loca
 })
 export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
-  constructor(private localChangesHubService: LocalChangesHubService) { }
+  constructor(private _localChangesHubService: LocalChangesHubService) { }
 
   ngOnInit(): void {
-    this.localChangesHubService.connect();
+    this._localChangesHubService.connect();
   }
 
   ngOnDestroy(): void {
-    this.localChangesHubService.disconnect();
+    this._localChangesHubService.disconnect();
   }
 }
