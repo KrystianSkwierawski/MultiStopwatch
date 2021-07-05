@@ -29,6 +29,7 @@ import { SearchItemByTitleComponent } from './components/utilities/search-item-b
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
+import { GoogleAuthenticationButtonComponent } from './components/utilities/google-authentication-button/google-authentication-button.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { ShortenPipe } from './pipes/shorten.pipe';
     ShortenPipe,
     HomeComponent,
     LoginDialogComponent,
-    RegisterDialogComponent
+    RegisterDialogComponent,
+    GoogleAuthenticationButtonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -53,7 +53,7 @@ export class RegisterDialogComponent implements OnInit {
     );
   }
 
-  async onLoginWithGoogle() {
+  async loginWithGoogle() {
     (await this._authService.loginWithGoogle()).subscribe(authResponse => {
       if (authResponse.token) {
         this.closeDialog();

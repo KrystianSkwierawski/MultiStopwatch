@@ -51,8 +51,8 @@ export class LoginDialogComponent implements OnInit {
     );
   }
 
-  async onLoginWithGoogle() {
-     (await this._authService.loginWithGoogle()).subscribe(authResponse => {
+  async loginWithGoogle() {
+    (await this._authService.loginWithGoogle()).subscribe(authResponse => {
       if (authResponse.token) {
         this.closeDialog();
         this._router.navigateByUrl("/projects");
