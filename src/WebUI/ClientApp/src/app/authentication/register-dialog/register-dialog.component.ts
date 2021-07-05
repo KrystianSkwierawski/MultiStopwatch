@@ -22,7 +22,7 @@ export class RegisterDialogComponent implements OnInit {
     private _formBulider: FormBuilder,
     public _dialogRef: MatDialogRef<RegisterDialogComponent>,
     private _router: Router,
-    private _socialAuthService: SocialAuthService
+
   ) { }
 
   ngOnInit(): void {
@@ -53,11 +53,16 @@ export class RegisterDialogComponent implements OnInit {
     );
   }
 
-  loginWithGoogle(): void {
-    this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then(() => this._router.navigateByUrl("/projects"));
+  async onLoginWithGoogle() {
+    (await this._authService.loginWithGoogle()).subscribe(authResponse => {
+      if (authResponse.token) {
+        this.closeDialog();
+        this._router.navigateByUrl("/projects");
+      }
+    },
+      error => this.errors = error
+    );
   }
-
 
   closeDialog(): void {
     this._dialogRef.close();

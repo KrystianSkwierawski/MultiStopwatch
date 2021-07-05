@@ -51,9 +51,15 @@ export class LoginDialogComponent implements OnInit {
     );
   }
 
-  loginWithGoogle(): void {
-    this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then(() => this._router.navigateByUrl("/projects"));
+  async onLoginWithGoogle() {
+     (await this._authService.loginWithGoogle()).subscribe(authResponse => {
+      if (authResponse.token) {
+        this.closeDialog();
+        this._router.navigateByUrl("/projects");
+      }
+    },
+      error => this.error = error
+    );
   }
 
   closeDialog(): void {

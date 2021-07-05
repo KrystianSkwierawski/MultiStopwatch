@@ -35,7 +35,7 @@ namespace Project.Application.Common.Behaviours
             if (elapsedMilliseconds > 500)
             {
                 var requestName = typeof(TRequest).Name;
-                var userId = _currentUserService.UserId ?? string.Empty;
+                var userId = _currentUserService.UserEmail ?? string.Empty;
 
                 _logger.LogWarning("CleanArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
                     requestName, elapsedMilliseconds, userId, request);

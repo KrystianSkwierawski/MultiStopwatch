@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
 using Project.Domain.Entities;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
@@ -14,21 +17,21 @@ namespace Project.WebUI.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager; 
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly JwtHandler _jwtHandler;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, IMapper mapper, JwtHandler jwtHandler) 
+        public AccountsController(UserManager<ApplicationUser> userManager, IMapper mapper, JwtHandler jwtHandler)
         {
             _userManager = userManager;
             _mapper = mapper;
             _jwtHandler = jwtHandler;
         }
 
-        [HttpPost("Register")] 
-        public async Task<ActionResult<RegistrationResponse>> Register(UserForRegistration userForRegistration) 
+        [HttpPost("Register")]
+        public async Task<ActionResult<RegistrationResponse>> Register(UserForRegistration userForRegistration)
         {
-            if (userForRegistration == null || !ModelState.IsValid) 
+            if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
 
             ApplicationUser user = new ApplicationUser
@@ -37,12 +40,12 @@ namespace Project.WebUI.Controllers
                 UserName = userForRegistration.Email
             };
 
-            var result = await _userManager.CreateAsync(user, userForRegistration.Password); 
-            if (!result.Succeeded) 
-            { 
-                var errors = result.Errors.Select(e => e.Description); 
-                
-                return BadRequest(new RegistrationResponse { Errors = errors }); 
+            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+
+                return BadRequest(new RegistrationResponse { Errors = errors });
             }
 
             return Ok();
@@ -53,16 +56,30 @@ namespace Project.WebUI.Controllers
         {
             var user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
-            if(user is null)
+            if (user is null)
                 return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
 
             if (!await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                 return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
 
-            var signingCredentials = _jwtHandler.GetSigningCredentials();
-            var claims = _jwtHandler.GetClaims(user);
-            var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            var claims = _jwtHandler.GetClamis(user.Email, user.Id);
+            var token = _jwtHandler.GenerateToken(claims);
+
+            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+        }
+
+        [HttpPost("GoogleAuthenticate")]
+        public async Task<ActionResult<AuthResponse>> GoogleAuthenticate(string idToken)
+        {
+            GoogleJsonWebSignature.ValidationSettings settings = new GoogleJsonWebSignature.ValidationSettings();
+
+            settings.Audience = new List<string>() { "1077472699821-km2iel871mij429reoh6uev8dl6k4v3a.apps.googleusercontent.com" };
+
+            GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
+
+            var claims = _jwtHandler.GetClamis(payload.Email, payload.JwtId);
+            var token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
@@ -64,6 +64,7 @@ import { ShortenPipe } from './pipes/shorten.pipe';
     MaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    SocialLoginModule
   ],
   providers: [
     {

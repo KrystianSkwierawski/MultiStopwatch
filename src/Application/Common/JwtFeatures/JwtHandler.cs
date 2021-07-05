@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -27,27 +26,29 @@ namespace Project.Application.Common.JwtFeatures
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        public List<Claim> GetClaims(IdentityUser user)
+        public List<Claim> GetClamis(string email, string userId)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.NameIdentifier, userId)
             };
 
             return claims;
         }
 
-        public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        public string GenerateToken(List<Claim> claims)
         {
-            var tokenOptions = new JwtSecurityToken(
+            JwtSecurityToken tokenOptions = new(
                 issuer: _jwtSettings.GetSection("validIssuer").Value,
                 audience: _jwtSettings.GetSection("validAudience").Value,
                 claims: claims,
                 expires: DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.GetSection("expiryInDays").Value)),
-                signingCredentials: signingCredentials);
+                signingCredentials: GetSigningCredentials()
+                );
 
-            return tokenOptions;
+            string token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return token;
         }
     }
 }

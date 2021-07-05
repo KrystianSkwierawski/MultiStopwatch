@@ -70,6 +70,37 @@
         }
       }
     },
+    "/api/accounts/GoogleAuthenticate": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_GoogleAuthenticate",
+        "parameters": [
+          {
+            "name": "idToken",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/FavoriteProjectItems": {
       "get": {
         "tags": [

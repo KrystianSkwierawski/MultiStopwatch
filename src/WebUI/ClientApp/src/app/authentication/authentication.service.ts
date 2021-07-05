@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AccountsClient } from '../web-api-client';
 
@@ -13,7 +14,10 @@ export class AuthenticationService implements OnInit {
   private _token: string;
   isAuthenticated = new BehaviorSubject<boolean>(false);
 
-  constructor(private _router: Router, private _accountsClient: AccountsClient) { }
+  constructor(private _router: Router,
+    private _accountsClient: AccountsClient,
+    private _socialAuthService: SocialAuthService
+  ) { }
 
   ngOnInit(): void {
     this.setToken(this.getTokenFromLocalStorage());
@@ -49,6 +53,17 @@ export class AuthenticationService implements OnInit {
           localStorage.setItem("token", authResponse.token);
       }
       ));
+  }
+
+  async loginWithGoogle() {
+    const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+
+    if (!user)
+      return;
+
+    return this._accountsClient.googleAuthenticate(user.idToken).pipe(tap(authResponse => {
+      this.setToken(authResponse.token);
+    }));
   }
 
   logout() {
