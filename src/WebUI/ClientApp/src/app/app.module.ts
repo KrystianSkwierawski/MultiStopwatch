@@ -29,7 +29,7 @@ import { SearchItemByTitleComponent } from './components/utilities/search-item-b
 import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
 import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
-import { GoogleAuthenticationButtonComponent } from './components/utilities/google-authentication-button/google-authentication-button.component';
+import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 
 
 @NgModule({
@@ -56,7 +56,6 @@ import { GoogleAuthenticationButtonComponent } from './components/utilities/goog
     HomeComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
-    GoogleAuthenticationButtonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,7 +65,8 @@ import { GoogleAuthenticationButtonComponent } from './components/utilities/goog
     MaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    CoolSocialLoginButtonsModule,
   ],
   providers: [
     {

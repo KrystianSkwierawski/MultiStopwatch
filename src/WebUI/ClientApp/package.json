@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-cool/social-login-buttons": "^11.1.3",
     "@angular/animations": "12.1.1",
     "@angular/cdk": "~11.1.2",
     "@angular/common": "12.1.1",
