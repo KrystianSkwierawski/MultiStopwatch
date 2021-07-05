@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { AuthenticationService } from '../authentication.service';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 
@@ -20,7 +21,8 @@ export class LoginDialogComponent implements OnInit {
     private _dialog: MatDialog,
     private _formBulider: FormBuilder,
     private _dialogRef: MatDialogRef<LoginDialogComponent>,
-    private _router: Router
+    private _router: Router,
+    private _socialAuthService: SocialAuthService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,11 @@ export class LoginDialogComponent implements OnInit {
     },
       error => this.error = error
     );
+  }
+
+  loginWithGoogle(): void {
+    this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(() => this._router.navigateByUrl("/projects"));
   }
 
   closeDialog(): void {

@@ -38,6 +38,10 @@
     <button mat-flat-button color="primary" class="create-account-button" [disabled]="form.invalid" aria-label="create" type="submit">Create account</button>
   </form>
 
+  <button (click)="loginWithGoogle()" mat-raised-button class="google-login-btn">
+    Google
+  </button>
+
   <div class="open-login-dialog-button">
     <p>Already have an account? </p><button (click)="openLoginDialog()">Sign in</button>
   </div>
