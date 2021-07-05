@@ -51,26 +51,13 @@ export class LoginDialogComponent implements OnInit {
     );
   }
 
-  async loginWithGoogle() {
-    (await this._authService.loginWithGoogle()).subscribe(authResponse => {
-      if (authResponse.token) {
-        this.closeDialog();
-        this._router.navigateByUrl("/projects");
-      }
-    },
-      error => this.error = error
-    );
-  }
+  handleLoggedInUsingSocial(error) {
+    if (error) {
+      this.error = error;
+      return;
+    }
 
-  async loginWithFacebook() {
-    (await this._authService.loginWithFacebook()).subscribe(authResponse => {
-      if (authResponse.token) {
-        this.closeDialog();
-        this._router.navigateByUrl("/projects");
-      }
-    },
-      error => this.error = error
-    );
+    this.closeDialog();
   }
 
   closeDialog(): void {

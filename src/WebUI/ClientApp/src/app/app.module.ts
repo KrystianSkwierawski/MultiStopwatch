@@ -30,6 +30,7 @@ import { ThemeSelectorComponent } from './components/utilities/theme-selector/th
 import { MaterialModule } from './material/material.module';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
+import { SocialAuthenticationsComponent } from './components/utilities/social-authentications/social-authentications.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons
     HomeComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
+    SocialAuthenticationsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

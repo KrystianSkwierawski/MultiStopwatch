@@ -73,7 +73,7 @@ export class AuthenticationService implements OnInit {
     if (!user)
       return;
 
-    return this._accountsClient.googleAuthenticate(user.authorizationCode).pipe(tap(authResponse => {
+    return this._accountsClient.facebookAuthenticate(user.email, user.id).pipe(tap(authResponse => {
       this.setToken(authResponse.token);
     }));
   }

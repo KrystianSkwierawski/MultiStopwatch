@@ -1,0 +1,21 @@
+::ng-deep .google-button {
+  margin-top: 2rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:hover, &:focus {
+    opacity: .8;
+  }
+}
+
+::ng-deep .facebook-button {
+  margin-top: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:hover, &:focus {
+    opacity: .8;
+  }
+}

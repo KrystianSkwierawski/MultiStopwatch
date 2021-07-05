@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { MustMatch } from '../../validators/must-match';
 import { AuthenticationService } from '../authentication.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
@@ -22,8 +21,6 @@ export class RegisterDialogComponent implements OnInit {
     private _dialog: MatDialog,
     private _formBulider: FormBuilder,
     public _dialogRef: MatDialogRef<RegisterDialogComponent>,
-    private _router: Router,
-
   ) { }
 
   ngOnInit(): void {
@@ -54,27 +51,15 @@ export class RegisterDialogComponent implements OnInit {
     );
   }
 
-  async loginWithGoogle() {
-    (await this._authService.loginWithGoogle()).subscribe(authResponse => {
-      if (authResponse.token) {
-        this.closeDialog();
-        this._router.navigateByUrl("/projects");
-      }
-    },
-      error => this.errors = error
-    );
+  handleLoggedInUsingSocial(error) {
+    if (error) {
+      this.errors = error;
+      return;
+    }
+
+    this.closeDialog();
   }
 
-  async loginWithFacebook() {
-    (await this._authService.loginWithFacebook()).subscribe(authResponse => {
-      if (authResponse.token) {
-        this.closeDialog();
-        this._router.navigateByUrl("/projects");
-      }
-    },
-      error => this.errors = error
-    );
-  }
 
   closeDialog(): void {
     this._dialogRef.close();
