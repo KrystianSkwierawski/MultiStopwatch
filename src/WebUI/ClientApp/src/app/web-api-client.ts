@@ -18,6 +18,7 @@ export interface IAccountsClient {
     register(userForRegistration: UserForRegistration): Observable<RegistrationResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
     googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
+    facebookAuthenticate(email: string | null | undefined, id: string | null | undefined): Observable<AuthResponse>;
 }
 
 @Injectable({
@@ -166,6 +167,58 @@ export class AccountsClient implements IAccountsClient {
     }
 
     protected processGoogleAuthenticate(response: HttpResponseBase): Observable<AuthResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AuthResponse>(<any>null);
+    }
+
+    facebookAuthenticate(email: string | null | undefined, id: string | null | undefined): Observable<AuthResponse> {
+        let url_ = this.baseUrl + "/api/accounts/FacebookAuthenticate?";
+        if (email !== undefined && email !== null)
+            url_ += "email=" + encodeURIComponent("" + email) + "&";
+        if (id !== undefined && id !== null)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFacebookAuthenticate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFacebookAuthenticate(<any>response_);
+                } catch (e) {
+                    return <Observable<AuthResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AuthResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processFacebookAuthenticate(response: HttpResponseBase): Observable<AuthResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

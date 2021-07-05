@@ -15,6 +15,7 @@ import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 export class RegisterDialogComponent implements OnInit {
 
   form: FormGroup;
+  facebookImageUrl;
   errors;
 
   constructor(private _authService: AuthenticationService,
@@ -55,6 +56,17 @@ export class RegisterDialogComponent implements OnInit {
 
   async loginWithGoogle() {
     (await this._authService.loginWithGoogle()).subscribe(authResponse => {
+      if (authResponse.token) {
+        this.closeDialog();
+        this._router.navigateByUrl("/projects");
+      }
+    },
+      error => this.errors = error
+    );
+  }
+
+  async loginWithFacebook() {
+    (await this._authService.loginWithFacebook()).subscribe(authResponse => {
       if (authResponse.token) {
         this.closeDialog();
         this._router.navigateByUrl("/projects");

@@ -83,5 +83,14 @@ namespace Project.WebUI.Controllers
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
+
+        [HttpPost("FacebookAuthenticate")]
+        public async Task<ActionResult<AuthResponse>> FacebookAuthenticate(string email, string id)
+        {
+            var claims = _jwtHandler.GetClamis(email, id);
+            var token = _jwtHandler.GenerateToken(claims);
+
+            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+        }
     }
 }

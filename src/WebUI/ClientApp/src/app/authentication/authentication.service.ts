@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AccountsClient } from '../web-api-client';
@@ -62,6 +62,18 @@ export class AuthenticationService implements OnInit {
       return;
 
     return this._accountsClient.googleAuthenticate(user.idToken).pipe(tap(authResponse => {
+      this.setToken(authResponse.token);
+    }));
+  }
+
+
+  async loginWithFacebook() {
+    const user = await this._socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+
+    if (!user)
+      return;
+
+    return this._accountsClient.googleAuthenticate(user.authorizationCode).pipe(tap(authResponse => {
       this.setToken(authResponse.token);
     }));
   }

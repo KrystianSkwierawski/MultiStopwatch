@@ -62,6 +62,17 @@ export class LoginDialogComponent implements OnInit {
     );
   }
 
+  async loginWithFacebook() {
+    (await this._authService.loginWithFacebook()).subscribe(authResponse => {
+      if (authResponse.token) {
+        this.closeDialog();
+        this._router.navigateByUrl("/projects");
+      }
+    },
+      error => this.error = error
+    );
+  }
+
   closeDialog(): void {
     this._dialogRef.close();
   }
