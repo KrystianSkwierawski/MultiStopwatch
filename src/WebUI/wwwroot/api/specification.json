@@ -141,6 +141,31 @@
         }
       }
     },
+    "/api/AccountStats": {
+      "get": {
+        "tags": [
+          "AccountStats"
+        ],
+        "operationId": "AccountStats_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountStatsDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/FavoriteProjectItems": {
       "get": {
         "tags": [
@@ -745,6 +770,24 @@
           "password": {
             "type": "string",
             "minLength": 1
+          }
+        }
+      },
+      "AccountStatsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "totalTimeInSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalNumberOfProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalNumberOfStopwatches": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

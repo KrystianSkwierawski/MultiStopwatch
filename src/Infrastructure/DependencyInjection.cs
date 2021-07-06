@@ -1,14 +1,12 @@
-﻿using Project.Application.Common.Interfaces;
-using Project.Domain.Entities;
-using Project.Infrastructure.Persistence;
-using Project.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
+using Project.Infrastructure.Identity;
+using Project.Infrastructure.Persistence;
+using Project.Infrastructure.Services;
 
 namespace Project.Infrastructure
 {

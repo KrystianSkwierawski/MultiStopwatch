@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
-using Project.Domain.Entities;
+using Project.Infrastructure.Identity;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers

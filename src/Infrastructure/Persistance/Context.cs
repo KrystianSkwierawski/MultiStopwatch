@@ -1,14 +1,14 @@
-﻿using Project.Application.Common.Interfaces;
-using Project.Domain.Entities;
+﻿using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
+using Project.Application.Common.Interfaces;
+using Project.Domain.Common;
+using Project.Infrastructure.Identity;
 using System.Reflection;
 using System.Threading;
-using Project.Domain.Common;
-using Domain.Entities;
+using System.Threading.Tasks;
 
 namespace Project.Infrastructure.Persistence
 {

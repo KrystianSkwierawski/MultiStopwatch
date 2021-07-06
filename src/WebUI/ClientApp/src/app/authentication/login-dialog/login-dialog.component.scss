@@ -10,10 +10,10 @@ mat-form-field, mat-checkbox {
 }
 
 p {
-  text-align: center;
-  color: #FFE4E5;
   font-size: 1.2rem;
   margin-bottom: 1rem;
+  text-align: center;
+  color: #FFE4E5;
 }
 
 ::ng-deep .login-dialog {
@@ -21,8 +21,8 @@ p {
 }
 
 ::ng-deep .login-dialog .mat-dialog-container {
-  background-color: #36393F;
   min-width: 75vw;
+  background-color: #36393F;
 
   @include respond-to(medium) {
     min-width: 35vw;
@@ -53,9 +53,9 @@ p {
   text-align: center;
 
   & p {
-    color: #FFE4E5;
     font-size: 1rem;
     margin-bottom: 0;
+    color: #FFE4E5;
   }
 
   & button {

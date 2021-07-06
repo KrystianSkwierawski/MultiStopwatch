@@ -241,6 +241,72 @@ export class AccountsClient implements IAccountsClient {
     }
 }
 
+export interface IAccountStatsClient {
+    get(): Observable<AccountStatsDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AccountStatsClient implements IAccountStatsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    get(): Observable<AccountStatsDto> {
+        let url_ = this.baseUrl + "/api/AccountStats";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<AccountStatsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AccountStatsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<AccountStatsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AccountStatsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AccountStatsDto>(<any>null);
+    }
+}
+
 export interface IFavoriteProjectItemsClient {
     get(): Observable<FavoriteProjectItemDto[]>;
     updateOrderIndex(command: UpdateOrderIndexProjectItemCommand): Observable<FileResponse>;
@@ -1221,6 +1287,50 @@ export class UserForAuthentication implements IUserForAuthentication {
 export interface IUserForAuthentication {
     email: string;
     password: string;
+}
+
+export class AccountStatsDto implements IAccountStatsDto {
+    totalTimeInSeconds?: number;
+    totalNumberOfProjects?: number;
+    totalNumberOfStopwatches?: number;
+
+    constructor(data?: IAccountStatsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalTimeInSeconds = _data["totalTimeInSeconds"];
+            this.totalNumberOfProjects = _data["totalNumberOfProjects"];
+            this.totalNumberOfStopwatches = _data["totalNumberOfStopwatches"];
+        }
+    }
+
+    static fromJS(data: any): AccountStatsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountStatsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalTimeInSeconds"] = this.totalTimeInSeconds;
+        data["totalNumberOfProjects"] = this.totalNumberOfProjects;
+        data["totalNumberOfStopwatches"] = this.totalNumberOfStopwatches;
+        return data; 
+    }
+}
+
+export interface IAccountStatsDto {
+    totalTimeInSeconds?: number;
+    totalNumberOfProjects?: number;
+    totalNumberOfStopwatches?: number;
 }
 
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {

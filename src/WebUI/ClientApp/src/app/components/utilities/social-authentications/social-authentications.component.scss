@@ -1,8 +1,24 @@
-::ng-deep .google-button {
-  margin-top: 2rem;
-  display: block;
+@import '../../../../scss/shared.scss';
+
+
+.social-authentications {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+
+  @include respond-to(large) {
+    width: 75%;
+  }
+
+  @include respond-to(extra-large) {
+    width: 50%;
+  }
+}
+
+::ng-deep .google-button {
+  width: 100%;
+  margin-top: 2rem;
+  display: block;
 
   &:hover, &:focus {
     opacity: .8;
@@ -10,10 +26,9 @@
 }
 
 ::ng-deep .facebook-button {
+  width: 100%;
   margin-top: 1rem;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
 
   &:hover, &:focus {
     opacity: .8;
