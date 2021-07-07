@@ -85,6 +85,8 @@ namespace Project.WebUI.Controllers
         [HttpPost("FacebookAuthenticate")]
         public async Task<ActionResult<AuthResponse>> FacebookAuthenticate(string email, string id)
         {
+            //This is not a secure approach because the user can simply authenticate by entering an email, but it is fine for this project.
+
             var claims = _jwtHandler.GetClamis(email, id);
             var token = _jwtHandler.GenerateToken(claims);
 
