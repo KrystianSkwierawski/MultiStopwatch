@@ -118,13 +118,31 @@
             "x-position": 1
           },
           {
-            "name": "id",
+            "name": "name",
             "in": "query",
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 2
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "authToken",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
           }
         ],
         "responses": {
@@ -135,6 +153,35 @@
                 "schema": {
                   "$ref": "#/components/schemas/AuthResponse"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_GetFacebookAuthCheck",
+        "parameters": [
+          {
+            "name": "authToken",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           }

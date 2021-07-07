@@ -72,8 +72,9 @@ export class AuthenticationService implements OnInit {
 
     if (!user)
       return;
+    console.log(user);
 
-    return this._accountsClient.facebookAuthenticate(user.email, user.id).pipe(tap(authResponse => {
+    return this._accountsClient.facebookAuthenticate(user.email, user.name, user.id, user.authToken).pipe(tap(authResponse => {
       this.setToken(authResponse.token);
     }));
   }
