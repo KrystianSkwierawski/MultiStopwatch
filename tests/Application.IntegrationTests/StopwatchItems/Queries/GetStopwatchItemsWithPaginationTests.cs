@@ -30,16 +30,19 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
                 {
                     ProjectItemId = projectId,
                     Title = "stopwatch",
+                    IsDone = false
                 },
                 new StopwatchItem
                 {
-                     ProjectItemId = projectId,
+                    ProjectItemId = projectId,
                     Title = "stopwatch",
+                    IsDone = false
                 },
                 new StopwatchItem
                 {
-                     ProjectItemId = projectId,
+                    ProjectItemId = projectId,
                     Title = "stopwatch",
+                    IsDone = false
                 }
             });
 

@@ -21,18 +21,22 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
                 new ProjectItem
                 {
                     Title = "stopwatch",
+                    IsDone = false
                 },
                 new ProjectItem
                 {
                     Title = "stopwatch",
+                    IsDone = false
                 },
                 new ProjectItem
                 {
                     Title = "stopwatch",
+                    IsDone = false
                 },
                 new ProjectItem
                 {
                     Title = "stopwatch",
+                    IsDone = false
                 }
             });
 

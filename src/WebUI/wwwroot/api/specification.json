@@ -781,11 +781,35 @@
             "type": "integer",
             "format": "int32"
           },
+          "totalTimeInSecondsFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalTimeInSecondsNotFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
           "totalNumberOfProjects": {
             "type": "integer",
             "format": "int32"
           },
+          "totalNumberOfFinishedProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalNumberOfNotFinishedProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
           "totalNumberOfStopwatches": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalNumberOfFinishedStopwatches": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalNumberOfNotFinishedStopwatches": {
             "type": "integer",
             "format": "int32"
           }
@@ -944,6 +968,9 @@
           "theme": {
             "type": "string",
             "nullable": true
+          },
+          "isDone": {
+            "type": "boolean"
           }
         }
       },
@@ -1068,6 +1095,9 @@
           "theme": {
             "type": "string",
             "nullable": true
+          },
+          "isDone": {
+            "type": "boolean"
           }
         }
       },
@@ -1090,6 +1120,9 @@
           "theme": {
             "type": "string",
             "nullable": true
+          },
+          "isDone": {
+            "type": "boolean"
           }
         }
       }

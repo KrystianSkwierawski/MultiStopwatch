@@ -1291,8 +1291,14 @@ export interface IUserForAuthentication {
 
 export class AccountStatsDto implements IAccountStatsDto {
     totalTimeInSeconds?: number;
+    totalTimeInSecondsFinished?: number;
+    totalTimeInSecondsNotFinished?: number;
     totalNumberOfProjects?: number;
+    totalNumberOfFinishedProjects?: number;
+    totalNumberOfNotFinishedProjects?: number;
     totalNumberOfStopwatches?: number;
+    totalNumberOfFinishedStopwatches?: number;
+    totalNumberOfNotFinishedStopwatches?: number;
 
     constructor(data?: IAccountStatsDto) {
         if (data) {
@@ -1306,8 +1312,14 @@ export class AccountStatsDto implements IAccountStatsDto {
     init(_data?: any) {
         if (_data) {
             this.totalTimeInSeconds = _data["totalTimeInSeconds"];
+            this.totalTimeInSecondsFinished = _data["totalTimeInSecondsFinished"];
+            this.totalTimeInSecondsNotFinished = _data["totalTimeInSecondsNotFinished"];
             this.totalNumberOfProjects = _data["totalNumberOfProjects"];
+            this.totalNumberOfFinishedProjects = _data["totalNumberOfFinishedProjects"];
+            this.totalNumberOfNotFinishedProjects = _data["totalNumberOfNotFinishedProjects"];
             this.totalNumberOfStopwatches = _data["totalNumberOfStopwatches"];
+            this.totalNumberOfFinishedStopwatches = _data["totalNumberOfFinishedStopwatches"];
+            this.totalNumberOfNotFinishedStopwatches = _data["totalNumberOfNotFinishedStopwatches"];
         }
     }
 
@@ -1321,16 +1333,28 @@ export class AccountStatsDto implements IAccountStatsDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["totalTimeInSeconds"] = this.totalTimeInSeconds;
+        data["totalTimeInSecondsFinished"] = this.totalTimeInSecondsFinished;
+        data["totalTimeInSecondsNotFinished"] = this.totalTimeInSecondsNotFinished;
         data["totalNumberOfProjects"] = this.totalNumberOfProjects;
+        data["totalNumberOfFinishedProjects"] = this.totalNumberOfFinishedProjects;
+        data["totalNumberOfNotFinishedProjects"] = this.totalNumberOfNotFinishedProjects;
         data["totalNumberOfStopwatches"] = this.totalNumberOfStopwatches;
+        data["totalNumberOfFinishedStopwatches"] = this.totalNumberOfFinishedStopwatches;
+        data["totalNumberOfNotFinishedStopwatches"] = this.totalNumberOfNotFinishedStopwatches;
         return data; 
     }
 }
 
 export interface IAccountStatsDto {
     totalTimeInSeconds?: number;
+    totalTimeInSecondsFinished?: number;
+    totalTimeInSecondsNotFinished?: number;
     totalNumberOfProjects?: number;
+    totalNumberOfFinishedProjects?: number;
+    totalNumberOfNotFinishedProjects?: number;
     totalNumberOfStopwatches?: number;
+    totalNumberOfFinishedStopwatches?: number;
+    totalNumberOfNotFinishedStopwatches?: number;
 }
 
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {
@@ -1642,6 +1666,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 
     constructor(data?: IUpdateProjectItemCommand) {
         if (data) {
@@ -1658,6 +1683,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
             this.title = _data["title"];
             this.time = _data["time"];
             this.theme = _data["theme"];
+            this.isDone = _data["isDone"];
         }
     }
 
@@ -1674,6 +1700,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
         data["title"] = this.title;
         data["time"] = this.time;
         data["theme"] = this.theme;
+        data["isDone"] = this.isDone;
         return data; 
     }
 }
@@ -1683,6 +1710,7 @@ export interface IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 }
 
 export class SplittedTimeDto implements ISplittedTimeDto {
@@ -1910,6 +1938,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 
     constructor(data?: ICreateStopwatchItemCommand) {
         if (data) {
@@ -1926,6 +1955,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
             this.title = _data["title"];
             this.time = _data["time"];
             this.theme = _data["theme"];
+            this.isDone = _data["isDone"];
         }
     }
 
@@ -1942,6 +1972,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
         data["title"] = this.title;
         data["time"] = this.time;
         data["theme"] = this.theme;
+        data["isDone"] = this.isDone;
         return data; 
     }
 }
@@ -1951,6 +1982,7 @@ export interface ICreateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 }
 
 export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
@@ -1958,6 +1990,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 
     constructor(data?: IUpdateStopwatchItemCommand) {
         if (data) {
@@ -1974,6 +2007,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
             this.title = _data["title"];
             this.time = _data["time"];
             this.theme = _data["theme"];
+            this.isDone = _data["isDone"];
         }
     }
 
@@ -1990,6 +2024,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
         data["title"] = this.title;
         data["time"] = this.time;
         data["theme"] = this.theme;
+        data["isDone"] = this.isDone;
         return data; 
     }
 }
@@ -1999,6 +2034,7 @@ export interface IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+    isDone?: boolean;
 }
 
 export interface FileResponse {

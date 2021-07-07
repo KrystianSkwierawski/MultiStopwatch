@@ -103,6 +103,9 @@ export class StopwatchesListComponent implements OnInit {
 
   loadProject() {
     this._projectItemsClient.get(this.projectId).subscribe(result => {
+      if (!result)
+        return;
+      
       this.project = result;
       this._timersService.project = result;
       this._timersService.initialProjectTime();

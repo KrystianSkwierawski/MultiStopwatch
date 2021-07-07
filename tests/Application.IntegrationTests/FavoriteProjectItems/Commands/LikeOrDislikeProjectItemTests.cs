@@ -16,7 +16,8 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
             ProjectItem projectItem = new()
             {
                 Title = "project",
-                IsFavorite = false
+                IsFavorite = false,
+                IsDone = false
             };
             await AddAsync(projectItem);
 
@@ -41,7 +42,8 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
             ProjectItem projectItem = new()
             {
                 Title = "project",
-                IsFavorite = true
+                IsFavorite = true,
+                IsDone = false
             };
             await AddAsync(projectItem);
 

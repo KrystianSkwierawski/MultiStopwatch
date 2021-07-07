@@ -16,9 +16,9 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
         {
             //Arrange
             await AddRangeAsync(new List<ProjectItem> {
-                new ProjectItem { IsFavorite = true, Title = "favorite"},
-                new ProjectItem { IsFavorite = true, Title = "favorite"},
-                new ProjectItem { IsFavorite = false, Title = "not a favorite"}
+                new ProjectItem { IsFavorite = true, Title = "favorite", IsDone = false},
+                new ProjectItem { IsFavorite = true, Title = "favorite", IsDone = false},
+                new ProjectItem { IsFavorite = false, Title = "not a favorite", IsDone = false}
             });
 
             GetFavoriteProjectsItemsQuery query = new();

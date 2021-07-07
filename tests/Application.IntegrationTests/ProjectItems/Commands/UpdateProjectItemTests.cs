@@ -19,7 +19,8 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Id = 999,
                 Title = "New Title",
                 Theme = "violet",
-                Time = "10:10:10"
+                Time = "10:10:10",
+                IsDone = false
             };
 
             FluentActions.Invoking(() =>
@@ -41,7 +42,8 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Id = projectId,
                 Title = "project2",
                 Theme = "red",
-                Time = "50:00:00"
+                Time = "50:00:00",
+                IsDone = false
             };
 
             //Act

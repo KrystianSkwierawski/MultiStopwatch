@@ -1,6 +1,6 @@
 <app-side-menu></app-side-menu>
 
-<div *ngIf="paginatedListOfProjectItemDto.items?.length > 0">
+<div *ngIf="paginatedListOfProjectItemDto?.items.length > 0">
   <h1 class="text-center text-white mt-3">Projects</h1>
 
   <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
@@ -22,7 +22,7 @@
 <app-generic-list [list]="projects">
 
   <ng-container emptyState>
-    <div class="empty-state" *ngIf="paginatedListOfProjectItemDto.items?.length === 0">
+    <div class="empty-state" *ngIf="paginatedListOfProjectItemDto?.items.length === 0">
       <h2>Let's getcha started!</h2>
       <p>
         Every great journey begins with the <br />

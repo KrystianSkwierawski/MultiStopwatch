@@ -17,7 +17,8 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
             ProjectItem project = new()
             {
                 Title = "project",
-                Theme = "violet"
+                Theme = "violet",
+                IsDone = false
             };
 
             var projectId = await SendAsync(new CreateProjectItemCommand
