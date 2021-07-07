@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
@@ -11,6 +11,15 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
     using static Testing;
     public class CreateSplittedTimeTests : TestBase
     {
+        [Test]
+        public void ShouldRequireMinimumFields()
+        {
+            var command = new CreateSplittedTimeCommand { Time = "00:00:00"};
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<ValidationException>();
+        }
+
         [Test]
         public async Task ShouldCreteAndReturnSplittedTime()
         {

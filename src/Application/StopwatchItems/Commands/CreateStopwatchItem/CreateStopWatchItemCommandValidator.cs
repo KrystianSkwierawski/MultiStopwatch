@@ -8,6 +8,10 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
     {
         public CreateStopwatchItemCommandValidator()
         {
+            RuleFor(x => x.ProjectItemId)
+               .NotNull()
+               .NotEmpty().WithMessage("ProjectItemId is required.");
+
             RuleFor(v => v.Title)
                 .MaximumLength(20).WithMessage("Title must not exceed 20 characters.")
                 .NotNull().WithMessage("Title is required.")

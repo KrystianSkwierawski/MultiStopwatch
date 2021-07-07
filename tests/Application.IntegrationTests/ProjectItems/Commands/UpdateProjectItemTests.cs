@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.ProjectItems.Commands.UpdateProjectItem;
 using System.Threading.Tasks;
@@ -10,6 +11,21 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
     using static Testing;
     public class UpdateProjectItemTests : TestBase
     {
+        [Test]
+        public void ShouldRequireValidProjectItemId()
+        {
+            var command = new UpdateProjectItemCommand
+            {
+                Id = 999,
+                Title = "New Title",
+                Theme = "violet",
+                Time = "10:10:10"
+            };
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<NotFoundException>();
+        }
+
         [Test]
         public async Task ShouldUpdateProjectItem()
         {

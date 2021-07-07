@@ -12,6 +12,15 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
     public class DeleteProjectItemTests : TestBase
     {
         [Test]
+        public void ShouldRequireValidProjectItemtId()
+        {
+            var command = new DeleteProjectItemCommand { Id = 999 };
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<NotFoundException>();
+        }
+
+        [Test]
         public async Task ShouldDeleteProjectItem()
         {
             //Arrange

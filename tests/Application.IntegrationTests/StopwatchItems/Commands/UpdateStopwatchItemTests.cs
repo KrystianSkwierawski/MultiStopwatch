@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
@@ -11,6 +12,20 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
     using static Testing;
     public class UpdateStopwatchItemTests : TestBase
     {
+        [Test]
+        public void ShouldRequireValidStopwatchItemId()
+        {
+            var command = new UpdateStopwatchItemCommand
+            {
+                Id = 999,
+                Title = "New Title",
+                Theme = "red",
+                Time = "50:00:00"
+            };
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<NotFoundException>();
+        }
 
         [Test]
         public async Task ShouldUpdateStopwatchItem()

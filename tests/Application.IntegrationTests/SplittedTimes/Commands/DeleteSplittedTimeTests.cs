@@ -13,6 +13,14 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
     using static Testing;
     public class DeleteSplittedTimeTests : TestBase
     {
+        [Test]
+        public void ShouldRequireValidSplittedTimeId()
+        {
+            var command = new DeleteSplittedTimeCommand { Id = 999 };
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<NotFoundException>();
+        }
 
         [Test]
         public async Task ShouldDeleteSplittedTime()

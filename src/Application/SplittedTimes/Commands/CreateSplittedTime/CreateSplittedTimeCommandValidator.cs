@@ -8,6 +8,10 @@ namespace Project.Application.SplittedTimes.Commands.CreateSplittedTime
     {
         public CreateSplittedTimeCommandValidator()
         {
+            RuleFor(x => x.StopwatchItemId)
+                .NotNull()
+                .NotEmpty().WithMessage("StopwatchItemId is required.");
+
             RuleFor(v => v.Time)
                 .NotEmpty().WithMessage("Time is required.")
                 .NotNull().WithMessage("Time is required.")

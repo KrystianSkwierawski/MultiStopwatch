@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
+using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using System.Threading.Tasks;
@@ -11,6 +12,15 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
 
     public class CreateStopwatchItemTests : TestBase
     {
+        [Test]
+        public void ShouldRequireMinimumFields()
+        {
+            var command = new CreateStopwatchItemCommand { Time = "00:00:00"};
+
+            FluentActions.Invoking(() =>
+                SendAsync(command)).Should().Throw<ValidationException>();
+        }
+
         [Test]
         public async Task ShouldCreateStopwatchItem()
         {
