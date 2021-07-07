@@ -29,12 +29,11 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
                 IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
                 IQueryable<ProjectItem> stopwatchItems = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
 
-
                 return new AccountStatsDto
                 {
                     TotalTimeInSeconds = GetTotalProjectsSeconds(projectItems),
-                    TotalTimeInSecondsFinished = 0,
-                    TotalTimeInSecondsNotFinished = 0,
+                    TotalTimeInSecondsFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.IsDone == true)),
+                    TotalTimeInSecondsNotFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.IsDone == false)),
 
                     TotalNumberOfProjects = projectItems.Count(),
                     TotalNumberOfFinishedProjects = projectItems.Where(x => x.IsDone == true).Count(),

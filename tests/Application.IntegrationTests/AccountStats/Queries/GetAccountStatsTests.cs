@@ -14,28 +14,28 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
         [Test]
         public async Task ShouldReturnAccountStats()
         {
-            ////Arrange
-            //await SetUp();
+            //Arrange
+            await SetUp();
 
-            //var query = new GetAccountStatsQuery();
+            var query = new GetAccountStatsQuery();
 
-            ////Act
-            //var result = await SendAsync(query);
+            //Act
+            var result = await SendAsync(query);
 
-            ////Assert
-            //result.TotalTimeInSeconds.Should().Be(36620);
+            //Assert
+            result.TotalTimeInSeconds.Should().Be(36620);
 
-            //result.TotalTimeInSecondsFinished.Should().Be(36610);
+            result.TotalTimeInSecondsFinished.Should().Be(36610);
 
-            //result.TotalTimeInSecondsNotFinished.Should().Be(10);
+            result.TotalTimeInSecondsNotFinished.Should().Be(10);
 
-            //result.TotalNumberOfProjects.Should().Be(2);
-            //result.TotalNumberOfFinishedProjects.Should().Be(1);
-            //result.TotalNumberOfNotFinishedProjects.Should().Be(1);
+            result.TotalNumberOfProjects.Should().Be(2);
+            result.TotalNumberOfFinishedProjects.Should().Be(1);
+            result.TotalNumberOfNotFinishedProjects.Should().Be(1);
 
-            //result.TotalNumberOfStopwatches.Should().Be(2);
-            //result.TotalNumberOfFinishedStopwatches.Should().Be(1);
-            //result.TotalNumberOfNotFinishedStopwatches.Should().Be(1);
+            result.TotalNumberOfStopwatches.Should().Be(2);
+            result.TotalNumberOfFinishedStopwatches.Should().Be(1);
+            result.TotalNumberOfNotFinishedStopwatches.Should().Be(1);
         }
 
         public async Task SetUp()
