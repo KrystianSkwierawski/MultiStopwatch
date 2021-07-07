@@ -95,7 +95,7 @@ export class StopwatchesListComponent implements OnInit {
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
     this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
-      this.stopwatches = result.items;
+      this.stopwatches = result.items.filter(x => x.isDone === false);
       this.filterTitlesArray();
       this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto.items);
     });

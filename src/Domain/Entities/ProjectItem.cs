@@ -11,6 +11,7 @@ namespace Domain.Entities
         public string Time { get; set; }
         public string Theme { get; set; }
         public int OrderIndex { get; set; }
+        public bool IsDone { get; set; }
         public IList<StopwatchItem> StopwatchItems { get; private set; } = new List<StopwatchItem>();
     }
 }

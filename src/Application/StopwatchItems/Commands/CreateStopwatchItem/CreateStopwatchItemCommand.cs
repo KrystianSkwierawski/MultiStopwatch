@@ -30,7 +30,8 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                     ProjectItemId = request.ProjectItemId,
                     Title = request.Title,
                     Time = request.Time,
-                    Theme = request.Theme
+                    Theme = request.Theme,
+                    IsDone = false
                 };
 
                 await _context.StopWatchItems.AddAsync(entity);

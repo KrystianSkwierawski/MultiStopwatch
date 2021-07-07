@@ -10,6 +10,7 @@ namespace Domain.Entities
         public string Time { get; set; }
         public int ProjectItemId { get; set; }
         public string Theme { get; set; }
+        public bool IsDone { get; set; }
         public IList<SplittedTime> SplittedTimes { get; set; } = new List<SplittedTime>();
     }
 }

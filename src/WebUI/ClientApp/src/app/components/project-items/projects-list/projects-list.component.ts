@@ -39,7 +39,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       this.paginatedListOfProjectItemDto = result;
-      this.projects = result.items;
+      this.projects = result.items.filter(x => x.isDone == false);
       this.filterTitlesArray();
     });
 
