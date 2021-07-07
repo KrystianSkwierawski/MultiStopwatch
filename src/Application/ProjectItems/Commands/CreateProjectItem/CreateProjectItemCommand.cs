@@ -28,7 +28,6 @@ namespace Project.Application.ProjectItems.Commands.CreateProjectItem
                 {
                     Title = request.Title,
                     Theme = request.Theme,
-                    IsFavorite = false,
                 };
 
                 await _context.ProjectItems.AddAsync(entity);

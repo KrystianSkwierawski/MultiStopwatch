@@ -7,7 +7,7 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public bool IsFavorite { get; set; }
+        public bool IsFavorite { get; set; } = false;
         public string Time { get; set; } = "00:00:00";
         public string Theme { get; set; }
         public int OrderIndex { get; set; }
