@@ -98,6 +98,17 @@ namespace Project.WebUI.Hubs
             entity.Time = stopwatchItemDto.Time;
         }
 
+        public async Task DeleteLocalStopwatchChangesById(int stopwatchId)
+        {
+            StopwatchItemDto entity = _localStopwatchesChanges[Context.ConnectionId]
+                .FirstOrDefault(x => x.Id == stopwatchId);
+
+            if (entity is null)
+                return;
+
+            _localStopwatchesChanges[Context.ConnectionId].Remove(entity);
+        }
+
         public async Task<StopwatchItemDto> GetStopwatchChanges(StopwatchItemDto stopwatchItemDto)
         {
             StopwatchItemDto entity = _localStopwatchesChanges[Context.ConnectionId].FirstOrDefault(x => x.Id == stopwatchItemDto.Id);

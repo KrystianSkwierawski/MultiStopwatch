@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using MediatR;
-using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
 using System;
 using System.Linq;

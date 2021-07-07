@@ -32,14 +32,25 @@ export class TimersService implements OnInit {
   }
 
   pause(stopwatch: StopwatchItemDto) {
+    if (!stopwatch.isStarted)
+      return;
+
     stopwatch.isStarted = false;
 
-    //pause and remove timer
-    const intervalId: number = this.timerIntervals.get(stopwatch.id);
-    window.clearInterval(intervalId);
-    this.timerIntervals.delete(stopwatch.id);
+    this.pauseAndRemoveTimerById(stopwatch.id);
 
     this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+  }
+
+  pauseAndRemoveTimerById(stopwatchId: number) {
+    const intervalId: number = this.timerIntervals.get(stopwatchId);
+    window.clearInterval(intervalId);
+    this.timerIntervals.delete(stopwatchId);
+  }
+
+  async delete(stopwatchId: number) {
+    this.pauseAndRemoveTimerById(stopwatchId);
+    await this._localChangesHubService.deleteStopwatchFromLocalChanges(stopwatchId);
   }
 
   restart(stopwatch: StopwatchItemDto) {

@@ -24,9 +24,8 @@ namespace Project.Application.StopwatchItems.Commands.DeleteStopwatchItem
             {
                 StopwatchItem entity = await _context.StopWatchItems.FindAsync(request.Id);
 
-                //Sometimes an entity may be null, because local changes are not removed when the stopwatch is removed.
                 if (entity is null)
-                    return Unit.Value;
+                    throw new NotFoundException(nameof(StopwatchItem), request.Id);
 
                 _context.StopWatchItems.Remove(entity);
 

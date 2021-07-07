@@ -141,6 +141,7 @@ export class StopwatchesListComponent implements OnInit {
   deleteStopwatch(stopwatch: StopwatchItemDto) {
     this._stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
       this.loadStopwatches();
+      this._timersService.delete(stopwatch.id);
     });
   }
 

@@ -38,6 +38,10 @@ export class LocalChangesHubService implements OnInit {
     await this.hub.invoke("SaveStopwatchesChangesInDb");
   }
 
+  async deleteStopwatchFromLocalChanges(stopwatchId: number) {
+    await this.hub.invoke("DeleteLocalStopwatchChangesById", stopwatchId);
+  }
+
   async saveAllChangesInDb() {
     await this.hub.invoke("SaveAllChangesInDb");
   }
