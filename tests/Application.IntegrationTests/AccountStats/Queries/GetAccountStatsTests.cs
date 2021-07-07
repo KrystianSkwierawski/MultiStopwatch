@@ -62,13 +62,11 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 {
                     ProjectItemId = projectItem.Id,
                     Title = "stopwatch",
-                    IsDone = false
                 },
                 new StopwatchItem
                 {
                     ProjectItemId = projectItem.Id,
                     Title = "stopwatch",
-                    IsDone = true
                 }
             });
         }

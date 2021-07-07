@@ -20,7 +20,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Title = "New Title",
                 Theme = "violet",
                 Time = "10:10:10",
-                IsDone = false
+                IsDone = true
             };
 
             FluentActions.Invoking(() =>
@@ -43,7 +43,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Title = "project2",
                 Theme = "red",
                 Time = "50:00:00",
-                IsDone = false
+                IsDone = true
             };
 
             //Act
@@ -56,6 +56,7 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
             result.Title.Should().Be(command.Title);
             result.Theme.Should().Be(command.Theme);
             result.Time.Should().Be(command.Time);
+            result.IsDone.Should().Be(command.IsDone);
         }
     }
 }

@@ -36,9 +36,7 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
             {
                 ProjectItemId = projectId,
                 Title = "stopwatch",
-                Theme = "violet",
-                Time = "00:00:00",
-                IsDone = false
+                Theme = "violet",                          
             });
 
             var splittedTime = await SendAsync(new CreateSplittedTimeCommand

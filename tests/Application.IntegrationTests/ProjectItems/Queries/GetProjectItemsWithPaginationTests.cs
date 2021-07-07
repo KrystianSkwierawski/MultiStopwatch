@@ -20,23 +20,19 @@ namespace Project.Application.IntegrationTests.ProjectItems.Queries
             await AddRangeAsync(new List<ProjectItem> {
                 new ProjectItem
                 {
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                   
                 },
                 new ProjectItem
                 {
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                   
                 },
                 new ProjectItem
                 {
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                  
                 },
                 new ProjectItem
                 {
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",               
                 }
             });
 

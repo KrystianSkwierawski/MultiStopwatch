@@ -24,25 +24,21 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
                 Theme = "violet"
             });
 
-
             await AddRangeAsync(new List<StopwatchItem> {
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                    
                 },
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                  
                 },
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",
-                    IsDone = false
+                    Title = "stopwatch",                  
                 }
             });
 

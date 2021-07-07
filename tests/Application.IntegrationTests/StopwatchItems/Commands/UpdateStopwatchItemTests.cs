@@ -21,7 +21,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "New Title",
                 Theme = "red",
                 Time = "50:00:00",
-                IsDone = false
+                IsDone = true
             };
 
             FluentActions.Invoking(() =>
@@ -51,7 +51,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "stopwatch2",
                 Theme = "red",
                 Time = "50:00:00",
-                IsDone = false
+                IsDone = true
             };
 
             //Act
@@ -63,6 +63,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
             result.Title.Should().Be(command.Title);
             result.Theme.Should().Be(command.Theme);
             result.Time.Should().Be(command.Time);
+            result.IsDone.Should().Be(command.IsDone);
         }
     }
 }

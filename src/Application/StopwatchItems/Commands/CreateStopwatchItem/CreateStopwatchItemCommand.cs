@@ -28,9 +28,7 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
                 {
                     ProjectItemId = request.ProjectItemId,
                     Title = request.Title,
-                    Time = "00:00:00",
                     Theme = request.Theme,
-                    IsDone = false
                 };
 
                 await _context.StopWatchItems.AddAsync(entity);
