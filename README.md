@@ -27,6 +27,6 @@ During the project I had a lof of fun. In pratcice I exercised <a href="https://
  * HTML5
 
 ## Status
-Project is finished.
+Project is in progress.
 
 
