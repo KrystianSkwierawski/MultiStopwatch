@@ -43,8 +43,6 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 ProjectItemId = projectId,
                 Title = "stopwatch",
                 Theme = "violet",
-                Time = "00:00:00",
-                IsDone = false
             });
 
             UpdateStopwatchItemCommand command = new()

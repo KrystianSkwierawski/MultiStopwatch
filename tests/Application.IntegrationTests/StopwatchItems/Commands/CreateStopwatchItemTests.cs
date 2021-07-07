@@ -15,7 +15,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
         [Test]
         public void ShouldRequireMinimumFields()
         {
-            var command = new CreateStopwatchItemCommand { Time = "00:00:00"};
+            var command = new CreateStopwatchItemCommand();
 
             FluentActions.Invoking(() =>
                 SendAsync(command)).Should().Throw<ValidationException>();
@@ -36,8 +36,6 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 ProjectItemId = projectId,
                 Title = "stopwatch",
                 Theme = "violet",
-                Time = "00:00:00",
-                IsDone = false
             };
 
             //Act

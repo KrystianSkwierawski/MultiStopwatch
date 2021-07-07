@@ -3,7 +3,6 @@ using Project.Application.Common.Validators;
 
 namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
 {
-    using static TimeBeFormated;
     public class CreateStopwatchItemCommandValidator : AbstractValidator<CreateStopwatchItemCommand>
     {
         public CreateStopwatchItemCommandValidator()
@@ -20,15 +19,6 @@ namespace Project.Application.StopwatchItems.Commands.CreateStopwatchItem
             RuleFor(v => v.Theme)
              .NotNull().WithMessage("Theme is required.")
              .NotEmpty().WithMessage("Theme is required.");
-
-
-            RuleFor(v => v.IsDone)
-             .NotNull().WithMessage("IsDone is required.");
-
-            RuleFor(v => v.Time)
-                .NotEmpty().WithMessage("Time is required.")
-                .NotNull().WithMessage("Time is required.")
-                .MustAsync(BeFormated).WithMessage("Time must be formated \"00:00:00\".");
         }
     }
 }

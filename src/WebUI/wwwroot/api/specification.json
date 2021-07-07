@@ -1088,16 +1088,9 @@
             "type": "string",
             "nullable": true
           },
-          "time": {
-            "type": "string",
-            "nullable": true
-          },
           "theme": {
             "type": "string",
             "nullable": true
-          },
-          "isDone": {
-            "type": "boolean"
           }
         }
       },

@@ -1936,9 +1936,7 @@ export interface IStopwatchItemDto {
 export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
     projectItemId?: number;
     title?: string | undefined;
-    time?: string | undefined;
     theme?: string | undefined;
-    isDone?: boolean;
 
     constructor(data?: ICreateStopwatchItemCommand) {
         if (data) {
@@ -1953,9 +1951,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
         if (_data) {
             this.projectItemId = _data["projectItemId"];
             this.title = _data["title"];
-            this.time = _data["time"];
             this.theme = _data["theme"];
-            this.isDone = _data["isDone"];
         }
     }
 
@@ -1970,9 +1966,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
         data = typeof data === 'object' ? data : {};
         data["projectItemId"] = this.projectItemId;
         data["title"] = this.title;
-        data["time"] = this.time;
         data["theme"] = this.theme;
-        data["isDone"] = this.isDone;
         return data; 
     }
 }
@@ -1980,9 +1974,7 @@ export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
 export interface ICreateStopwatchItemCommand {
     projectItemId?: number;
     title?: string | undefined;
-    time?: string | undefined;
     theme?: string | undefined;
-    isDone?: boolean;
 }
 
 export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {

@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { defaultTime } from '../../../services/timer/Timer';
 import { CreateStopwatchItemCommand, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
 
 @Component({
@@ -32,8 +31,6 @@ export class CreateStopwatchDialogComponent implements OnInit {
 
   onSubmit(stopwatchItem: StopwatchItemDto) {
     stopwatchItem.projectItemId = this.projectId;
-    stopwatchItem.time = defaultTime;
-    stopwatchItem.isDone = false;
 
     this._stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
       this.closeDialog("success");
