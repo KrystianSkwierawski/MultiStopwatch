@@ -27,15 +27,19 @@ a:hover {
 }
 */
 
-.navbar {
-    color: white;
-  background-color: #282828;
+* {
   font-family: 'Merriweather', serif;
+}
+
+.navbar {
+  color: white;
+  background-color: #282728;
   font-size: 1.5rem;
 
 
   @include respond-to(large) {
     padding-left: 10%;
+    padding-right: 10%;
   }
 }
 
@@ -49,7 +53,6 @@ a:hover {
 }
 
 .navbar-brand {
-  font-family: 'Merriweather', serif;
   color: #8487E0;
 
 
@@ -61,19 +64,23 @@ a:hover {
 .content {
   min-height: 100%;
   min-width: 100%;
-  background-color: #282828;
+  background-color: #282728;
   overflow: hidden;
 }
 
 .home {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
+
+  @include respond-to(large) {
+    min-height: 100vh;
+    min-width: 100vw;
+  }
 }
 
 .home__start {
   margin-top: 30%;
   color: white;
-  font-family: 'Merriweather', serif;
   word-break: break-word;
   width: 100%;
   height: auto;
@@ -131,10 +138,137 @@ a:hover {
     opacity: .9;
     height: 300px;
     width: auto;
+    display: block;
 
     @include respond-to(large) {
       width: 100%;
       height: auto;
     }
+  }
+}
+
+.describtion {
+  margin-top: 6rem;
+
+  @include respond-to(large) {
+    margin-top: 2rem;
+  }
+
+  & h1 {
+    text-align: center;
+    color: white;
+    font-size: 2.6rem;
+  }
+
+  & p {
+    color: hsla(0,0%,100%,.7);
+    font-size: 1.3rem;
+  }
+}
+
+.landscape {
+  display: none;
+
+  @media (orientation: landscape) {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.portrait {
+  display: none;
+
+  @media (orientation: portrait) {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.describtion__color-patterns, .describtion__diagram {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+
+  @include respond-to(medium) {
+    display: flex;
+  }
+
+  & p {
+
+    @include respond-to(medium) {
+      flex-grow: 1;
+      align-self: center;
+    }
+  }
+
+  & img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include respond-to(medium) {
+      flex-grow: 1;
+    }
+  }
+}
+
+.describtion__color-patterns p {
+  @include respond-to(medium) {
+    order: 1;
+    margin-left: 1rem;
+  }
+}
+
+.describtion__diagram p {
+  @include respond-to(medium) {
+    margin-right: 1rem;
+  }
+}
+
+.try-for-free-button {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  border-radius: 60px;
+  padding: 1rem 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #00C896;
+  font-size: 1.4rem;
+  color: black;
+}
+
+footer {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #36393F;
+  width: 100%;
+  height: auto;
+  min-height: 100px;
+}
+
+.footer__copyright {
+  font-family: 'Encode Sans SC', sans-serif;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  color: hsla(0,0%,100%,.7);
+}
+
+
+.social-medias {
+  margin-bottom: 0;
+
+  & ul {
+    list-style-type: none;
+  }
+
+  & li {
+    display: inline;
+  }
+
+  & a {
+    color: hsla(0,0%,100%,.7);
+    margin-right: .5rem;
+    font-size: 1.8rem;
   }
 }
