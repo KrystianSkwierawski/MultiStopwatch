@@ -1,4 +1,28 @@
-<div>
+<!--<div>
   <button (click)="openRegisterDialog()">Register</button>
   <button (click)="openLoginDialog()">Login</button>
-</div>
+</div>-->
+<nav class="navbar">
+  <a mat-button class="navbar-brand m-0 p-0">
+    <img src="../../../assets/img/logo.svg" width="32" height="32" /> MultiStopwatch
+  </a>
+
+  <div>
+    <button mat-button class="sign-in-button">Sign In</button>
+    <button mat-raised-button class="sign-up-button">Sign Up</button>
+  </div>
+</nav>
+
+<main class="content">
+  <div class="home container">
+    <div class="home__start">
+      <h1>MultiStopwatch</h1>
+      <p>Application for the organization of work. In simply way you can measure time of every project and every task.</p>
+      <button mat-raised-button (click)="openRegisterDialog()">Try for free</button>
+    </div>
+
+    <div class="home__animation">
+      <img src="../../../assets/work-animation.gif" alt="work animation" />
+    </div>
+  </div>
+</main>
