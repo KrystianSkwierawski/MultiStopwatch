@@ -51,7 +51,7 @@ namespace Project.WebUI.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<AuthResponse>> Login(UserForAuthentication userForAuthentication)
         {
-            var user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
+            ApplicationUser user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
             if (user is null)
                 return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
@@ -61,7 +61,7 @@ namespace Project.WebUI.Controllers
 
 
             var claims = _jwtHandler.GetClamis(user.Email, user.Id);
-            var token = _jwtHandler.GenerateToken(claims);
+            string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
@@ -76,7 +76,7 @@ namespace Project.WebUI.Controllers
             GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
 
             var claims = _jwtHandler.GetClamis(payload.Email, payload.JwtId);
-            var token = _jwtHandler.GenerateToken(claims);
+            string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
@@ -99,28 +99,24 @@ namespace Project.WebUI.Controllers
             }
 
             var claims = _jwtHandler.GetClamis(email, id);
-            var token = _jwtHandler.GenerateToken(claims);
+            string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
 
         public async Task<JObject> GetFacebookAuthCheck(string authToken)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string url = "https://graph.facebook.com/me?access_token=" + authToken;
+            using HttpClient client = new HttpClient();
 
-                using (HttpResponseMessage res = await client.GetAsync(url))
-                {
-                    using (HttpContent content = res.Content)
-                    {
-                        string data = await content.ReadAsStringAsync();
-                        var dataObj = JObject.Parse(data);
+            string url = "https://graph.facebook.com/me?access_token=" + authToken;
+            using HttpResponseMessage res = await client.GetAsync(url);
 
-                        return dataObj;
-                    }
-                }
-            }
+            using HttpContent content = res.Content;
+
+            string data = await content.ReadAsStringAsync();
+            JObject dataObj = JObject.Parse(data);
+
+            return dataObj;
         }
     }
 }
