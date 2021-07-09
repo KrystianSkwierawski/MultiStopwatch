@@ -21,16 +21,16 @@
 }
 
 .sign-up-button {
-  background-color: #8487E0;
-  color: white;
+  background-color: #00C896;
+  color: black;
 }
 
 .navbar-brand {
-  color: #8487E0;
+  color: white;
 
 
   &:hover {
-    color: #8487E0;
+    color: white;
   }
 }
 
@@ -222,6 +222,7 @@ footer {
 }
 
 .footer__copyright {
+  text-align: center;
   margin-top: .5rem;
   margin-bottom: .5rem;
   font-family: 'Encode Sans SC', sans-serif;
@@ -231,6 +232,7 @@ footer {
 
 .social-medias {
   margin-bottom: 0;
+  text-align: center;
 
   & ul {
     list-style-type: none;
