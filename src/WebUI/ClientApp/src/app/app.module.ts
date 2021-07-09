@@ -30,7 +30,7 @@ import { ThemeSelectorComponent } from './shared/utilities/theme-selector/theme-
 import { MaterialModule } from './shared/material/material.module';
 import { ShortenPipe } from './shared/pipes/shorten.pipe';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
-import { SocialAuthenticationsComponent } from './shared/utilities/social-authentications/social-authentications.component';
+import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
 import { ApplicationComponent } from './application/application.component';
 
 
