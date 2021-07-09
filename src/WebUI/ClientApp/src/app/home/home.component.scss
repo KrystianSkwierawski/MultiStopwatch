@@ -44,8 +44,12 @@
 .home {
   width: auto;
   height: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 
   @include respond-to(large) {
+    flex-wrap: nowrap;
     min-height: 100vh;
     min-width: 100vw;
   }
@@ -62,10 +66,6 @@
     width: 33%;
     margin-top: 0;
     margin-bottom: 0;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
     margin-left: 10%;
     z-index: 1;
   }
@@ -96,13 +96,12 @@
 }
 
 .home__animation {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 
   @include respond-to(large) {
     width: 65%;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   & img {
@@ -119,6 +118,7 @@
 }
 
 .describtion {
+  word-break: break-word;
   margin-top: 6rem;
 
   @include respond-to(large) {
@@ -140,7 +140,7 @@
 .landscape {
   display: none;
 
-  @media (orientation: landscape) {
+  @include respond-to(medium) {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -148,12 +148,12 @@
 }
 
 .portrait {
-  display: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 
-  @media (orientation: portrait) {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  @include respond-to(medium) {
+    display: none;
   }
 }
 
