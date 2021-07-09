@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MustMatch } from '../../validators/must-match';
+import { MustMatch } from '../../shared/validators/must-match';
 import { AuthenticationService } from '../authentication.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 

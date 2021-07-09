@@ -1,0 +1,96 @@
+<div *ngIf="paginatedListOfProjectItemDto?.items.length > 0">
+  <h1 class="text-center text-white mt-3">Projects</h1>
+
+  <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
+
+  <app-search-item-by-title (onKeyUp)="filterProjects($event)"
+                            [options]="titlesArray">
+  </app-search-item-by-title>
+
+  <button class="open-chart-dialog-button"
+          mat-icon-button
+          (click)="onOpenChartDialog()"
+          matTooltip="Show chart"
+          aria-label="show chart">
+
+    <i class="fas fa-chart-pie"></i>
+  </button>
+</div>
+
+<app-generic-list [list]="projects">
+
+  <ng-container emptyState>
+    <div class="empty-state" *ngIf="paginatedListOfProjectItemDto?.items.length === 0">
+      <h2>Let's getcha started!</h2>
+      <p>
+        Every great journey begins with the <br />
+        first ste... project.
+      </p>
+      <button (click)="onOpenCreateProjectDialog()" mat-button><i class="fas fa-plus"></i> Add a project</button>
+    </div>
+  </ng-container>
+
+  <ng-container content>
+    <div class="projects">
+      <div class="project"
+           *ngFor="let project of projects; let index = index"
+           [ngStyle]="{'background-color': project?.theme}">
+
+        <div class="project__top">
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item
+                      (click)="onOpenEditProjectDialog(project)"
+                      aria-label="edit">
+                <mat-icon>done</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item
+                      (click)="onOpenConfirmDeleteDialog(project.id)"
+                      aria-label="delete">
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </div>
+
+          <a class="text-white text-decoration-none" [routerLink]="['project', project.id]">{{project.time}}</a>
+          <button class="like-or-dislike-project-button"
+                  mat-icon-button
+                  (click)="handleLikeOrDislikeProjectButton(project.id)"
+                  (mouseenter)="setHoveredDivId(index)"
+                  (mouseleave)="setHoveredDivId()"
+                  aria-label="like or dislike">
+
+            <mat-icon *ngIf="(project.isFavorite && hoveredDivId !== index) ||
+                      (!project.isFavorite && hoveredDivId === index)">
+
+              favorite
+            </mat-icon>
+            <mat-icon *ngIf="(!project.isFavorite && hoveredDivId !== index) ||
+                      (project.isFavorite && hoveredDivId === index)">
+
+              favorite_border
+            </mat-icon>
+          </button>
+        </div>
+
+        <div class="project__bottom">
+          <a [routerLink]="['project', project.id]">
+            <i class="fas fa-folder"></i>
+            <p>{{project.title}}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <app-paginator [totalCount]="paginatedListOfProjectItemDto?.totalCount"
+                   [pageSize]="paginatedListOfProjectItemDto?.pageSize"
+                   (onUpdatePagination)="updatePagination($event)">
+    </app-paginator>
+  </ng-container>
+</app-generic-list>
+

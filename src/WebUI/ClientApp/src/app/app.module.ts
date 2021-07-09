@@ -9,28 +9,29 @@ import { AppComponent } from './app.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
 import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
-import { FavoriteProjectsListComponent } from './components/favorite-project-items/favorite-projects-list/favorite-projects-list.component';
-import { HomeComponent } from './components/home/home.component';
-import { PertCalculatorDialogComponent } from './components/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
-import { CreateProjectDialogComponent } from './components/project-items/create-project-dialog/create-project-dialog.component';
-import { EditProjectDialogComponent } from './components/project-items/edit-project-dialog/edit-project-dialog.component';
-import { ProjectDetailsComponent } from './components/project-items/project-details/project-details.component';
-import { ProjectsListComponent } from './components/project-items/projects-list/projects-list.component';
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { SplittedTimesListDialogComponent } from './components/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
-import { CreateStopwatchDialogComponent } from './components/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
-import { EditStopwatchDialogComponent } from './components/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
-import { StopwatchesListComponent } from './components/stopwatch-items/stopwatches-list/stopwatches-list.component';
-import { ChartDialogComponent } from './components/utilities/chart-dialog/chart-dialog.component';
-import { ConfirmDeleteDialogComponent } from './components/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
-import { GenericListComponent } from './components/utilities/generic-list/generic-list.component';
-import { PaginatorComponent } from './components/utilities/paginator/paginator.component';
-import { SearchItemByTitleComponent } from './components/utilities/search-item-by-title/search-item-by-title.component';
-import { ThemeSelectorComponent } from './components/utilities/theme-selector/theme-selector.component';
-import { MaterialModule } from './material/material.module';
-import { ShortenPipe } from './pipes/shorten.pipe';
+import { FavoriteProjectsListComponent } from './application/favorite-project-items/favorite-projects-list/favorite-projects-list.component';
+import { HomeComponent } from './home/home.component';
+import { PertCalculatorDialogComponent } from './application/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
+import { CreateProjectDialogComponent } from './application/project-items/create-project-dialog/create-project-dialog.component';
+import { EditProjectDialogComponent } from './application/project-items/edit-project-dialog/edit-project-dialog.component';
+import { ProjectDetailsComponent } from './application/project-items/project-details/project-details.component';
+import { ProjectsListComponent } from './application/project-items/projects-list/projects-list.component';
+import { SideMenuComponent } from './application/side-menu/side-menu.component';
+import { SplittedTimesListDialogComponent } from './application/splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
+import { CreateStopwatchDialogComponent } from './application/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
+import { EditStopwatchDialogComponent } from './application/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
+import { StopwatchesListComponent } from './application/stopwatch-items/stopwatches-list/stopwatches-list.component';
+import { ChartDialogComponent } from './shared/utilities/chart-dialog/chart-dialog.component';
+import { ConfirmDeleteDialogComponent } from './shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
+import { GenericListComponent } from './shared/utilities/generic-list/generic-list.component';
+import { PaginatorComponent } from './shared/utilities/paginator/paginator.component';
+import { SearchItemByTitleComponent } from './shared/utilities/search-item-by-title/search-item-by-title.component';
+import { ThemeSelectorComponent } from './shared/utilities/theme-selector/theme-selector.component';
+import { MaterialModule } from './shared/material/material.module';
+import { ShortenPipe } from './shared/pipes/shorten.pipe';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
-import { SocialAuthenticationsComponent } from './components/utilities/social-authentications/social-authentications.component';
+import { SocialAuthenticationsComponent } from './shared/utilities/social-authentications/social-authentications.component';
+import { ApplicationComponent } from './application/application.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { SocialAuthenticationsComponent } from './components/utilities/social-au
     LoginDialogComponent,
     RegisterDialogComponent,
     SocialAuthenticationsComponent,
+    ApplicationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
