@@ -194,6 +194,16 @@
   }
 }
 
+.describtion__color-patterns img {
+  @include respond-to(medium) {
+    width: 65%;
+  }
+
+  @include respond-to(large) {
+    width: 50%;
+  }
+}
+
 .describtion__diagram p {
   @include respond-to(medium) {
     margin-right: 1rem;
