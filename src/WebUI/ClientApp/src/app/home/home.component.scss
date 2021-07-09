@@ -171,7 +171,6 @@
   & p {
 
     @include respond-to(medium) {
-      flex-grow: 1;
       align-self: center;
     }
   }
@@ -180,10 +179,6 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-
-    @include respond-to(medium) {
-      flex-grow: 1;
-    }
   }
 }
 
