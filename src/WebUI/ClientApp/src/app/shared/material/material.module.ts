@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 
@@ -37,6 +38,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatBadgeModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatButtonToggleModule,
   ],
   imports: [
     CommonModule

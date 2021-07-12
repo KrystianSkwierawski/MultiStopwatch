@@ -3,7 +3,8 @@
 
   <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
-  <app-search-item-by-title (onKeyUp)="filterProjects($event)"
+  <app-search-item-by-title *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
+                            (onKeyUp)="filterProjects($event)"
                             [options]="titlesArray">
   </app-search-item-by-title>
 
@@ -16,6 +17,8 @@
     <i class="fas fa-chart-pie"></i>
   </button>
 </div>
+
+<app-item-status-selector *ngIf="paginatedListOfProjectItemDto?.items.length > 0" (onItemsStatusChanged)="filterProjectsByStatus($event)"></app-item-status-selector>
 
 <app-generic-list [list]="projects">
 

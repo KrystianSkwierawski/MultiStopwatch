@@ -68,6 +68,26 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
+  filterStopWatchesByStatus(status: string) {
+    switch (status) {
+      case "doing":
+        this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.isDone === false);
+        break;
+
+      case "done":
+        this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.isDone === true);
+        break;
+
+
+      case "all":
+        this.stopwatches = this.paginatedListOfStopwatchItemDto.items.slice();
+        break;
+
+      default:
+        return;
+    }
+  }
+
   onOpenConfirmDeleteDialog(stopwatch: StopwatchItemDto) {
     const dialogRef = this._dialog.open(ConfirmDeleteDialogComponent);
 

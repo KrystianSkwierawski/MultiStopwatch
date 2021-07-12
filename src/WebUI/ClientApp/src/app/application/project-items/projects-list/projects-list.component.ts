@@ -34,8 +34,8 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private _projectsDataService: ProjectsDataService,
     private _authService: AuthenticationService
-    ) { }
-  
+  ) { }
+
   ngOnInit() {
     this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       if (!result.items)
@@ -127,6 +127,26 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     this._favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
       this._projectsDataService.loadData();
     });
+  }
+
+  filterProjectsByStatus(status: string) {
+    switch (status) {
+      case "doing":
+        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === false);
+        break;
+
+      case "done":
+        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === true);
+        break;
+
+
+      case "all":
+        this.projects = this.paginatedListOfProjectItemDto.items.slice();
+        break;
+
+      default:
+        return;
+    }
   }
 
   updatePagination(event: PageEvent) {

@@ -1,0 +1,7 @@
+<div class="item-status-selector">
+  <mat-button-toggle-group [(ngModel)]="itemsStatus" (ngModelChange)="onChange()" name="itemsStatus" aria-label="items status">
+    <mat-button-toggle value="doing">Doing</mat-button-toggle>
+    <mat-button-toggle value="done">Done</mat-button-toggle>
+    <mat-button-toggle value="all">All</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
