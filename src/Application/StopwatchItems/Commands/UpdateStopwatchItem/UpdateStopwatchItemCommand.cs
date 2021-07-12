@@ -36,9 +36,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 entity.Title = request.Title;
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
-
-                if (request.IsDone != null)
-                    entity.IsDone = request.IsDone;
+                entity.IsDone = request.IsDone;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
