@@ -71,6 +71,11 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  doneProject(id: number) {
+  
+
+  }
+
   onOpenConfirmDeleteDialog(projectId: number) {
     const dialogRef = this._dialog.open(ConfirmDeleteDialogComponent);
 

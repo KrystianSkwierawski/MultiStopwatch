@@ -18,7 +18,10 @@
   </button>
 </div>
 
-<app-item-status-selector *ngIf="paginatedListOfProjectItemDto?.items.length > 0" (onItemsStatusChanged)="filterProjectsByStatus($event)"></app-item-status-selector>
+<app-item-status-selector *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
+                          (onItemsStatusChanged)="filterProjectsByStatus($event)">
+
+</app-item-status-selector>
 
 <app-generic-list [list]="projects">
 
@@ -48,8 +51,14 @@
               <button mat-menu-item
                       (click)="onOpenEditProjectDialog(project)"
                       aria-label="edit">
-                <mat-icon>done</mat-icon>
+                <mat-icon>settings</mat-icon>
                 <span>Edit</span>
+              </button>
+              <button mat-menu-item
+                      (click)="doneProject(project.id)"
+                      aria-label="done">
+                <mat-icon class="text-success">done</mat-icon>
+                <span>Done</span>
               </button>
               <button mat-menu-item
                       (click)="onOpenConfirmDeleteDialog(project.id)"

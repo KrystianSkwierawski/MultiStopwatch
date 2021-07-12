@@ -65,7 +65,7 @@ namespace Project.WebUI.Hubs
                     Id = stopwatch.Id,
                     Title = stopwatch.Title,
                     Time = stopwatch.Time,
-                    Theme = stopwatch.Theme
+                    Theme = stopwatch.Theme,
                 });
             }
         }

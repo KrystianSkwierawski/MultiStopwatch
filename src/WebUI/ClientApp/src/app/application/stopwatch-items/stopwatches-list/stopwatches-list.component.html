@@ -16,7 +16,11 @@
   <i class="fas fa-chart-pie"></i>
 </button>
 
-<app-item-status-selector *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0" (onItemsStatusChanged)="filterStopWatchesByStatus($event)"></app-item-status-selector>
+<app-item-status-selector *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
+                          (onIsDoneStatusChanged)="filterStopwatchesByStatus($event)"
+                          [isDoneStatus]="(isDoneStatus === null) ? 'null' : isDoneStatus.toString()">
+
+</app-item-status-selector>
 
 
 <app-generic-list [list]="stopwatches">
@@ -36,8 +40,15 @@
               <button mat-menu-item
                       (click)="onOpenEditStopwatchDialog(stopwatch)"
                       aria-label="edit">
-                <mat-icon>done</mat-icon>
+                <mat-icon>settings</mat-icon>
                 <span>Edit</span>
+              </button>
+              <button *ngIf="!stopwatch.isDone"
+                      mat-menu-item
+                      (click)="toggleDoneStopwatch(stopwatch)"
+                      aria-label="done">
+                <mat-icon class="text-success">done</mat-icon>
+                <span>Done</span>
               </button>
               <button mat-menu-item
                       (click)="onOpenConfirmDeleteDialog(stopwatch)"
@@ -67,7 +78,7 @@
           <p>{{stopwatch.title}}</p>
         </div>
 
-        <div class="stopwatch__bottom">
+        <div *ngIf="!stopwatch.isDone" class="stopwatch__bottom">
           <button mat-icon-button
                   matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)"
@@ -104,6 +115,15 @@
           </button>
 
 
+        </div>
+
+        <div *ngIf="stopwatch.isDone" class="stopwatch__bottom">
+          <button (click)="toggleDoneStopwatch(stopwatch)"
+                  aria-label="revert done status"
+                  mat-button
+                  class="revert-done-status-button">
+            Revert done status
+          </button>
         </div>
       </div>
     </div>

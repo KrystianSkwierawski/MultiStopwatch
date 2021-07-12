@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
-import { StopwatchItemDto } from '../../../web-api-client';
+import { StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
 
 @Component({
   selector: 'app-edit-stopwatch-dialog',
@@ -16,7 +16,7 @@ export class EditStopwatchDialogComponent implements OnInit {
   constructor(private _dialogRef: MatDialogRef<EditStopwatchDialogComponent>,
     private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public stopwatchItem: StopwatchItemDto,
-    private _localChangesHubService: LocalChangesHubService  ) { }
+    private _stopwatchItemsClient: StopwatchItemsClient) { }
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
@@ -40,8 +40,10 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.stopwatchItem.title = form.title;
     this.stopwatchItem.time = form.time;
     this.stopwatchItem.theme = form.theme;
-    this._localChangesHubService.storeLocalStopwatchChanges(this.stopwatchItem);
-    this.closeDialog("success");
+
+    this._stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(this.stopwatchItem)).subscribe(() => {
+      this.closeDialog("success");
+    });
   }
 
   getErrorMessageFieldTitle() {
@@ -68,7 +70,7 @@ export class EditStopwatchDialogComponent implements OnInit {
     if (field.hasError('pattern')) {
       return 'The time field must be formated - "00:00:00';
     }
- 
+
     return '';
   }
 
