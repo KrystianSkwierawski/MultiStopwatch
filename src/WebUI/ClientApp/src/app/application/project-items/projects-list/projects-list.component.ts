@@ -42,7 +42,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
         return;
 
       this.paginatedListOfProjectItemDto = result;
-      this.projects = result.items.filter(x => x.isDone === false);
+      this.projects = result.items.filter(x => x.status === "doing");
       this.filterTitlesArray();
     });
 
@@ -137,11 +137,11 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   filterProjectsByStatus(status: string) {
     switch (status) {
       case "doing":
-        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === false);
+        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.status === "doing");
         break;
 
       case "done":
-        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === true);
+        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.status === "done");
         break;
 
 

@@ -977,8 +977,9 @@
             "type": "string",
             "nullable": true
           },
-          "isDone": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1016,8 +1017,9 @@
             "type": "string",
             "nullable": true
           },
-          "isDone": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1111,8 +1113,9 @@
           "isStarted": {
             "type": "boolean"
           },
-          "isDone": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "nullable": true
           },
           "splittedTimes": {
             "type": "array",
@@ -1161,8 +1164,9 @@
             "type": "string",
             "nullable": true
           },
-          "isDone": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

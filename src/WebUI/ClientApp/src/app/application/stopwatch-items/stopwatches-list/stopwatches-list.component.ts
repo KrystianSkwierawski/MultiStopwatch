@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
@@ -27,7 +27,7 @@ export class StopwatchesListComponent implements OnInit {
   project: ProjectItemDto;
   projectId: number;
   titlesArray: string[];
-  isDoneStatus: boolean = false;
+  itemsStatus: string = "doing";
 
   constructor(private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
@@ -43,6 +43,15 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._activatedRoute.params.subscribe(params => {
+      let status: string = params["itemsStatus"];
+
+      if (!status)
+        status = "doing"; //default value
+
+      this.itemsStatus = status;
+    });
+
     this.setProjectId();
 
     this.loadProject();
@@ -70,17 +79,14 @@ export class StopwatchesListComponent implements OnInit {
   tryCleanSearchProjectCompontentInput() {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
-      this.isDoneStatus = false;
+      this.itemsStatus = "doing";
     }
   }
 
-  filterStopwatchesByStatus(status: boolean) {
-    this.isDoneStatus = status;
+  filterStopwatchesByStatus(status: string) {
+    this.itemsStatus = status;
 
-    if (this.isDoneStatus !== null)
-      this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.isDone === this.isDoneStatus);
-    else
-      this.stopwatches = this.paginatedListOfStopwatchItemDto.items;
+    this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.status === this.itemsStatus);
 
     this._timersService.calcAndUpdateProjectTime(this.stopwatches);
   }
@@ -98,14 +104,12 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
-    stopwatch.isDone = !stopwatch.isDone;
+    stopwatch.status = (stopwatch.status === "doing") ? "done" : "doing";
 
     this._stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(stopwatch)).subscribe(() => {
 
       this._timersService.delete(stopwatch.id);
-
       this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
-      this._timersService.calcAndUpdateProjectTime(this.stopwatches);
     });
   }
 
@@ -116,26 +120,19 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   filterStopwatches(searchingTitle: string) {
-    this.isDoneStatus = null;
+    this.itemsStatus = null;
 
     const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
     this.stopwatches = filteredStopwatches;
 
-    if (this.isDoneStatus !== null)
-      this._timersService.calcAndUpdateProjectTime(this.stopwatches.filter(x => x.isDone === this.isDoneStatus));
-    else
-      this._timersService.calcAndUpdateProjectTime(this.stopwatches);
-
+    this._timersService.calcAndUpdateProjectTime(this.stopwatches.filter(x => x.status === this.itemsStatus));
   }
 
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
     this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
 
-      if (this.isDoneStatus !== null)
-        this.stopwatches = result.items.filter(x => x.isDone === this.isDoneStatus);
-      else
-        this.stopwatches = result.items;
+      this.stopwatches = result.items.filter(x => x.status === this.itemsStatus);
 
       this.filterTitlesArray();
 

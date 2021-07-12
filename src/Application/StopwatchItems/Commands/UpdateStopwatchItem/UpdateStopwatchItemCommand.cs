@@ -13,7 +13,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
         public string Title { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
-        public bool IsDone { get; set; }
+        public string Status { get; set; }
 
         public class UpdateStopwatchItemCommandHandler : IRequestHandler<UpdateStopwatchItemCommand>
         {
@@ -36,9 +36,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 entity.Title = request.Title;
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
-
-                if (request.IsDone != null)
-                    entity.IsDone = request.IsDone;
+                entity.Status = request.Status;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

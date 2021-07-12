@@ -10,7 +10,7 @@ using Project.Infrastructure.Persistence;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210707090549_Initialize")]
+    [Migration("20210712130722_Initialize")]
     partial class Initialize
     {
         protected void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");
 
@@ -48,6 +45,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
@@ -111,9 +111,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -122,6 +119,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("ProjectItemId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");

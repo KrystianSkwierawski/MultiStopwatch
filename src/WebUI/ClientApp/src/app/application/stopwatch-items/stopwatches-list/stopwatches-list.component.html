@@ -17,8 +17,7 @@
 </button>
 
 <app-item-status-selector *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
-                          (onIsDoneStatusChanged)="filterStopwatchesByStatus($event)"
-                          [isDoneStatus]="(isDoneStatus === null) ? 'null' : isDoneStatus.toString()">
+                          [status]="itemsStatus">
 
 </app-item-status-selector>
 
@@ -43,7 +42,7 @@
                 <mat-icon>settings</mat-icon>
                 <span>Edit</span>
               </button>
-              <button *ngIf="!stopwatch.isDone"
+              <button *ngIf="!stopwatch.status"
                       mat-menu-item
                       (click)="toggleDoneStopwatch(stopwatch)"
                       aria-label="done">
@@ -78,7 +77,7 @@
           <p>{{stopwatch.title}}</p>
         </div>
 
-        <div *ngIf="!stopwatch.isDone" class="stopwatch__bottom">
+        <div *ngIf="!stopwatch.status" class="stopwatch__bottom">
           <button mat-icon-button
                   matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)"
@@ -117,7 +116,7 @@
 
         </div>
 
-        <div *ngIf="stopwatch.isDone" class="stopwatch__bottom">
+        <div *ngIf="stopwatch.status" class="stopwatch__bottom">
           <button (click)="toggleDoneStopwatch(stopwatch)"
                   aria-label="revert done status"
                   mat-button

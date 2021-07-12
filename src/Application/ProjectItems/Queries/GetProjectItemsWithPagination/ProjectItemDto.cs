@@ -10,7 +10,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
         public bool IsFavorite { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
-        public bool IsDone { get; set; }
+        public string Status { get; set; }
 
     }
 }

@@ -13,7 +13,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
         public string Title { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
-        public bool IsDone { get; set; }
+        public string Status { get; set; }
 
         public class UpdateProjectItemCommandHandler : IRequestHandler<UpdateProjectItemCommand>
         {
@@ -36,7 +36,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 entity.Title = request.Title;
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
-                entity.IsDone = request.IsDone;
+                entity.Status = request.Status;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

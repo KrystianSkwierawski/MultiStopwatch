@@ -19,7 +19,7 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
         public int ProjectItemId { get; set; }
         public string Theme { get; set; }
         public bool IsStarted { get; set; }
-        public bool IsDone { get; set; }
+        public string Status { get; set; }
         public IList<SplittedTimeDto> SplittedTimes { get; set; }
 
         public void Mapping(Profile profile)
