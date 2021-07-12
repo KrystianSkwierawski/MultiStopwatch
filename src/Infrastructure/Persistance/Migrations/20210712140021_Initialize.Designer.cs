@@ -10,7 +10,7 @@ using Project.Infrastructure.Persistence;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210707090549_Initialize")]
+    [Migration("20210712140021_Initialize")]
     partial class Initialize
     {
         protected void BuildTargetModel(ModelBuilder modelBuilder)
