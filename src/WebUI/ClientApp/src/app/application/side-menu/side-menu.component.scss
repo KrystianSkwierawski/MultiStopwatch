@@ -9,6 +9,7 @@
   transition: 0.15s linear;
   color: white;
   display: block;
+  background-color: #2D2C2C;
 
   @include respond-to(medium) {
     display: none;
