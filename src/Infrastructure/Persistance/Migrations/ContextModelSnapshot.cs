@@ -32,9 +32,6 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");
 
@@ -46,6 +43,9 @@ namespace Infrastructure.Persistance.Migrations
 
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
@@ -109,9 +109,6 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -120,6 +117,9 @@ namespace Infrastructure.Persistance.Migrations
 
                     b.Property<int>("ProjectItemId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");

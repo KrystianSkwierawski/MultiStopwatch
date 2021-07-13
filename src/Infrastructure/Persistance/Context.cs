@@ -27,7 +27,6 @@ namespace Project.Infrastructure.Persistence
             _dateTime = dateTime;
         }
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<StopwatchItem> StopWatchItems { get; set; }
         public DbSet<ProjectItem> ProjectItems { get; set; }
         public DbSet<SplittedTime> SplittedTimes { get; set; }

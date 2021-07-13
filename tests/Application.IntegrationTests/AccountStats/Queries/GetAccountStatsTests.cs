@@ -45,7 +45,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 Title = "project",
                 Theme = "violet",
                 Time = "00:00:10",
-                IsDone = false
+                Status = "doing"
             });
 
             ProjectItem projectItem = new()
@@ -53,7 +53,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 Title = "project",
                 Theme = "violet",
                 Time = "10:10:10",
-                IsDone = true
+                Status = "done"
             };
             await AddAsync(projectItem);
 

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-status-selector',
@@ -7,22 +8,27 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 })
 export class ItemStatusSelectorComponent implements OnInit, OnChanges {
 
-  @Output() onIsDoneStatusChanged = new EventEmitter<boolean>();
-  @Input() isDoneStatus;
+  @Input() status;
 
-  constructor() { }
+  constructor(private _router: Router, private _route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    //this.isDoneStatus = changes.currentValue?.toString();
+    if (changes.status.previousValue !== changes.status.currentValue)
+      this.setQueryParams();
   }
 
   onChange() {
-    this.onIsDoneStatusChanged.emit(
-      JSON.parse(this.isDoneStatus)
-    );
+    this.setQueryParams();
+  }
+
+  setQueryParams() {
+    this._router.navigate([], {
+      relativeTo: this._route, queryParams: {
+        items: this.status
+      }
+    });
   }
 }

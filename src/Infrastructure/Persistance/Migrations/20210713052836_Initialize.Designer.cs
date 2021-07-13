@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Infrastructure.Persistence;
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210712140021_Initialize")]
+    [Migration("20210713052836_Initialize")]
     partial class Initialize
     {
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +34,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsFavorite")
                         .HasColumnType("bit");
 
@@ -48,6 +45,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
@@ -111,9 +111,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -122,6 +119,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("ProjectItemId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");

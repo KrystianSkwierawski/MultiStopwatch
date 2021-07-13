@@ -42,7 +42,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
         return;
 
       this.paginatedListOfProjectItemDto = result;
-      this.projects = result.items.filter(x => x.isDone === false);
+      this.projects = result.items.filter(x => x.status === "doing");
       this.filterTitlesArray();
     });
 
@@ -135,23 +135,23 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   filterProjectsByStatus(status: string) {
-    switch (status) {
-      case "doing":
-        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === false);
-        break;
+    //switch (status) {
+    //  case "doing":
+    //    this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === false);
+    //    break;
 
-      case "done":
-        this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === true);
-        break;
+    //  case "done":
+    //    this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === true);
+    //    break;
 
 
-      case "all":
-        this.projects = this.paginatedListOfProjectItemDto.items.slice();
-        break;
+    //  case "all":
+    //    this.projects = this.paginatedListOfProjectItemDto.items.slice();
+    //    break;
 
-      default:
-        return;
-    }
+    //  default:
+    //    return;
+    //}
   }
 
   updatePagination(event: PageEvent) {

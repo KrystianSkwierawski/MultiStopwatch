@@ -32,16 +32,16 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
                 return new AccountStatsDto
                 {
                     TotalTimeInSeconds = GetTotalProjectsSeconds(projectItems),
-                    TotalTimeInSecondsFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.IsDone == true)),
-                    TotalTimeInSecondsNotFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.IsDone == false)),
+                    TotalTimeInSecondsFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == "done")),
+                    TotalTimeInSecondsNotFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == "doing")),
 
                     TotalNumberOfProjects = projectItems.Count(),
-                    TotalNumberOfFinishedProjects = projectItems.Where(x => x.IsDone == true).Count(),
-                    TotalNumberOfNotFinishedProjects = projectItems.Where(x => x.IsDone == false).Count(),
+                    TotalNumberOfFinishedProjects = projectItems.Where(x => x.Status == "done").Count(),
+                    TotalNumberOfNotFinishedProjects = projectItems.Where(x => x.Status == "doing").Count(),
 
                     TotalNumberOfStopwatches = stopwatchItems.Count(),
-                    TotalNumberOfFinishedStopwatches = stopwatchItems.Where(x => x.IsDone == true).Count(),
-                    TotalNumberOfNotFinishedStopwatches = stopwatchItems.Where(x => x.IsDone == false).Count()
+                    TotalNumberOfFinishedStopwatches = stopwatchItems.Where(x => x.Status == "done").Count(),
+                    TotalNumberOfNotFinishedStopwatches = stopwatchItems.Where(x => x.Status == "doing").Count()
                 };
             }
 
