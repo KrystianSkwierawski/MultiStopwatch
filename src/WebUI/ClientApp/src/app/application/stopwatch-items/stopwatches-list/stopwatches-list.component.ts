@@ -100,14 +100,20 @@ export class StopwatchesListComponent implements OnInit {
     }
   }
 
+  getStopwatchesFilteredByStatus(items: StopwatchItemDto[]) {
+
+    if (this.itemsStatus === "all") {
+      return items;
+    }
+
+    return items.filter(x => x.status === this.itemsStatus);
+  }
+
   filterStopwatchesByStatus() {
     if (!this.paginatedListOfStopwatchItemDto.items)
       return
 
-    if (this.itemsStatus === "all")
-      this.stopwatches = this.paginatedListOfStopwatchItemDto.items;
-    else
-      this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.status === this.itemsStatus);
+    this.stopwatches = this.getStopwatchesFilteredByStatus(this.paginatedListOfStopwatchItemDto.items);
 
     this._timersService.calcAndUpdateProjectTime(this.stopwatches);
   }
@@ -155,10 +161,7 @@ export class StopwatchesListComponent implements OnInit {
     this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
 
-      if (this.itemsStatus === "all")
-        this.stopwatches = result.items;
-      else
-        this.stopwatches = result.items.filter(x => x.status === this.itemsStatus);
+      this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
 
       this.filterTitlesArray();
 
