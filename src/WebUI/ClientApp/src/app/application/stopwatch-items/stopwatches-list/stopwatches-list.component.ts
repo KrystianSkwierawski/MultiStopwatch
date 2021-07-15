@@ -82,7 +82,7 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (success: StopwatchItemDto) => {
       if (success) {
-        this.tryCleanSearchProjectCompontentInput();
+        this.tryCleanSearchStopwatchCompontentInput();
 
         this._timersService.clearAllIntervals();
 
@@ -93,7 +93,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  tryCleanSearchProjectCompontentInput() {
+  tryCleanSearchStopwatchCompontentInput() {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
       this.itemsStatus = "doing";
@@ -148,10 +148,10 @@ export class StopwatchesListComponent implements OnInit {
     }
   }
 
-  filterStopwatches(searchingTitle: string) {
+  filterStopwatchesByTitle(title: string) {
     this.itemsStatus = "all";
 
-    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
+    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(title));
     this.stopwatches = filteredStopwatches;
 
     this._timersService.calcAndUpdateProjectTime(this.stopwatches);
@@ -244,7 +244,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   async updatePagination(event: PageEvent) {
-    this.tryCleanSearchProjectCompontentInput();
+    this.tryCleanSearchStopwatchCompontentInput();
 
     this._timersService.clearAllIntervals();
 

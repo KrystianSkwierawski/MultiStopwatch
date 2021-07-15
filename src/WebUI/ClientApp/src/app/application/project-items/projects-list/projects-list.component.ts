@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
@@ -8,7 +9,7 @@ import { ProjectsDataService } from '../../../shared/services/projects-data/proj
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient } from '../../../web-api-client';
+import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
@@ -26,17 +27,35 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   paginatedListOfProjectItemDtoSub: Subscription;
 
-  projects: ProjectItemDto[];
+  projects: ProjectItemDto2[];
   titlesArray: string[];
+  itemsStatus: string;
 
   constructor(private _dialog: MatDialog,
     private _projectItemsClient: ProjectItemsClient,
     private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private _projectsDataService: ProjectsDataService,
-    private _authService: AuthenticationService
+    private _authService: AuthenticationService,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.initItemsStatus();
+
+    this._router.events.subscribe(event => {
+      if (event instanceof ActivationEnd) {
+        const status: string = event.snapshot.queryParams["items"];
+
+        if (status === this.itemsStatus)
+          return;
+
+        this.itemsStatus = status;
+
+        this.filterProjectsByStatus();
+      }
+    });
+
     this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       if (!result.items)
         return;
@@ -47,6 +66,15 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
 
     this.loadProjectsAfterAuthenticate();
+  }
+
+  initItemsStatus() {
+    let status: string = this._activatedRoute.snapshot.queryParams['items'];
+
+    if (!status)
+      status = "doing";
+
+    this.itemsStatus = status;
   }
 
   loadProjectsAfterAuthenticate() {
@@ -72,7 +100,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   doneProject(id: number) {
-  
+
 
   }
 
@@ -95,6 +123,14 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
       if (success) {
         this._projectsDataService.loadData();
       }
+    });
+  }
+
+  toggleDoneProject(project: ProjectItemDto2) {
+    project.status = (project.status === "doing") ? "done" : "doing";
+
+    this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(project)).subscribe(() => {
+      this.projects = this.projects.filter(x => x.id !== project.id);
     });
   }
 
@@ -123,8 +159,8 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterProjects(searchingTitle: string) {
-    const filteredProjects: ProjectItemDto[] = this.paginatedListOfProjectItemDto.items.filter(x => x.title.includes(searchingTitle));
+  filterProjectsByTitle(title: string) {
+    const filteredProjects: ProjectItemDto2[] = this.paginatedListOfProjectItemDto.items.filter(x => x.title.includes(title));
     this.projects = filteredProjects;
   }
 
@@ -134,24 +170,20 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  filterProjectsByStatus(status: string) {
-    //switch (status) {
-    //  case "doing":
-    //    this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === false);
-    //    break;
+  filterProjectsByStatus() {
+    if (!this.paginatedListOfProjectItemDto.items)
+      return
 
-    //  case "done":
-    //    this.projects = this.paginatedListOfProjectItemDto.items.filter(x => x.isDone === true);
-    //    break;
+    this.projects = this.getProjectsFilteredByStatus(this.paginatedListOfProjectItemDto.items);
+  }
 
+  getProjectsFilteredByStatus(items: ProjectItemDto2[]) {
 
-    //  case "all":
-    //    this.projects = this.paginatedListOfProjectItemDto.items.slice();
-    //    break;
+    if (this.itemsStatus === "all") {
+      return items;
+    }
 
-    //  default:
-    //    return;
-    //}
+    return items.filter(x => x.status === this.itemsStatus);
   }
 
   updatePagination(event: PageEvent) {
