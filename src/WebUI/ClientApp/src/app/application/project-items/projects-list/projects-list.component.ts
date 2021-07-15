@@ -90,18 +90,18 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(success => {
       if (success) {
-        if (this.searchProjectComponent) {
-          this.searchProjectComponent.cleanInput();
-        }
+        this.tryCleanSearchProjectCompontentInput();
 
         this._projectsDataService.loadProjects();
       }
     });
   }
 
-  doneProject(id: number) {
-
-
+  tryCleanSearchProjectCompontentInput() {
+    if (this.searchProjectComponent) {
+      this.searchProjectComponent.cleanInput();
+      this.itemsStatus = "doing";
+    }
   }
 
   onOpenConfirmDeleteDialog(projectId: number) {

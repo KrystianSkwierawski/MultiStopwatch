@@ -28,7 +28,7 @@ export class AuthenticationService implements OnInit {
       catchError(errorResponse => {
         const errors = JSON.parse(errorResponse.response).errors;
 
-        if (!errors)
+        if (errors?.length === 0)
           errors.push("An unexpected server error occurred.");
 
         return throwError(errors);
