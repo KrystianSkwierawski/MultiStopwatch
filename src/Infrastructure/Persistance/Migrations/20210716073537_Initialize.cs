@@ -241,23 +241,19 @@ namespace Infrastructure.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SplittedTimes",
+                name: "SplittedTime",
                 columns: table => new
                 {
+                    StopwatchItemId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StopwatchItemId = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SplittedTimes", x => x.Id);
+                    table.PrimaryKey("PK_SplittedTime", x => new { x.StopwatchItemId, x.Id });
                     table.ForeignKey(
-                        name: "FK_SplittedTimes_StopWatchItems_StopwatchItemId",
+                        name: "FK_SplittedTime_StopWatchItems_StopwatchItemId",
                         column: x => x.StopwatchItemId,
                         principalTable: "StopWatchItems",
                         principalColumn: "Id",
@@ -330,11 +326,6 @@ namespace Infrastructure.Persistance.Migrations
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SplittedTimes_StopwatchItemId",
-                table: "SplittedTimes",
-                column: "StopwatchItemId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StopWatchItems_ProjectItemId",
                 table: "StopWatchItems",
                 column: "ProjectItemId");
@@ -364,7 +355,7 @@ namespace Infrastructure.Persistance.Migrations
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
-                name: "SplittedTimes");
+                name: "SplittedTime");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

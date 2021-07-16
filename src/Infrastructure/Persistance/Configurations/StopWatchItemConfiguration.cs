@@ -11,6 +11,9 @@ namespace Infrastructure.Persistance.Configurations
             builder.Property(t => t.Title)
                 .HasMaxLength(20)
                 .IsRequired();
+
+            builder
+                .OwnsMany(x => x.SplittedTimes);
         }
     }
 }

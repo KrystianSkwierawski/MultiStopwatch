@@ -7,7 +7,6 @@ namespace Project.Application.Common.Interfaces
 {
     public interface IContext
     {
-        public DbSet<SplittedTime> SplittedTimes { get; set; }
         public DbSet<StopwatchItem> StopWatchItems { get; set; }
         public DbSet<ProjectItem> ProjectItems { get; set; }
 

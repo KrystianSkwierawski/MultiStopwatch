@@ -10,7 +10,7 @@ using Project.Infrastructure.Persistence;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210713052836_Initialize")]
+    [Migration("20210716073537_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,39 +63,6 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectItems");
-                });
-
-            modelBuilder.Entity("Domain.Entities.SplittedTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StopwatchItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Time")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StopwatchItemId");
-
-                    b.ToTable("SplittedTimes");
                 });
 
             modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
@@ -440,15 +407,6 @@ namespace Infrastructure.Persistance.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Entities.SplittedTime", b =>
-                {
-                    b.HasOne("Domain.Entities.StopwatchItem", null)
-                        .WithMany("SplittedTimes")
-                        .HasForeignKey("StopwatchItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
                 {
                     b.HasOne("Domain.Entities.ProjectItem", null)
@@ -456,6 +414,29 @@ namespace Infrastructure.Persistance.Migrations
                         .HasForeignKey("ProjectItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsMany("Domain.ValueObjects.SplittedTime", "SplittedTimes", b1 =>
+                        {
+                            b1.Property<int>("StopwatchItemId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Time")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("StopwatchItemId", "Id");
+
+                            b1.ToTable("SplittedTime");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StopwatchItemId");
+                        });
+
+                    b.Navigation("SplittedTimes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -512,11 +493,6 @@ namespace Infrastructure.Persistance.Migrations
             modelBuilder.Entity("Domain.Entities.ProjectItem", b =>
                 {
                     b.Navigation("StopwatchItems");
-                });
-
-            modelBuilder.Entity("Domain.Entities.StopwatchItem", b =>
-                {
-                    b.Navigation("SplittedTimes");
                 });
 #pragma warning restore 612, 618
         }

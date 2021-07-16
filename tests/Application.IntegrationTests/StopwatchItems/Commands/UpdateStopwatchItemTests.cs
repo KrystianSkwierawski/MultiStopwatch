@@ -1,10 +1,13 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.StopwatchItems.Commands
@@ -51,7 +54,12 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "stopwatch2",
                 Theme = "red",
                 Time = "50:00:00",
-                Status = "done"
+                Status = "done",
+                SplittedTimes = new List<SplittedTime>
+                {
+                    new ("00:00:00"),
+                    new ("00:00:00")
+                }
             };
 
             //Act
@@ -64,6 +72,10 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
             result.Theme.Should().Be(command.Theme);
             result.Time.Should().Be(command.Time);
             result.Status.Should().Be(command.Status);
+
+            result.SplittedTimes.Count().Should().Be(
+                command.SplittedTimes.Count()
+                );
         }
     }
 }

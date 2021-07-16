@@ -1,4 +1,5 @@
-﻿using Project.Domain.Common;
+﻿using Domain.ValueObjects;
+using Project.Domain.Common;
 using System.Collections.Generic;
 
 namespace Domain.Entities

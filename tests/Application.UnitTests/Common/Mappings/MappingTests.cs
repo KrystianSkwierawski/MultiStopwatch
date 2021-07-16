@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.ValueObjects;
 using NUnit.Framework;
 using Project.Application.Common.Mappings;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
-using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination;
 using System;
 using System.Runtime.Serialization;
@@ -36,7 +36,6 @@ namespace Project.Application.UnitTests.Common.Mappings
         [TestCase(typeof(ProjectItem), typeof(ProjectItems.Queries.GetProjectItemsWithPagination.ProjectItemDto))]
         [TestCase(typeof(ProjectItem), typeof(FavoriteProjectItemDto))]
         [TestCase(typeof(StopwatchItem), typeof(StopwatchItemDto))]
-        [TestCase(typeof(SplittedTime), typeof(SplittedTimeDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
             var instance = GetInstanceOf(source);

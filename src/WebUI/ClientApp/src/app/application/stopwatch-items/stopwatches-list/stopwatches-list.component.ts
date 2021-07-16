@@ -7,7 +7,7 @@ import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { CreateSplittedTimeCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTimeDto, SplittedtimesClient, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
+import { ISplittedTime, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -36,8 +36,7 @@ export class StopwatchesListComponent implements OnInit {
     private _stopwatchItemsClient: StopwatchItemsClient,
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
-    private _localChangesHubService: LocalChangesHubService,
-    private _splittedtimesClient: SplittedtimesClient) {
+    private _localChangesHubService: LocalChangesHubService) {
   }
 
   initProjectId() {
@@ -200,10 +199,13 @@ export class StopwatchesListComponent implements OnInit {
       panelClass: 'splitted-times-dialog'
     });
 
-    dialogRef.afterClosed().subscribe((result: SplittedTimeDto[]) => {
-      if (result) {
-        stopwatch.splittedTimes = result;
-      }
+    const onDeleteSub = dialogRef.componentInstance.onDelete.subscribe(splittedTimes => {
+      stopwatch.splittedTimes = splittedTimes;
+      this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      onDeleteSub.unsubscribe();
     });
   }
 
@@ -227,13 +229,12 @@ export class StopwatchesListComponent implements OnInit {
     this._timersService.start(stopwatch);
   }
 
-  splitTimer(stopwatch: StopwatchItemDto) {
-    this._splittedtimesClient.create(<CreateSplittedTimeCommand>{
-      stopwatchItemId: stopwatch.id,
+  async splitTimer(stopwatch: StopwatchItemDto) {
+    stopwatch.splittedTimes.push(new SplittedTime({
       time: stopwatch.time
-    }).subscribe(splittedTime => {
-      stopwatch.splittedTimes.push(splittedTime);
-    });
+    }));
+
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
   onOpenChartDialog() {

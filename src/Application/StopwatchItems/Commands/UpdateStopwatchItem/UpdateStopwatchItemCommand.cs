@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects;
 using MediatR;
 using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
         public string Time { get; set; }
         public string Theme { get; set; }
         public string Status { get; set; }
+        public IList<SplittedTime> SplittedTimes { get; set; }
 
         public class UpdateStopwatchItemCommandHandler : IRequestHandler<UpdateStopwatchItemCommand>
         {
@@ -37,6 +40,7 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
                 entity.Status = request.Status;
+                entity.SplittedTimes = request.SplittedTimes;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -1,35 +1,33 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SplittedTimeDto, SplittedtimesClient } from '../../../web-api-client';
+import { SplittedTime } from '../../../web-api-client';
 
 @Component({
-  selector: 'app-splitted-times-list-dialog',
-  templateUrl: './splitted-times-list-dialog.component.html',
-  styleUrls: ['./splitted-times-list-dialog.component.scss']
+    selector: 'app-splitted-times-list-dialog',
+    templateUrl: './splitted-times-list-dialog.component.html',
+    styleUrls: ['./splitted-times-list-dialog.component.scss']
 })
 export class SplittedTimesListDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['index', 'time', 'delete'];
+    displayedColumns: string[] = ['index', 'time', 'delete'];
 
-  dataSource;
+    dataSource;
+    onDelete = new EventEmitter<SplittedTime[]>();
 
-  constructor(
-    private _dialogRef: MatDialogRef<SplittedTimesListDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SplittedTimeDto[],
-    private _splittedtimesClient: SplittedtimesClient) { }
+    constructor(
+        private _dialogRef: MatDialogRef<SplittedTimesListDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: SplittedTime[]) { }
 
 
-  ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<SplittedTimeDto>(this.data);
-  }
+    ngOnInit(): void {
+        this.dataSource = new MatTableDataSource<SplittedTime>(this.data);
+    }
 
-  deleteSplittedTime(id: number) {
-    this._splittedtimesClient.delete(id).subscribe(() => {
-      this.data = this.data.filter(x => x.id !== id);
-      this.dataSource = new MatTableDataSource<SplittedTimeDto>(this.data); 
-    },
-      error => console.error(error)
-    );
-  }
+    deleteSplittedTime(index: number) {
+        this.data.splice(index, 1);
+        this.onDelete.emit(this.data);
+        this.dataSource = new MatTableDataSource<SplittedTime>(this.data);
+    }
 }

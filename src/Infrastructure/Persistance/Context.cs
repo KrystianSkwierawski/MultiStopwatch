@@ -29,7 +29,6 @@ namespace Project.Infrastructure.Persistence
 
         public DbSet<StopwatchItem> StopWatchItems { get; set; }
         public DbSet<ProjectItem> ProjectItems { get; set; }
-        public DbSet<SplittedTime> SplittedTimes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

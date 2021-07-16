@@ -66,7 +66,8 @@ namespace Project.WebUI.Hubs
                     Title = stopwatch.Title,
                     Time = stopwatch.Time,
                     Theme = stopwatch.Theme,
-                    Status = stopwatch.Status
+                    Status = stopwatch.Status,
+                    SplittedTimes = stopwatch.SplittedTimes
                 });
             }
         }
@@ -98,6 +99,7 @@ namespace Project.WebUI.Hubs
             entity.Theme = stopwatchItemDto.Theme;
             entity.Time = stopwatchItemDto.Time;
             entity.Status = stopwatchItemDto.Status;
+            entity.SplittedTimes = stopwatchItemDto.SplittedTimes;
         }
 
         public async Task DeleteLocalStopwatchChangesById(int stopwatchId)
