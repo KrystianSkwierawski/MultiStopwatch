@@ -39,10 +39,11 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
 
-                if (entity.Status != request.Status)
-                {
+                if (request.Status != Status.None)
                     entity.Status = request.Status;
 
+                if (request.Status == Status.Done)
+                {
                     _context.StopWatchItems.Where(x => x.ProjectItemId == request.Id)
                         .ToList()
                         .ForEach(c => c.Status = request.Status);
@@ -51,7 +52,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
-            }          
+            }
         }
     }
 

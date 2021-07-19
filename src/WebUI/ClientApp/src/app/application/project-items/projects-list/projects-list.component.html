@@ -4,7 +4,7 @@
   <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
   <app-search-item-by-title *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
-                            (onKeyUp)="filterProjects($event)"
+                            (onKeyUp)="filterProjectsByTitle($event)"
                             [options]="titlesArray">
   </app-search-item-by-title>
 

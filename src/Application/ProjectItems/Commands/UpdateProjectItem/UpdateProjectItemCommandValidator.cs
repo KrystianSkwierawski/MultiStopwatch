@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Enums;
+using FluentValidation;
 using Project.Application.Common.Validators;
 
 namespace Project.Application.ProjectItems.Commands.UpdateProjectItem

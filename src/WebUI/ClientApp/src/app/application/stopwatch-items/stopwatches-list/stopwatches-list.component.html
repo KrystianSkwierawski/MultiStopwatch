@@ -3,7 +3,7 @@
 <button (click)="onOpenCreateStopwatchDialog()" class="add-new-stopwatch-button" aria-label="open create stopwatch dialog"><i class="fas fa-plus"></i></button>
 
 <app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
-                          (onKeyUp)="filterStopwatches($event)"
+                          (onKeyUp)="filterStopwatchesByTitle($event)"
                           [options]="titlesArray">
 </app-search-item-by-title>
 

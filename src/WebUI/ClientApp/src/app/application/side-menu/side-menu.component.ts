@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication/authentication.service';
 import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
@@ -15,7 +16,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   menuIsActivated: boolean;
 
-  constructor(private _dialog: MatDialog, private _authService: AuthenticationService) { }
+  constructor(private _dialog: MatDialog, private _authService: AuthenticationService, private _router: Router) { }
 
   ngAfterViewInit(): void {
     this.toggleContent_disabledScrolling();
@@ -90,6 +91,10 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     if (!this.isDesktopDevice() && this.menuIsActivated) {
       element.classList.add(className);
     }
+  }
+
+  isStopwatchesPath() {
+    return this._router.url.match(/app\/project\/[0-9](?:items=1)?/gm);
   }
 }
 

@@ -23,7 +23,7 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-   
+         
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   paginatedListOfProjectItemDtoSub: Subscription;
 
@@ -51,7 +51,10 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
     this._router.events.subscribe(event => {
       if (event instanceof ActivationEnd) {
-        const status: Status = +event.snapshot.queryParams["items"];
+        let status: Status = +event.snapshot.queryParams["items"];
+
+        if (isNaN(status))
+          status = Status.Doing;
 
         if (status === this.itemsStatus)
           return;
@@ -67,7 +70,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
         return;
 
       this.paginatedListOfProjectItemDto = result;
-      this.projects = result.items.filter(x => x.status === Status.Doing);
+      this.projects = this.getProjectsFilteredByStatus(result.items);
       this.filterTitlesArray();
     });
 
@@ -77,7 +80,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   initItemsStatus() {
     let status: Status = +this._activatedRoute.snapshot.queryParams['items'];
 
-    if (!status)
+    if (isNaN(status))
       status = Status.Doing;
 
     this.itemsStatus = status;
@@ -138,7 +141,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(project)).subscribe(() => {
 
       if (this.itemsStatus !== Status.All)
-      this.projects = this.projects.filter(x => x.id !== project.id);
+        this.projects = this.projects.filter(x => x.id !== project.id);
     });
   }
 
@@ -168,6 +171,8 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   filterProjectsByTitle(title: string) {
+    this.itemsStatus = Status.All;
+
     const filteredProjects: ProjectItemDto2[] = this.paginatedListOfProjectItemDto.items.filter(x => x.title.includes(title));
     this.projects = filteredProjects;
   }

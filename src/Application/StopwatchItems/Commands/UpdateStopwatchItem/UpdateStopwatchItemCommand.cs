@@ -40,10 +40,10 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 entity.Title = request.Title;
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
-                entity.Status = request.Status;
                 entity.SplittedTimes = request.SplittedTimes;
 
-                await _context.SaveChangesAsync(cancellationToken);
+                if (request.Status != Status.None)
+                    entity.Status = request.Status;
 
                 return Unit.Value;
             }
