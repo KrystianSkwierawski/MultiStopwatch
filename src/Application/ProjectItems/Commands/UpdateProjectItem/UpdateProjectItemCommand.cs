@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
@@ -14,7 +15,7 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
         public string Title { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
         public class UpdateProjectItemCommandHandler : IRequestHandler<UpdateProjectItemCommand>
         {

@@ -9,7 +9,7 @@ import { ProjectsDataService } from '../../../shared/services/projects-data/proj
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
+import { Status, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
@@ -23,13 +23,19 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-
+   
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   paginatedListOfProjectItemDtoSub: Subscription;
 
   projects: ProjectItemDto2[];
   titlesArray: string[];
-  itemsStatus: string;
+
+  status = {
+    doing: Status.Doing,
+    done: Status.Done,
+  }
+
+  itemsStatus: Status;
 
   constructor(private _dialog: MatDialog,
     private _projectItemsClient: ProjectItemsClient,
@@ -45,7 +51,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
     this._router.events.subscribe(event => {
       if (event instanceof ActivationEnd) {
-        const status: string = event.snapshot.queryParams["items"];
+        const status: Status = +event.snapshot.queryParams["items"];
 
         if (status === this.itemsStatus)
           return;
@@ -61,7 +67,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
         return;
 
       this.paginatedListOfProjectItemDto = result;
-      this.projects = result.items.filter(x => x.status === "doing");
+      this.projects = result.items.filter(x => x.status === Status.Doing);
       this.filterTitlesArray();
     });
 
@@ -69,10 +75,10 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   initItemsStatus() {
-    let status: string = this._activatedRoute.snapshot.queryParams['items'];
+    let status: Status = +this._activatedRoute.snapshot.queryParams['items'];
 
     if (!status)
-      status = "doing";
+      status = Status.Doing;
 
     this.itemsStatus = status;
   }
@@ -100,7 +106,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   tryCleanSearchProjectCompontentInput() {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
-      this.itemsStatus = "doing";
+      this.itemsStatus = Status.Doing;
     }
   }
 
@@ -127,9 +133,11 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   toggleDoneProject(project: ProjectItemDto2) {
-    project.status = (project.status === "doing") ? "done" : "doing";
+    project.status = (project.status === Status.Doing) ? Status.Done : Status.Doing;
 
     this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(project)).subscribe(() => {
+
+      if (this.itemsStatus !== Status.All)
       this.projects = this.projects.filter(x => x.id !== project.id);
     });
   }
@@ -179,7 +187,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
   getProjectsFilteredByStatus(items: ProjectItemDto2[]) {
 
-    if (this.itemsStatus === "all") {
+    if (this.itemsStatus === Status.All) {
       return items;
     }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Status } from '../../../web-api-client';
 
 @Component({
   selector: 'app-item-status-selector',
@@ -8,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ItemStatusSelectorComponent implements OnInit, OnChanges {
 
-  @Input() status;
+  @Input() status: Status | string;
 
   constructor(private _router: Router, private _route: ActivatedRoute) { }
 
@@ -16,11 +17,13 @@ export class ItemStatusSelectorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.status.previousValue !== changes.status.currentValue)
+    if (changes.status.previousValue !== changes.status.currentValue) {
+      this.status = changes.status.currentValue.toString();
       this.setQueryParams();
+    }     
   }
 
-  onChange() {
+  onChange(changes: SimpleChanges) {
     this.setQueryParams();
   }
 

@@ -10,7 +10,7 @@ using Project.Infrastructure.Persistence;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210716073537_Initialize")]
+    [Migration("20210719080411_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,8 +46,8 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
@@ -87,8 +87,8 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<int>("ProjectItemId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");

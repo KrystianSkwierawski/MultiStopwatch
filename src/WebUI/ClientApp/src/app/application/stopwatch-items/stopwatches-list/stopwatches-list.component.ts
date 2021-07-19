@@ -7,7 +7,7 @@ import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { ISplittedTime, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
+import { PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand, Status } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -27,7 +27,13 @@ export class StopwatchesListComponent implements OnInit {
   project: ProjectItemDto;
   projectId: number;
   titlesArray: string[];
-  itemsStatus: string;
+  itemsStatus: Status;
+
+  status = {
+    doing: Status.Doing,
+    done: Status.Done,
+  }
+
 
   constructor(private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
@@ -44,10 +50,10 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   initItemsStatus() {
-    let status: string = this._activatedRoute.snapshot.queryParams['items'];
+    let status: Status = +this._activatedRoute.snapshot.queryParams['items'];
 
     if (!status)
-      status = "doing";
+      status = Status.Doing;
 
     this.itemsStatus = status;
   }
@@ -57,7 +63,7 @@ export class StopwatchesListComponent implements OnInit {
 
     this._router.events.subscribe(event => {
       if (event instanceof ActivationEnd) {
-        const status: string = event.snapshot.queryParams["items"];
+        const status: Status = +event.snapshot.queryParams["items"];
 
         if (status === this.itemsStatus)
           return;
@@ -95,13 +101,13 @@ export class StopwatchesListComponent implements OnInit {
   tryCleanSearchStopwatchCompontentInput() {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
-      this.itemsStatus = "doing";
+      this.itemsStatus = Status.Doing;
     }
   }
 
   getStopwatchesFilteredByStatus(items: StopwatchItemDto[]) {
 
-    if (this.itemsStatus === "all") {
+    if (this.itemsStatus === Status.All) {
       return items;
     }
 
@@ -130,127 +136,129 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
-    stopwatch.status = (stopwatch.status === "doing") ? "done" : "doing";
+    stopwatch.status = (stopwatch.status === Status.Doing) ? Status.Done : Status.Doing;
 
     this._stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(stopwatch)).subscribe(() => {
 
+      if (this.itemsStatus !== Status.All){
       this._timersService.delete(stopwatch.id);
 
       this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
       this._timersService.calcAndUpdateProjectTime(this.stopwatches);
-    });
-  }
-
-  filterTitlesArray() {
-    if (this.paginatedListOfStopwatchItemDto.items) {
-      this.titlesArray = this.paginatedListOfStopwatchItemDto.items.map((e) => { return e.title });
     }
+  });
+}
+
+filterTitlesArray() {
+  if (this.paginatedListOfStopwatchItemDto.items) {
+    this.titlesArray = this.paginatedListOfStopwatchItemDto.items.map((e) => { return e.title });
   }
+}
 
-  filterStopwatchesByTitle(title: string) {
-    this.itemsStatus = "all";
+filterStopwatchesByTitle(title: string) {
+  this.itemsStatus = Status.All;
 
-    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(title));
-    this.stopwatches = filteredStopwatches;
+  const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(title));
+  this.stopwatches = filteredStopwatches;
+
+  this._timersService.calcAndUpdateProjectTime(this.stopwatches);
+}
+
+loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
+  this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
+    this.paginatedListOfStopwatchItemDto = result;
+
+    this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
+
+    this.filterTitlesArray();
 
     this._timersService.calcAndUpdateProjectTime(this.stopwatches);
-  }
+  });
+}
 
-  loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
-    this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
-      this.paginatedListOfStopwatchItemDto = result;
+loadProject() {
+  this._projectItemsClient.get(this.projectId).subscribe(result => {
+    if (!result)
+      return;
 
-      this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
+    this.project = result;
+    this._timersService.project = result;
+    this._timersService.initialProjectTime();
+  });
+}
 
-      this.filterTitlesArray();
+onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
+  this.pauseTimer(stopwatchItem);
 
-      this._timersService.calcAndUpdateProjectTime(this.stopwatches);
-    });
-  }
+  const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
+    data: stopwatchItem
+  });
 
-  loadProject() {
-    this._projectItemsClient.get(this.projectId).subscribe(result => {
-      if (!result)
-        return;
-
-      this.project = result;
-      this._timersService.project = result;
-      this._timersService.initialProjectTime();
-    });
-  }
-
-  onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
-    this.pauseTimer(stopwatchItem);
-
-    const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
-      data: stopwatchItem
-    });
-
-    dialogRef.afterClosed().subscribe((success: StopwatchItemDto) => {
-      if (success) {
-        this.loadStopwatches();
-      }
-    });
-  }
-
-  onOpenShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
-    const dialogRef = this._dialog.open(SplittedTimesListDialogComponent, {
-      data: stopwatch.splittedTimes,
-      panelClass: 'splitted-times-dialog'
-    });
-
-    const onDeleteSub = dialogRef.componentInstance.onDelete.subscribe(splittedTimes => {
-      stopwatch.splittedTimes = splittedTimes;
-      this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      onDeleteSub.unsubscribe();
-    });
-  }
-
-  deleteStopwatch(stopwatch: StopwatchItemDto) {
-    this._stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
+  dialogRef.afterClosed().subscribe((success: StopwatchItemDto) => {
+    if (success) {
       this.loadStopwatches();
-      this._timersService.delete(stopwatch.id);
-    });
-  }
+    }
+  });
+}
 
-  pauseTimer(stopwatch: StopwatchItemDto) {
-    this._timersService.pause(stopwatch);
-  }
+onOpenShowSplittedTimesDialog(stopwatch: StopwatchItemDto) {
+  const dialogRef = this._dialog.open(SplittedTimesListDialogComponent, {
+    data: stopwatch.splittedTimes,
+    panelClass: 'splitted-times-dialog'
+  });
 
-  restartTimer(stopwatch: StopwatchItemDto) {
-    this._timersService.restart(stopwatch);
-    this._timersService.calcAndUpdateProjectTime(this.stopwatches);
-  }
+  const onDeleteSub = dialogRef.componentInstance.onDelete.subscribe(splittedTimes => {
+    stopwatch.splittedTimes = splittedTimes;
+    this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+  });
 
-  startTimer(stopwatch: StopwatchItemDto) {
-    this._timersService.start(stopwatch);
-  }
+  dialogRef.afterClosed().subscribe(() => {
+    onDeleteSub.unsubscribe();
+  });
+}
 
-  async splitTimer(stopwatch: StopwatchItemDto) {
-    stopwatch.splittedTimes.push(new SplittedTime({
-      time: stopwatch.time
-    }));
+deleteStopwatch(stopwatch: StopwatchItemDto) {
+  this._stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
+    this.loadStopwatches();
+    this._timersService.delete(stopwatch.id);
+  });
+}
 
-    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
-  }
+pauseTimer(stopwatch: StopwatchItemDto) {
+  this._timersService.pause(stopwatch);
+}
 
-  onOpenChartDialog() {
-    this._dialog.open(ChartDialogComponent, {
-      data: this.paginatedListOfStopwatchItemDto.items,
-      panelClass: 'chart-dialog'
-    });
-  }
+restartTimer(stopwatch: StopwatchItemDto) {
+  this._timersService.restart(stopwatch);
+  this._timersService.calcAndUpdateProjectTime(this.stopwatches);
+}
 
-  async updatePagination(event: PageEvent) {
-    this.tryCleanSearchStopwatchCompontentInput();
+startTimer(stopwatch: StopwatchItemDto) {
+  this._timersService.start(stopwatch);
+}
 
-    this._timersService.clearAllIntervals();
+async splitTimer(stopwatch: StopwatchItemDto) {
+  stopwatch.splittedTimes.push(new SplittedTime({
+    time: stopwatch.time
+  }));
 
-    await this._localChangesHubService.saveStopwatchesChangesInDb();
+  await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+}
 
-    this.loadStopwatches(event.pageIndex + 1, event.pageSize);
-  }
+onOpenChartDialog() {
+  this._dialog.open(ChartDialogComponent, {
+    data: this.paginatedListOfStopwatchItemDto.items,
+    panelClass: 'chart-dialog'
+  });
+}
+
+async updatePagination(event: PageEvent) {
+  this.tryCleanSearchStopwatchCompontentInput();
+
+  this._timersService.clearAllIntervals();
+
+  await this._localChangesHubService.saveStopwatchesChangesInDb();
+
+  this.loadStopwatches(event.pageIndex + 1, event.pageSize);
+}
 }

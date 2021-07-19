@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "New Title",
                 Theme = "red",
                 Time = "50:00:00",
-                Status = "done"
+                Status = Status.Done
             };
 
             FluentActions.Invoking(() =>
@@ -54,7 +55,7 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "stopwatch2",
                 Theme = "red",
                 Time = "50:00:00",
-                Status = "done",
+                Status = Status.Done,
                 SplittedTimes = new List<SplittedTime>
                 {
                     new ("00:00:00"),

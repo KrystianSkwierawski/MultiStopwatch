@@ -55,7 +55,7 @@
                 <mat-icon>settings</mat-icon>
                 <span>Edit</span>
               </button>
-              <button *ngIf="project.status === 'doing'"
+              <button *ngIf="project.status === status.doing"
                       mat-menu-item
                       (click)="toggleDoneProject(project)"
                       aria-label="done">
@@ -98,7 +98,7 @@
             <p>{{project.title}}</p>
           </a>
 
-          <button *ngIf="project.status === 'done'"
+          <button *ngIf="project.status === status.done"
                   (click)="toggleDoneProject(project)"
                   aria-label="revert done status"
                   mat-button

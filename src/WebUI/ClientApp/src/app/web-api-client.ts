@@ -1506,7 +1506,7 @@ export class ProjectItemDto2 implements IProjectItemDto2 {
     isFavorite?: boolean;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
 
     constructor(data?: IProjectItemDto2) {
         if (data) {
@@ -1553,7 +1553,14 @@ export interface IProjectItemDto2 {
     isFavorite?: boolean;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
+}
+
+export enum Status {
+    None = 0,
+    Doing = 1,
+    Done = 2,
+    All = 3,
 }
 
 export class CreateProjectItemCommand implements ICreateProjectItemCommand {
@@ -1601,7 +1608,7 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
 
     constructor(data?: IUpdateProjectItemCommand) {
         if (data) {
@@ -1645,7 +1652,7 @@ export interface IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
 }
 
 export class PaginatedListOfStopwatchItemDto implements IPaginatedListOfStopwatchItemDto {
@@ -1723,7 +1730,7 @@ export class StopwatchItemDto implements IStopwatchItemDto {
     projectItemId?: number;
     theme?: string | undefined;
     isStarted?: boolean;
-    status?: string | undefined;
+    status?: Status;
     splittedTimes?: SplittedTime[] | undefined;
 
     constructor(data?: IStopwatchItemDto) {
@@ -1784,7 +1791,7 @@ export interface IStopwatchItemDto {
     projectItemId?: number;
     theme?: string | undefined;
     isStarted?: boolean;
-    status?: string | undefined;
+    status?: Status;
     splittedTimes?: SplittedTime[] | undefined;
 }
 
@@ -1898,7 +1905,7 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
     splittedTimes?: SplittedTime[] | undefined;
 
     constructor(data?: IUpdateStopwatchItemCommand) {
@@ -1953,7 +1960,7 @@ export interface IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
-    status?: string | undefined;
+    status?: Status;
     splittedTimes?: SplittedTime[] | undefined;
 }
 

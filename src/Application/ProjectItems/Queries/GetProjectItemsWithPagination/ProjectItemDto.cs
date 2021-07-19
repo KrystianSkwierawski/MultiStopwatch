@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Project.Application.Common.Mappings;
 
 namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
@@ -10,7 +11,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
         public bool IsFavorite { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
     }
 }

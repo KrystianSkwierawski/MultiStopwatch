@@ -44,8 +44,8 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
@@ -85,8 +85,8 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<int>("ProjectItemId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");

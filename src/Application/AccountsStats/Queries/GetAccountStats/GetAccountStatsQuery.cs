@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Project.Application.Common.Interfaces;
 using System;
@@ -32,16 +33,16 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
                 return new AccountStatsDto
                 {
                     TotalTimeInSeconds = GetTotalProjectsSeconds(projectItems),
-                    TotalTimeInSecondsFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == "done")),
-                    TotalTimeInSecondsNotFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == "doing")),
+                    TotalTimeInSecondsFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == Status.Done)),
+                    TotalTimeInSecondsNotFinished = GetTotalProjectsSeconds(projectItems.Where(x => x.Status == Status.Doing)),
 
                     TotalNumberOfProjects = projectItems.Count(),
-                    TotalNumberOfFinishedProjects = projectItems.Where(x => x.Status == "done").Count(),
-                    TotalNumberOfNotFinishedProjects = projectItems.Where(x => x.Status == "doing").Count(),
+                    TotalNumberOfFinishedProjects = projectItems.Where(x => x.Status == Status.Done).Count(),
+                    TotalNumberOfNotFinishedProjects = projectItems.Where(x => x.Status == Status.Doing).Count(),
 
                     TotalNumberOfStopwatches = stopwatchItems.Count(),
-                    TotalNumberOfFinishedStopwatches = stopwatchItems.Where(x => x.Status == "done").Count(),
-                    TotalNumberOfNotFinishedStopwatches = stopwatchItems.Where(x => x.Status == "doing").Count()
+                    TotalNumberOfFinishedStopwatches = stopwatchItems.Where(x => x.Status == Status.Done).Count(),
+                    TotalNumberOfNotFinishedStopwatches = stopwatchItems.Where(x => x.Status == Status.Doing).Count()
                 };
             }
 

@@ -42,7 +42,7 @@
                 <mat-icon>settings</mat-icon>
                 <span>Edit</span>
               </button>
-              <button *ngIf="stopwatch.status === 'doing'"
+              <button *ngIf="stopwatch.status === status.doing"
                       mat-menu-item
                       (click)="toggleDoneStopwatch(stopwatch)"
                       aria-label="done">
@@ -77,7 +77,7 @@
           <p>{{stopwatch.title}}</p>
         </div>
 
-        <div *ngIf="stopwatch.status === 'doing'" class="stopwatch__bottom">
+        <div *ngIf="stopwatch.status === status.doing" class="stopwatch__bottom">
           <button mat-icon-button
                   matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)"
@@ -116,7 +116,7 @@
 
         </div>
 
-        <div *ngIf="stopwatch.status === 'done'" class="stopwatch__bottom">
+        <div *ngIf="stopwatch.status === status.done" class="stopwatch__bottom">
           <button (click)="toggleDoneStopwatch(stopwatch)"
                   aria-label="revert done status"
                   mat-button
