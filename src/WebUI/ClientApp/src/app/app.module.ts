@@ -32,7 +32,7 @@ import { ShortenPipe } from './shared/pipes/shorten.pipe';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
 import { ApplicationComponent } from './application/application.component';
-import { ItemStatusSelectorComponent } from './shared/utilities/item-status-selector/item-status-selector.component';
+import { ItemStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
 
 
 @NgModule({

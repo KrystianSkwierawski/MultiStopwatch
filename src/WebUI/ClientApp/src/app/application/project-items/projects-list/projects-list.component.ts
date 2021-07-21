@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
+import { ItemsStatusService } from '../../../shared/services/items-status-selector/items-status-selector.service';
 import { ProjectsDataService } from '../../../shared/services/projects-data/projects-data-service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { Status, FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto, ProjectItemDto2, ProjectItemsClient, UpdateProjectItemCommand } from '../../../web-api-client';
+import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto2, ProjectItemsClient, Status, UpdateProjectItemCommand } from '../../../web-api-client';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
@@ -24,12 +24,14 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
   @ViewChild('paginator') paginator: MatPaginator;
-        
+
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   paginatedListOfProjectItemDtoSub: Subscription;
 
   projects: ProjectItemDto2[];
   titlesArray: string[];
+  currentStatusSub: Subscription;
+
 
   status = {
     doing: Status.Doing,
@@ -43,29 +45,10 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private _projectsDataService: ProjectsDataService,
     private _authService: AuthenticationService,
-    private _router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _servicesService: ItemsStatusService
   ) { }
 
   ngOnInit() {
-    this.initItemsStatus();
-
-    this._router.events.subscribe(event => {
-      if (event instanceof ActivationEnd) {
-        let status: Status = +event.snapshot.queryParams["items"];
-
-        if (isNaN(status))
-          status = Status.Doing;
-
-        if (status === this.itemsStatus)
-          return;
-
-        this.itemsStatus = status;
-
-        this.filterProjectsByStatus();
-      }
-    });
-
     this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
       if (!result.items)
         return;
@@ -77,15 +60,11 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
 
     this.loadProjectsAfterAuthenticate();
-  }
 
-  initItemsStatus() {
-    let status: Status = +this._activatedRoute.snapshot.queryParams['items'];
-
-    if (isNaN(status))
-      status = Status.Doing;
-
-    this.itemsStatus = status;
+    this.currentStatusSub = this._servicesService.currentStatus.subscribe(status => {
+      this.itemsStatus = status;
+      this.filterProjectsByStatus();
+    });
   }
 
   loadProjectsAfterAuthenticate() {
@@ -193,6 +172,8 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   getProjectsFilteredByStatus(items: ProjectItemDto2[]) {
+    if (!this.itemsStatus)
+      this._servicesService.initItemsStatus();
 
     if (this.itemsStatus === Status.All) {
       return items;
@@ -207,6 +188,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paginatedListOfProjectItemDtoSub.unsubscribe();
+    this.currentStatusSub.unsubscribe();
   }
 }
 

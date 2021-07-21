@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ItemsStatusService } from '../../../shared/services/items-status-selector/items-status-selector.service';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { defaultTime } from '../../../shared/services/timer/Timer';
 import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
-import { ItemStatusSelectorComponent } from '../../../shared/utilities/item-status-selector/item-status-selector.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand, Status } from '../../../web-api-client';
+import { PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, Status, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -19,7 +20,7 @@ import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stop
   templateUrl: './stopwatches-list.component.html',
   styleUrls: ['./stopwatches-list.component.scss']
 })
-export class StopwatchesListComponent implements OnInit {
+export class StopwatchesListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -30,6 +31,7 @@ export class StopwatchesListComponent implements OnInit {
   projectId: number;
   titlesArray: string[];
   itemsStatus: Status;
+  currentStatusSub: Subscription;
 
   status = {
     doing: Status.Doing,
@@ -38,47 +40,27 @@ export class StopwatchesListComponent implements OnInit {
 
   constructor(private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
-
     private _stopwatchItemsClient: StopwatchItemsClient,
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
-    private _localChangesHubService: LocalChangesHubService) {
+    private _localChangesHubService: LocalChangesHubService,
+    private _servicesService: ItemsStatusService) {
   }
 
   initProjectId() {
     this.projectId = this._activatedRoute.snapshot.params['id'];
   }
 
-  initItemsStatus() {
-    let status: Status = +this._activatedRoute.snapshot.queryParams['items'];
-
-    if (isNaN(status))
-      status = Status.Doing;
-
-    this.itemsStatus = status;
-  }
-
   ngOnInit(): void {
-    this.initItemsStatus();
-
-    this._router.events.subscribe(event => {
-      if (event instanceof ActivationEnd) {
-        let status: Status = +event.snapshot.queryParams["items"];
-
-        if (isNaN(status))
-          status = Status.Doing;
-
-        this.itemsStatus = status;
-
-        this.filterStopwatchesByStatus();
-      }
-    });
-
     this.initProjectId();
 
     this.loadProject();
     this.loadStopwatches();
+
+    this.currentStatusSub = this._servicesService.currentStatus.subscribe(status => {
+      this.itemsStatus = status;
+      this.filterStopwatchesByStatus();
+    });
   }
 
   onOpenCreateStopwatchDialog(): void {
@@ -107,6 +89,9 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   getStopwatchesFilteredByStatus(items: StopwatchItemDto[]) {
+    if (!this.itemsStatus)
+      this._servicesService.initItemsStatus();
+
 
     if (this.itemsStatus === Status.All) {
       return items;
@@ -252,5 +237,9 @@ export class StopwatchesListComponent implements OnInit {
     await this._localChangesHubService.saveStopwatchesChangesInDb();
 
     this.loadStopwatches(event.pageIndex + 1, event.pageSize);
+  }
+
+  ngOnDestroy(): void {
+    this.currentStatusSub.unsubscribe();
   }
 }
