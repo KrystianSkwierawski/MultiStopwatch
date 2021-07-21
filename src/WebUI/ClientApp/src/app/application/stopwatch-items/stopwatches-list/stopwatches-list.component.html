@@ -127,7 +127,8 @@
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
+    <app-paginator #paginator
+                   [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
                    [pageSize]="paginatedListOfStopwatchItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>

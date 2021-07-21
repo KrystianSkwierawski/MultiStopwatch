@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { defaultTime } from '../../../shared/services/timer/Timer';
@@ -22,6 +22,7 @@ import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stop
 export class StopwatchesListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
+  @ViewChild('paginator') paginator: MatPaginator;
 
   paginatedListOfStopwatchItemDto: PaginatedListOfStopwatchItemDto;
   stopwatches: StopwatchItemDto[];
@@ -162,7 +163,8 @@ export class StopwatchesListComponent implements OnInit {
 
       this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
 
-      this.filterTitlesArray();    
+      this.filterTitlesArray();
+      this.paginator.pageIndex = 0;
     });
   }
 

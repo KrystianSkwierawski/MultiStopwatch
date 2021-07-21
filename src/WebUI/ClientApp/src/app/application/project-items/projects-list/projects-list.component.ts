@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -23,7 +23,8 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 export class ProjectsListComponent implements OnInit, OnDestroy {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-         
+  @ViewChild('paginator') paginator: MatPaginator;
+        
   paginatedListOfProjectItemDto: PaginatedListOfProjectItemDto;
   paginatedListOfProjectItemDtoSub: Subscription;
 
@@ -72,6 +73,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
       this.paginatedListOfProjectItemDto = result;
       this.projects = this.getProjectsFilteredByStatus(result.items);
       this.filterTitlesArray();
+      this.paginator.pageIndex = 0;
     });
 
     this.loadProjectsAfterAuthenticate();

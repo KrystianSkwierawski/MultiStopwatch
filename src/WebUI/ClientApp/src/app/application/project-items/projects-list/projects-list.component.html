@@ -110,7 +110,8 @@
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfProjectItemDto?.totalCount"
+    <app-paginator #paginator
+                   [totalCount]="paginatedListOfProjectItemDto?.totalCount"
                    [pageSize]="paginatedListOfProjectItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>
