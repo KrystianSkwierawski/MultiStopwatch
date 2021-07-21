@@ -15,21 +15,21 @@ export class Time {
 }
 
 export function timeToHHMMSS(time: Time): string {
-  const totalSeconds: number = calcTotalSeconds(time.hours, time.minutes, time.seconds);
-  return toHHMMSS(totalSeconds);
+  const totalSeconds: number = calcTotalSeconds(time);
+  return TotalSecondsToHHMMSSTotalSecondsToHHMMSS(totalSeconds);
 }
 
-export function calcTotalSeconds(hours: number, minutes: number, seconds: number): number {
+export function calcTotalSeconds(time: Time): number {
   let o_totalSeconds: number = 0;
 
-  o_totalSeconds += hours * 3600;
-  o_totalSeconds += minutes * 60;
-  o_totalSeconds += seconds;
+  o_totalSeconds += time.hours * 3600;
+  o_totalSeconds += time.minutes * 60;
+  o_totalSeconds += time.seconds;
 
   return o_totalSeconds;
 }
 
-function toHHMMSS(secs) {
+function TotalSecondsToHHMMSSTotalSecondsToHHMMSS(secs) {
   const sec_num = parseInt(secs, 10);
   const hours = Math.floor(sec_num / 3600);
   const minutes = Math.floor(sec_num / 60) % 60;

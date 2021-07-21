@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
+import { defaultTime } from '../../../shared/services/timer/Timer';
 import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -125,6 +126,7 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
+        this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
         this._timersService.clearAllIntervals();
         await this._localChangesHubService.saveStopwatchesChangesInDb();
         this.deleteStopwatch(stopwatch);
@@ -160,9 +162,7 @@ export class StopwatchesListComponent implements OnInit {
 
       this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
 
-      this.filterTitlesArray();
-
-     this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto?.items);
+      this.filterTitlesArray();    
     });
   }
 
@@ -179,6 +179,7 @@ export class StopwatchesListComponent implements OnInit {
 
   onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
     this.pauseTimer(stopwatchItem);
+    const previousTime: string = stopwatchItem.time;
 
     const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
       data: stopwatchItem
@@ -187,7 +188,7 @@ export class StopwatchesListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (stopwatch: StopwatchItemDto) => {
       if (stopwatch) {
         await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
-       this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto?.items);
+        this._timersService.calcAndUpdateProjectTime(stopwatch.time, previousTime);
       }
     });
   }
@@ -220,8 +221,8 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   restartTimer(stopwatch: StopwatchItemDto) {
+    this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
     this._timersService.restart(stopwatch);
-   this._timersService.calcAndUpdateProjectTime(this.paginatedListOfStopwatchItemDto?.items);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {

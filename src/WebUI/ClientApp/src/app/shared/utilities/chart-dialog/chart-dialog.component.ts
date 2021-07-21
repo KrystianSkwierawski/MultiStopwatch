@@ -77,7 +77,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
 
     this.data.forEach(x => {
       const time: Time = new Time(x.time);
-      o_totalSeconds += calcTotalSeconds(time.hours, time.minutes, time.seconds);
+      o_totalSeconds += calcTotalSeconds(time);
     });
 
     return o_totalSeconds;
@@ -85,7 +85,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
 
   calcItemTotalSeconds(timeString: string) {
     const time: Time = new Time(timeString);
-    return calcTotalSeconds(time.hours, time.minutes, time.seconds);
+    return calcTotalSeconds(time);
   }
 
   addCanvasJsScript() {
