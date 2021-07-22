@@ -18,10 +18,11 @@
   </button>
 </div>
 
-<app-item-status-selector *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
-                          [status]="itemsStatus">
+<app-items-status-selector (onStatusChanged)="filterProjectsByStatus($event)"
+                           *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
+                           [status]="itemsStatus">
 
-</app-item-status-selector>
+</app-items-status-selector>
 
 
 <app-generic-list [list]="projects">

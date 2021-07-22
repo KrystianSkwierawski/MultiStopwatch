@@ -32,7 +32,7 @@ import { ShortenPipe } from './shared/pipes/shorten.pipe';
 import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
 import { ApplicationComponent } from './application/application.component';
-import { ItemStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
+import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
 
 
 @NgModule({
@@ -61,7 +61,7 @@ import { ItemStatusSelectorComponent } from './shared/utilities/items-status-sel
     RegisterDialogComponent,
     SocialAuthenticationsComponent,
     ApplicationComponent,
-    ItemStatusSelectorComponent
+    ItemsStatusSelectorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

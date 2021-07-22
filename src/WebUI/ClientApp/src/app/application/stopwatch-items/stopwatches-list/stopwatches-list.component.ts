@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ItemsStatusService } from '../../../shared/services/items-status-selector/items-status-selector.service';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { defaultTime } from '../../../shared/services/timer/Timer';
 import { TimersService } from '../../../shared/services/timer/timers.service';
@@ -18,9 +17,10 @@ import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stop
 @Component({
   selector: 'app-stopwatches-list',
   templateUrl: './stopwatches-list.component.html',
-  styleUrls: ['./stopwatches-list.component.scss']
+  styleUrls: ['./stopwatches-list.component.scss'],
+
 })
-export class StopwatchesListComponent implements OnInit, OnDestroy {
+export class StopwatchesListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -30,8 +30,7 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
   project: ProjectItemDto;
   projectId: number;
   titlesArray: string[];
-  itemsStatus: Status;
-  currentStatusSub: Subscription;
+  itemsStatus: Status = Status.Doing;
 
   status = {
     doing: Status.Doing,
@@ -44,7 +43,7 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
     private _localChangesHubService: LocalChangesHubService,
-    private _servicesService: ItemsStatusService) {
+    ) {
   }
 
   initProjectId() {
@@ -56,11 +55,6 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
 
     this.loadProject();
     this.loadStopwatches();
-
-    this.currentStatusSub = this._servicesService.currentStatus.subscribe(status => {
-      this.itemsStatus = status;
-      this.filterStopwatchesByStatus();
-    });
   }
 
   onOpenCreateStopwatchDialog(): void {
@@ -89,9 +83,6 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
   }
 
   getStopwatchesFilteredByStatus(items: StopwatchItemDto[]) {
-    if (!this.itemsStatus)
-      this._servicesService.initItemsStatus();
-
 
     if (this.itemsStatus === Status.All) {
       return items;
@@ -100,7 +91,9 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
     return items.filter(x => x.status === this.itemsStatus);
   }
 
-  filterStopwatchesByStatus() {
+  filterStopwatchesByStatus(status: Status) {
+    this.itemsStatus = status;
+
     if (!this.paginatedListOfStopwatchItemDto.items)
       return
 
@@ -149,7 +142,9 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
       this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
 
       this.filterTitlesArray();
-      this.paginator.pageIndex = 0;
+
+      if (this.paginator)
+        this.paginator.pageIndex = 0;
     });
   }
 
@@ -237,9 +232,5 @@ export class StopwatchesListComponent implements OnInit, OnDestroy {
     await this._localChangesHubService.saveStopwatchesChangesInDb();
 
     this.loadStopwatches(event.pageIndex + 1, event.pageSize);
-  }
-
-  ngOnDestroy(): void {
-    this.currentStatusSub.unsubscribe();
   }
 }

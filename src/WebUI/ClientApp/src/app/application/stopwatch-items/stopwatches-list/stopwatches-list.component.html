@@ -16,10 +16,11 @@
   <i class="fas fa-chart-pie"></i>
 </button>
 
-<app-item-status-selector *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
-                          [status]="itemsStatus">
+<app-items-status-selector (onStatusChanged)="filterStopwatchesByStatus($event)"
+                           *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
+                           [status]="itemsStatus">
 
-</app-item-status-selector>
+</app-items-status-selector>
 
 
 <app-generic-list [list]="stopwatches">

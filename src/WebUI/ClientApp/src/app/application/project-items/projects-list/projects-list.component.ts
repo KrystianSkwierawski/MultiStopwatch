@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
-import { ItemsStatusService } from '../../../shared/services/items-status-selector/items-status-selector.service';
 import { ProjectsDataService } from '../../../shared/services/projects-data/projects-data-service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -18,7 +17,7 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 @Component({
   selector: 'app-projects-list',
   templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.scss']
+  styleUrls: ['./projects-list.component.scss'],
 })
 export class ProjectsListComponent implements OnInit, OnDestroy {
 
@@ -30,22 +29,19 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
   projects: ProjectItemDto2[];
   titlesArray: string[];
-  currentStatusSub: Subscription;
-
 
   status = {
     doing: Status.Doing,
     done: Status.Done,
   }
 
-  itemsStatus: Status;
+  itemsStatus: Status = Status.Doing;
 
   constructor(private _dialog: MatDialog,
     private _projectItemsClient: ProjectItemsClient,
     private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
     private _projectsDataService: ProjectsDataService,
     private _authService: AuthenticationService,
-    private _servicesService: ItemsStatusService
   ) { }
 
   ngOnInit() {
@@ -56,15 +52,12 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
       this.paginatedListOfProjectItemDto = result;
       this.projects = this.getProjectsFilteredByStatus(result.items);
       this.filterTitlesArray();
-      this.paginator.pageIndex = 0;
+
+      if (this.paginator)
+        this.paginator.pageIndex = 0;
     });
 
-    this.loadProjectsAfterAuthenticate();
-
-    this.currentStatusSub = this._servicesService.currentStatus.subscribe(status => {
-      this.itemsStatus = status;
-      this.filterProjectsByStatus();
-    });
+    this.loadProjectsAfterAuthenticate(); 
   }
 
   loadProjectsAfterAuthenticate() {
@@ -164,7 +157,9 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  filterProjectsByStatus() {
+  filterProjectsByStatus(status: Status) {
+    this.itemsStatus = status;
+
     if (!this.paginatedListOfProjectItemDto.items)
       return
 
@@ -172,8 +167,6 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   }
 
   getProjectsFilteredByStatus(items: ProjectItemDto2[]) {
-    if (!this.itemsStatus)
-      this._servicesService.initItemsStatus();
 
     if (this.itemsStatus === Status.All) {
       return items;
@@ -188,7 +181,6 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.paginatedListOfProjectItemDtoSub.unsubscribe();
-    this.currentStatusSub.unsubscribe();
   }
 }
 

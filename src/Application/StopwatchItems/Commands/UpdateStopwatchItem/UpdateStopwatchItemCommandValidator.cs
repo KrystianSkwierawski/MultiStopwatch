@@ -19,7 +19,8 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
              .NotEmpty().WithMessage("Theme is required.");
 
             RuleFor(v => v.Status)
-            .NotNull().WithMessage("Status is required.");
+            .NotNull().WithMessage("Status is required.")
+            .NotEqual(Status.None);
 
             RuleFor(v => v.Time)
                 .NotEmpty().WithMessage("Time is required.")
