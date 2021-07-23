@@ -64,7 +64,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   isDesktopDevice() {
-    return (window.innerWidth > 768) ? true : false;
+    return window.innerWidth > 768;
   }
 
   toggleContent_disabledScrolling() {
