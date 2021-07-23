@@ -1,3 +1,4 @@
+
 <div [ngClass]="(!menuIsActivated) ? 'side-menu_closed' : ''" class="side-menu">
 
   <button mat-icon-button
@@ -12,9 +13,11 @@
 
   <div class="side-menu-content">
     <a class="side-menu-content__home-link text-center my-3" [routerLink]='["/"]'>
-      <img src="../../../assets/img/logo.svg" alt="logo"/>
+      <img src="../../../assets/img/logo.svg" alt="logo" />
       <p> MultiStopwatch</p>
     </a>
+
+    <a *ngIf="isStopwatchesPath()" [routerLink]="['app']" mat-button class="text-center text-white">Back to projects <i class="fas fa-long-arrow-alt-left"></i></a>
 
     <button mat-raised-button
             class="show-pert-calculator-dialog-button"
@@ -36,4 +39,5 @@
     </div>
   </div>
 </div>
+
 

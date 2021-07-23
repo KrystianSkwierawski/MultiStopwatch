@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +15,11 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
         public string Title { get; set; }
         public string Time { get; set; }
         public string Theme { get; set; }
+<<<<<<< HEAD
         public string Status { get; set; }
+=======
+        public Status Status { get; set; }
+>>>>>>> master
 
         public class UpdateProjectItemCommandHandler : IRequestHandler<UpdateProjectItemCommand>
         {
@@ -37,6 +43,16 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
                 entity.Status = request.Status;
+<<<<<<< HEAD
+=======
+
+                if (request.Status == Status.Done)
+                {
+                    _context.StopWatchItems.Where(x => x.ProjectItemId == request.Id)
+                        .ToList()
+                        .ForEach(c => c.Status = request.Status);
+                }
+>>>>>>> master
 
                 await _context.SaveChangesAsync(cancellationToken);
 

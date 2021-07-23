@@ -87,7 +87,7 @@ namespace Project.WebUI.Controllers
             var facebookAuthCheck = await GetFacebookAuthCheck(authToken);
 
             if (facebookAuthCheck is null)
-                return BadRequest();
+                return StatusCode(424);
 
             string facebookAuthCheckName = facebookAuthCheck["name"]?.Value<string>();
             string facebookAuthCheckId = facebookAuthCheck["id"]?.Value<string>();

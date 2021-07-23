@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
+using Domain.ValueObjects;
 using Project.Application.Common.Mappings;
-using Project.Application.SplittedTimes.Commands.CreateSplittedTime;
 using System.Collections.Generic;
 
 namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagination
@@ -10,7 +11,7 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
     {
         public StopwatchItemDto()
         {
-            SplittedTimes = new List<SplittedTimeDto>();
+            SplittedTimes = new List<SplittedTime>();
         }
 
         public int Id { get; set; }
@@ -19,8 +20,13 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
         public int ProjectItemId { get; set; }
         public string Theme { get; set; }
         public bool IsStarted { get; set; }
+<<<<<<< HEAD
         public string Status { get; set; }
         public IList<SplittedTimeDto> SplittedTimes { get; set; }
+=======
+        public Status Status { get; set; }
+        public IList<SplittedTime> SplittedTimes { get; set; }
+>>>>>>> master
 
         public void Mapping(Profile profile)
         {

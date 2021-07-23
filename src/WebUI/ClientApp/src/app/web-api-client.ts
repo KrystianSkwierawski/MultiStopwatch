@@ -816,126 +816,6 @@ export class ProjectItemsClient implements IProjectItemsClient {
     }
 }
 
-export interface ISplittedtimesClient {
-    create(command: CreateSplittedTimeCommand): Observable<SplittedTimeDto>;
-    delete(id: number): Observable<FileResponse>;
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class SplittedtimesClient implements ISplittedtimesClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    create(command: CreateSplittedTimeCommand): Observable<SplittedTimeDto> {
-        let url_ = this.baseUrl + "/api/Splittedtimes";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(command);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<SplittedTimeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<SplittedTimeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<SplittedTimeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = SplittedTimeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SplittedTimeDto>(<any>null);
-    }
-
-    delete(id: number): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/Splittedtimes/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
-    }
-}
-
 export interface IStopwatchItemsClient {
     getWithPagination(projectId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfStopwatchItemDto>;
     create(command: CreateStopwatchItemCommand): Observable<number>;
@@ -1626,7 +1506,11 @@ export class ProjectItemDto2 implements IProjectItemDto2 {
     isFavorite?: boolean;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
+=======
+    status?: Status;
+>>>>>>> master
 
     constructor(data?: IProjectItemDto2) {
         if (data) {
@@ -1673,7 +1557,18 @@ export interface IProjectItemDto2 {
     isFavorite?: boolean;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
+=======
+    status?: Status;
+}
+
+export enum Status {
+    None = 0,
+    Doing = 1,
+    Done = 2,
+    All = 3,
+>>>>>>> master
 }
 
 export class CreateProjectItemCommand implements ICreateProjectItemCommand {
@@ -1721,7 +1616,11 @@ export class UpdateProjectItemCommand implements IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
+=======
+    status?: Status;
+>>>>>>> master
 
     constructor(data?: IUpdateProjectItemCommand) {
         if (data) {
@@ -1765,6 +1664,7 @@ export interface IUpdateProjectItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
 }
 
@@ -1846,6 +1746,9 @@ export class CreateSplittedTimeCommand implements ICreateSplittedTimeCommand {
 export interface ICreateSplittedTimeCommand {
     stopwatchItemId?: number;
     time?: string | undefined;
+=======
+    status?: Status;
+>>>>>>> master
 }
 
 export class PaginatedListOfStopwatchItemDto implements IPaginatedListOfStopwatchItemDto {
@@ -1923,8 +1826,13 @@ export class StopwatchItemDto implements IStopwatchItemDto {
     projectItemId?: number;
     theme?: string | undefined;
     isStarted?: boolean;
+<<<<<<< HEAD
     status?: string | undefined;
     splittedTimes?: SplittedTimeDto[] | undefined;
+=======
+    status?: Status;
+    splittedTimes?: SplittedTime[] | undefined;
+>>>>>>> master
 
     constructor(data?: IStopwatchItemDto) {
         if (data) {
@@ -1947,7 +1855,7 @@ export class StopwatchItemDto implements IStopwatchItemDto {
             if (Array.isArray(_data["splittedTimes"])) {
                 this.splittedTimes = [] as any;
                 for (let item of _data["splittedTimes"])
-                    this.splittedTimes!.push(SplittedTimeDto.fromJS(item));
+                    this.splittedTimes!.push(SplittedTime.fromJS(item));
             }
         }
     }
@@ -1984,8 +1892,74 @@ export interface IStopwatchItemDto {
     projectItemId?: number;
     theme?: string | undefined;
     isStarted?: boolean;
+<<<<<<< HEAD
     status?: string | undefined;
     splittedTimes?: SplittedTimeDto[] | undefined;
+=======
+    status?: Status;
+    splittedTimes?: SplittedTime[] | undefined;
+}
+
+export abstract class ValueObject implements IValueObject {
+
+    constructor(data?: IValueObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): ValueObject {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'ValueObject' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IValueObject {
+}
+
+export class SplittedTime extends ValueObject implements ISplittedTime {
+    time?: string | undefined;
+
+    constructor(data?: ISplittedTime) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.time = _data["time"];
+        }
+    }
+
+    static fromJS(data: any): SplittedTime {
+        data = typeof data === 'object' ? data : {};
+        let result = new SplittedTime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["time"] = this.time;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISplittedTime extends IValueObject {
+    time?: string | undefined;
+>>>>>>> master
 }
 
 export class CreateStopwatchItemCommand implements ICreateStopwatchItemCommand {
@@ -2037,7 +2011,12 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
+=======
+    status?: Status;
+    splittedTimes?: SplittedTime[] | undefined;
+>>>>>>> master
 
     constructor(data?: IUpdateStopwatchItemCommand) {
         if (data) {
@@ -2055,6 +2034,14 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
             this.time = _data["time"];
             this.theme = _data["theme"];
             this.status = _data["status"];
+<<<<<<< HEAD
+=======
+            if (Array.isArray(_data["splittedTimes"])) {
+                this.splittedTimes = [] as any;
+                for (let item of _data["splittedTimes"])
+                    this.splittedTimes!.push(SplittedTime.fromJS(item));
+            }
+>>>>>>> master
         }
     }
 
@@ -2072,6 +2059,14 @@ export class UpdateStopwatchItemCommand implements IUpdateStopwatchItemCommand {
         data["time"] = this.time;
         data["theme"] = this.theme;
         data["status"] = this.status;
+<<<<<<< HEAD
+=======
+        if (Array.isArray(this.splittedTimes)) {
+            data["splittedTimes"] = [];
+            for (let item of this.splittedTimes)
+                data["splittedTimes"].push(item.toJSON());
+        }
+>>>>>>> master
         return data; 
     }
 }
@@ -2081,7 +2076,12 @@ export interface IUpdateStopwatchItemCommand {
     title?: string | undefined;
     time?: string | undefined;
     theme?: string | undefined;
+<<<<<<< HEAD
     status?: string | undefined;
+=======
+    status?: Status;
+    splittedTimes?: SplittedTime[] | undefined;
+>>>>>>> master
 }
 
 export interface FileResponse {

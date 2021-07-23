@@ -3,7 +3,7 @@
 <button (click)="onOpenCreateStopwatchDialog()" class="add-new-stopwatch-button" aria-label="open create stopwatch dialog"><i class="fas fa-plus"></i></button>
 
 <app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
-                          (onKeyUp)="filterStopwatches($event)"
+                          (onKeyUp)="filterStopwatchesByTitle($event)"
                           [options]="titlesArray">
 </app-search-item-by-title>
 
@@ -16,10 +16,16 @@
   <i class="fas fa-chart-pie"></i>
 </button>
 
+<<<<<<< HEAD
 <app-item-status-selector *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
                           [status]="itemsStatus">
+=======
+<app-items-status-selector (onStatusChanged)="filterStopwatchesByStatus($event)"
+                           *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
+                           [status]="itemsStatus">
+>>>>>>> master
 
-</app-item-status-selector>
+</app-items-status-selector>
 
 
 <app-generic-list [list]="stopwatches">
@@ -42,7 +48,11 @@
                 <mat-icon>settings</mat-icon>
                 <span>Edit</span>
               </button>
+<<<<<<< HEAD
               <button *ngIf="!stopwatch.status"
+=======
+              <button *ngIf="stopwatch.status === status.doing"
+>>>>>>> master
                       mat-menu-item
                       (click)="toggleDoneStopwatch(stopwatch)"
                       aria-label="done">
@@ -77,7 +87,11 @@
           <p>{{stopwatch.title}}</p>
         </div>
 
+<<<<<<< HEAD
         <div *ngIf="!stopwatch.status" class="stopwatch__bottom">
+=======
+        <div *ngIf="stopwatch.status === status.doing" class="stopwatch__bottom">
+>>>>>>> master
           <button mat-icon-button
                   matTooltip="Reset timer"
                   (click)="restartTimer(stopwatch)"
@@ -116,7 +130,11 @@
 
         </div>
 
+<<<<<<< HEAD
         <div *ngIf="stopwatch.status" class="stopwatch__bottom">
+=======
+        <div *ngIf="stopwatch.status === status.done" class="stopwatch__bottom">
+>>>>>>> master
           <button (click)="toggleDoneStopwatch(stopwatch)"
                   aria-label="revert done status"
                   mat-button
@@ -127,7 +145,8 @@
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
+    <app-paginator #paginator
+                   [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
                    [pageSize]="paginatedListOfStopwatchItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>

@@ -1,10 +1,14 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
+using Domain.ValueObjects;
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
 using Project.Application.ProjectItems.Commands.CreateProjectItem;
 using Project.Application.StopwatchItems.Commands.CreateStopwatchItem;
 using Project.Application.StopwatchItems.Commands.UpdateStopwatchItem;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.Application.IntegrationTests.StopwatchItems.Commands
@@ -21,7 +25,11 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "New Title",
                 Theme = "red",
                 Time = "50:00:00",
+<<<<<<< HEAD
                 Status = "done"
+=======
+                Status = Status.Done
+>>>>>>> master
             };
 
             FluentActions.Invoking(() =>
@@ -51,7 +59,16 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
                 Title = "stopwatch2",
                 Theme = "red",
                 Time = "50:00:00",
+<<<<<<< HEAD
                 Status = "done"
+=======
+                Status = Status.Done,
+                SplittedTimes = new List<SplittedTime>
+                {
+                    new ("00:00:00"),
+                    new ("00:00:00")
+                }
+>>>>>>> master
             };
 
             //Act
@@ -64,6 +81,13 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Commands
             result.Theme.Should().Be(command.Theme);
             result.Time.Should().Be(command.Time);
             result.Status.Should().Be(command.Status);
+<<<<<<< HEAD
+=======
+
+            result.SplittedTimes.Count().Should().Be(
+                command.SplittedTimes.Count()
+                );
+>>>>>>> master
         }
     }
 }

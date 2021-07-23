@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.AccountsStats.Queries.GetAccountStats;
@@ -45,7 +46,11 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 Title = "project",
                 Theme = "violet",
                 Time = "00:00:10",
+<<<<<<< HEAD
                 Status = "doing"
+=======
+                Status = Status.Doing
+>>>>>>> master
             });
 
             ProjectItem projectItem = new()
@@ -53,7 +58,11 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 Title = "project",
                 Theme = "violet",
                 Time = "10:10:10",
+<<<<<<< HEAD
                 Status = "done"
+=======
+                Status = Status.Done
+>>>>>>> master
             };
             await AddAsync(projectItem);
 

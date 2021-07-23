@@ -4,7 +4,7 @@
   <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
   <app-search-item-by-title *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
-                            (onKeyUp)="filterProjects($event)"
+                            (onKeyUp)="filterProjectsByTitle($event)"
                             [options]="titlesArray">
   </app-search-item-by-title>
 
@@ -18,10 +18,12 @@
   </button>
 </div>
 
-<app-item-status-selector *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
-                          (onItemsStatusChanged)="filterProjectsByStatus($event)">
+<app-items-status-selector (onStatusChanged)="filterProjectsByStatus($event)"
+                           *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
+                           [status]="itemsStatus">
 
-</app-item-status-selector>
+</app-items-status-selector>
+
 
 <app-generic-list [list]="projects">
 
@@ -54,8 +56,9 @@
                 <mat-icon>settings</mat-icon>
                 <span>Edit</span>
               </button>
-              <button mat-menu-item
-                      (click)="doneProject(project.id)"
+              <button *ngIf="project.status === status.doing"
+                      mat-menu-item
+                      (click)="toggleDoneProject(project)"
                       aria-label="done">
                 <mat-icon class="text-success">done</mat-icon>
                 <span>Done</span>
@@ -95,11 +98,21 @@
             <i class="fas fa-folder"></i>
             <p>{{project.title}}</p>
           </a>
+
+          <button *ngIf="project.status === status.done"
+                  (click)="toggleDoneProject(project)"
+                  aria-label="revert done status"
+                  mat-button
+                  class="revert-done-status-button">
+            Revert done status
+          </button>
         </div>
+
       </div>
     </div>
 
-    <app-paginator [totalCount]="paginatedListOfProjectItemDto?.totalCount"
+    <app-paginator #paginator
+                   [totalCount]="paginatedListOfProjectItemDto?.totalCount"
                    [pageSize]="paginatedListOfProjectItemDto?.pageSize"
                    (onUpdatePagination)="updatePagination($event)">
     </app-paginator>

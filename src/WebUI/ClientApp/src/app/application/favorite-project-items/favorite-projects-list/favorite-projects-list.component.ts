@@ -68,9 +68,9 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
   handleLikeOrDislikeProjectButton(projectId: number) {
     this._favoriteProjectItemsClient.likeOrDislike(projectId).subscribe(() => {
 
-      const homePath = (this._router.url === '/') ? true : false;
+      const projectsCompontent = this._router.url.match(/app\/[0-9](?:items=1)?/gm);
 
-      if (homePath) {
+      if (projectsCompontent) {
         this._projectsDataService.loadData();
         return;
       }

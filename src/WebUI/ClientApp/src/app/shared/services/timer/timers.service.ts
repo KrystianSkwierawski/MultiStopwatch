@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ProjectItemDto, StopwatchItemDto } from '../../../web-api-client';
 import { LocalChangesHubService } from '../local-changes-hub/local-changes-hub.service';
-import { defaultTime, Time, timeToHHMMSS } from './Timer';
+import { calcTotalSeconds, defaultTime, Time, timeToHHMMSS } from './Timer';
 
 
 @Injectable({
@@ -58,24 +58,20 @@ export class TimersService implements OnInit {
     this.pause(stopwatch);
   }
 
-  async calcAndUpdateProjectTime(stopwatches: StopwatchItemDto[]) {
-    await this.calcTotalProjectTime(stopwatches);
+  async calcAndUpdateProjectTime(currentTimeString: string, previousTimeString?: string) {
+    await this.calcTotalProjectTime(currentTimeString, previousTimeString);
 
     await this.updateProjectViewAndStoreLocalChanges();
   }
 
-  async calcTotalProjectTime(stopwatches: StopwatchItemDto[]) {
-    this.totalProjectHours = 0;
-    this.totalProjectMinutes = 0;
-    this.totalProjectSeconds = 0;
+  async calcTotalProjectTime(currentTimeString: string, previousTimeString: string) {
+    const currentTime: Time = new Time(currentTimeString);
+    const previousTime: Time = new Time(previousTimeString);
 
-    stopwatches.forEach(stopwatch => {
-      const time: Time = new Time(stopwatch.time);
 
-      this.totalProjectHours += time.hours;
-      this.totalProjectMinutes += time.minutes;
-      this.totalProjectSeconds += time.seconds;
-    });
+    this.totalProjectHours += (currentTime.hours - previousTime.hours);
+    this.totalProjectMinutes += (currentTime.minutes - previousTime.minutes);
+    this.totalProjectSeconds += (currentTime.seconds - previousTime.seconds);
   }
 
   start(stopwatch: StopwatchItemDto) {

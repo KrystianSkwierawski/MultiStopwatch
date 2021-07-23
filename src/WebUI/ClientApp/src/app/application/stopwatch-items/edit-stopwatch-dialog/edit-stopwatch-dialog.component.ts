@@ -41,9 +41,7 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.stopwatchItem.time = form.time;
     this.stopwatchItem.theme = form.theme;
 
-    this._stopwatchItemsClient.update(UpdateStopwatchItemCommand.fromJS(this.stopwatchItem)).subscribe(() => {
-      this.closeDialog("success");
-    });
+    this.closeDialog(this.stopwatchItem);
   }
 
   getErrorMessageFieldTitle() {
@@ -80,7 +78,7 @@ export class EditStopwatchDialogComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  closeDialog(success?): void {
-    this._dialogRef.close(success);
+  closeDialog(stopwatch?): void {
+    this._dialogRef.close(stopwatch);
   }
 }

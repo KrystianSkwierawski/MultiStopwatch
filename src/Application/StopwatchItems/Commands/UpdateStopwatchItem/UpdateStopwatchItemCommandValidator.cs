@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Enums;
+using FluentValidation;
 using Project.Application.Common.Validators;
 
 namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
@@ -18,7 +19,12 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
              .NotEmpty().WithMessage("Theme is required.");
 
             RuleFor(v => v.Status)
+<<<<<<< HEAD
             .NotNull().WithMessage("Status is required.");
+=======
+            .NotNull().WithMessage("Status is required.")
+            .NotEqual(Status.None);
+>>>>>>> master
 
             RuleFor(v => v.Time)
                 .NotEmpty().WithMessage("Time is required.")

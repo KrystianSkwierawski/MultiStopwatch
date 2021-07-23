@@ -13,7 +13,7 @@ export const routes: Routes = [
     path: 'app', component: ApplicationComponent, canActivate: [AuthorizeGuard], children: [
       { path: '', component: ProjectsListComponent, canActivate: [AuthorizeGuard] },
       { path: 'project/:id', component: ProjectDetailsComponent, canActivate: [AuthorizeGuard] },
-      { path: '**', redirectTo: 'projects' }
+      { path: '**', redirectTo: '' }
     ]
   },
   { path: '**', redirectTo: '' }

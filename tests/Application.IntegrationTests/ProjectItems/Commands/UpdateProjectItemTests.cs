@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.Common.Exceptions;
@@ -20,7 +21,11 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Title = "New Title",
                 Theme = "violet",
                 Time = "10:10:10",
+<<<<<<< HEAD
                 Status = "done"
+=======
+                Status = Status.Done
+>>>>>>> master
             };
 
             FluentActions.Invoking(() =>
@@ -43,7 +48,11 @@ namespace Project.Application.IntegrationTests.ProjectItems.Commands
                 Title = "project2",
                 Theme = "red",
                 Time = "50:00:00",
+<<<<<<< HEAD
                 Status = "done"
+=======
+                Status = Status.Done
+>>>>>>> master
             };
 
             //Act

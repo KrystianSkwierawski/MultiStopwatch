@@ -12,13 +12,18 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
 
   constructor(private _dialogRef: MatDialogRef<ChartDialogComponent>,
     private _elementRef: ElementRef,
-    @Inject(MAT_DIALOG_DATA) public data: any[]) { }
+    @Inject(MAT_DIALOG_DATA) public stopwatches: any[]) { }
+
+  ngOnInit(): void {
+    
+  }
 
   ngAfterViewInit() {
     this.addCanvasJsScript();
+    this.renderChart();
   }
 
-  ngOnInit(): void {
+  renderChart() {
     var chart = new CanvasJS.Chart("chartContainer", {
       exportEnabled: true,
       animationEnabled: true,
@@ -49,7 +54,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   getDataPoints(): unknown[] {
     let o_dataPoints = [];
 
-    this.data.forEach(x => {
+    this.stopwatches.forEach(x => {
       const dataPoint = {
         y: this.getPercentage(x),
         name: x.title
@@ -75,9 +80,9 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   calcAllItemsTotalSeconds(): number {
     let o_totalSeconds: number = 0;
 
-    this.data.forEach(x => {
+    this.stopwatches.forEach(x => {
       const time: Time = new Time(x.time);
-      o_totalSeconds += calcTotalSeconds(time.hours, time.minutes, time.seconds);
+      o_totalSeconds += calcTotalSeconds(time);
     });
 
     return o_totalSeconds;
@@ -85,7 +90,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
 
   calcItemTotalSeconds(timeString: string) {
     const time: Time = new Time(timeString);
-    return calcTotalSeconds(time.hours, time.minutes, time.seconds);
+    return calcTotalSeconds(time);
   }
 
   addCanvasJsScript() {

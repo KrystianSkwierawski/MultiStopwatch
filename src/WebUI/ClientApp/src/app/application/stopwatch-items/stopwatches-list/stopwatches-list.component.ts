@@ -1,13 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+<<<<<<< HEAD
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+=======
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+>>>>>>> master
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
+import { defaultTime } from '../../../shared/services/timer/Timer';
 import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ChartDialogComponent } from '../../../shared/utilities/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
-import { CreateSplittedTimeCommand, PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTimeDto, SplittedtimesClient, StopwatchItemDto, StopwatchItemsClient, UpdateStopwatchItemCommand } from '../../../web-api-client';
+import { PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, Status, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -15,19 +22,29 @@ import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stop
 @Component({
   selector: 'app-stopwatches-list',
   templateUrl: './stopwatches-list.component.html',
-  styleUrls: ['./stopwatches-list.component.scss']
+  styleUrls: ['./stopwatches-list.component.scss'],
+
 })
 export class StopwatchesListComponent implements OnInit {
 
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
-
+  @ViewChild('paginator') paginator: MatPaginator;
 
   paginatedListOfStopwatchItemDto: PaginatedListOfStopwatchItemDto;
   stopwatches: StopwatchItemDto[];
   project: ProjectItemDto;
   projectId: number;
   titlesArray: string[];
+<<<<<<< HEAD
   itemsStatus: string = "doing";
+=======
+  itemsStatus: Status = Status.Doing;
+
+  status = {
+    doing: Status.Doing,
+    done: Status.Done,
+  }
+>>>>>>> master
 
   constructor(private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
@@ -35,14 +52,15 @@ export class StopwatchesListComponent implements OnInit {
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
     private _localChangesHubService: LocalChangesHubService,
-    private _splittedtimesClient: SplittedtimesClient) {
+    ) {
   }
 
-  setProjectId() {
+  initProjectId() {
     this.projectId = this._activatedRoute.snapshot.params['id'];
   }
 
   ngOnInit(): void {
+<<<<<<< HEAD
     this._activatedRoute.params.subscribe(params => {
       let status: string = params["itemsStatus"];
 
@@ -53,6 +71,9 @@ export class StopwatchesListComponent implements OnInit {
     });
 
     this.setProjectId();
+=======
+    this.initProjectId();
+>>>>>>> master
 
     this.loadProject();
     this.loadStopwatches();
@@ -65,7 +86,7 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (success: StopwatchItemDto) => {
       if (success) {
-        this.tryCleanSearchProjectCompontentInput();
+        this.tryCleanSearchStopwatchCompontentInput();
 
         this._timersService.clearAllIntervals();
 
@@ -76,19 +97,40 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  tryCleanSearchProjectCompontentInput() {
+  tryCleanSearchStopwatchCompontentInput() {
     if (this.searchProjectComponent) {
       this.searchProjectComponent.cleanInput();
+<<<<<<< HEAD
       this.itemsStatus = "doing";
+=======
+      this.itemsStatus = Status.Doing;
     }
   }
 
+  getStopwatchesFilteredByStatus(items: StopwatchItemDto[]) {
+
+    if (this.itemsStatus === Status.All) {
+      return items;
+>>>>>>> master
+    }
+
+    return items.filter(x => x.status === this.itemsStatus);
+  }
+
+<<<<<<< HEAD
   filterStopwatchesByStatus(status: string) {
     this.itemsStatus = status;
 
     this.stopwatches = this.paginatedListOfStopwatchItemDto.items.filter(x => x.status === this.itemsStatus);
+=======
+  filterStopwatchesByStatus(status: Status) {
+    this.itemsStatus = status;
 
-    this._timersService.calcAndUpdateProjectTime(this.stopwatches);
+    if (!this.paginatedListOfStopwatchItemDto.items)
+      return
+>>>>>>> master
+
+    this.stopwatches = this.getStopwatchesFilteredByStatus(this.paginatedListOfStopwatchItemDto.items);
   }
 
   onOpenConfirmDeleteDialog(stopwatch: StopwatchItemDto) {
@@ -96,6 +138,7 @@ export class StopwatchesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
+        this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
         this._timersService.clearAllIntervals();
         await this._localChangesHubService.saveStopwatchesChangesInDb();
         this.deleteStopwatch(stopwatch);
@@ -103,6 +146,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
     stopwatch.status = (stopwatch.status === "doing") ? "done" : "doing";
 
@@ -111,6 +155,15 @@ export class StopwatchesListComponent implements OnInit {
       this._timersService.delete(stopwatch.id);
       this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
     });
+=======
+  async toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
+    stopwatch.status = (stopwatch.status === Status.Doing) ? Status.Done : Status.Doing;
+
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+
+    if (this.itemsStatus !== Status.All)
+      this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
+>>>>>>> master
   }
 
   filterTitlesArray() {
@@ -119,24 +172,37 @@ export class StopwatchesListComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
   filterStopwatches(searchingTitle: string) {
     this.itemsStatus = null;
+=======
+  filterStopwatchesByTitle(title: string) {
+    this.itemsStatus = Status.All;
+>>>>>>> master
 
-    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(searchingTitle));
+    const filteredStopwatches: StopwatchItemDto[] = this.paginatedListOfStopwatchItemDto.items.filter(x => x.title.includes(title));
     this.stopwatches = filteredStopwatches;
+<<<<<<< HEAD
 
     this._timersService.calcAndUpdateProjectTime(this.stopwatches.filter(x => x.status === this.itemsStatus));
+=======
+>>>>>>> master
   }
 
   loadStopwatches(pageNumber: number = 1, pageSize: number = 50) {
     this._stopwatchItemsClient.getWithPagination(this.projectId, pageNumber, pageSize).subscribe(result => {
       this.paginatedListOfStopwatchItemDto = result;
 
+<<<<<<< HEAD
       this.stopwatches = result.items.filter(x => x.status === this.itemsStatus);
+=======
+      this.stopwatches = this.getStopwatchesFilteredByStatus(result.items);
+>>>>>>> master
 
       this.filterTitlesArray();
 
-      this._timersService.calcAndUpdateProjectTime(this.stopwatches);
+      if (this.paginator)
+        this.paginator.pageIndex = 0;
     });
   }
 
@@ -153,14 +219,16 @@ export class StopwatchesListComponent implements OnInit {
 
   onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
     this.pauseTimer(stopwatchItem);
+    const previousTime: string = stopwatchItem.time;
 
     const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
       data: stopwatchItem
     });
 
-    dialogRef.afterClosed().subscribe((success: StopwatchItemDto) => {
-      if (success) {
-        this.loadStopwatches();
+    dialogRef.afterClosed().subscribe(async (stopwatch: StopwatchItemDto) => {
+      if (stopwatch) {
+        await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+        this._timersService.calcAndUpdateProjectTime(stopwatch.time, previousTime);
       }
     });
   }
@@ -171,10 +239,13 @@ export class StopwatchesListComponent implements OnInit {
       panelClass: 'splitted-times-dialog'
     });
 
-    dialogRef.afterClosed().subscribe((result: SplittedTimeDto[]) => {
-      if (result) {
-        stopwatch.splittedTimes = result;
-      }
+    const onDeleteSub = dialogRef.componentInstance.onDelete.subscribe(splittedTimes => {
+      stopwatch.splittedTimes = splittedTimes;
+      this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      onDeleteSub.unsubscribe();
     });
   }
 
@@ -190,21 +261,20 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   restartTimer(stopwatch: StopwatchItemDto) {
+    this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
     this._timersService.restart(stopwatch);
-    this._timersService.calcAndUpdateProjectTime(this.stopwatches);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
     this._timersService.start(stopwatch);
   }
 
-  splitTimer(stopwatch: StopwatchItemDto) {
-    this._splittedtimesClient.create(<CreateSplittedTimeCommand>{
-      stopwatchItemId: stopwatch.id,
+  async splitTimer(stopwatch: StopwatchItemDto) {
+    stopwatch.splittedTimes.push(new SplittedTime({
       time: stopwatch.time
-    }).subscribe(splittedTime => {
-      stopwatch.splittedTimes.push(splittedTime);
-    });
+    }));
+
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
   onOpenChartDialog() {
@@ -215,8 +285,6 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   async updatePagination(event: PageEvent) {
-    this.tryCleanSearchProjectCompontentInput();
-
     this._timersService.clearAllIntervals();
 
     await this._localChangesHubService.saveStopwatchesChangesInDb();
