@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Project.Application.Common.Interfaces;
 using Project.Domain.Common;
-using Project.Infrastructure.Identity;
+using Project.Domain.Entities;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Project.Application.Common.Interfaces;
+using Project.Domain.Entities;
 using System;
 using System.Linq;
 using System.Threading;
@@ -16,11 +18,13 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
         {
             private readonly IContext _context;
             private readonly ICurrentUserService _currentUserService;
+            private readonly UserManager<ApplicationUser> _userManager;
 
-            public GetAccountStatsQueryHandler(IContext context, ICurrentUserService currentUserService)
+            public GetAccountStatsQueryHandler(IContext context, ICurrentUserService currentUserService, UserManager<ApplicationUser> userManager)
             {
                 _context = context;
                 _currentUserService = currentUserService;
+                _userManager = userManager;
             }
 
             public async Task<AccountStatsDto> Handle(GetAccountStatsQuery request, CancellationToken cancellationToken)
@@ -29,6 +33,7 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
 
                 IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
                 IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.Where(x => x.CreatedBy == userEmail);
+                var user = await _userManager.FindByEmailAsync(userEmail);
 
                 return new AccountStatsDto
                 {
@@ -44,7 +49,10 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
                     NumberOfFinishedStopwatches = stopwatchItems.Where(x => x.Status == Status.Done).Count(),
                     NumberOfNotFinishedStopwatches = stopwatchItems.Where(x => x.Status == Status.Doing).Count(),
 
-                    NumberOfFavoriteProjects = projectItems.Where(x => x.IsFavorite == true).Count()
+                    NumberOfFavoriteProjects = projectItems.Where(x => x.IsFavorite == true).Count(),
+
+                    AccountDateCreated = user.DateCreated,
+                    AccountCreatedDaysAgo = (user.DateCreated - DateTime.UtcNow).Days
                 };
             }
 

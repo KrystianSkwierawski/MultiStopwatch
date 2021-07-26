@@ -1235,6 +1235,8 @@ export class AccountStatsDto implements IAccountStatsDto {
     numberOfFinishedStopwatches?: number;
     numberOfNotFinishedStopwatches?: number;
     numberOfFavoriteProjects?: number;
+    accountDateCreated?: Date;
+    accountCreatedDaysAgo?: number;
 
     constructor(data?: IAccountStatsDto) {
         if (data) {
@@ -1257,6 +1259,8 @@ export class AccountStatsDto implements IAccountStatsDto {
             this.numberOfFinishedStopwatches = _data["numberOfFinishedStopwatches"];
             this.numberOfNotFinishedStopwatches = _data["numberOfNotFinishedStopwatches"];
             this.numberOfFavoriteProjects = _data["numberOfFavoriteProjects"];
+            this.accountDateCreated = _data["accountDateCreated"] ? new Date(_data["accountDateCreated"].toString()) : <any>undefined;
+            this.accountCreatedDaysAgo = _data["accountCreatedDaysAgo"];
         }
     }
 
@@ -1279,6 +1283,8 @@ export class AccountStatsDto implements IAccountStatsDto {
         data["numberOfFinishedStopwatches"] = this.numberOfFinishedStopwatches;
         data["numberOfNotFinishedStopwatches"] = this.numberOfNotFinishedStopwatches;
         data["numberOfFavoriteProjects"] = this.numberOfFavoriteProjects;
+        data["accountDateCreated"] = this.accountDateCreated ? this.accountDateCreated.toISOString() : <any>undefined;
+        data["accountCreatedDaysAgo"] = this.accountCreatedDaysAgo;
         return data; 
     }
 }
@@ -1294,6 +1300,8 @@ export interface IAccountStatsDto {
     numberOfFinishedStopwatches?: number;
     numberOfNotFinishedStopwatches?: number;
     numberOfFavoriteProjects?: number;
+    accountDateCreated?: Date;
+    accountCreatedDaysAgo?: number;
 }
 
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {

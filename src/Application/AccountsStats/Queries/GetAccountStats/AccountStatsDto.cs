@@ -1,4 +1,6 @@
-﻿namespace Project.Application.AccountsStats.Queries.GetAccountStats
+﻿using System;
+
+namespace Project.Application.AccountsStats.Queries.GetAccountStats
 {
     public class AccountStatsDto
     {
@@ -15,5 +17,8 @@
         public int NumberOfNotFinishedStopwatches { get; set; }
 
         public int NumberOfFavoriteProjects { get; set; }
+
+        public DateTime AccountDateCreated { get; set; }
+        public int AccountCreatedDaysAgo { get; set; }
     }
 }

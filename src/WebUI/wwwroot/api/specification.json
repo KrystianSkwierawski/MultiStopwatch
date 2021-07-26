@@ -788,6 +788,14 @@
           "numberOfFavoriteProjects": {
             "type": "integer",
             "format": "int32"
+          },
+          "accountDateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "accountCreatedDaysAgo": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
-using Project.Infrastructure.Identity;
+using Project.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,11 +19,13 @@ namespace Project.WebUI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtHandler _jwtHandler;
+        private readonly IDateTime _dateTIme;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler)
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, IDateTime dateTIme)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
+            _dateTIme = dateTIme;
         }
 
         [HttpPost("Register")]
@@ -34,7 +37,8 @@ namespace Project.WebUI.Controllers
             ApplicationUser user = new ApplicationUser
             {
                 Email = userForRegistration.Email,
-                UserName = userForRegistration.Email
+                UserName = userForRegistration.Email,
+                DateCreated = _dateTIme.Now
             };
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
@@ -59,7 +63,6 @@ namespace Project.WebUI.Controllers
             if (!await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                 return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
 
-
             var claims = _jwtHandler.GetClamis(user.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
@@ -74,6 +77,15 @@ namespace Project.WebUI.Controllers
             settings.Audience = new List<string>() { "1077472699821-km2iel871mij429reoh6uev8dl6k4v3a.apps.googleusercontent.com" };
 
             GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
+
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = payload.Email,
+                UserName = payload.Email,
+                DateCreated = _dateTIme.Now
+            };
+
+            var result = await _userManager.CreateAsync(user);
 
             var claims = _jwtHandler.GetClamis(payload.Email, payload.JwtId);
             string token = _jwtHandler.GenerateToken(claims);
@@ -97,6 +109,15 @@ namespace Project.WebUI.Controllers
                 string facebookAuthErrorMessage = facebookAuthCheck["error"]["message"].Value<string>();
                 return BadRequest(new AuthResponse { ErrorMessage = facebookAuthErrorMessage });
             }
+
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = email,
+                UserName = email,
+                DateCreated = _dateTIme.Now
+            };
+
+            var result = await _userManager.CreateAsync(user);
 
             var claims = _jwtHandler.GetClamis(email, id);
             string token = _jwtHandler.GenerateToken(claims);

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
-using Project.Infrastructure.Identity;
+using Project.Domain.Entities;
 using Project.Infrastructure.Persistence;
 using Project.Infrastructure.Services;
 
