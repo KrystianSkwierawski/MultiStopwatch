@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
 using Project.Domain.Entities;

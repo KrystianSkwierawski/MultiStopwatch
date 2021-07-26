@@ -41,7 +41,7 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
 
             result.NumberOfFavoriteProjects.Should().Be(1);
 
-            result.AccountDateCreated.Should().BeCloseTo(DateTime.UtcNow, 50000);
+            result.AccountDateCreated.Should().BeCloseTo(DateTime.UtcNow, 5000);
             result.AccountCreatedDaysAgo.Should().Be((result.AccountDateCreated - DateTime.UtcNow).Days);
         }
 
