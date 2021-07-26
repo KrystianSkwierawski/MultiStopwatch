@@ -104,17 +104,9 @@
   height: auto;
   justify-content: space-between;
   background-color: #464775;
-
-  & a, button {
-    padding: 5px;
-    font-size: 1.3rem;
-    text-decoration: none;
-    align-self: center;
-    color: white;
-  }
+  color: white;
 
   & button {
-    border: none;
-    background: none;
+   font-size: 1.2rem;
   }
 }

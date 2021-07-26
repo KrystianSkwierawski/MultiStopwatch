@@ -30,13 +30,15 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
 
             result.TotalTimeInSecondsNotFinished.Should().Be(10);
 
-            result.TotalNumberOfProjects.Should().Be(2);
-            result.TotalNumberOfFinishedProjects.Should().Be(1);
-            result.TotalNumberOfNotFinishedProjects.Should().Be(1);
+            result.NumberOfProjects.Should().Be(2);
+            result.NumberOfFinishedProjects.Should().Be(1);
+            result.NumberOfNotFinishedProjects.Should().Be(1);
 
-            result.TotalNumberOfStopwatches.Should().Be(2);
-            result.TotalNumberOfFinishedStopwatches.Should().Be(1);
-            result.TotalNumberOfNotFinishedStopwatches.Should().Be(1);
+            result.NumberOfStopwatches.Should().Be(3);
+            result.NumberOfFinishedStopwatches.Should().Be(2);
+            result.NumberOfNotFinishedStopwatches.Should().Be(1);
+
+            result.NumberOfFavoriteProjects.Should().Be(1);
         }
 
         public async Task SetUp()
@@ -46,7 +48,8 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 Title = "project",
                 Theme = "violet",
                 Time = "00:00:10",
-                Status = Status.Doing
+                Status = Status.Doing,
+                IsFavorite = true
             });
 
             ProjectItem projectItem = new()
@@ -63,8 +66,15 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
                 {
                     ProjectItemId = projectItem.Id,
                     Title = "stopwatch",
+                    Status = Status.Done
                 },
                 new StopwatchItem
+                {
+                    ProjectItemId = projectItem.Id,
+                    Title = "stopwatch",
+                     Status = Status.Done
+                },
+                  new StopwatchItem
                 {
                     ProjectItemId = projectItem.Id,
                     Title = "stopwatch",

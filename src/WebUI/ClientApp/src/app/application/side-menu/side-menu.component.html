@@ -34,8 +34,8 @@
 
 
     <div class="side-menu-content__settings">
-      <button (click)="logout()">Logout</button>
-      <a [routerLink]='["/authentication/profile"]' title="Manage"><i class="fas fa-users-cog"></i></a>
+      <button mat-button (click)="logout()">Logout</button>
+      <button mat-button (click)="onOpenAccountOverviewDialog()" title="Manage"><i class="fas fa-users-cog"></i></button>
     </div>
   </div>
 </div>

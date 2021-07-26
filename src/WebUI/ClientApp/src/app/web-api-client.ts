@@ -1228,12 +1228,13 @@ export class AccountStatsDto implements IAccountStatsDto {
     totalTimeInSeconds?: number;
     totalTimeInSecondsFinished?: number;
     totalTimeInSecondsNotFinished?: number;
-    totalNumberOfProjects?: number;
-    totalNumberOfFinishedProjects?: number;
-    totalNumberOfNotFinishedProjects?: number;
-    totalNumberOfStopwatches?: number;
-    totalNumberOfFinishedStopwatches?: number;
-    totalNumberOfNotFinishedStopwatches?: number;
+    numberOfProjects?: number;
+    numberOfFinishedProjects?: number;
+    numberOfNotFinishedProjects?: number;
+    numberOfStopwatches?: number;
+    numberOfFinishedStopwatches?: number;
+    numberOfNotFinishedStopwatches?: number;
+    numberOfFavoriteProjects?: number;
 
     constructor(data?: IAccountStatsDto) {
         if (data) {
@@ -1249,12 +1250,13 @@ export class AccountStatsDto implements IAccountStatsDto {
             this.totalTimeInSeconds = _data["totalTimeInSeconds"];
             this.totalTimeInSecondsFinished = _data["totalTimeInSecondsFinished"];
             this.totalTimeInSecondsNotFinished = _data["totalTimeInSecondsNotFinished"];
-            this.totalNumberOfProjects = _data["totalNumberOfProjects"];
-            this.totalNumberOfFinishedProjects = _data["totalNumberOfFinishedProjects"];
-            this.totalNumberOfNotFinishedProjects = _data["totalNumberOfNotFinishedProjects"];
-            this.totalNumberOfStopwatches = _data["totalNumberOfStopwatches"];
-            this.totalNumberOfFinishedStopwatches = _data["totalNumberOfFinishedStopwatches"];
-            this.totalNumberOfNotFinishedStopwatches = _data["totalNumberOfNotFinishedStopwatches"];
+            this.numberOfProjects = _data["numberOfProjects"];
+            this.numberOfFinishedProjects = _data["numberOfFinishedProjects"];
+            this.numberOfNotFinishedProjects = _data["numberOfNotFinishedProjects"];
+            this.numberOfStopwatches = _data["numberOfStopwatches"];
+            this.numberOfFinishedStopwatches = _data["numberOfFinishedStopwatches"];
+            this.numberOfNotFinishedStopwatches = _data["numberOfNotFinishedStopwatches"];
+            this.numberOfFavoriteProjects = _data["numberOfFavoriteProjects"];
         }
     }
 
@@ -1270,12 +1272,13 @@ export class AccountStatsDto implements IAccountStatsDto {
         data["totalTimeInSeconds"] = this.totalTimeInSeconds;
         data["totalTimeInSecondsFinished"] = this.totalTimeInSecondsFinished;
         data["totalTimeInSecondsNotFinished"] = this.totalTimeInSecondsNotFinished;
-        data["totalNumberOfProjects"] = this.totalNumberOfProjects;
-        data["totalNumberOfFinishedProjects"] = this.totalNumberOfFinishedProjects;
-        data["totalNumberOfNotFinishedProjects"] = this.totalNumberOfNotFinishedProjects;
-        data["totalNumberOfStopwatches"] = this.totalNumberOfStopwatches;
-        data["totalNumberOfFinishedStopwatches"] = this.totalNumberOfFinishedStopwatches;
-        data["totalNumberOfNotFinishedStopwatches"] = this.totalNumberOfNotFinishedStopwatches;
+        data["numberOfProjects"] = this.numberOfProjects;
+        data["numberOfFinishedProjects"] = this.numberOfFinishedProjects;
+        data["numberOfNotFinishedProjects"] = this.numberOfNotFinishedProjects;
+        data["numberOfStopwatches"] = this.numberOfStopwatches;
+        data["numberOfFinishedStopwatches"] = this.numberOfFinishedStopwatches;
+        data["numberOfNotFinishedStopwatches"] = this.numberOfNotFinishedStopwatches;
+        data["numberOfFavoriteProjects"] = this.numberOfFavoriteProjects;
         return data; 
     }
 }
@@ -1284,12 +1287,13 @@ export interface IAccountStatsDto {
     totalTimeInSeconds?: number;
     totalTimeInSecondsFinished?: number;
     totalTimeInSecondsNotFinished?: number;
-    totalNumberOfProjects?: number;
-    totalNumberOfFinishedProjects?: number;
-    totalNumberOfNotFinishedProjects?: number;
-    totalNumberOfStopwatches?: number;
-    totalNumberOfFinishedStopwatches?: number;
-    totalNumberOfNotFinishedStopwatches?: number;
+    numberOfProjects?: number;
+    numberOfFinishedProjects?: number;
+    numberOfNotFinishedProjects?: number;
+    numberOfStopwatches?: number;
+    numberOfFinishedStopwatches?: number;
+    numberOfNotFinishedStopwatches?: number;
+    numberOfFavoriteProjects?: number;
 }
 
 export class FavoriteProjectItemDto implements IFavoriteProjectItemDto {

@@ -761,27 +761,31 @@
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfProjects": {
+          "numberOfProjects": {
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfFinishedProjects": {
+          "numberOfFinishedProjects": {
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfNotFinishedProjects": {
+          "numberOfNotFinishedProjects": {
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfStopwatches": {
+          "numberOfStopwatches": {
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfFinishedStopwatches": {
+          "numberOfFinishedStopwatches": {
             "type": "integer",
             "format": "int32"
           },
-          "totalNumberOfNotFinishedStopwatches": {
+          "numberOfNotFinishedStopwatches": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfFavoriteProjects": {
             "type": "integer",
             "format": "int32"
           }

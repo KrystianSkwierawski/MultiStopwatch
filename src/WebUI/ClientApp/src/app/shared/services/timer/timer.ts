@@ -16,7 +16,7 @@ export class Time {
 
 export function timeToHHMMSS(time: Time): string {
   const totalSeconds: number = calcTotalSeconds(time);
-  return TotalSecondsToHHMMSSTotalSecondsToHHMMSS(totalSeconds);
+  return totalSecondsToHHMMSS(totalSeconds);
 }
 
 export function calcTotalSeconds(time: Time): number {
@@ -29,7 +29,7 @@ export function calcTotalSeconds(time: Time): number {
   return o_totalSeconds;
 }
 
-function TotalSecondsToHHMMSSTotalSecondsToHHMMSS(secs) {
+export function totalSecondsToHHMMSS(secs) {
   const sec_num = parseInt(secs, 10);
   const hours = Math.floor(sec_num / 3600);
   const minutes = Math.floor(sec_num / 60) % 60;

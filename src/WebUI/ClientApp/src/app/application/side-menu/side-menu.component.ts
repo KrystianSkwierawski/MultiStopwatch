@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication/authentication.service';
+import { AccountOverviewDialogComponent } from '../account-overview-dialog/account-overview-dialog.component';
 import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
 @Component({
@@ -53,6 +54,12 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+  onOpenAccountOverviewDialog() {
+    const dialogRef = this._dialog.open(AccountOverviewDialogComponent, {
+      panelClass: 'account-overview-dialog'
+    });
+  }
 
   onResize(): void {
     if (this.isDesktopDevice()) {

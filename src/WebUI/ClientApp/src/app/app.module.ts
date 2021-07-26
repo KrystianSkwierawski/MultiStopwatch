@@ -21,7 +21,7 @@ import { SplittedTimesListDialogComponent } from './application/splitted-times/s
 import { CreateStopwatchDialogComponent } from './application/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from './application/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { StopwatchesListComponent } from './application/stopwatch-items/stopwatches-list/stopwatches-list.component';
-import { ChartDialogComponent } from './shared/utilities/chart-dialog/chart-dialog.component';
+import { ChartDialogComponent } from './application/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from './shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { GenericListComponent } from './shared/utilities/generic-list/generic-list.component';
 import { PaginatorComponent } from './shared/utilities/paginator/paginator.component';
@@ -33,6 +33,8 @@ import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons
 import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
 import { ApplicationComponent } from './application/application.component';
 import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
+import { AccountOverviewDialogComponent } from './application/account-overview-dialog/account-overview-dialog.component';
+import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-se
     RegisterDialogComponent,
     SocialAuthenticationsComponent,
     ApplicationComponent,
-    ItemsStatusSelectorComponent
+    ItemsStatusSelectorComponent,
+    AccountOverviewDialogComponent,
+    SeceondsToHhmmssPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
