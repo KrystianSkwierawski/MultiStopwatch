@@ -28,17 +28,17 @@ namespace Project.Application.IntegrationTests.StopwatchItems.Queries
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",                    
+                    Title = "stopwatch",
                 },
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",                  
+                    Title = "stopwatch",
                 },
                 new StopwatchItem
                 {
                     ProjectItemId = projectId,
-                    Title = "stopwatch",                  
+                    Title = "stopwatch",
                 }
             });
 

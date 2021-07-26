@@ -1,8 +1,6 @@
 ﻿using Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

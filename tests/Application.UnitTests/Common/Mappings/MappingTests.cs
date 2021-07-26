@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using Domain.ValueObjects;
 using NUnit.Framework;
 using Project.Application.Common.Mappings;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
@@ -30,7 +29,7 @@ namespace Project.Application.UnitTests.Common.Mappings
         {
             _configuration.AssertConfigurationIsValid();
         }
-        
+
         [Test]
         [TestCase(typeof(ProjectItem), typeof(ProjectItems.Queries.GetProjectItem.ProjectItemDto))]
         [TestCase(typeof(ProjectItem), typeof(ProjectItems.Queries.GetProjectItemsWithPagination.ProjectItemDto))]

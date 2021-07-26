@@ -1,7 +1,7 @@
-﻿using Project.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Http;
+using Project.Application.Common.Interfaces;
 using System;
+using System.Security.Claims;
 
 namespace Project.WebUI.Services
 {

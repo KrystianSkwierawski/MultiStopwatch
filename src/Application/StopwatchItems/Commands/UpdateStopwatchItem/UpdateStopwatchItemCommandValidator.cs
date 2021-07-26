@@ -1,5 +1,4 @@
-﻿using Domain.Enums;
-using FluentValidation;
+﻿using FluentValidation;
 using Project.Application.Common.Validators;
 
 namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem

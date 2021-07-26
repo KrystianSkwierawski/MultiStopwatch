@@ -40,7 +40,7 @@ namespace Project.Application.IntegrationTests.SplittedTimes.Commands
             ProjectItem projectItem = new()
             {
                 Title = "project",
-                IsFavorite = true,               
+                IsFavorite = true,
             };
             await AddAsync(projectItem);
 

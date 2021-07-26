@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,7 +28,7 @@ namespace Project.Application.FavoriteProjectItems.Commands.UpdateOrderIndex
             {
                 List<ProjectItem> projectsFromDb = await _context.ProjectItems.ToListAsync();
 
-                foreach(var projectFromDb in projectsFromDb)
+                foreach (var projectFromDb in projectsFromDb)
                 {
                     FavoriteProjectItemDto currentProject = request.CurrentProjects.FirstOrDefault(x => x.Id == projectFromDb.Id);
                     int currentIndex = request.CurrentProjects.IndexOf(currentProject);

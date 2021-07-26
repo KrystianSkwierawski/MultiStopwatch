@@ -60,14 +60,14 @@ namespace Project.WebUI
                 configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
 
-          
+
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -108,7 +108,7 @@ namespace Project.WebUI
             {
                 app.UseSpaStaticFiles();
             }
-    
+
             app.UseRouting();
 
             const string cacheMaxAge = "604800";

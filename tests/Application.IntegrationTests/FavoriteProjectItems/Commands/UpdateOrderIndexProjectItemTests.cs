@@ -21,19 +21,19 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Commands
                 {
                     Title = "favorite",
                     IsFavorite = true,
-                    OrderIndex = 1,                 
+                    OrderIndex = 1,
                 },
                 new ProjectItem
                 {
                     Title = "favorite",
                     IsFavorite = true,
-                    OrderIndex = 2,                    
+                    OrderIndex = 2,
                 },
                 new ProjectItem
                 {
                     Title = "favorite",
                     IsFavorite = true,
-                    OrderIndex = 3,                   
+                    OrderIndex = 3,
                 }
             });
 

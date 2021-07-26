@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem;
 using Project.Application.FavoriteProjectItems.Commands.UpdateOrderIndex;
 using Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsItems;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers

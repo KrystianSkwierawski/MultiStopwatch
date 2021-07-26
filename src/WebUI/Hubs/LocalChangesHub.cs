@@ -14,8 +14,8 @@ namespace Project.WebUI.Hubs
     public class LocalChangesHub : Hub
     {
         readonly ISender _mediator;
-        static Dictionary<string, List<StopwatchItemDto>> _localStopwatchesChanges = new Dictionary<string, List<StopwatchItemDto>>();
-        static Dictionary<string, ProjectItemDto> _localProjectChanges = new Dictionary<string, ProjectItemDto>();
+        static readonly Dictionary<string, List<StopwatchItemDto>> _localStopwatchesChanges = new Dictionary<string, List<StopwatchItemDto>>();
+        static readonly Dictionary<string, ProjectItemDto> _localProjectChanges = new Dictionary<string, ProjectItemDto>();
 
         public LocalChangesHub(ISender mediator)
         {
