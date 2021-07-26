@@ -19,13 +19,11 @@ namespace Project.WebUI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtHandler _jwtHandler;
-        private readonly IDateTime _dateTIme;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, IDateTime dateTIme)
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
-            _dateTIme = dateTIme;
         }
 
         [HttpPost("Register")]
@@ -38,7 +36,6 @@ namespace Project.WebUI.Controllers
             {
                 Email = userForRegistration.Email,
                 UserName = userForRegistration.Email,
-                DateCreated = _dateTIme.Now
             };
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
@@ -82,7 +79,6 @@ namespace Project.WebUI.Controllers
             {
                 Email = payload.Email,
                 UserName = payload.Email,
-                DateCreated = _dateTIme.Now
             };
 
             var result = await _userManager.CreateAsync(user);
@@ -114,7 +110,6 @@ namespace Project.WebUI.Controllers
             {
                 Email = email,
                 UserName = email,
-                DateCreated = _dateTIme.Now
             };
 
             var result = await _userManager.CreateAsync(user);

@@ -3,6 +3,7 @@ using Domain.Enums;
 using FluentAssertions;
 using NUnit.Framework;
 using Project.Application.AccountsStats.Queries.GetAccountStats;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -39,6 +40,9 @@ namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
             result.NumberOfNotFinishedStopwatches.Should().Be(1);
 
             result.NumberOfFavoriteProjects.Should().Be(1);
+
+            result.AccountDateCreated.Should().BeCloseTo(DateTime.UtcNow, 50000);
+            result.AccountCreatedDaysAgo.Should().Be((result.AccountDateCreated - DateTime.UtcNow).Days);
         }
 
         public async Task SetUp()

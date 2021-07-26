@@ -33,7 +33,7 @@ namespace Project.Application.AccountsStats.Queries.GetAccountStats
 
                 IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
                 IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.Where(x => x.CreatedBy == userEmail);
-                var user = await _userManager.FindByEmailAsync(userEmail);
+                ApplicationUser user = await _userManager.FindByEmailAsync(userEmail ?? "") ?? new ApplicationUser();
 
                 return new AccountStatsDto
                 {

@@ -5,6 +5,6 @@ namespace Project.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
 }
