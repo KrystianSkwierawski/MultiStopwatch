@@ -38,7 +38,9 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
                 entity.Title = request.Title;
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
-                entity.Status = request.Status;
+
+                if(request.Status != Status.None)
+                    entity.Status = request.Status;
 
                 if (request.Status == Status.Done)
                 {

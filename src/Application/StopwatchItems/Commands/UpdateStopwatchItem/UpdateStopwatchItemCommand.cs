@@ -41,7 +41,9 @@ namespace Project.Application.StopwatchItems.Commands.UpdateStopwatchItem
                 entity.Time = request.Time;
                 entity.Theme = request.Theme;
                 entity.SplittedTimes = request.SplittedTimes;
-                entity.Status = request.Status;
+
+                if (request.Status != Status.None)
+                    entity.Status = request.Status;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

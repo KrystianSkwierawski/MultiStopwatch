@@ -18,11 +18,6 @@ namespace Project.Application.ProjectItems.Commands.UpdateProjectItem
              .NotNull().WithMessage("Theme is required.")
              .NotEmpty().WithMessage("Theme is required.");
 
-            RuleFor(v => v.Status)
-             .NotNull().WithMessage("Status is required.")
-             .NotEqual(Status.None);
-
-
             RuleFor(v => v.Time)
              .NotEmpty().WithMessage("Time is required.")
              .NotNull().WithMessage("Time is required.")
