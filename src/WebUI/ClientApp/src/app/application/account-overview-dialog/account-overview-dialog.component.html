@@ -1,0 +1,68 @@
+<div mat-dialog-content>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Settings">
+
+      
+    </mat-tab>
+
+    <mat-tab label="Stats">
+
+      <table *ngIf="accountStats" class="table" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <th>Total time:</th>
+            <th>{{accountStats.totalTimeInSeconds | seceondsToHhmmss}}</th>
+          </tr>
+          <tr>
+            <td class="border-top-0">Total time finished</td>
+            <td class="border-top-0">{{accountStats.totalTimeInSecondsFinished | seceondsToHhmmss}}</td>
+          </tr>
+          <tr>
+            <td>Total time not finished</td>
+            <td>{{accountStats.totalTimeInSecondsNotFinished | seceondsToHhmmss}}</td>
+          </tr>
+
+          <tr>
+            <th>Number of projects:</th>
+            <th>{{accountStats.numberOfProjects}}</th>
+          </tr>
+          <tr>
+            <td class="border-top-0">Number of finished projects</td>
+            <td class="border-top-0">{{accountStats.numberOfFinishedProjects}}</td>
+          </tr>
+          <tr>
+            <td>Number of not finished projects</td>
+            <td>{{accountStats.numberOfNotFinishedProjects}}</td>
+          </tr>
+
+          <tr>
+            <th>Number of stopwatches:</th>
+            <th>{{accountStats.numberOfStopwatches}}</th>
+          </tr>
+          <tr>
+            <td class="border-top-0">Number of finished stopwatches</td>
+            <td class="border-top-0">{{accountStats.numberOfFinishedStopwatches}}</td>
+          </tr>
+          <tr>
+            <td class="leftColumn">Number of not finished stopwatches</td>
+            <td>{{accountStats.numberOfNotFinishedStopwatches}}</td>
+          </tr>
+
+          <tr>
+            <th>Number of favorite projects:</th>
+            <th>{{accountStats.numberOfFavoriteProjects}}</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </mat-tab>
+  </mat-tab-group> 
+
+  <button mat-icon-button
+          mat-dialog-close
+          class="hide-dialog-button text-center mt-3"
+          aria-label="hide">
+
+    <i class="fas fa-times"></i>
+  </button>
+</div>
