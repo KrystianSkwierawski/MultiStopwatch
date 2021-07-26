@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { totalSecondsToHHMMSS } from '../services/timer/Timer';
+import { defaultTime, totalSecondsToHHMMSS } from '../services/timer/Timer';
 
 @Pipe({
   name: 'seceondsToHhmmss'
@@ -11,6 +11,6 @@ export class SeceondsToHhmmssPipe implements PipeTransform {
       return totalSecondsToHHMMSS(value);
     }
 
-    return value;
+    return defaultTime;
   }
 }
