@@ -2,12 +2,12 @@
 using Domain.Enums;
 using FluentAssertions;
 using NUnit.Framework;
-using Project.Application.AccountsStats.Queries.GetAccountStats;
+using Project.Application.AccountData.Queries.GetAccountStats;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Project.Application.IntegrationTests.FavoriteProjectItems.Queries
+namespace Project.Application.IntegrationTests.AccountData.Queries
 {
     using static Testing;
 

@@ -33,8 +33,9 @@ import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons
 import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
 import { ApplicationComponent } from './application/application.component';
 import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
-import { AccountOverviewDialogComponent } from './application/account-overview-dialog/account-overview-dialog.component';
 import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
+import { ConfirmDeleteAccountDialogComponent } from './application/account-overview/confirm-delete-account-dialog/confirm-delete-account-dialog.component';
+import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
     ApplicationComponent,
     ItemsStatusSelectorComponent,
     AccountOverviewDialogComponent,
-    SeceondsToHhmmssPipe
+    SeceondsToHhmmssPipe,
+    ConfirmDeleteAccountDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

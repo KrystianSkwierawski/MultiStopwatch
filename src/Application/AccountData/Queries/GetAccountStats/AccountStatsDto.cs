@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Application.AccountsStats.Queries.GetAccountStats
+namespace Project.Application.AccountData.Queries.GetAccountStats
 {
     public class AccountStatsDto
     {

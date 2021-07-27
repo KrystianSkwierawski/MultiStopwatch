@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Project.Application.AccountsStats.Queries.GetAccountStats;
+using Project.Application.AccountData.Queries.GetAccountStats;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers

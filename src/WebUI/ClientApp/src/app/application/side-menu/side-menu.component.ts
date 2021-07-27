@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication/authentication.service';
-import { AccountOverviewDialogComponent } from '../account-overview-dialog/account-overview-dialog.component';
+import { AccountOverviewDialogComponent } from '../account-overview/account-overview-dialog/account-overview-dialog.component';
 import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 
 @Component({

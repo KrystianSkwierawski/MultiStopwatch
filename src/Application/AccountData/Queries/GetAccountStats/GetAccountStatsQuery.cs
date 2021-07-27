@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project.Application.AccountsStats.Queries.GetAccountStats
+namespace Project.Application.AccountData.Queries.GetAccountStats
 {
 
     public class GetAccountStatsQuery : IRequest<AccountStatsDto>

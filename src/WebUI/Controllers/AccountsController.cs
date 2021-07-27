@@ -1,10 +1,17 @@
 ﻿using Google.Apis.Auth;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using Project.Application.AccountData.Commands.DeleteAccountData;
+using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
+using Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem;
 using Project.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,11 +25,17 @@ namespace Project.WebUI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtHandler _jwtHandler;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly ISender _mediator;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler)
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, ISender mediator)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
+            _currentUserService = currentUserService;
+            _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpPost("Register")]
@@ -117,6 +130,34 @@ namespace Project.WebUI.Controllers
             string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+        }
+
+        [HttpPost("DeleteAccount")]
+        public async Task<ActionResult<AuthResponse>> DeleteAccount(string password)
+        {
+            var user = await _userManager.FindByEmailAsync(_currentUserService.UserEmail);
+            if (user is null)
+                return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
+
+            var requirePassword = await _userManager.HasPasswordAsync(user);
+            if (!requirePassword)
+                return BadRequest(new AuthResponse { ErrorMessage = "To delete an account, you need to set password up first" });
+
+            if (!await _userManager.CheckPasswordAsync(user, password))
+                return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
+
+            await _mediator.Send(new DeleteAccountDataCommand());
+
+            var result = await _userManager.DeleteAsync(user);
+            var userId = await _userManager.GetUserIdAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
+            }
+
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+
+            return Ok(new AuthResponse { IsAuthSuccessful = true });
         }
 
         public async Task<JObject> GetFacebookAuthCheck(string authToken)

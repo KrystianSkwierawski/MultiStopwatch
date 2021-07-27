@@ -1,8 +1,18 @@
-@import '../../../scss/shared.scss';
+@import '../../../../scss/shared.scss';
 
 mat-tab{
     margin-bottom: 1rem;
 }
+
+form{
+    margin-top: 2rem;
+}
+
+mat-form-field {
+  padding-bottom: 1rem;
+  display: block;
+}
+
 
 .table {
   & th {

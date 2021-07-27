@@ -1,0 +1,19 @@
+<div mat-dialog-content>
+  <div class="mb-3" *ngIf="error">
+    <p class="text-danger text-break">{{ error }}</p>
+  </div>
+
+  <p>Are you sure to delete account?</p>
+
+  <div class="text-center">
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Password</mat-label>
+      <input type="password" #passwordInput matInput />
+    </mat-form-field>
+
+    <button mat-stroked-button mat-dialog-close class="mr-1 mb-1" aria-label="no">No</button>
+    <button [disabled]="!passwordInput.value" mat-flat-button color="warn" (click)="onDeleteAccount(passwordInput.value)" aria-label="yes">Yes</button>
+  </div>
+</div>
+
