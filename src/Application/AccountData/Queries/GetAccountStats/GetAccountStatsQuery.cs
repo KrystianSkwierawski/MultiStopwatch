@@ -52,7 +52,7 @@ namespace Project.Application.AccountData.Queries.GetAccountStats
                     NumberOfFavoriteProjects = projectItems.Where(x => x.IsFavorite == true).Count(),
 
                     AccountDateCreated = user.DateCreated,
-                    AccountCreatedDaysAgo = (user.DateCreated - DateTime.UtcNow).Days
+                    AccountCreatedDaysAgo = (DateTime.UtcNow - user.DateCreated).Days
                 };
             }
 

@@ -42,7 +42,7 @@ namespace Project.Application.IntegrationTests.AccountData.Queries
             result.NumberOfFavoriteProjects.Should().Be(1);
 
             result.AccountDateCreated.Should().BeCloseTo(DateTime.UtcNow, 5000);
-            result.AccountCreatedDaysAgo.Should().Be((result.AccountDateCreated - DateTime.UtcNow).Days);
+            result.AccountCreatedDaysAgo.Should().Be((DateTime.UtcNow - result.AccountDateCreated).Days);
         }
 
         public async Task SetUp()
