@@ -34,7 +34,7 @@ namespace Project.Application.StopwatchItems.Queries.GetStopwatchItemsWithPagina
             {
                 return await _context.StopWatchItems
                     .AsNoTracking()
-                    .Where(x => x.ProjectItemId == request.ProjectId && x.CreatedBy == _currentUserService.UserEmail)
+                    .Where(x => x.ProjectItemId == request.ProjectId && x.CreatedBy == _currentUserService.UserId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<StopwatchItemDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);

@@ -4,8 +4,14 @@ mat-tab{
     margin-bottom: 1rem;
 }
 
-form{
-    margin-top: 2rem;
+form {
+  margin-top: 2rem;
+
+  & p {
+    margin-top: 1rem;
+    color: #6264A7;
+    text-align: center;
+  }
 }
 
 mat-form-field {

@@ -30,7 +30,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItem
             public async Task<ProjectItemDto> Handle(GetProjectItemQuery request, CancellationToken cancellationToken)
             {
                 ProjectItem entity = _context.ProjectItems
-                    .FirstOrDefault(x => x.Id == request.Id && x.CreatedBy == _currentUserService.UserEmail);
+                    .FirstOrDefault(x => x.Id == request.Id && x.CreatedBy == _currentUserService.UserId);
 
                 if (entity is null)
                 {

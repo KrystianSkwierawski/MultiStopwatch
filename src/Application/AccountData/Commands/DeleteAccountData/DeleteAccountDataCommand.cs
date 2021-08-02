@@ -24,10 +24,10 @@ namespace Project.Application.AccountData.Commands.DeleteAccountData
 
             public async Task<Unit> Handle(DeleteAccountDataCommand request, CancellationToken cancellationToken)
             {
-                string userEmail = _currentUserService.UserEmail;
+                string userId = _currentUserService.UserId;
 
-                IQueryable<ProjectItem> projects = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
-                IQueryable<StopwatchItem> stopwatches = _context.StopWatchItems.Where(x => x.CreatedBy == userEmail);
+                IQueryable<ProjectItem> projects = _context.ProjectItems.Where(x => x.CreatedBy == userId);
+                IQueryable<StopwatchItem> stopwatches = _context.StopWatchItems.Where(x => x.CreatedBy == userId);
 
                 if (projects is not null)
                     _context.ProjectItems.RemoveRange(projects);

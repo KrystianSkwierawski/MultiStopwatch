@@ -20,7 +20,7 @@ namespace Project.Application.Common.Behaviours
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = _currentUserService.UserEmail ?? string.Empty;
+            var userId = _currentUserService.UserId ?? string.Empty;
 
             _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@Request}",
                 requestName, userId, request);

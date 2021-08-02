@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using IdentityServer4.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -9,11 +10,11 @@ using Project.Application.AccountData.Commands.DeleteAccountData;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
-using Project.Application.FavoriteProjectItems.Commands.LikeOrDislikeProjectItem;
 using Project.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -38,6 +39,14 @@ namespace Project.WebUI.Controllers
             _mediator = mediator;
         }
 
+
+        [HttpGet("GetUser")]
+        public async Task<ActionResult<ApplicationUser>> GetUser()
+        {
+            return await _userManager.FindByIdAsync(_currentUserService.UserId);
+        }
+
+
         [HttpPost("Register")]
         public async Task<ActionResult<RegistrationResponse>> Register(UserForRegistration userForRegistration)
         {
@@ -48,6 +57,7 @@ namespace Project.WebUI.Controllers
             {
                 Email = userForRegistration.Email,
                 UserName = userForRegistration.Email,
+                HasPassword = true
             };
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
@@ -87,15 +97,21 @@ namespace Project.WebUI.Controllers
 
             GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
 
-            ApplicationUser user = new ApplicationUser
+            ApplicationUser user = await _userManager.FindByEmailAsync(payload.Email);
+
+            if (user is null)
             {
-                Email = payload.Email,
-                UserName = payload.Email,
-            };
+                user = new ApplicationUser
+                {
+                    Email = payload.Email,
+                    UserName = payload.Email,
+                    HasPassword = false
+                };
 
-            var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user);
+            }
 
-            var claims = _jwtHandler.GetClamis(payload.Email, payload.JwtId);
+            var claims = _jwtHandler.GetClamis(payload.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
@@ -118,15 +134,21 @@ namespace Project.WebUI.Controllers
                 return BadRequest(new AuthResponse { ErrorMessage = facebookAuthErrorMessage });
             }
 
-            ApplicationUser user = new ApplicationUser
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
             {
-                Email = email,
-                UserName = email,
-            };
+                user = new ApplicationUser
+                {
+                    Email = email,
+                    UserName = email,
+                    HasPassword = false
+                };
 
-            var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user);
+            }
 
-            var claims = _jwtHandler.GetClamis(email, id);
+            var claims = _jwtHandler.GetClamis(email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
@@ -135,12 +157,11 @@ namespace Project.WebUI.Controllers
         [HttpPost("DeleteAccount")]
         public async Task<ActionResult<AuthResponse>> DeleteAccount(string password)
         {
-            var user = await _userManager.FindByEmailAsync(_currentUserService.UserEmail);
+            var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
                 return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
 
-            var requirePassword = await _userManager.HasPasswordAsync(user);
-            if (!requirePassword)
+            if (!user.HasPassword)
                 return BadRequest(new AuthResponse { ErrorMessage = "To delete an account, you need to set password up first" });
 
             if (!await _userManager.CheckPasswordAsync(user, password))
@@ -160,7 +181,44 @@ namespace Project.WebUI.Controllers
             return Ok(new AuthResponse { IsAuthSuccessful = true });
         }
 
-        public async Task<JObject> GetFacebookAuthCheck(string authToken)
+        [HttpPatch("UpdateUser")]
+        public async Task<ActionResult> UpdateUser(string email, string oldPassword, string newPassword)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
+            if (user is null)
+                return StatusCode(401);
+
+            // change or set password
+            if (!String.IsNullOrEmpty(newPassword))
+            {
+                if (user.HasPassword && !(await _userManager.CheckPasswordAsync(user, oldPassword)))
+                    return BadRequest(new string[] { "Old password is incorrect" });
+
+                var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
+
+                if (!validateNewPasswordResult.Succeeded)
+                    return BadRequest(validateNewPasswordResult.Errors.Select(x => x.Description));
+
+                if (user.HasPassword)
+                    await _userManager.RemovePasswordAsync(user);
+
+                var addPasswordResult = await _userManager.AddPasswordAsync(user, newPassword);
+
+                if (addPasswordResult.Succeeded)
+                    user.HasPassword = true;
+            }
+
+            user.Email = email;
+
+            var updateUserResult = await _userManager.UpdateAsync(user);
+
+            if (!updateUserResult.Succeeded)
+                return BadRequest(updateUserResult.Errors.Select(x => x.Description));
+
+            return Ok();
+        }
+
+        private async Task<JObject> GetFacebookAuthCheck(string authToken)
         {
             using HttpClient client = new HttpClient();
 

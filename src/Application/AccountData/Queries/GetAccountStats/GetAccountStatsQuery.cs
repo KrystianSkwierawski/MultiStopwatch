@@ -29,11 +29,11 @@ namespace Project.Application.AccountData.Queries.GetAccountStats
 
             public async Task<AccountStatsDto> Handle(GetAccountStatsQuery request, CancellationToken cancellationToken)
             {
-                string userEmail = _currentUserService.UserEmail;
+                string userId = _currentUserService.UserId;
 
-                IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userEmail);
-                IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.Where(x => x.CreatedBy == userEmail);
-                ApplicationUser user = await _userManager.FindByEmailAsync(userEmail ?? "") ?? new ApplicationUser();
+                IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userId);
+                IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.Where(x => x.CreatedBy == userId);
+                ApplicationUser user = await _userManager.FindByEmailAsync(userId ?? "") ?? new ApplicationUser();
 
                 return new AccountStatsDto
                 {

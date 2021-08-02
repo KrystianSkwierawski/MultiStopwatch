@@ -31,7 +31,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
             public async Task<PaginatedList<ProjectItemDto>> Handle(GetProjectItemsWithPaginationQuery request, CancellationToken cancellationToken)
             {
                 return await _context.ProjectItems
-                    .Where(x => x.CreatedBy == _currentUserService.UserEmail)
+                    .Where(x => x.CreatedBy == _currentUserService.UserId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<ProjectItemDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);

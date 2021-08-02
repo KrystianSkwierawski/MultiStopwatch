@@ -1,7 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AccountStatsClient, AccountStatsDto } from '../../../web-api-client';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { MustMatch } from '../../../shared/validators/must-match';
+import { AccountsClient, AccountStatsClient, AccountStatsDto, ApplicationUser } from '../../../web-api-client';
 import { ConfirmDeleteAccountDialogComponent } from '../confirm-delete-account-dialog/confirm-delete-account-dialog.component';
 
 @Component({
@@ -13,20 +16,39 @@ export class AccountOverviewDialogComponent implements OnInit {
 
   form: FormGroup;
   accountStats: AccountStatsDto;
+  user: ApplicationUser;
+  errors: string[];
 
   constructor(private _accountStatsClient: AccountStatsClient,
     private _formBuilder: FormBuilder,
     private _dialog: MatDialog,
-    private _dialogRef: MatDialogRef<AccountOverviewDialogComponent>) { }
-  
+    private _dialogRef: MatDialogRef<AccountOverviewDialogComponent>,
+    private _accountsClient: AccountsClient) { }
+
   ngOnInit(): void {
     this.form = this._formBuilder.group({
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmNewPassword: ['']
+    }, {
+      validator: MustMatch('newPassword', 'confirmNewPassword')
     });
 
     this.getAccountStats();
+    this.getUser();
+  }
+
+  getUser() {
+    this._accountsClient.getUser().subscribe(user => {
+      if (!user)
+        return;
+
+      this.user = user;
+      this.form.patchValue(this.user);
+    });
   }
 
   getAccountStats() {
@@ -35,8 +57,27 @@ export class AccountOverviewDialogComponent implements OnInit {
     });
   }
 
-  onSubmit(value) {
+  onSubmit(form: HTMLFormElement) {
+    this._accountsClient.updateUser(form.email, form.oldPassword, form.newPassword).subscribe(() => {
+      this.closeDialog();
+      alert("Successfully updated user data.");
+    },
+      error => this.errors = JSON.parse(error.response)
+    );
+  }
 
+  getErrorMessageFieldPassword(controlName) {
+    const field = this.form.get(controlName);
+
+    if (field.hasError('required')) {
+      return `The ${controlName} field is required`;
+    }
+
+    if (field.hasError('mustMatch')) {
+      return field.getError('mustMatch').message;
+    }
+
+    return '';
   }
 
   onOpenConfirmDeleteAccountDialog() {
