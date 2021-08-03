@@ -75,9 +75,9 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="user?.hasPassword" appearance="legacy">
-          <mat-label>Old password</mat-label>
-          <input formControlName="oldPassword" matInput type="password" />
-          <mat-error *ngIf="form.invalid">The Old password field is required</mat-error>
+          <mat-label>Current password</mat-label>
+          <input formControlName="currentPassword" matInput type="password" />
+          <mat-error *ngIf="form.invalid">The Current password field is required</mat-error>
         </mat-form-field>
 
         <p *ngIf="!user?.hasPassword">Set password</p>

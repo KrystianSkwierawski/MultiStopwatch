@@ -30,7 +30,7 @@ export class AccountOverviewDialogComponent implements OnInit {
       email: ['', {
         validators: [Validators.required, Validators.email]
       }],
-      oldPassword: [''],
+      currentPassword: [''],
       newPassword: [''],
       confirmNewPassword: ['']
     }, {
@@ -58,7 +58,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   onSubmit(form: HTMLFormElement) {
-    this._accountsClient.update(form.email, form.oldPassword, form.newPassword).pipe(catchError(error => {
+    this._accountsClient.update(form.email, form.currentPassword, form.newPassword).pipe(catchError(error => {
       const errors: string[] = JSON.parse(error.response);
 
       if (errors?.length === 0)

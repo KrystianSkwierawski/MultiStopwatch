@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Auth;
-using IdentityServer4.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -14,7 +13,6 @@ using Project.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -182,7 +180,7 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> Update(string email, string oldPassword, string newPassword)
+        public async Task<ActionResult> Update(string email, string currentPassword, string newPassword)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
@@ -191,8 +189,8 @@ namespace Project.WebUI.Controllers
             // change or set password
             if (!String.IsNullOrEmpty(newPassword))
             {
-                if (user.HasPassword && !(await _userManager.CheckPasswordAsync(user, oldPassword)))
-                    return BadRequest(new string[] { "Old password is incorrect" });
+                if (user.HasPassword && !(await _userManager.CheckPasswordAsync(user, currentPassword)))
+                    return BadRequest(new string[] { "Current password is incorrect" });
 
                 var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
 
