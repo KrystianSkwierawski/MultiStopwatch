@@ -40,8 +40,8 @@ namespace Project.WebUI.Controllers
         }
 
 
-        [HttpGet("GetUser")]
-        public async Task<ActionResult<ApplicationUser>> GetUser()
+        [HttpGet]
+        public async Task<ActionResult<ApplicationUser>> Get()
         {
             return await _userManager.FindByIdAsync(_currentUserService.UserId);
         }
@@ -154,8 +154,8 @@ namespace Project.WebUI.Controllers
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
         }
 
-        [HttpPost("DeleteAccount")]
-        public async Task<ActionResult<AuthResponse>> DeleteAccount(string password)
+        [HttpDelete]
+        public async Task<ActionResult<AuthResponse>> Delete(string password)
         {
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
@@ -181,8 +181,8 @@ namespace Project.WebUI.Controllers
             return Ok(new AuthResponse { IsAuthSuccessful = true });
         }
 
-        [HttpPatch("UpdateUser")]
-        public async Task<ActionResult> UpdateUser(string email, string oldPassword, string newPassword)
+        [HttpPatch]
+        public async Task<ActionResult> Update(string email, string oldPassword, string newPassword)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)

@@ -22,7 +22,7 @@ export class ConfirmDeleteAccountDialogComponent implements OnInit {
   }
 
   onDeleteAccount(password: string) {
-    this._accountsClient.deleteAccount(password).pipe(catchError(authResponse => {
+    this._accountsClient.delete(password).pipe(catchError(authResponse => {
       let error = JSON.parse(authResponse.response).errorMessage;
 
       if (!error)

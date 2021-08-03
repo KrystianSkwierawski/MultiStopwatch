@@ -15,13 +15,13 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAccountsClient {
-    getUser(): Observable<ApplicationUser>;
+    get(): Observable<ApplicationUser>;
+    delete(password: string | null | undefined): Observable<AuthResponse>;
+    update(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
     register(userForRegistration: UserForRegistration): Observable<RegistrationResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
     googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
     facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<AuthResponse>;
-    deleteAccount(password: string | null | undefined): Observable<AuthResponse>;
-    updateUser(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -37,8 +37,8 @@ export class AccountsClient implements IAccountsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getUser(): Observable<ApplicationUser> {
-        let url_ = this.baseUrl + "/api/accounts/GetUser";
+    get(): Observable<ApplicationUser> {
+        let url_ = this.baseUrl + "/api/accounts";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -50,11 +50,11 @@ export class AccountsClient implements IAccountsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUser(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUser(<any>response_);
+                    return this.processGet(<any>response_);
                 } catch (e) {
                     return <Observable<ApplicationUser>><any>_observableThrow(e);
                 }
@@ -63,7 +63,7 @@ export class AccountsClient implements IAccountsClient {
         }));
     }
 
-    protected processGetUser(response: HttpResponseBase): Observable<ApplicationUser> {
+    protected processGet(response: HttpResponseBase): Observable<ApplicationUser> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -77,6 +77,108 @@ export class AccountsClient implements IAccountsClient {
             result200 = ApplicationUser.fromJS(resultData200);
             return _observableOf(result200);
             }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null);
+    }
+
+    delete(password: string | null | undefined): Observable<AuthResponse> {
+        let url_ = this.baseUrl + "/api/accounts?";
+        if (password !== undefined && password !== null)
+            url_ += "password=" + encodeURIComponent("" + password) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<AuthResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AuthResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<AuthResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null);
+    }
+
+    update(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/accounts?";
+        if (email !== undefined && email !== null)
+            url_ += "email=" + encodeURIComponent("" + email) + "&";
+        if (oldPassword !== undefined && oldPassword !== null)
+            url_ += "oldPassword=" + encodeURIComponent("" + oldPassword) + "&";
+        if (newPassword !== undefined && newPassword !== null)
+            url_ += "newPassword=" + encodeURIComponent("" + newPassword) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -287,108 +389,6 @@ export class AccountsClient implements IAccountsClient {
             result200 = AuthResponse.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null);
-    }
-
-    deleteAccount(password: string | null | undefined): Observable<AuthResponse> {
-        let url_ = this.baseUrl + "/api/accounts/DeleteAccount?";
-        if (password !== undefined && password !== null)
-            url_ += "password=" + encodeURIComponent("" + password) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteAccount(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeleteAccount(<any>response_);
-                } catch (e) {
-                    return <Observable<AuthResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AuthResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDeleteAccount(response: HttpResponseBase): Observable<AuthResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthResponse.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null);
-    }
-
-    updateUser(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/UpdateUser?";
-        if (email !== undefined && email !== null)
-            url_ += "email=" + encodeURIComponent("" + email) + "&";
-        if (oldPassword !== undefined && oldPassword !== null)
-            url_ += "oldPassword=" + encodeURIComponent("" + oldPassword) + "&";
-        if (newPassword !== undefined && newPassword !== null)
-            url_ += "newPassword=" + encodeURIComponent("" + newPassword) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
-            })
-        };
-
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateUser(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateUser(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateUser(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);

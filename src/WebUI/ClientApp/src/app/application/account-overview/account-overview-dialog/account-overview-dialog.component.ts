@@ -42,7 +42,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   getUser() {
-    this._accountsClient.getUser().subscribe(user => {
+    this._accountsClient.get().subscribe(user => {
       if (!user)
         return;
 
@@ -58,7 +58,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   onSubmit(form: HTMLFormElement) {
-    this._accountsClient.updateUser(form.email, form.oldPassword, form.newPassword).subscribe(() => {
+    this._accountsClient.update(form.email, form.oldPassword, form.newPassword).subscribe(() => {
       this.closeDialog();
       alert("Successfully updated user data.");
     },
