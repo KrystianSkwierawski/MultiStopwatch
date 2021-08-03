@@ -58,11 +58,19 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   onSubmit(form: HTMLFormElement) {
-    this._accountsClient.update(form.email, form.oldPassword, form.newPassword).subscribe(() => {
+    this._accountsClient.update(form.email, form.oldPassword, form.newPassword).pipe(catchError(error => {
+      const errors: string[] = JSON.parse(error.response);
+
+      if (errors?.length === 0)
+        errors.push("An unexpected server error occurred.")
+
+      return throwError(errors);
+
+    })).subscribe(() => {
       this.closeDialog();
       alert("Successfully updated user data.");
     },
-      error => this.errors = JSON.parse(error.response)
+      errors => this.errors = errors
     );
   }
 
