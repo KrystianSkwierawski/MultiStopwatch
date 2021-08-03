@@ -51,14 +51,7 @@ namespace Project.WebUI.Controllers
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
 
-            ApplicationUser user = new ApplicationUser
-            {
-                Email = userForRegistration.Email,
-                UserName = userForRegistration.Email,
-                HasPassword = true
-            };
-
-            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+            IdentityResult result = await CreateUser(userForRegistration.Email, userForRegistration.Password);
             if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
@@ -98,16 +91,7 @@ namespace Project.WebUI.Controllers
             ApplicationUser user = await _userManager.FindByEmailAsync(payload.Email);
 
             if (user is null)
-            {
-                user = new ApplicationUser
-                {
-                    Email = payload.Email,
-                    UserName = payload.Email,
-                    HasPassword = false
-                };
-
-                var result = await _userManager.CreateAsync(user);
-            }
+                user = await CreateUser(payload.Email);
 
             var claims = _jwtHandler.GetClamis(payload.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
@@ -134,18 +118,9 @@ namespace Project.WebUI.Controllers
 
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
 
-            if (user is null)
-            {
-                user = new ApplicationUser
-                {
-                    Email = email,
-                    UserName = email,
-                    HasPassword = false
-                };
-
-                var result = await _userManager.CreateAsync(user);
-            }
-
+            if (user is null)          
+                user = await CreateUser(email);
+            
             var claims = _jwtHandler.GetClamis(email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
@@ -214,6 +189,29 @@ namespace Project.WebUI.Controllers
                 return BadRequest(updateUserResult.Errors.Select(x => x.Description));
 
             return Ok();
+        }
+
+        private async Task<dynamic> CreateUser(string email, string password = "")
+        {
+            bool hasPassword = String.IsNullOrEmpty(password) ? false : true;
+
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = email,
+                UserName = Guid.NewGuid().ToString(),
+                HasPassword = hasPassword
+            };
+
+            if (!hasPassword)
+            {
+                await _userManager.CreateAsync(user);
+                return user;
+            }
+          
+            if (hasPassword)
+               return await _userManager.CreateAsync(user, password);
+
+            throw new Exception();
         }
 
         private async Task<JObject> GetFacebookAuthCheck(string authToken)
