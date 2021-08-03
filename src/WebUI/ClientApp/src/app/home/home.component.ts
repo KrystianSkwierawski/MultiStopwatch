@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { LoginDialogComponent } from '../authentication/login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../authentication/register-dialog/register-dialog.component';
+import * as AOS from 'aos';
 
 
 @Component({
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    AOS.init();
+
     this._authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });

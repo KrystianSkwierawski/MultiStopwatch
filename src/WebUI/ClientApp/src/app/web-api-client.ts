@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IAccountsClient {
     get(): Observable<ApplicationUser>;
     delete(password: string | null | undefined): Observable<AuthResponse>;
-    update(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
+    update(email: string | null | undefined, currentPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
     register(userForRegistration: UserForRegistration): Observable<RegistrationResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
     googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
@@ -135,12 +135,12 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf(null);
     }
 
-    update(email: string | null | undefined, oldPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
+    update(email: string | null | undefined, currentPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/accounts?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
-        if (oldPassword !== undefined && oldPassword !== null)
-            url_ += "oldPassword=" + encodeURIComponent("" + oldPassword) + "&";
+        if (currentPassword !== undefined && currentPassword !== null)
+            url_ += "currentPassword=" + encodeURIComponent("" + currentPassword) + "&";
         if (newPassword !== undefined && newPassword !== null)
             url_ += "newPassword=" + encodeURIComponent("" + newPassword) + "&";
         url_ = url_.replace(/[?&]$/, "");
