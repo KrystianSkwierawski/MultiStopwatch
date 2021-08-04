@@ -45,9 +45,10 @@
           "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -125,9 +126,10 @@
           "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -848,22 +850,6 @@
             "type": "integer",
             "description": "Gets or sets the number of failed login attempts for the current user.",
             "format": "int32"
-          }
-        }
-      },
-      "RegistrationResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "isSuccessfulRegistration": {
-            "type": "boolean"
-          },
-          "errors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
           }
         }
       },

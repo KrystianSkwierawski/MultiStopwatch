@@ -46,7 +46,7 @@ namespace Project.WebUI.Controllers
 
 
         [HttpPost("Register")]
-        public async Task<ActionResult<RegistrationResponse>> Register(UserForRegistration userForRegistration)
+        public async Task<ActionResult> Register(UserForRegistration userForRegistration)
         {
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
@@ -56,7 +56,7 @@ namespace Project.WebUI.Controllers
             {
                 var errors = result.Errors.Select(e => e.Description);
 
-                return BadRequest(new RegistrationResponse { Errors = errors });
+                return BadRequest(errors);
             }
 
             return Ok();
@@ -118,9 +118,9 @@ namespace Project.WebUI.Controllers
 
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
 
-            if (user is null)          
+            if (user is null)
                 user = await CreateUser(email);
-            
+
             var claims = _jwtHandler.GetClamis(email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
@@ -128,17 +128,17 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<AuthResponse>> Delete(string password)
+        public async Task<ActionResult> Delete(string password)
         {
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
-                return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
+                return BadRequest(new string[] { "There is no user with this e-mail" });
 
             if (!user.HasPassword)
-                return BadRequest(new AuthResponse { ErrorMessage = "To delete an account, you need to set password up first" });
+                return BadRequest(new string[] { "To delete an account, you need to set password up first" });
 
             if (!await _userManager.CheckPasswordAsync(user, password))
-                return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
+                return BadRequest(new string[] { "Invalid password" });
 
             await _mediator.Send(new DeleteAccountDataCommand());
 
@@ -151,7 +151,7 @@ namespace Project.WebUI.Controllers
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
-            return Ok(new AuthResponse { IsAuthSuccessful = true });
+            return Ok();
         }
 
         [HttpPatch]
@@ -207,9 +207,9 @@ namespace Project.WebUI.Controllers
                 await _userManager.CreateAsync(user);
                 return user;
             }
-          
+
             if (hasPassword)
-               return await _userManager.CreateAsync(user, password);
+                return await _userManager.CreateAsync(user, password);
 
             throw new Exception();
         }

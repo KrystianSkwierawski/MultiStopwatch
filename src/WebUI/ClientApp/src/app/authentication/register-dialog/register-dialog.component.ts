@@ -14,7 +14,7 @@ export class RegisterDialogComponent implements OnInit {
 
   form: FormGroup;
   facebookImageUrl;
-  errors;
+  errors: string[];
 
   constructor(private _authService: AuthenticationService,
     private _dialog: MatDialog,

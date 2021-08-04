@@ -12,7 +12,7 @@ import { AccountsClient } from '../../../web-api-client';
 })
 export class ConfirmDeleteAccountDialogComponent implements OnInit {
 
-  error;
+  errors;
 
   constructor(private _accountsClient: AccountsClient,
     private _authService: AuthenticationService,
@@ -22,22 +22,20 @@ export class ConfirmDeleteAccountDialogComponent implements OnInit {
   }
 
   onDeleteAccount(password: string) {
-    this._accountsClient.delete(password).pipe(catchError(authResponse => {
-      let error = JSON.parse(authResponse.response).errorMessage;
+    this._accountsClient.delete(password).pipe(catchError(error => {
+      const errors: string[] = JSON.parse(error.response);
 
-      if (!error)
-        error = "An unexpected server error occurred.";
+      if (errors?.length === 0)
+        errors.push("An unexpected server error occurred.");
 
       return throwError(error);
 
-    })).subscribe(authResponse => {
-      if (!authResponse.isAuthSuccessful)
-        return;
+    })).subscribe(() => {
 
       this._authService.logout();
       this.closeDialog("success");
     },
-      error => this.error = error
+      error => this.errors = error
     );
   }
 

@@ -14,7 +14,7 @@ import { RegisterDialogComponent } from '../register-dialog/register-dialog.comp
 export class LoginDialogComponent implements OnInit {
 
   form: FormGroup;
-  error;
+  error: string;
 
   constructor(private _authService: AuthenticationService,
     private _dialog: MatDialog,

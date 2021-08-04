@@ -25,8 +25,8 @@ export class AuthenticationService implements OnInit {
 
   register(user) {
     return this._accountsClient.register(user).pipe(
-      catchError(errorResponse => {
-        const errors = JSON.parse(errorResponse.response).errors;
+      catchError(error => {
+        const errors: string[] = JSON.parse(error.response);
 
         if (errors?.length === 0)
           errors.push("An unexpected server error occurred.");
@@ -42,7 +42,6 @@ export class AuthenticationService implements OnInit {
 
       if (!error)
         error = "An unexpected server error occurred.";
-
 
       return throwError(error);
     }),
