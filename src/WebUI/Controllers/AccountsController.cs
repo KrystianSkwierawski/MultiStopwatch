@@ -55,7 +55,6 @@ namespace Project.WebUI.Controllers
                 return BadRequest();
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
-
             if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
@@ -63,7 +62,8 @@ namespace Project.WebUI.Controllers
                 return BadRequest(errors);
             }
 
-            return RedirectToPage("/");
+            //TODO: return to confirmed email view
+            return Ok();
         }
 
 
@@ -81,11 +81,7 @@ namespace Project.WebUI.Controllers
                 return BadRequest(errors);
             }
 
-            ApplicationUser user = await _userManager.FindByEmailAsync(userForRegistration.Email);
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
-            var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
-            await _emailSender.SendEmailAsync(message);
+            await SendConfirmEmailAsync(userForRegistration.Email);
 
             return Ok();
         }
@@ -232,6 +228,8 @@ namespace Project.WebUI.Controllers
 
             if (!hasPassword)
             {
+                // Account created with google or facebook, so doesn't need to confirm email.
+                user.EmailConfirmed = true;
                 await _userManager.CreateAsync(user);
                 return user;
             }
@@ -240,6 +238,15 @@ namespace Project.WebUI.Controllers
                 return await _userManager.CreateAsync(user, password);
 
             throw new Exception();
+        }
+
+        private async Task SendConfirmEmailAsync(string email)
+        {
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", confirmationLink, null);
+            await _emailSender.SendEmailAsync(message);
         }
 
         private async Task<JObject> GetFacebookAuthCheck(string authToken)

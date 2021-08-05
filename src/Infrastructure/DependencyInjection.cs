@@ -58,7 +58,7 @@ namespace Project.Infrastructure
               opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromDays(3));
+                opt.TokenLifespan = TimeSpan.FromDays(2));
 
              var emailConfig = configuration
                 .GetSection("EmailConfiguration")
