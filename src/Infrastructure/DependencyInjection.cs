@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Infrastructure.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Project.Application.Common.CustomTokenProviders;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
+using Project.Application.Common.Models;
 using Project.Domain.Entities;
 using Project.Infrastructure.Persistence;
 using Project.Infrastructure.Services;
+using System;
 
 namespace Project.Infrastructure
 {
@@ -29,10 +33,7 @@ namespace Project.Infrastructure
 
             services.AddScoped<IContext>(provider => provider.GetService<Context>());
 
-
-
             services.AddTransient<IDateTime, DateTimeService>();
-
 
             //services.ConfigureApplicationCookie(options =>
             //{
@@ -47,12 +48,25 @@ namespace Project.Infrastructure
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
+                opt.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             })
-          .AddEntityFrameworkStores<Context>();
+            .AddEntityFrameworkStores<Context>()
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<EmailConfirmationTokenProvider<ApplicationUser>>("emailconfirmation");
 
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+              opt.TokenLifespan = TimeSpan.FromHours(2));
+
+            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromDays(3));
+
+             var emailConfig = configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddScoped<JwtHandler>();
-
 
             services.AddSignalR();
 

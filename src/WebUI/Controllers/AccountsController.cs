@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using IdentityServer4.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -27,14 +28,16 @@ namespace Project.WebUI.Controllers
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<DeletePersonalDataModel> _logger;
         private readonly ISender _mediator;
+        private readonly IEmailSender _emailSender;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, ISender mediator)
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, ISender mediator, IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _currentUserService = currentUserService;
             _logger = logger;
             _mediator = mediator;
+            _emailSender = emailSender;
         }
 
 
@@ -42,6 +45,25 @@ namespace Project.WebUI.Controllers
         public async Task<ActionResult<ApplicationUser>> Get()
         {
             return await _userManager.FindByIdAsync(_currentUserService.UserId);
+        }
+
+        [HttpGet("ConfirmEmail")]
+        public async Task<ActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return BadRequest();
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+
+                return BadRequest(errors);
+            }
+
+            return RedirectToPage("/");
         }
 
 
@@ -58,6 +80,12 @@ namespace Project.WebUI.Controllers
 
                 return BadRequest(errors);
             }
+
+            ApplicationUser user = await _userManager.FindByEmailAsync(userForRegistration.Email);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
+            await _emailSender.SendEmailAsync(message);
 
             return Ok();
         }
