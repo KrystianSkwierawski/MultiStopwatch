@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Auth;
-using IdentityServer4.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -62,8 +61,7 @@ namespace Project.WebUI.Controllers
                 return BadRequest(errors);
             }
 
-            //TODO: return to confirmed email view
-            return Ok();
+            return Redirect("/confirmed-email");
         }
 
 

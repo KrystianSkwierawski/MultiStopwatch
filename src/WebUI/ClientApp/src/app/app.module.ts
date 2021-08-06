@@ -36,6 +36,7 @@ import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-se
 import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
 import { ConfirmDeleteAccountDialogComponent } from './application/account-overview/confirm-delete-account-dialog/confirm-delete-account-dialog.component';
 import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
+import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { AccountOverviewDialogComponent } from './application/account-overview/a
     ItemsStatusSelectorComponent,
     AccountOverviewDialogComponent,
     SeceondsToHhmmssPipe,
-    ConfirmDeleteAccountDialogComponent
+    ConfirmDeleteAccountDialogComponent,
+    ConfirmedEmailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
