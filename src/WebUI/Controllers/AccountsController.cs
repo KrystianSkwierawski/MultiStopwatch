@@ -203,12 +203,19 @@ namespace Project.WebUI.Controllers
                     user.HasPassword = true;
             }
 
-            user.Email = email;
+         
+            if(user.Email != email)
+            {
+                user.Email = email;
+                user.EmailConfirmed = false;
 
-            var updateUserResult = await _userManager.UpdateAsync(user);
+                var updateUserResult = await _userManager.UpdateAsync(user);
 
-            if (!updateUserResult.Succeeded)
-                return BadRequest(updateUserResult.Errors.Select(x => x.Description));
+                if (!updateUserResult.Succeeded)
+                    return BadRequest(updateUserResult.Errors.Select(x => x.Description));
+
+                await SendConfirmEmailAsync(email);
+            }
 
             return Ok();
         }
