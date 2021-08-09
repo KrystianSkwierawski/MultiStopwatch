@@ -19,6 +19,7 @@ export interface IAccountsClient {
     delete(password: string | null | undefined): Observable<FileResponse>;
     update(email: string | null | undefined, currentPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
     confirmEmail(token: string | null | undefined, email: string | null | undefined): Observable<FileResponse>;
+    resendConfirmationEmail(): Observable<FileResponse>;
     register(userForRegistration: UserForRegistration): Observable<FileResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
     googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
@@ -217,6 +218,52 @@ export class AccountsClient implements IAccountsClient {
     }
 
     protected processConfirmEmail(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null);
+    }
+
+    resendConfirmationEmail(): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/accounts/ResendConfirmationEmail";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processResendConfirmationEmail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processResendConfirmationEmail(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processResendConfirmationEmail(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

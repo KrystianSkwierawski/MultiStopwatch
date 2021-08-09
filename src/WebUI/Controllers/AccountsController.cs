@@ -64,6 +64,19 @@ namespace Project.WebUI.Controllers
             return Redirect("/confirmed-email");
         }
 
+        [HttpGet("ResendConfirmationEmail")]
+        public async Task<ActionResult> ResendConfirmationEmail()
+        {
+            var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
+
+            if (user is null)
+                return BadRequest();
+
+            await SendConfirmEmailAsync(user.Email);
+
+            return Ok();
+        }
+
 
         [HttpPost("Register")]
         public async Task<ActionResult> Register(UserForRegistration userForRegistration)

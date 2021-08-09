@@ -66,7 +66,7 @@
         </div>
       </div>
 
-      <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+      <form (ngSubmit)="updateUser(form.value)" [formGroup]="form">
 
         <mat-form-field appearance="legacy">
           <mat-label>Email</mat-label>
@@ -93,11 +93,12 @@
           <mat-error *ngIf="form.invalid">{{getErrorMessageFieldPassword('confirmNewPassword')}}</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button class="d-block ml-auto" color="primary" [disabled]="form.invalid || !form.dirty" aria-label="save changes" type="submit">Save changes</button>
+        <button mat-flat-button class="d-block mr-auto ml-auto" color="primary" [disabled]="form.invalid || !form.dirty" aria-label="save changes" type="submit">Save changes</button>
       </form>
 
 
-      <button (click)="onOpenConfirmDeleteAccountDialog()" class="mt-4 d-block ml-auto" mat-raised-button color="warn">Delete account</button>
+      <button (click)="onOpenConfirmDeleteAccountDialog()" class="mt-2 d-block mr-auto ml-auto" mat-raised-button color="warn">Delete account</button>
+      <button (click)="resendConfirmationEmail()" class="mr-auto ml-auto d-block mt-2" mat-button>Resend confirmation email</button>
     </mat-tab>
   </mat-tab-group>
 

@@ -57,7 +57,7 @@ export class AccountOverviewDialogComponent implements OnInit {
     });
   }
 
-  onSubmit(form: HTMLFormElement) {
+  updateUser(form: HTMLFormElement) {
     this._accountsClient.update(form.email, form.currentPassword, form.newPassword).pipe(catchError(error => {
       const errors: string[] = JSON.parse(error.response);
 
@@ -86,6 +86,12 @@ export class AccountOverviewDialogComponent implements OnInit {
     }
 
     return '';
+  }
+
+  resendConfirmationEmail() {
+    this._accountsClient.resendConfirmationEmail().subscribe(() => {
+      alert("Confirmation email sended");
+    });
   }
 
   onOpenConfirmDeleteAccountDialog() {
