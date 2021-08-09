@@ -37,6 +37,8 @@ import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
 import { ConfirmDeleteAccountDialogComponent } from './application/account-overview/confirm-delete-account-dialog/confirm-delete-account-dialog.component';
 import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
+import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
+import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.compo
     AccountOverviewDialogComponent,
     SeceondsToHhmmssPipe,
     ConfirmDeleteAccountDialogComponent,
-    ConfirmedEmailComponent
+    ConfirmedEmailComponent,
+    ForgotPasswordComponent,
+    ForgotPasswordDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

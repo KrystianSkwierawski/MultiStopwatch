@@ -13,6 +13,7 @@ using Project.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -70,9 +71,34 @@ namespace Project.WebUI.Controllers
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
 
             if (user is null)
-                return BadRequest();
+                return Unauthorized();
 
             await SendConfirmEmailAsync(user.Email);
+
+            return Ok();
+        }
+
+        [HttpGet("ResetPassword")]
+        public async Task<ActionResult> ResetPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
+                return BadRequest();
+
+            if (!user.EmailConfirmed)
+                return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
+
+            string newPassword = Guid.NewGuid().ToString().ToUpper();
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (!resetPasswordResult.Succeeded)
+                throw new InvalidOperationException($"Unexpected error occurred reseting password with userId '{user.Id}'.");
+
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] your password has been changed", $"Your new password: <br> {newPassword}", null);
+            await _emailSender.SendEmailAsync(message);
 
             return Ok();
         }
@@ -140,7 +166,7 @@ namespace Project.WebUI.Controllers
             var facebookAuthCheck = await GetFacebookAuthCheck(authToken);
 
             if (facebookAuthCheck is null)
-                return StatusCode(424);
+                return StatusCode((int)HttpStatusCode.FailedDependency);
 
             string facebookAuthCheckName = facebookAuthCheck["name"]?.Value<string>();
             string facebookAuthCheckId = facebookAuthCheck["id"]?.Value<string>();
@@ -167,7 +193,7 @@ namespace Project.WebUI.Controllers
         {
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
-                return BadRequest(new string[] { "There is no user with this e-mail" });
+                return Unauthorized();
 
             if (!user.HasPassword)
                 return BadRequest(new string[] { "To delete an account, you need to set password up first" });
@@ -177,12 +203,11 @@ namespace Project.WebUI.Controllers
 
             await _mediator.Send(new DeleteAccountDataCommand());
 
-            var result = await _userManager.DeleteAsync(user);
+            var deleteUserResult = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
-            {
+
+            if (!deleteUserResult.Succeeded)
                 throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
-            }
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
@@ -194,7 +219,7 @@ namespace Project.WebUI.Controllers
         {
             ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
             if (user is null)
-                return StatusCode(401);
+                return Unauthorized();
 
             // change or set password
             if (!String.IsNullOrEmpty(newPassword))
@@ -216,8 +241,8 @@ namespace Project.WebUI.Controllers
                     user.HasPassword = true;
             }
 
-         
-            if(user.Email != email)
+
+            if (user.Email != email)
             {
                 user.Email = email;
                 user.EmailConfirmed = false;
@@ -262,8 +287,8 @@ namespace Project.WebUI.Controllers
         {
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
-            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", confirmationLink, null);
+            var callbackUrl = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", _emailSender.GetConfirmationEmailContent(callbackUrl), null);
             await _emailSender.SendEmailAsync(message);
         }
 

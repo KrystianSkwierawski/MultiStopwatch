@@ -7,5 +7,6 @@ namespace Project.Application.Common.Interfaces
     {
         void SendEmail(Message message);
         Task SendEmailAsync(Message message);
+        string GetConfirmationEmailContent(string callbackUrl);
     }
 }
