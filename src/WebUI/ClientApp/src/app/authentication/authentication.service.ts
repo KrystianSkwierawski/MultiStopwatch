@@ -88,6 +88,17 @@ export class AuthenticationService implements OnInit {
     }));
   }
 
+  sendResetPasswordEmail(email: string) {
+    return this._accountsClient.sendResetPasswordEmail(email).pipe(catchError(errorResponse => {
+      let error = errorResponse.response;
+
+      if (!error)
+        error = "An unexpected server error occurred.";
+
+      return throwError(error);
+    }));
+  }
+
   async loginWithGoogle() {
     const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 

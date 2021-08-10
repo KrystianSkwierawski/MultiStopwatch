@@ -86,7 +86,7 @@ namespace Project.WebUI.Controllers
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user is null)
-                return BadRequest();
+                return BadRequest("There is no user with this e-mail");
 
             if (!user.EmailConfirmed)
                 return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
@@ -192,10 +192,10 @@ namespace Project.WebUI.Controllers
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user is null)
-                return BadRequest();
+                return BadRequest(new string[] { "There is no user with this e-mail" });
 
             if (!user.EmailConfirmed)
-                return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
+                return StatusCode((int)HttpStatusCode.Forbidden, new string[] { "This email is not confirmed" });
 
             var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
 
@@ -206,10 +206,9 @@ namespace Project.WebUI.Controllers
             var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             if (!resetPasswordResult.Succeeded)
-                throw new InvalidOperationException($"Unexpected error occurred reseting password with userId '{user.Id}'.");
+                return StatusCode((int)HttpStatusCode.InternalServerError, new string[] { "An internal server error occurred or token expired" });
 
             return Ok();
-
         }
 
         [HttpDelete]
