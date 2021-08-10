@@ -10,25 +10,12 @@ import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private _accountsClient: AccountsClient, private _dialog: MatDialog) { }
+  constructor(private _dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   openResetPasswordDialog() {
-    const dialogRef = this._dialog.open(ForgotPasswordDialogComponent);
-
-    dialogRef.afterClosed().subscribe((email: string) => {
-      if (email)
-        this.resetPassword(email);
-    });
-  }
-
-  private resetPassword(email: string) {
-    this._accountsClient.resetPassword(email).subscribe(() => {
-      alert("Your password has been reset, check your email.");
-    },
-      error => console.log(error)
-    );
+    this._dialog.open(ForgotPasswordDialogComponent);
   }
 }

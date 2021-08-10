@@ -166,12 +166,12 @@
         }
       }
     },
-    "/api/accounts/ResetPassword": {
+    "/api/accounts/SendResetPasswordEmail": {
       "get": {
         "tags": [
           "Accounts"
         ],
-        "operationId": "Accounts_ResetPassword",
+        "operationId": "Accounts_SendResetPasswordEmail",
         "parameters": [
           {
             "name": "email",
@@ -345,6 +345,56 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/ResetPassword": {
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "operationId": "Accounts_ResetPassword",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "newPassword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }

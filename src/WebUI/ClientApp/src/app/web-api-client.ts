@@ -20,11 +20,12 @@ export interface IAccountsClient {
     update(email: string | null | undefined, currentPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
     confirmEmail(token: string | null | undefined, email: string | null | undefined): Observable<FileResponse>;
     resendConfirmationEmail(): Observable<FileResponse>;
-    resetPassword(email: string | null | undefined): Observable<FileResponse>;
+    sendResetPasswordEmail(email: string | null | undefined): Observable<FileResponse>;
     register(userForRegistration: UserForRegistration): Observable<FileResponse>;
     login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
     googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
     facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<AuthResponse>;
+    resetPassword(email: string | null | undefined, token: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -284,8 +285,8 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf(null);
     }
 
-    resetPassword(email: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/ResetPassword?";
+    sendResetPasswordEmail(email: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/accounts/SendResetPasswordEmail?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -299,11 +300,11 @@ export class AccountsClient implements IAccountsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processResetPassword(response_);
+            return this.processSendResetPasswordEmail(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processResetPassword(<any>response_);
+                    return this.processSendResetPasswordEmail(<any>response_);
                 } catch (e) {
                     return <Observable<FileResponse>><any>_observableThrow(e);
                 }
@@ -312,7 +313,7 @@ export class AccountsClient implements IAccountsClient {
         }));
     }
 
-    protected processResetPassword(response: HttpResponseBase): Observable<FileResponse> {
+    protected processSendResetPasswordEmail(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -532,6 +533,58 @@ export class AccountsClient implements IAccountsClient {
             result200 = AuthResponse.fromJS(resultData200);
             return _observableOf(result200);
             }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null);
+    }
+
+    resetPassword(email: string | null | undefined, token: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/accounts/ResetPassword?";
+        if (email !== undefined && email !== null)
+            url_ += "email=" + encodeURIComponent("" + email) + "&";
+        if (token !== undefined && token !== null)
+            url_ += "token=" + encodeURIComponent("" + token) + "&";
+        if (newPassword !== undefined && newPassword !== null)
+            url_ += "newPassword=" + encodeURIComponent("" + newPassword) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processResetPassword(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processResetPassword(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processResetPassword(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);

@@ -77,6 +77,17 @@ export class AuthenticationService implements OnInit {
     }));
   }
 
+  resetPassword(email: string, token: string, password: string) {
+    return this._accountsClient.resetPassword(email, token, password).pipe(catchError(error => {
+      const errors: string[] = JSON.parse(error.response);
+
+      if (errors?.length === 0)
+        errors.push("An unexpected server error occurred.")
+
+      return throwError(errors);
+    }));
+  }
+
   async loginWithGoogle() {
     const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 

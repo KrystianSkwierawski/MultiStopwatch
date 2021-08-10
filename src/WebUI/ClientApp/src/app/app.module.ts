@@ -39,6 +39,7 @@ import { AccountOverviewDialogComponent } from './application/account-overview/a
 import { ConfirmedEmailComponent } from './authentication/confirmed-email/confirmed-email.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
 import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
+import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { ForgotPasswordDialogComponent } from './authentication/forgot-password/
     ConfirmDeleteAccountDialogComponent,
     ConfirmedEmailComponent,
     ForgotPasswordComponent,
-    ForgotPasswordDialogComponent
+    ForgotPasswordDialogComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

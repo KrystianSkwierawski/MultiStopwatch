@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Project.Application.AccountData.Commands.DeleteAccountData;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
@@ -78,8 +80,8 @@ namespace Project.WebUI.Controllers
             return Ok();
         }
 
-        [HttpGet("ResetPassword")]
-        public async Task<ActionResult> ResetPassword(string email)
+        [HttpGet("SendResetPasswordEmail")]
+        public async Task<ActionResult> SendResetPasswordEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -89,15 +91,11 @@ namespace Project.WebUI.Controllers
             if (!user.EmailConfirmed)
                 return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
 
-            string newPassword = Guid.NewGuid().ToString().ToUpper();
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var callbackUrl = Url.Content($"{Request.Scheme}://{Request.Host.Value}/reset-password?token={token}&email={email}");
 
-            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
-
-            if (!resetPasswordResult.Succeeded)
-                throw new InvalidOperationException($"Unexpected error occurred reseting password with userId '{user.Id}'.");
-
-            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] your password has been changed", $"Your new password: <br> {newPassword}", null);
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Reset your password", _emailSender.GetResetPasswordEmailContent(callbackUrl), null);
             await _emailSender.SendEmailAsync(message);
 
             return Ok();
@@ -186,6 +184,32 @@ namespace Project.WebUI.Controllers
             string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+        }
+
+        [HttpPut("ResetPassword")]
+        public async Task<ActionResult> ResetPassword(string email, string token, string newPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
+                return BadRequest();
+
+            if (!user.EmailConfirmed)
+                return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
+
+            var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
+
+            if (!validateNewPasswordResult.Succeeded)
+                return BadRequest(validateNewPasswordResult.Errors.Select(x => x.Description));
+
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (!resetPasswordResult.Succeeded)
+                throw new InvalidOperationException($"Unexpected error occurred reseting password with userId '{user.Id}'.");
+
+            return Ok();
+
         }
 
         [HttpDelete]
