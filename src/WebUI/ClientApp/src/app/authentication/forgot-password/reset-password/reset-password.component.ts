@@ -27,9 +27,6 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.token = this._activatedRoute.snapshot.queryParams["token"];
     this.email = this._activatedRoute.snapshot.queryParams["email"];
-    console.log(this.token);
-    console.log(this.email);
-
 
     this.form = this._formBulider.group({
       password: ['', {
