@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthenticationService } from '../../../authentication/authentication.service';
 import { MustMatch } from '../../../shared/validators/must-match';
 import { AccountsClient, AccountStatsClient, AccountStatsDto, ApplicationUser } from '../../../web-api-client';
 import { ConfirmDeleteAccountDialogComponent } from '../confirm-delete-account-dialog/confirm-delete-account-dialog.component';
@@ -23,7 +24,8 @@ export class AccountOverviewDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _dialog: MatDialog,
     private _dialogRef: MatDialogRef<AccountOverviewDialogComponent>,
-    private _accountsClient: AccountsClient) { }
+    private _accountsClient: AccountsClient,
+    private _authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
@@ -58,15 +60,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   updateUser(form: HTMLFormElement) {
-    this._accountsClient.update(form.email, form.currentPassword, form.newPassword).pipe(catchError(error => {
-      const errors: string[] = JSON.parse(error.response);
-
-      if (errors?.length === 0)
-        errors.push("An unexpected server error occurred.")
-
-      return throwError(errors);
-
-    })).subscribe(() => {
+    this._authenticationService.updateUser(form.email, form.currentPassword, form.newPassword).subscribe(() => {
       this.closeDialog();
       alert("Successfully updated user data.");
     },

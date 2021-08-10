@@ -54,6 +54,29 @@ export class AuthenticationService implements OnInit {
       ));
   }
 
+  deleteUser(password: string) {
+    return this._accountsClient.delete(password).pipe(catchError(error => {
+      const errors: string[] = JSON.parse(error.response);
+
+      if (errors?.length === 0)
+        errors.push("An unexpected server error occurred.");
+
+      return throwError(error);
+
+    }));
+  }
+
+  updateUser(email: string, currentPassword: string, newPassword: string) {
+    return this._accountsClient.update(email, currentPassword, newPassword).pipe(catchError(error => {
+      const errors: string[] = JSON.parse(error.response);
+
+      if (errors?.length === 0)
+        errors.push("An unexpected server error occurred.")
+
+      return throwError(errors);
+    }));
+  }
+
   async loginWithGoogle() {
     const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 
