@@ -47,6 +47,7 @@ namespace Project.Infrastructure
                 opt.Password.RequiredLength = 3;
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireLowercase = false;
                 opt.User.RequireUniqueEmail = true;
                 opt.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             })
