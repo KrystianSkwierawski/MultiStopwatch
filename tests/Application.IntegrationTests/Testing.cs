@@ -1,15 +1,21 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
+using Project.Application.Common.Interfaces;
+using Project.Application.Common.JwtFeatures;
+using Project.Domain.Entities;
 using Project.Infrastructure.Persistence;
 using Project.WebUI;
 using Respawn;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 [SetUpFixture]
@@ -59,6 +65,38 @@ public class Testing
 
         context.Database.Migrate();
     }
+
+    public static JwtHandler GetJwtHandler()
+    {
+        var jwtHandler = new JwtHandler(_configuration);
+
+        return jwtHandler;
+    }
+
+    public static async Task<ApplicationUser> CreateUserAsync()
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+
+        ApplicationUser user = new()
+        {
+            Email = "test@gmail.com",
+            UserName = Guid.NewGuid().ToString(),
+        };
+
+        var createUserResult = await userManager.CreateAsync(user);
+
+        if (!createUserResult.Succeeded)
+        {
+            var errors = string.Join(Environment.NewLine, createUserResult.Errors.Select(e => e.Description));
+
+            throw new Exception($"Unable to create {user.UserName}.{Environment.NewLine}{errors}");
+        }
+             
+        return user;
+    }
+
 
     public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
     {

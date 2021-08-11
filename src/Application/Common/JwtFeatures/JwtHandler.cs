@@ -18,7 +18,7 @@ namespace Project.Application.Common.JwtFeatures
             _jwtSettings = _configuration.GetSection("JwtSettings");
         }
 
-        public SigningCredentials GetSigningCredentials()
+        private SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
             var secret = new SymmetricSecurityKey(key);
