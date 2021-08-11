@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -95,7 +96,14 @@ namespace Project.WebUI.Controllers
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             var callbackUrl = Url.Content($"{Request.Scheme}://{Request.Host.Value}/reset-password?token={token}&email={email}");
 
-            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Reset your password", _emailSender.GetResetPasswordEmailContent(callbackUrl), null);
+
+            string emailContent = new EmailContentCreatorService(
+                callbackUrl,
+                "If you want to reset your password.",
+                "Reset Password"
+                ).CreateEmailContent();
+
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Reset your password", emailContent, null);
             await _emailSender.SendEmailAsync(message);
 
             return Ok();
@@ -311,7 +319,14 @@ namespace Project.WebUI.Controllers
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.Action(nameof(ConfirmEmail), "Accounts", new { token, email = user.Email }, Request.Scheme);
-            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", _emailSender.GetConfirmationEmailContent(callbackUrl), null);
+
+            string emailContent = new EmailContentCreatorService(
+                callbackUrl,
+                "I'm excited to have you get started. If you want to confirm your account.",
+                "Create Account"
+                ).CreateEmailContent();
+
+            var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", emailContent, null);
             await _emailSender.SendEmailAsync(message);
         }
 
