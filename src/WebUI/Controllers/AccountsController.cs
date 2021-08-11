@@ -54,7 +54,7 @@ namespace Project.WebUI.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user is null)
-                return BadRequest();
+                return BadRequest(new string[] { "There is no user with this e-mail" });
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)

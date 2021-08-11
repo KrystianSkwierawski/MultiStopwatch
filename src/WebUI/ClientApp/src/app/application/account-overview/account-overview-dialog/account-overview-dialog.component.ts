@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { MustMatch } from '../../../shared/validators/must-match';
 import { AccountsClient, AccountStatsClient, AccountStatsDto, ApplicationUser } from '../../../web-api-client';

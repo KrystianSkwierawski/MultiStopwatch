@@ -98,7 +98,7 @@
 
 
       <button (click)="onOpenConfirmDeleteAccountDialog()" class="mt-2 d-block mr-auto ml-auto" mat-raised-button color="warn">Delete account</button>
-      <button (click)="resendConfirmationEmail()" class="mr-auto ml-auto d-block mt-2" mat-button>Resend confirmation email</button>
+      <button *ngIf="!user?.emailConfirmed" (click)="resendConfirmationEmail()" class="mr-auto ml-auto d-block mt-2" mat-button>Resend confirmation email</button>
     </mat-tab>
   </mat-tab-group>
 
