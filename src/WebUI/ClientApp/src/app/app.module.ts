@@ -40,7 +40,7 @@ import { ConfirmedEmailComponent } from './authentication/confirmed-email/confir
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
 import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
 import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
-import { ErrorViewComponent } from './shared/utilities/error-view/error-view.component';
+import { ErrorMessageComponent } from './shared/utilities/error-message/error-message.component';
 import { TypeofPipe } from './shared/pipes/typeof.pipe.';
 
 
@@ -79,7 +79,7 @@ import { TypeofPipe } from './shared/pipes/typeof.pipe.';
     ForgotPasswordComponent,
     ForgotPasswordDialogComponent,
     ResetPasswordComponent,
-    ErrorViewComponent
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

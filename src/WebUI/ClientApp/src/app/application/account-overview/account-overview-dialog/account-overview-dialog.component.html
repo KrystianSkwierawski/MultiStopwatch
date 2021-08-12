@@ -60,7 +60,7 @@
 
     <mat-tab label="Settings"> 
 
-      <app-error-view *ngIf="error" [error]="error"></app-error-view>
+      <app-error-message *ngIf="error" [error]="error"></app-error-message>
 
       <form (ngSubmit)="updateUser(form.value)" [formGroup]="form">
 
