@@ -35,7 +35,7 @@ export class StopwatchesListComponent implements OnInit {
   status = {
     doing: Status.Doing,
     done: Status.Done,
-  }
+  };
 
   constructor(private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
@@ -94,8 +94,9 @@ export class StopwatchesListComponent implements OnInit {
   filterStopwatchesByStatus(status: Status) {
     this.itemsStatus = status;
 
-    if (!this.paginatedListOfStopwatchItemDto.items)
-      return
+    if (!this.paginatedListOfStopwatchItemDto.items) {
+      return;
+    }
 
     this.stopwatches = this.getStopwatchesFilteredByStatus(this.paginatedListOfStopwatchItemDto.items);
   }
@@ -118,13 +119,14 @@ export class StopwatchesListComponent implements OnInit {
 
     await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
 
-    if (this.itemsStatus !== Status.All)
+    if (this.itemsStatus !== Status.All) {
       this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
+    }
   }
 
   filterTitlesArray() {
     if (this.paginatedListOfStopwatchItemDto.items) {
-      this.titlesArray = this.paginatedListOfStopwatchItemDto.items.map((e) => { return e.title });
+      this.titlesArray = this.paginatedListOfStopwatchItemDto.items.map((e) => e.title);
     }
   }
 
@@ -143,15 +145,17 @@ export class StopwatchesListComponent implements OnInit {
 
       this.filterTitlesArray();
 
-      if (this.paginator)
+      if (this.paginator) {
         this.paginator.pageIndex = 0;
+      }
     });
   }
 
   loadProject() {
     this._projectItemsClient.get(this.projectId).subscribe(result => {
-      if (!result)
+      if (!result) {
         return;
+      }
 
       this.project = result;
       this._timersService.project = result;

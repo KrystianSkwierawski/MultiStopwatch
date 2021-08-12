@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private _router: Router,
     private _authService: AuthenticationService
   ) { }
-   
+
   ngOnInit(): void {
     this._authService.isAuthenticated.pipe(take(1)).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openRegisterDialog() {
     if (this.isAuthenticated) {
-      this._router.navigateByUrl("app");
+      this._router.navigateByUrl('app');
       return;
     }
 
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openLoginDialog() {
     if (this.isAuthenticated) {
-      this._router.navigateByUrl("app");
+      this._router.navigateByUrl('app');
       return;
     }
 

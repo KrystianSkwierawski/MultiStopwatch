@@ -21,6 +21,13 @@ import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-
 })
 export class ProjectsListComponent implements OnInit, OnDestroy {
 
+  constructor(private _dialog: MatDialog,
+    private _projectItemsClient: ProjectItemsClient,
+    private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private _projectsDataService: ProjectsDataService,
+    private _authService: AuthenticationService,
+  ) { }
+
   @ViewChild(SearchItemByTitleComponent) searchProjectComponent: SearchItemByTitleComponent;
   @ViewChild('paginator') paginator: MatPaginator;
 
@@ -33,31 +40,28 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   status = {
     doing: Status.Doing,
     done: Status.Done,
-  }
+  };
 
   itemsStatus: Status = Status.Doing;
 
-  constructor(private _dialog: MatDialog,
-    private _projectItemsClient: ProjectItemsClient,
-    private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
-    private _projectsDataService: ProjectsDataService,
-    private _authService: AuthenticationService,
-  ) { }
+  hoveredDivId: number = null;
 
   ngOnInit() {
     this.paginatedListOfProjectItemDtoSub = this._projectsDataService.paginatedListOfProjectItemDto.subscribe(result => {
-      if (!result.items)
+      if (!result.items) {
         return;
+      }
 
       this.paginatedListOfProjectItemDto = result;
       this.projects = this.getProjectsFilteredByStatus(result.items);
       this.filterTitlesArray();
 
-      if (this.paginator)
+      if (this.paginator) {
         this.paginator.pageIndex = 0;
+      }
     });
 
-    this.loadProjectsAfterAuthenticate(); 
+    this.loadProjectsAfterAuthenticate();
   }
 
   loadProjectsAfterAuthenticate() {
@@ -114,8 +118,9 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
 
     this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(project)).subscribe(() => {
 
-      if (this.itemsStatus !== Status.All)
+      if (this.itemsStatus !== Status.All) {
         this.projects = this.projects.filter(x => x.id !== project.id);
+      }
     });
   }
 
@@ -132,15 +137,13 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  hoveredDivId: number = null;
-
   setHoveredDivId(index: number = null) {
     this.hoveredDivId = index;
   }
 
   filterTitlesArray() {
     if (this.paginatedListOfProjectItemDto.items) {
-      this.titlesArray = this.paginatedListOfProjectItemDto.items.map((e) => { return e.title });
+      this.titlesArray = this.paginatedListOfProjectItemDto.items.map((e) => e.title);
     }
   }
 
@@ -160,8 +163,9 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
   filterProjectsByStatus(status: Status) {
     this.itemsStatus = status;
 
-    if (!this.paginatedListOfProjectItemDto.items)
-      return
+    if (!this.paginatedListOfProjectItemDto.items) {
+      return;
+    }
 
     this.projects = this.getProjectsFilteredByStatus(this.paginatedListOfProjectItemDto.items);
   }

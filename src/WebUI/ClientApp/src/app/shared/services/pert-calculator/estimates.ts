@@ -1,4 +1,4 @@
 interface Estimates {
-  chance: number,
-  time: number
+  chance: number;
+  time: number;
 }

@@ -1,4 +1,3 @@
-import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,10 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
-import { ApplicationComponent } from './application/application.component';
-import { ChartDialogComponent } from './application/chart-dialog/chart-dialog.component';
+import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
+import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
+import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
 import { FavoriteProjectsListComponent } from './application/favorite-project-items/favorite-projects-list/favorite-projects-list.component';
+import { HomeComponent } from './home/home.component';
 import { PertCalculatorDialogComponent } from './application/pert-calculator/pert-calculator-dialog/pert-calculator-dialog.component';
 import { CreateProjectDialogComponent } from './application/project-items/create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from './application/project-items/edit-project-dialog/edit-project-dialog.component';
@@ -21,20 +21,27 @@ import { SplittedTimesListDialogComponent } from './application/splitted-times/s
 import { CreateStopwatchDialogComponent } from './application/stopwatch-items/create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from './application/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { StopwatchesListComponent } from './application/stopwatch-items/stopwatches-list/stopwatches-list.component';
-import { AuthenticationModule } from './authentication/authentication.module';
-import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
-import { HomeComponent } from './home/home.component';
-import { MaterialModule } from './shared/material/material.module';
-import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
-import { ShortenPipe } from './shared/pipes/shorten.pipe';
-import { TypeofPipe } from './shared/pipes/typeof.pipe.';
+import { ChartDialogComponent } from './application/chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from './shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
-import { ErrorMessageComponent } from './shared/utilities/error-message/error-message.component';
 import { GenericListComponent } from './shared/utilities/generic-list/generic-list.component';
-import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
 import { PaginatorComponent } from './shared/utilities/paginator/paginator.component';
 import { SearchItemByTitleComponent } from './shared/utilities/search-item-by-title/search-item-by-title.component';
 import { ThemeSelectorComponent } from './shared/utilities/theme-selector/theme-selector.component';
+import { MaterialModule } from './shared/material/material.module';
+import { ShortenPipe } from './shared/pipes/shorten.pipe';
+import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
+import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
+import { ApplicationComponent } from './application/application.component';
+import { ItemsStatusSelectorComponent } from './shared/utilities/items-status-selector/items-status-selector.component';
+import { SeceondsToHhmmssPipe } from './shared/pipes/seceonds-to-hhmmss.pipe';
+import { ConfirmDeleteAccountDialogComponent } from './application/account-overview/confirm-delete-account-dialog/confirm-delete-account-dialog.component';
+import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
+import { ConfirmedEmailComponent } from './authentication/confirmed-email/confirmed-email.component';
+import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
+import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
+import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
+import { ErrorMessageComponent } from './shared/utilities/error-message/error-message.component';
+import { TypeofPipe } from './shared/pipes/typeof.pipe.';
 
 
 @NgModule({
@@ -60,10 +67,18 @@ import { ThemeSelectorComponent } from './shared/utilities/theme-selector/theme-
     ShortenPipe,
     TypeofPipe,
     HomeComponent,
+    LoginDialogComponent,
+    RegisterDialogComponent,
+    SocialAuthenticationsComponent,
     ApplicationComponent,
     ItemsStatusSelectorComponent,
     AccountOverviewDialogComponent,
     SeceondsToHhmmssPipe,
+    ConfirmDeleteAccountDialogComponent,
+    ConfirmedEmailComponent,
+    ForgotPasswordComponent,
+    ForgotPasswordDialogComponent,
+    ResetPasswordComponent,
     ErrorMessageComponent
   ],
   imports: [
@@ -71,7 +86,6 @@ import { ThemeSelectorComponent } from './shared/utilities/theme-selector/theme-
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    AuthenticationModule,
     MaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,

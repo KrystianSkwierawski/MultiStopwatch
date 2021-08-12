@@ -15,15 +15,17 @@ import { FavoriteProjectItemDto, FavoriteProjectItemsClient, UpdateOrderIndexPro
 })
 export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
 
+  constructor(private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
+    private _projectsDataService: ProjectsDataService,
+    private _router: Router,
+    private _authService: AuthenticationService) { }
+
   columnsToDisplay: string[] = ['column'];
   @ViewChild(MatTable) favoriteProjectsTable: MatTable<any>;
   favoriteProjects: FavoriteProjectItemDto[];
   favoriteProjectsSub: Subscription;
 
-  constructor(private _favoriteProjectItemsClient: FavoriteProjectItemsClient,
-    private _projectsDataService: ProjectsDataService,
-    private _router: Router,
-    private _authService: AuthenticationService) { }
+  hoveredDivId: number = null;
 
   ngOnInit(): void {
     this.favoriteProjectsSub = this._projectsDataService.favoriteProjects.subscribe(result => {
@@ -58,8 +60,6 @@ export class FavoriteProjectsListComponent implements OnInit, OnDestroy {
       e.preventDefault();
     }
   }
-
-  hoveredDivId: number = null;
 
   setHoveredDivId(index: number = null) {
     this.hoveredDivId = index;

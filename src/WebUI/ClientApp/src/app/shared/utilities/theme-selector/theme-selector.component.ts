@@ -21,7 +21,7 @@ export class ThemeSelectorComponent implements OnInit {
 
   setTheme() {
     if (!this.theme) {
-      const defaultTheme = "#6264A7";
+      const defaultTheme = '#6264A7';
 
       this.theme = defaultTheme;
       this.saveChanges(this.theme);

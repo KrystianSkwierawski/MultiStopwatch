@@ -38,8 +38,9 @@ export class AuthenticationService implements OnInit {
       tap(token => {
         this.setToken(token);
 
-        if (rememberMe)
-          localStorage.setItem("token", token);
+        if (rememberMe) {
+          localStorage.setItem('token', token);
+        }
       }
       ));
   }
@@ -77,8 +78,9 @@ export class AuthenticationService implements OnInit {
   async loginWithGoogle() {
     const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 
-    if (!user)
+    if (!user) {
       return;
+    }
 
     return this._accountsClient.googleAuthenticate(user.idToken).pipe(tap(token => {
       this.setToken(token);
@@ -89,8 +91,9 @@ export class AuthenticationService implements OnInit {
   async loginWithFacebook() {
     const user = await this._socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
 
-    if (!user)
+    if (!user) {
       return;
+    }
 
     return this._accountsClient.facebookAuthenticate(user.email, user.name, user.id, user.authToken).pipe(tap(token => {
       this.setToken(token);
@@ -98,13 +101,13 @@ export class AuthenticationService implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     this.setToken(null);
     this._router.navigate(['/']);
   }
 
   getTokenFromLocalStorage() {
-    return localStorage.getItem("token");
+    return localStorage.getItem('token');
   }
 
   getToken(): string {
@@ -125,8 +128,9 @@ export class AuthenticationService implements OnInit {
       error = errorResponse.response;
     }
 
-    if (!error)
-      error = "An unexpected server error occurred.";
+    if (!error) {
+      error = 'An unexpected server error occurred.';
+    }
 
     return throwError(error);
   }

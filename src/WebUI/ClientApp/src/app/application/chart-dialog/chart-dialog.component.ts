@@ -23,18 +23,18 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   }
 
   renderChart() {
-    var chart = new CanvasJS.Chart("chartContainer", {
+    const chart = new CanvasJS.Chart('chartContainer', {
       exportEnabled: true,
       animationEnabled: true,
       legend: {
-        cursor: "pointer",
+        cursor: 'pointer',
         itemclick: this.explodePie
       },
       data: [{
-        type: "pie",
+        type: 'pie',
         showInLegend: true,
-        toolTipContent: "{name}: <strong>{y}%</strong>",
-        indexLabel: "{name} - {y}%",
+        toolTipContent: '{name}: <strong>{y}%</strong>',
+        indexLabel: '{name} - {y}%',
         dataPoints: this.getDataPoints()
       }]
     });
@@ -42,7 +42,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   }
 
   explodePie(e) {
-    if (typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+    if (typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === 'undefined' || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
       e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
     } else {
       e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
@@ -51,13 +51,13 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   }
 
   getDataPoints(): unknown[] {
-    let o_dataPoints = [];
+    const o_dataPoints = [];
 
     this.stopwatches.forEach(x => {
       const dataPoint = {
         y: this.getPercentage(x),
         name: x.title
-      }
+      };
 
       o_dataPoints.push(dataPoint);
     });
@@ -77,7 +77,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   }
 
   calcAllItemsTotalSeconds(): number {
-    let o_totalSeconds: number = 0;
+    let o_totalSeconds = 0;
 
     this.stopwatches.forEach(x => {
       const time: Time = new Time(x.time);
@@ -95,7 +95,7 @@ export class ChartDialogComponent implements OnInit, AfterViewInit {
   async addCanvasScript() {
     return new Promise(function (resolve, reject) {
       const canvasScript = document.createElement('script');
-      canvasScript.src = "https://canvasjs.com/assets/script/canvasjs.min.js";
+      canvasScript.src = 'https://canvasjs.com/assets/script/canvasjs.min.js';
       canvasScript.onload = resolve;
       canvasScript.onerror = reject;
       document.head.appendChild(canvasScript);

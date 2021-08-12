@@ -42,7 +42,7 @@ export class LoginDialogComponent implements OnInit {
     this._authService.login(form, rememberMe).subscribe(token => {
       if (token) {
         this.closeDialog();
-        this._router.navigateByUrl("app");
+        this._router.navigateByUrl('app');
       }
     },
       error => this.error = error

@@ -30,7 +30,7 @@ export class CreateProjectDialogComponent implements OnInit {
 
   onSubmit(projectItem: ProjectItemDto) {
     this._projectItemsClient.create(CreateProjectItemCommand.fromJS(projectItem)).subscribe(() => {
-      this.closeDialog("success");
+      this.closeDialog('success');
     });
   }
 

@@ -20,7 +20,7 @@ export class SocialAuthenticationsComponent implements OnInit {
     (await this._authService.loginWithGoogle()).subscribe(token => {
       if (token) {
         this.onLoggedIn.emit(null);
-        this._router.navigateByUrl("app?items=1");
+        this._router.navigateByUrl('app?items=1');
       }
     },
       error => this.onLoggedIn.emit(error)
@@ -31,7 +31,7 @@ export class SocialAuthenticationsComponent implements OnInit {
     (await this._authService.loginWithFacebook()).subscribe(token => {
       if (token) {
         this.onLoggedIn.emit(null);
-        this._router.navigateByUrl("app?items=1");
+        this._router.navigateByUrl('app?items=1');
       }
     },
       error => this.onLoggedIn.emit(error)

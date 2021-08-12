@@ -27,23 +27,23 @@ export class LocalChangesHubService implements OnInit {
   }
 
   async storeLocalStopwatchChanges(stopwatch: StopwatchItemDto) {
-    await this.hub.invoke("SaveLocalStopwatchChanges", stopwatch);
+    await this.hub.invoke('SaveLocalStopwatchChanges', stopwatch);
   }
 
   async storeLocalProjectChanges(project: ProjectItemDto) {
-    await this.hub.invoke("SaveLocalProjectChanges", project);
+    await this.hub.invoke('SaveLocalProjectChanges', project);
   }
 
   async saveStopwatchesChangesInDb() {
-    await this.hub.invoke("SaveStopwatchesChangesInDb");
+    await this.hub.invoke('SaveStopwatchesChangesInDb');
   }
 
   async deleteStopwatchFromLocalChanges(stopwatchId: number) {
-    await this.hub.invoke("DeleteLocalStopwatchChangesById", stopwatchId);
+    await this.hub.invoke('DeleteLocalStopwatchChangesById', stopwatchId);
   }
 
   async saveAllChangesInDb() {
-    await this.hub.invoke("SaveAllChangesInDb");
+    await this.hub.invoke('SaveAllChangesInDb');
   }
 
   disconnect() {

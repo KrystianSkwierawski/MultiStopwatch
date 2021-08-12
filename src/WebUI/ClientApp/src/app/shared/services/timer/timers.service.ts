@@ -32,8 +32,9 @@ export class TimersService implements OnInit {
   }
 
   pause(stopwatch: StopwatchItemDto) {
-    if (!stopwatch.isStarted)
+    if (!stopwatch.isStarted) {
       return;
+    }
 
     stopwatch.isStarted = false;
 

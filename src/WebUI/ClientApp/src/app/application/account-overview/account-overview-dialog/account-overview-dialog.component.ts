@@ -43,8 +43,9 @@ export class AccountOverviewDialogComponent implements OnInit {
 
   getUser() {
     this._accountsClient.get().subscribe(user => {
-      if (!user)
+      if (!user) {
         return;
+      }
 
       this.user = user;
       this.form.patchValue(this.user);
@@ -60,7 +61,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   updateUser(form: HTMLFormElement) {
     this._authenticationService.updateUser(form.email, form.currentPassword, form.newPassword).subscribe(() => {
       this.closeDialog();
-      alert("Successfully updated user data.");
+      alert('Successfully updated user data.');
     },
       errors => this.error = errors
     );
@@ -82,7 +83,7 @@ export class AccountOverviewDialogComponent implements OnInit {
 
   resendConfirmationEmail() {
     this._authenticationService.resendConfirmationEmail().subscribe(() => {
-      alert("Confirmation email sended");
+      alert('Confirmation email sended');
     },
       error => this.error = error
     );
@@ -90,8 +91,9 @@ export class AccountOverviewDialogComponent implements OnInit {
 
   onOpenConfirmDeleteAccountDialog() {
     this._dialog.open(ConfirmDeleteAccountDialogComponent).afterClosed().subscribe(success => {
-      if (success)
-        this.closeDialog("success");
+      if (success) {
+        this.closeDialog('success');
+      }
     });
   }
 

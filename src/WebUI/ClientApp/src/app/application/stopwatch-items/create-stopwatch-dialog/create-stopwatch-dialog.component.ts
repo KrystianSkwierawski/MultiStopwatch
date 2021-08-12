@@ -33,7 +33,7 @@ export class CreateStopwatchDialogComponent implements OnInit {
     stopwatchItem.projectItemId = this.projectId;
 
     this._stopwatchItemsClient.create(CreateStopwatchItemCommand.fromJS(stopwatchItem)).subscribe(async () => {
-      this.closeDialog("success");
+      this.closeDialog('success');
     });
   }
 

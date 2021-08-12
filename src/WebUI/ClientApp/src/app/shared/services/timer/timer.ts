@@ -1,4 +1,4 @@
-export const defaultTime: string = "00:00:00";
+export const defaultTime = '00:00:00';
 
 export class Time {
   hours: number;
@@ -6,11 +6,11 @@ export class Time {
   seconds: number;
 
   constructor(timeString: string) {
-    const timeArray = timeString.split(":");
+    const timeArray = timeString.split(':');
 
     this.hours = parseInt(timeArray[0]),
       this.minutes = parseInt(timeArray[1]),
-      this.seconds = parseInt(timeArray[2])
+      this.seconds = parseInt(timeArray[2]);
   }
 }
 
@@ -20,7 +20,7 @@ export function timeToHHMMSS(time: Time): string {
 }
 
 export function calcTotalSeconds(time: Time): number {
-  let o_totalSeconds: number = 0;
+  let o_totalSeconds = 0;
 
   o_totalSeconds += time.hours * 3600;
   o_totalSeconds += time.minutes * 60;
@@ -36,6 +36,6 @@ export function totalSecondsToHHMMSS(secs) {
   const seconds = sec_num % 60;
 
   return [hours, minutes, seconds]
-    .map(v => v < 10 ? "0" + v : v)
-    .join(":");
+    .map(v => v < 10 ? '0' + v : v)
+    .join(':');
 }

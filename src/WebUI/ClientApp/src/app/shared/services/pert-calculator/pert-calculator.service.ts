@@ -14,7 +14,7 @@ export class PertCalculatorService {
   constructor() { }
 
   calculate(optimisticValue: number, realisticValue: number, pessimisticallyValue: number) {
-    let estimates: Estimates[] = [];
+    const estimates: Estimates[] = [];
 
     this._chances.forEach((chance, index) => {
       const expected: number = this.calculateExpected(optimisticValue, realisticValue, pessimisticallyValue);

@@ -32,7 +32,7 @@ export class ForgotPasswordDialogComponent implements OnInit {
   onSubmit(form: HTMLFormElement) {
     this._authenticationService.sendResetPasswordEmail(form.email).subscribe(() => {
       this.closeDialog();
-      alert("Your password has been reset, check your email.");
+      alert('Your password has been reset, check your email.');
     },
       error => this.error = error
     );

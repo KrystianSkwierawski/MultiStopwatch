@@ -47,10 +47,10 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   toggleDisplayNoneInShowDiagramButtonIfMobileDevice() {
-    const showDiagramButton: HTMLElement = document.querySelector(".open-chart-dialog-button");
+    const showDiagramButton: HTMLElement = document.querySelector('.open-chart-dialog-button');
 
     if (showDiagramButton) {
-      this.menuIsActivated && !this.isDesktopDevice() ? showDiagramButton.classList.add("d-none") : showDiagramButton.classList.remove("d-none");
+      this.menuIsActivated && !this.isDesktopDevice() ? showDiagramButton.classList.add('d-none') : showDiagramButton.classList.remove('d-none');
     }
   }
 
@@ -75,14 +75,13 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   toggleContent_disabledScrolling() {
-    const element: HTMLEmbedElement = document.querySelector(".content");
-    const className: string = "content_disabled-scrolling";
+    const element: HTMLEmbedElement = document.querySelector('.content');
+    const className = 'content_disabled-scrolling';
 
     if (element) {
       if (element.classList.contains(className)) {
         this.disableScrollContentIfMenuIsHiddenOrIsDesktopDevice(element, className);
-      }
-      else {
+      } else {
         this.enableScrollContentIfMenuIsActivatedAndIsMobileDevice(element, className);
       }
     }

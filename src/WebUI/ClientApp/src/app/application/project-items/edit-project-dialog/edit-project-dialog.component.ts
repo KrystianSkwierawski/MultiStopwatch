@@ -37,7 +37,7 @@ export class EditProjectDialogComponent implements OnInit {
     this.projectItem.theme = form.theme;
 
     this._projectItemsClient.update(UpdateProjectItemCommand.fromJS(this.projectItem)).subscribe(() => {
-      this.closeDialog("success");
+      this.closeDialog('success');
     });
   }
 

@@ -149,7 +149,7 @@ namespace Project.WebUI.Controllers
         [HttpPost("GoogleAuthenticate")]
         public async Task<ActionResult<string>> GoogleAuthenticate(string idToken)
         {
-            GoogleJsonWebSignature.ValidationSettings settings = new GoogleJsonWebSignature.ValidationSettings();
+            GoogleJsonWebSignature.ValidationSettings settings = new();
 
             settings.Audience = new List<string>() { "1077472699821-km2iel871mij429reoh6uev8dl6k4v3a.apps.googleusercontent.com" };
 
@@ -291,9 +291,9 @@ namespace Project.WebUI.Controllers
 
         private async Task<dynamic> CreateUser(string email, string password = "")
         {
-            bool hasPassword = String.IsNullOrEmpty(password) ? false : true;
+            bool hasPassword = !String.IsNullOrEmpty(password);
 
-            ApplicationUser user = new ApplicationUser
+            ApplicationUser user = new ()
             {
                 Email = email,
                 UserName = Guid.NewGuid().ToString(),
@@ -332,7 +332,7 @@ namespace Project.WebUI.Controllers
 
         private async Task<JObject> GetFacebookAuthCheck(string authToken)
         {
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
 
             string url = "https://graph.facebook.com/me?access_token=" + authToken;
             using HttpResponseMessage res = await client.GetAsync(url);

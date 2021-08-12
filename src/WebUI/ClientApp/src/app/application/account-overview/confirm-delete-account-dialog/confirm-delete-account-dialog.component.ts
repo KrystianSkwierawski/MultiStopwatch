@@ -22,7 +22,7 @@ export class ConfirmDeleteAccountDialogComponent implements OnInit {
   onDeleteAccount(password: string) {
     this._authenticationService.deleteUser(password).subscribe(() => {
       this._authService.logout();
-      this.closeDialog("success");
+      this.closeDialog('success');
     },
       errors => this.error = errors
     );
