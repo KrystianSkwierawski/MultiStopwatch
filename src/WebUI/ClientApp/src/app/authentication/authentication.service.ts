@@ -68,6 +68,12 @@ export class AuthenticationService implements OnInit {
     }));
   }
 
+  resendConfirmationEmail() {
+    return this._accountsClient.resendConfirmationEmail().pipe(catchError(errorResponse => {
+      return this.handleError(errorResponse);
+    }));
+  }
+
   async loginWithGoogle() {
     const user = await this._socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 

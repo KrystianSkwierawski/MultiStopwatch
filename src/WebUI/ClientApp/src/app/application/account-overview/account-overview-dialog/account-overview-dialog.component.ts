@@ -81,10 +81,10 @@ export class AccountOverviewDialogComponent implements OnInit {
   }
 
   resendConfirmationEmail() {
-    this._accountsClient.resendConfirmationEmail().subscribe(() => {
+    this._authenticationService.resendConfirmationEmail().subscribe(() => {
       alert("Confirmation email sended");
     },
-      error => this.error.push(error)
+      error => this.error = error
     );
   }
 
