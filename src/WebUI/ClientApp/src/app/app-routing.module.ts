@@ -9,8 +9,6 @@ import { ResetPasswordComponent } from './authentication/forgot-password/reset-p
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: 'confirmed-email', component: ConfirmedEmailComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '', component: HomeComponent },
   {
     path: 'app', component: ApplicationComponent, canActivate: [AuthorizeGuard], children: [

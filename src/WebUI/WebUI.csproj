@@ -16,20 +16,20 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.0" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.53.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.54.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.12.1" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.12.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.13.2" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.13.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -44,6 +44,8 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\application\splitted-times\Estimates.ts" />
+    <None Remove="ClientApp\src\app\authentication\authentication-routing.module.ts" />
+    <None Remove="ClientApp\src\app\authentication\authentication.module.ts" />
     <None Remove="ClientApp\src\app\shared\services\Timer.ts" />
     <None Remove="ClientApp\src\app\shared\validators\must-match.ts" />
   </ItemGroup>
@@ -54,6 +56,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\authentication-routing.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\authentication.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\pert-calculator\estimates.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\timer\timer.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\validators\must-match.ts" />
