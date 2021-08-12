@@ -6,7 +6,7 @@ import { defaultTime, totalSecondsToHHMMSS } from '../services/timer/Timer';
 })
 export class SeceondsToHhmmssPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: unknown): unknown {
     if (value > 0) {
       return totalSecondsToHHMMSS(value);
     }

@@ -55,7 +55,7 @@ namespace Project.WebUI.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user is null)
-                return BadRequest(new string[] { "There is no user with this e-mail" });
+                return BadRequest("There is no user with this e-mail");
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)
@@ -130,24 +130,24 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<AuthResponse>> Login(UserForAuthentication userForAuthentication)
+        public async Task<ActionResult<string>> Login(UserForAuthentication userForAuthentication)
         {
             ApplicationUser user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
             if (user is null)
-                return BadRequest(new AuthResponse { ErrorMessage = "There is no user with this e-mail" });
+                return BadRequest("There is no user with this e-mail");
 
             if (!await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
-                return BadRequest(new AuthResponse { ErrorMessage = "Invalid password" });
+                return BadRequest("Invalid password");
 
             var claims = _jwtHandler.GetClamis(user.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
-            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+            return Ok(token);
         }
 
         [HttpPost("GoogleAuthenticate")]
-        public async Task<ActionResult<AuthResponse>> GoogleAuthenticate(string idToken)
+        public async Task<ActionResult<string>> GoogleAuthenticate(string idToken)
         {
             GoogleJsonWebSignature.ValidationSettings settings = new GoogleJsonWebSignature.ValidationSettings();
 
@@ -163,11 +163,11 @@ namespace Project.WebUI.Controllers
             var claims = _jwtHandler.GetClamis(payload.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
-            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+            return Ok(token);
         }
 
         [HttpPost("FacebookAuthenticate")]
-        public async Task<ActionResult<AuthResponse>> FacebookAuthenticate(string email, string name, string id, string authToken)
+        public async Task<ActionResult<string>> FacebookAuthenticate(string email, string name, string id, string authToken)
         {
             var facebookAuthCheck = await GetFacebookAuthCheck(authToken);
 
@@ -180,7 +180,7 @@ namespace Project.WebUI.Controllers
             if (facebookAuthCheckName != name || facebookAuthCheckId != id)
             {
                 string facebookAuthErrorMessage = facebookAuthCheck["error"]["message"].Value<string>();
-                return BadRequest(new AuthResponse { ErrorMessage = facebookAuthErrorMessage });
+                return BadRequest(facebookAuthErrorMessage);
             }
 
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
@@ -191,7 +191,7 @@ namespace Project.WebUI.Controllers
             var claims = _jwtHandler.GetClamis(email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
 
-            return Ok(new AuthResponse { IsAuthSuccessful = true, Token = token });
+            return Ok(token);
         }
 
         [HttpPut("ResetPassword")]
@@ -200,10 +200,10 @@ namespace Project.WebUI.Controllers
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user is null)
-                return BadRequest(new string[] { "There is no user with this e-mail" });
+                return BadRequest("There is no user with this e-mail");
 
             if (!user.EmailConfirmed)
-                return StatusCode((int)HttpStatusCode.Forbidden, new string[] { "This email is not confirmed" });
+                return StatusCode((int)HttpStatusCode.Forbidden, "This email is not confirmed");
 
             var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
 
@@ -214,7 +214,7 @@ namespace Project.WebUI.Controllers
             var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             if (!resetPasswordResult.Succeeded)
-                return StatusCode((int)HttpStatusCode.InternalServerError, new string[] { "An internal server error occurred or token expired" });
+                return StatusCode((int)HttpStatusCode.InternalServerError, "An internal server error occurred or token expired");
 
             return Ok();
         }
@@ -227,10 +227,10 @@ namespace Project.WebUI.Controllers
                 return Unauthorized();
 
             if (!user.HasPassword)
-                return BadRequest(new string[] { "To delete an account, you need to set password up first" });
+                return BadRequest("To delete an account, you need to set password up first");
 
             if (!await _userManager.CheckPasswordAsync(user, password))
-                return BadRequest(new string[] { "Invalid password" });
+                return BadRequest("Invalid password");
 
             await _mediator.Send(new DeleteAccountDataCommand());
 
@@ -256,7 +256,7 @@ namespace Project.WebUI.Controllers
             if (!String.IsNullOrEmpty(newPassword))
             {
                 if (user.HasPassword && !(await _userManager.CheckPasswordAsync(user, currentPassword)))
-                    return BadRequest(new string[] { "Current password is incorrect" });
+                    return BadRequest("Current password is incorrect");
 
                 var validateNewPasswordResult = await new PasswordValidator<ApplicationUser>().ValidateAsync(_userManager, user, newPassword);
 

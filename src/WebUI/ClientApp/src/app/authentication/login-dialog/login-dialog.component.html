@@ -1,8 +1,6 @@
 <div mat-dialog-content>
 
-  <div class="mb-3" *ngIf="error">
-    <p class="text-danger text-break">{{ error }}</p>
-  </div>
+  <app-error-view *ngIf="error" [error]="error"></app-error-view>
 
   <button mat-icon-button
           (click)="closeDialog()"

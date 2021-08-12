@@ -22,9 +22,9 @@ export interface IAccountsClient {
     resendConfirmationEmail(): Observable<FileResponse>;
     sendResetPasswordEmail(email: string | null | undefined): Observable<FileResponse>;
     register(userForRegistration: UserForRegistration): Observable<FileResponse>;
-    login(userForAuthentication: UserForAuthentication): Observable<AuthResponse>;
-    googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse>;
-    facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<AuthResponse>;
+    login(userForAuthentication: UserForAuthentication): Observable<string>;
+    googleAuthenticate(idToken: string | null | undefined): Observable<string>;
+    facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<string>;
     resetPassword(email: string | null | undefined, token: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse>;
 }
 
@@ -383,7 +383,7 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf(null);
     }
 
-    login(userForAuthentication: UserForAuthentication): Observable<AuthResponse> {
+    login(userForAuthentication: UserForAuthentication): Observable<string> {
         let url_ = this.baseUrl + "/api/accounts/Login";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -406,14 +406,14 @@ export class AccountsClient implements IAccountsClient {
                 try {
                     return this.processLogin(<any>response_);
                 } catch (e) {
-                    return <Observable<AuthResponse>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AuthResponse>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processLogin(response: HttpResponseBase): Observable<AuthResponse> {
+    protected processLogin(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -424,7 +424,7 @@ export class AccountsClient implements IAccountsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthResponse.fromJS(resultData200);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -435,7 +435,7 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf(null);
     }
 
-    googleAuthenticate(idToken: string | null | undefined): Observable<AuthResponse> {
+    googleAuthenticate(idToken: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/accounts/GoogleAuthenticate?";
         if (idToken !== undefined && idToken !== null)
             url_ += "idToken=" + encodeURIComponent("" + idToken) + "&";
@@ -456,14 +456,14 @@ export class AccountsClient implements IAccountsClient {
                 try {
                     return this.processGoogleAuthenticate(<any>response_);
                 } catch (e) {
-                    return <Observable<AuthResponse>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AuthResponse>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGoogleAuthenticate(response: HttpResponseBase): Observable<AuthResponse> {
+    protected processGoogleAuthenticate(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -474,7 +474,7 @@ export class AccountsClient implements IAccountsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthResponse.fromJS(resultData200);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -485,7 +485,7 @@ export class AccountsClient implements IAccountsClient {
         return _observableOf(null);
     }
 
-    facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<AuthResponse> {
+    facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/accounts/FacebookAuthenticate?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
@@ -512,14 +512,14 @@ export class AccountsClient implements IAccountsClient {
                 try {
                     return this.processFacebookAuthenticate(<any>response_);
                 } catch (e) {
-                    return <Observable<AuthResponse>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AuthResponse>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processFacebookAuthenticate(response: HttpResponseBase): Observable<AuthResponse> {
+    protected processFacebookAuthenticate(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -530,7 +530,7 @@ export class AccountsClient implements IAccountsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AuthResponse.fromJS(resultData200);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1578,50 +1578,6 @@ export interface IUserForRegistration {
     email: string;
     password: string;
     confirmPassword?: string | undefined;
-}
-
-export class AuthResponse implements IAuthResponse {
-    isAuthSuccessful?: boolean;
-    errorMessage?: string | undefined;
-    token?: string | undefined;
-
-    constructor(data?: IAuthResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.isAuthSuccessful = _data["isAuthSuccessful"];
-            this.errorMessage = _data["errorMessage"];
-            this.token = _data["token"];
-        }
-    }
-
-    static fromJS(data: any): AuthResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["isAuthSuccessful"] = this.isAuthSuccessful;
-        data["errorMessage"] = this.errorMessage;
-        data["token"] = this.token;
-        return data; 
-    }
-}
-
-export interface IAuthResponse {
-    isAuthSuccessful?: boolean;
-    errorMessage?: string | undefined;
-    token?: string | undefined;
 }
 
 export class UserForAuthentication implements IUserForAuthentication {

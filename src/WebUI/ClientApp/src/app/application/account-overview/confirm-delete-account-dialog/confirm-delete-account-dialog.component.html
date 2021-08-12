@@ -1,10 +1,6 @@
 <div mat-dialog-content>
 
-  <div class="mt-3 mb-2" *ngIf="errors">
-    <div *ngFor="let error of errors">
-      <p class="text-danger text-break">{{error}}</p>
-    </div>
-  </div>
+  <app-error-view *ngIf="error" [error]="error"></app-error-view>
 
   <p>Are you sure to delete account?</p>
 

@@ -16,7 +16,7 @@ export class AccountOverviewDialogComponent implements OnInit {
   form: FormGroup;
   accountStats: AccountStatsDto;
   user: ApplicationUser;
-  errors: string[];
+  error;
 
   constructor(private _accountStatsClient: AccountStatsClient,
     private _formBuilder: FormBuilder,
@@ -62,7 +62,7 @@ export class AccountOverviewDialogComponent implements OnInit {
       this.closeDialog();
       alert("Successfully updated user data.");
     },
-      errors => this.errors = errors
+      errors => this.error = errors
     );
   }
 
@@ -84,7 +84,7 @@ export class AccountOverviewDialogComponent implements OnInit {
     this._accountsClient.resendConfirmationEmail().subscribe(() => {
       alert("Confirmation email sended");
     },
-      error => this.errors.push(error)
+      error => this.error.push(error)
     );
   }
 

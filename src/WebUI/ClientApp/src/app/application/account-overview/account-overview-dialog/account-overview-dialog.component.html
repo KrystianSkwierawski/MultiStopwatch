@@ -58,13 +58,9 @@
 
     </mat-tab>
 
-    <mat-tab label="Settings">
+    <mat-tab label="Settings"> 
 
-      <div class="mt-3 mb-2" *ngIf="errors">
-        <div *ngFor="let error of errors">
-          <p class="text-danger text-break">{{error}}</p>
-        </div>
-      </div>
+      <app-error-view *ngIf="error" [error]="error"></app-error-view>
 
       <form (ngSubmit)="updateUser(form.value)" [formGroup]="form">
 

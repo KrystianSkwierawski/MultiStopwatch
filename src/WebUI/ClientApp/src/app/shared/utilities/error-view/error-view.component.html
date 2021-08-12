@@ -1,0 +1,11 @@
+<div class="text-center mb-3 mt-2">
+  <div *ngIf="(error | typeof) === 'object'">
+    <div *ngFor="let item of error">
+      <p class="text-danger text-break">{{item}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="(error | typeof) === 'string'">
+    <p class="text-danger text-break">{{ error }}</p>
+  </div>
+</div>

@@ -25,77 +25,46 @@ export class AuthenticationService implements OnInit {
 
   register(user) {
     return this._accountsClient.register(user).pipe(
-      catchError(error => {
-        const errors: string[] = JSON.parse(error.response);
-
-        if (errors?.length === 0)
-          errors.push("An unexpected server error occurred.");
-
-        return throwError(errors);
+      catchError(errorResponse => {
+        return this.handleError(errorResponse);
       })
     );
   }
 
   login(user, rememberMe: boolean) {
-    return this._accountsClient.login(user).pipe(catchError(authResponse => {
-      let error = JSON.parse(authResponse.response).errorMessage;
-
-      if (!error)
-        error = "An unexpected server error occurred.";
-
-      return throwError(error);
+    return this._accountsClient.login(user).pipe(catchError(errorResponse => {
+      return this.handleError(errorResponse);
     }),
-      tap(authResponse => {
-        this.setToken(authResponse.token);
+      tap(token => {
+        this.setToken(token);
 
         if (rememberMe)
-          localStorage.setItem("token", authResponse.token);
+          localStorage.setItem("token", token);
       }
       ));
   }
 
   deleteUser(password: string) {
-    return this._accountsClient.delete(password).pipe(catchError(error => {
-      const errors: string[] = JSON.parse(error.response);
-
-      if (errors?.length === 0)
-        errors.push("An unexpected server error occurred.");
-
-      return throwError(error);
-
+    return this._accountsClient.delete(password).pipe(catchError(errorResponse => {
+      return this.handleError(errorResponse);
     }));
   }
 
   updateUser(email: string, currentPassword: string, newPassword: string) {
-    return this._accountsClient.update(email, currentPassword, newPassword).pipe(catchError(error => {
-      const errors: string[] = JSON.parse(error.response);
-
-      if (errors?.length === 0)
-        errors.push("An unexpected server error occurred.")
-
-      return throwError(errors);
+    return this._accountsClient.update(email, currentPassword, newPassword).pipe(catchError(errorResponse => {
+      return this.handleError(errorResponse);
     }));
   }
 
   resetPassword(email: string, token: string, password: string) {
-    return this._accountsClient.resetPassword(email, token, password).pipe(catchError(error => {
-      const errors: string[] = JSON.parse(error.response);
-
-      if (errors?.length === 0)
-        errors.push("An unexpected server error occurred.")
-
-      return throwError(errors);
+    return this._accountsClient.resetPassword(email, token, password).pipe(catchError(errorResponse => {
+      return this.handleError(errorResponse);
     }));
   }
 
   sendResetPasswordEmail(email: string) {
     return this._accountsClient.sendResetPasswordEmail(email).pipe(catchError(errorResponse => {
-      let error = errorResponse.response;
-
-      if (!error)
-        error = "An unexpected server error occurred.";
-
-      return throwError(error);
+      return this.handleError(errorResponse);
     }));
   }
 
@@ -105,8 +74,8 @@ export class AuthenticationService implements OnInit {
     if (!user)
       return;
 
-    return this._accountsClient.googleAuthenticate(user.idToken).pipe(tap(authResponse => {
-      this.setToken(authResponse.token);
+    return this._accountsClient.googleAuthenticate(user.idToken).pipe(tap(token => {
+      this.setToken(token);
     }));
   }
 
@@ -117,8 +86,8 @@ export class AuthenticationService implements OnInit {
     if (!user)
       return;
 
-    return this._accountsClient.facebookAuthenticate(user.email, user.name, user.id, user.authToken).pipe(tap(authResponse => {
-      this.setToken(authResponse.token);
+    return this._accountsClient.facebookAuthenticate(user.email, user.name, user.id, user.authToken).pipe(tap(token => {
+      this.setToken(token);
     }));
   }
 
@@ -140,4 +109,20 @@ export class AuthenticationService implements OnInit {
     this._token = token;
     this.isAuthenticated.next(!!token);
   }
+
+  handleError(errorResponse) {
+    let error: string | string[];
+
+    try {
+      error = JSON.parse(errorResponse.response);
+    } catch (e) {
+      error = errorResponse.response;
+    }
+
+    if (!error)
+      error = "An unexpected server error occurred.";
+
+    return throwError(error);
+  }
+
 }

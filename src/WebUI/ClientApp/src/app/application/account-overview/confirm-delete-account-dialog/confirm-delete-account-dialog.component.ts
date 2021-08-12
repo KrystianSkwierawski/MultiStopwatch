@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../../authentication/authentication.se
 })
 export class ConfirmDeleteAccountDialogComponent implements OnInit {
 
-  errors;
+  error;
 
   constructor(
     private _authenticationService: AuthenticationService,
@@ -24,7 +24,7 @@ export class ConfirmDeleteAccountDialogComponent implements OnInit {
       this._authService.logout();
       this.closeDialog("success");
     },
-      errors => this.errors = errors
+      errors => this.error = errors
     );
   }
 

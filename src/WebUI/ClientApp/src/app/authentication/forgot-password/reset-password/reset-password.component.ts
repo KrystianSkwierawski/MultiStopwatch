@@ -11,7 +11,7 @@ import { AuthenticationService } from '../../authentication.service';
 })
 export class ResetPasswordComponent implements OnInit {
 
-  errors;
+  error;
   token: string;
   email: string;
   form: FormGroup;
@@ -39,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
     this._authenticationService.resetPassword(this.email, this.token, form.password).subscribe(() => {
       this._router.navigate(['/']);
     },
-      errors => this.errors = errors
+      errors => this.error = errors
     );
   }
 

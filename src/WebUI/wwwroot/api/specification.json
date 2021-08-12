@@ -255,7 +255,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "string"
                 }
               }
             }
@@ -286,7 +286,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "string"
                 }
               }
             }
@@ -344,7 +344,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "string"
                 }
               }
             }
@@ -1014,23 +1014,6 @@
             "minLength": 1
           },
           "confirmPassword": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "AuthResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "isAuthSuccessful": {
-            "type": "boolean"
-          },
-          "errorMessage": {
-            "type": "string",
-            "nullable": true
-          },
-          "token": {
             "type": "string",
             "nullable": true
           }

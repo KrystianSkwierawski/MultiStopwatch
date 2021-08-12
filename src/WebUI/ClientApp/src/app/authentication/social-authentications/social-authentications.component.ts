@@ -17,8 +17,8 @@ export class SocialAuthenticationsComponent implements OnInit {
   }
 
   async loginWithGoogle() {
-    (await this._authService.loginWithGoogle()).subscribe(authResponse => {
-      if (authResponse.token) {
+    (await this._authService.loginWithGoogle()).subscribe(token => {
+      if (token) {
         this.onLoggedIn.emit(null);
         this._router.navigateByUrl("app?items=1");
       }
@@ -28,8 +28,8 @@ export class SocialAuthenticationsComponent implements OnInit {
   }
 
   async loginWithFacebook() {
-    (await this._authService.loginWithFacebook()).subscribe(authResponse => {
-      if (authResponse.token) {
+    (await this._authService.loginWithFacebook()).subscribe(token => {
+      if (token) {
         this.onLoggedIn.emit(null);
         this._router.navigateByUrl("app?items=1");
       }

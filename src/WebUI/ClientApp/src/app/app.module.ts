@@ -40,6 +40,8 @@ import { ConfirmedEmailComponent } from './authentication/confirmed-email/confir
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
 import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
 import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
+import { ErrorViewComponent } from './shared/utilities/error-view/error-view.component';
+import { TypeofPipe } from './shared/pipes/typeof.pipe.';
 
 
 @NgModule({
@@ -63,6 +65,7 @@ import { ResetPasswordComponent } from './authentication/forgot-password/reset-p
     ChartDialogComponent,
     PertCalculatorDialogComponent,
     ShortenPipe,
+    TypeofPipe,
     HomeComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
@@ -75,7 +78,8 @@ import { ResetPasswordComponent } from './authentication/forgot-password/reset-p
     ConfirmedEmailComponent,
     ForgotPasswordComponent,
     ForgotPasswordDialogComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ErrorViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

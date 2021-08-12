@@ -39,8 +39,8 @@ export class LoginDialogComponent implements OnInit {
   }
 
   onSubmit(form: HTMLFormElement, rememberMe: boolean) {
-    this._authService.login(form, rememberMe).subscribe(authResponse => {
-      if (authResponse.token) {
+    this._authService.login(form, rememberMe).subscribe(token => {
+      if (token) {
         this.closeDialog();
         this._router.navigateByUrl("app");
       }

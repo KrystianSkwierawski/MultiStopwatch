@@ -14,7 +14,7 @@ export class RegisterDialogComponent implements OnInit {
 
   form: FormGroup;
   facebookImageUrl;
-  errors;
+  error;
 
   constructor(private _authService: AuthenticationService,
     private _dialog: MatDialog,
@@ -46,13 +46,13 @@ export class RegisterDialogComponent implements OnInit {
     this._authService.register(form).subscribe(() => {
       this.openLoginDialog();
     },
-      errors => this.errors = errors
+      errors => this.error = errors
     );
   }
 
   handleLoggedInUsingSocial(error) {
     if (error) {
-      this.errors = error;
+      this.error = error;
       return;
     }
 
