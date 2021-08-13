@@ -81,7 +81,7 @@
         <div *ngIf="stopwatch.status === status.doing" class="stopwatch__bottom">
           <button mat-icon-button
                   matTooltip="Reset timer"
-                  (click)="restartTimer(stopwatch)"
+                  (click)="onRestartTimer(stopwatch)"
                   aria-label="reset timer">
 
             <i class="fas fa-redo"></i>
@@ -99,7 +99,7 @@
           <button *ngIf="stopwatch.isStarted"
                   mat-icon-button
                   matTooltip="Pause timer"
-                  (click)="pauseTimer(stopwatch)"
+                  (click)="onPauseTimer(stopwatch)"
                   aria-label="pause timer">
 
             <i class="fas fa-pause"></i>

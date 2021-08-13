@@ -1,15 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { defaultTime } from '../../../shared/services/timer/Timer';
 import { TimersService } from '../../../shared/services/timer/timers.service';
-import { ChartDialogComponent } from '../../chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
 import { PaginatedListOfStopwatchItemDto, ProjectItemDto, ProjectItemsClient, SplittedTime, Status, StopwatchItemDto, StopwatchItemsClient } from '../../../web-api-client';
+import { ChartDialogComponent } from '../../chart-dialog/chart-dialog.component';
 import { SplittedTimesListDialogComponent } from '../../splitted-times/splitted-times-list-dialog/splitted-times-list-dialog.component';
 import { CreateStopwatchDialogComponent } from '../create-stopwatch-dialog/create-stopwatch-dialog.component';
 import { EditStopwatchDialogComponent } from '../edit-stopwatch-dialog/edit-stopwatch-dialog.component';
@@ -43,7 +42,7 @@ export class StopwatchesListComponent implements OnInit {
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
     private _localChangesHubService: LocalChangesHubService,
-    ) {
+  ) {
   }
 
   initProjectId() {
@@ -109,15 +108,15 @@ export class StopwatchesListComponent implements OnInit {
         this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
         this._timersService.clearAllIntervals();
         await this._localChangesHubService.saveStopwatchesChangesInDb();
-        this.deleteStopwatch(stopwatch);
+        this.onDeleteStopwatch(stopwatch);
       }
     });
   }
 
-  async toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
+  toggleDoneStopwatch(stopwatch: StopwatchItemDto) {
     stopwatch.status = (stopwatch.status === Status.Doing) ? Status.Done : Status.Doing;
 
-    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
+    this.onPauseTimer(stopwatch);
 
     if (this.itemsStatus !== Status.All) {
       this.stopwatches = this.stopwatches.filter(x => x.id !== stopwatch.id);
@@ -164,7 +163,7 @@ export class StopwatchesListComponent implements OnInit {
   }
 
   onOpenEditStopwatchDialog(stopwatchItem: StopwatchItemDto) {
-    this.pauseTimer(stopwatchItem);
+    this.onPauseTimer(stopwatchItem);
     const previousTime: string = stopwatchItem.time;
 
     const dialogRef = this._dialog.open(EditStopwatchDialogComponent, {
@@ -195,20 +194,23 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  deleteStopwatch(stopwatch: StopwatchItemDto) {
-    this._stopwatchItemsClient.delete(stopwatch.id).subscribe(() => {
+  onDeleteStopwatch(stopwatch: StopwatchItemDto) {
+    this._stopwatchItemsClient.delete(stopwatch.id).subscribe(async () => {
       this.loadStopwatches();
       this._timersService.delete(stopwatch.id);
+      await this._localChangesHubService.deleteStopwatchFromLocalChanges(stopwatch.id);
     });
   }
 
-  pauseTimer(stopwatch: StopwatchItemDto) {
+  async onPauseTimer(stopwatch: StopwatchItemDto) {
     this._timersService.pause(stopwatch);
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
-  restartTimer(stopwatch: StopwatchItemDto) {
+  async onRestartTimer(stopwatch: StopwatchItemDto) {
     this._timersService.calcAndUpdateProjectTime(defaultTime, stopwatch.time);
     this._timersService.restart(stopwatch);
+    await this._localChangesHubService.storeLocalStopwatchChanges(stopwatch);
   }
 
   startTimer(stopwatch: StopwatchItemDto) {
