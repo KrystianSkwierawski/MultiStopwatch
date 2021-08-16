@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
-import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
 import { ForgotPasswordDialogComponent } from './forgot-password/forgot-password-dialog/forgot-password-dialog.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password/forgot-password.component';
@@ -30,10 +29,7 @@ import { SocialAuthenticationsComponent } from './social-authentications/social-
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    SocialLoginModule,
     CoolSocialLoginButtonsModule,
-    RouterModule,
-    AuthenticationRoutingModule,
   ],
   exports: [
     ConfirmedEmailComponent,
@@ -42,7 +38,7 @@ import { SocialAuthenticationsComponent } from './social-authentications/social-
     ResetPasswordComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
-    SocialAuthenticationsComponent, 
+    SocialAuthenticationsComponent,
   ],
   providers: [
     {
