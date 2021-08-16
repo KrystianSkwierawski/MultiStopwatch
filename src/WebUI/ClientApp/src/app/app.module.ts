@@ -48,7 +48,6 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     SharedModule,
-    HomeModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
