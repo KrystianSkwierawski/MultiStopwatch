@@ -7,13 +7,7 @@ import { AuthorizeGuard } from './authentication/authorize.guard';
 
 export const routes: Routes = [
   { path: '', loadChildren: () => import("./home/home.module").then(m => m.HomeModule) },
-  {
-    path: 'app', component: ApplicationComponent, canActivate: [AuthorizeGuard], children: [
-      { path: '', component: ProjectsListComponent, canActivate: [AuthorizeGuard] },
-      { path: 'project/:id', component: ProjectDetailsComponent, canActivate: [AuthorizeGuard] },
-      { path: '**', redirectTo: '' }
-    ]
-  },
+  { path: 'app', loadChildren: () => import("./application/application.module").then(m => m.ApplicationModule) },
   { path: '**', redirectTo: '' }
 ];
 
