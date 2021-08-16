@@ -323,7 +323,7 @@ namespace Project.WebUI.Controllers
             string emailContent = new EmailContentCreatorService(
                 callbackUrl,
                 "I'm excited to have you get started. If you want to confirm your account.",
-                "Create Account"
+                "Confirm Email"
                 ).CreateEmailContent();
 
             var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", emailContent, null);
