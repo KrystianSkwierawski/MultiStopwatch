@@ -1,10 +1,8 @@
-import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountOverviewDialogComponent } from './application/account-overview/account-overview-dialog/account-overview-dialog.component';
@@ -23,14 +21,7 @@ import { CreateStopwatchDialogComponent } from './application/stopwatch-items/cr
 import { EditStopwatchDialogComponent } from './application/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { StopwatchesListComponent } from './application/stopwatch-items/stopwatches-list/stopwatches-list.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
-import { ConfirmedEmailComponent } from './authentication/confirmed-email/confirmed-email.component';
-import { ForgotPasswordDialogComponent } from './authentication/forgot-password/forgot-password-dialog/forgot-password-dialog.component';
-import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
-import { LoginDialogComponent } from './authentication/login-dialog/login-dialog.component';
-import { RegisterDialogComponent } from './authentication/register-dialog/register-dialog.component';
-import { SocialAuthenticationsComponent } from './authentication/social-authentications/social-authentications.component';
-import { HomeComponent } from './home/home.component';
+import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 
 
@@ -49,46 +40,21 @@ import { SharedModule } from './shared/shared.module';
     SplittedTimesListDialogComponent,
     ChartDialogComponent,
     PertCalculatorDialogComponent,
-    HomeComponent,
-    LoginDialogComponent,
-    RegisterDialogComponent,
-    SocialAuthenticationsComponent,
     ApplicationComponent,
     AccountOverviewDialogComponent,
     ConfirmDeleteAccountDialogComponent,
-    ConfirmedEmailComponent,
-    ForgotPasswordComponent,
-    ForgotPasswordDialogComponent,
-    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     SharedModule,
+    HomeModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SocialLoginModule,
-    CoolSocialLoginButtonsModule,
   ],
   providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('1077472699821-km2iel871mij429reoh6uev8dl6k4v3a.apps.googleusercontent.com')
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('1447804865568403')
-          }
-        ]
-      }
-    },
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

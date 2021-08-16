@@ -4,13 +4,9 @@ import { ApplicationComponent } from './application/application.component';
 import { ProjectDetailsComponent } from './application/project-items/project-details/project-details.component';
 import { ProjectsListComponent } from './application/project-items/projects-list/projects-list.component';
 import { AuthorizeGuard } from './authentication/authorize.guard';
-import { ConfirmedEmailComponent } from './authentication/confirmed-email/confirmed-email.component';
-import { ResetPasswordComponent } from './authentication/forgot-password/reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: 'confirmed-email', component: ConfirmedEmailComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '', component: HomeComponent },
   {
     path: 'app', component: ApplicationComponent, canActivate: [AuthorizeGuard], children: [
