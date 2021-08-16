@@ -22,7 +22,7 @@ import { CreateStopwatchDialogComponent } from './application/stopwatch-items/cr
 import { EditStopwatchDialogComponent } from './application/stopwatch-items/edit-stopwatch-dialog/edit-stopwatch-dialog.component';
 import { StopwatchesListComponent } from './application/stopwatch-items/stopwatches-list/stopwatches-list.component';
 import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
-import { HomeModule } from './home/home.module';
+import { CoreModule } from './core.module';
 import { SharedModule } from './shared/shared.module';
 
 
@@ -54,9 +54,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     ReactiveFormsModule,
     SocialLoginModule,
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

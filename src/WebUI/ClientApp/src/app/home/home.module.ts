@@ -15,8 +15,8 @@ import { HomeComponent } from './home.component';
     SharedModule,
     CommonModule,
     RouterModule,
-    HomeRoutingModule,
     AuthenticationModule,
+    HomeRoutingModule,
   ],
 })
 export class HomeModule { }

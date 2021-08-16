@@ -39,24 +39,7 @@ import { SocialAuthenticationsComponent } from './social-authentications/social-
     LoginDialogComponent,
     RegisterDialogComponent,
     SocialAuthenticationsComponent,
-  ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('1077472699821-km2iel871mij429reoh6uev8dl6k4v3a.apps.googleusercontent.com')
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('1447804865568403')
-          }
-        ]
-      }
-    },
-  ],
+
+  ]
 })
 export class AuthenticationModule { }
