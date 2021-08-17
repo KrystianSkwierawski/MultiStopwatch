@@ -19,10 +19,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 
-
-
 @NgModule({
-  declarations: [],
+  imports: [
+    CommonModule
+  ],
   exports: [
     MatButtonModule,
     MatIconModule,
@@ -41,9 +41,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatButtonToggleModule,
     MatTabsModule,
-  ],
-  imports: [
-    CommonModule
   ]
 })
 export class MaterialModule { }

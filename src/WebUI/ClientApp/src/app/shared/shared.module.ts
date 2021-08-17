@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
@@ -31,6 +32,7 @@ import { ThemeSelectorComponent } from './utilities/theme-selector/theme-selecto
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MaterialModule
   ],
   exports: [
     GenericListComponent,
@@ -43,7 +45,7 @@ import { ThemeSelectorComponent } from './utilities/theme-selector/theme-selecto
     ItemsStatusSelectorComponent,
     SeceondsToHhmmssPipe,
     ErrorMessageComponent,
-    MaterialModule,
+    MaterialModule
   ]
 })
 export class SharedModule { }

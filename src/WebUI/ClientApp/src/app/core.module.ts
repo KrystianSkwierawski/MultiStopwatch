@@ -25,4 +25,4 @@ import { AuthorizeInterceptor } from './authentication/authorize.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
   ]
 })
-export class CoreModule {}
+export class CoreModule { }
