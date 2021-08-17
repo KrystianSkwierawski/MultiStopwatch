@@ -1,12 +1,9 @@
 import { Injectable, OnInit } from '@angular/core';
 import { ProjectItemDto, StopwatchItemDto } from '../../../web-api-client';
 import { LocalChangesHubService } from '../local-changes-hub/local-changes-hub.service';
-import { calcTotalSeconds, defaultTime, Time, timeToHHMMSS } from './Timer';
+import { defaultTime, Time, timeToHHMMSS } from './Timer';
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TimersService implements OnInit {
   project: ProjectItemDto;
   totalProjectHours: number;

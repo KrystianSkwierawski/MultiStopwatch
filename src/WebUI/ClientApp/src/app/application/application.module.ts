@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { PertCalculatorService } from '../shared/services/pert-calculator/pert-calculator.service';
+import { TimersService } from '../shared/services/timer/timers.service';
 import { SharedModule } from '../shared/shared.module';
 import { AccountOverviewDialogComponent } from './account-overview/account-overview-dialog/account-overview-dialog.component';
 import { ConfirmDeleteAccountDialogComponent } from './account-overview/confirm-delete-account-dialog/confirm-delete-account-dialog.component';
@@ -46,5 +48,9 @@ import { StopwatchesListComponent } from './stopwatch-items/stopwatches-list/sto
     ReactiveFormsModule,
     ApplicationRoutingModule
   ],
+  providers: [
+    TimersService,
+    PertCalculatorService
+  ]
 })
 export class ApplicationModule { }
