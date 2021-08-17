@@ -5,10 +5,10 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { ProjectsDataService } from '../../../shared/services/projects-data/projects-data-service';
-import { ChartDialogComponent } from '../../chart-dialog/chart-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';
 import { FavoriteProjectItemsClient, PaginatedListOfProjectItemDto, ProjectItemDto2, ProjectItemsClient, Status, UpdateProjectItemCommand } from '../../../web-api-client';
+import { ChartDialogComponent } from '../../chart-dialog/chart-dialog.component';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 

@@ -1,5 +1,5 @@
 declare var CanvasJS: any;
-import { AfterViewInit, Component, ElementRef, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { calcTotalSeconds, Time } from '../../shared/services/timer/Timer';
 

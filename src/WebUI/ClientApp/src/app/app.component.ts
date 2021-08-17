@@ -7,7 +7,6 @@ import { AuthenticationService } from './authentication/authentication.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'MultiStopwatch';
 
   constructor(private authService: AuthenticationService) { }
 

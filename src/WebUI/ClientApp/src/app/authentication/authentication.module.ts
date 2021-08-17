@@ -2,8 +2,6 @@ import { CoolSocialLoginButtonsModule } from '@angular-cool/social-login-buttons
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
 import { ForgotPasswordDialogComponent } from './forgot-password/forgot-password-dialog/forgot-password-dialog.component';
