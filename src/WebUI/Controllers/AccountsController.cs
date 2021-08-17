@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -110,7 +109,7 @@ namespace Project.WebUI.Controllers
     
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(UserForAuthentication userForAuthentication, bool rememberMe)
+        public async Task<ActionResult<string>> Login(UserForAuthentication userForAuthentication)
         {
             ApplicationUser user = await _userManager.FindByEmailAsync(userForAuthentication.Email);
 
@@ -122,9 +121,6 @@ namespace Project.WebUI.Controllers
 
             var claims = _jwtHandler.GetClamis(user.Email, user.Id);
             string token = _jwtHandler.GenerateToken(claims);
-
-            if (rememberMe)
-                Response.Cookies.Append("token", token, new CookieOptions { HttpOnly = true });
 
             return Ok(token);
         }

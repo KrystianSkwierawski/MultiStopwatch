@@ -2,8 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { BehaviorSubject, throwError } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
-import { AccountsClient, CookiesTokenClient } from '../web-api-client';
+import { catchError, tap } from 'rxjs/operators';
+import { AccountsClient } from '../web-api-client';
 
 
 @Injectable({
@@ -16,15 +16,11 @@ export class AuthenticationService implements OnInit {
 
   constructor(private _router: Router,
     private _accountsClient: AccountsClient,
-    private _socialAuthService: SocialAuthService,
-    private _cookiesTokenClient: CookiesTokenClient
+    private _socialAuthService: SocialAuthService
   ) { }
 
   ngOnInit(): void {
-    const isLogedIn: string = localStorage.getItem('isLogedIn');
-
-    if (isLogedIn === "true")
-      this.autoLogin();
+    this.setToken(this.getTokenFromLocalStorage());
   }
 
   register(user) {
@@ -36,14 +32,14 @@ export class AuthenticationService implements OnInit {
   }
 
   login(user, rememberMe: boolean) {
-    return this._accountsClient.login(rememberMe, user).pipe(catchError(errorResponse => {
+    return this._accountsClient.login(user).pipe(catchError(errorResponse => {
       return this.handleError(errorResponse);
     }),
       tap(token => {
         this.setToken(token);
 
         if (rememberMe) {
-          localStorage.setItem('isLogedIn', "true");
+          localStorage.setItem('token', token);
         }
       }
       ));
@@ -105,18 +101,14 @@ export class AuthenticationService implements OnInit {
   }
 
   logout() {
-    this._cookiesTokenClient.delete().pipe(take(1)).subscribe();
-    localStorage.setItem('isLogedIn', "false");
+    localStorage.removeItem('token');
     this.setToken(null);
     this._router.navigate(['/']);
   }
 
-  autoLogin() {
-    return this._cookiesTokenClient.get().pipe(take(1)).subscribe(token => {
-      this.setToken(token);
-    },
-      error => console.log(error)
-    );
+
+  getTokenFromLocalStorage() {
+    return localStorage.getItem('token');
   }
 
   getToken(): string {
