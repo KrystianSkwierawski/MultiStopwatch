@@ -24,7 +24,7 @@ export class AuthenticationService implements OnInit {
     const isLogedIn: string = localStorage.getItem('isLogedIn');
 
     if (isLogedIn === "true")
-      this.setTokenFromCookies();
+      this.autoLogin();
   }
 
   register(user) {
@@ -105,17 +105,16 @@ export class AuthenticationService implements OnInit {
   }
 
   logout() {
-    this._cookiesTokenClient.delete().subscribe(
-      error => console.log(error)
-    );
+    this._cookiesTokenClient.delete().pipe(take(1)).subscribe();
     localStorage.setItem('isLogedIn', "false");
     this.setToken(null);
     this._router.navigate(['/']);
   }
 
-  setTokenFromCookies() {
+  autoLogin() {
     return this._cookiesTokenClient.get().pipe(take(1)).subscribe(token => {
       this.setToken(token);
+      console.log(token);
     },
       error => console.log(error)
     );

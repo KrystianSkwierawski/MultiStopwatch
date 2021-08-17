@@ -107,26 +107,7 @@ namespace Project.WebUI.Controllers
 
             return Ok();
         }
-
-
-        [HttpPost("Register")]
-        public async Task<ActionResult> Register(UserForRegistration userForRegistration)
-        {
-            if (userForRegistration == null || !ModelState.IsValid)
-                return BadRequest();
-
-            IdentityResult result = await CreateUser(userForRegistration.Email, userForRegistration.Password);
-            if (!result.Succeeded)
-            {
-                var errors = result.Errors.Select(e => e.Description);
-
-                return BadRequest(errors);
-            }
-
-            await SendConfirmEmailAsync(userForRegistration.Email);
-
-            return Ok();
-        }
+    
 
         [HttpPost("Login")]
         public async Task<ActionResult<string>> Login(UserForAuthentication userForAuthentication, bool rememberMe)
@@ -194,6 +175,25 @@ namespace Project.WebUI.Controllers
             string token = _jwtHandler.GenerateToken(claims);
 
             return Ok(token);
+        }
+
+        [HttpPost("Register")]
+        public async Task<ActionResult> Register(UserForRegistration userForRegistration)
+        {
+            if (userForRegistration == null || !ModelState.IsValid)
+                return BadRequest();
+
+            IdentityResult result = await CreateUser(userForRegistration.Email, userForRegistration.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+
+                return BadRequest(errors);
+            }
+
+            await SendConfirmEmailAsync(userForRegistration.Email);
+
+            return Ok();
         }
 
         [HttpPut("ResetPassword")]
