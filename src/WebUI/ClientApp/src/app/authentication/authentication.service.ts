@@ -2,8 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { BehaviorSubject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { AccountsClient } from '../web-api-client';
+import { catchError, take, tap } from 'rxjs/operators';
+import { AccountsClient, CookiesTokenClient } from '../web-api-client';
 
 
 @Injectable({
@@ -16,11 +16,15 @@ export class AuthenticationService implements OnInit {
 
   constructor(private _router: Router,
     private _accountsClient: AccountsClient,
-    private _socialAuthService: SocialAuthService
+    private _socialAuthService: SocialAuthService,
+    private _cookiesTokenClient: CookiesTokenClient
   ) { }
 
   ngOnInit(): void {
-    this.setToken(this.getTokenFromLocalStorage());
+    const isLogedIn: string = localStorage.getItem('isLogedIn');
+
+    if (isLogedIn === "true")
+      this.setTokenFromCookies();
   }
 
   register(user) {
@@ -32,14 +36,14 @@ export class AuthenticationService implements OnInit {
   }
 
   login(user, rememberMe: boolean) {
-    return this._accountsClient.login(user).pipe(catchError(errorResponse => {
+    return this._accountsClient.login(rememberMe, user).pipe(catchError(errorResponse => {
       return this.handleError(errorResponse);
     }),
       tap(token => {
         this.setToken(token);
 
         if (rememberMe) {
-          localStorage.setItem('token', token);
+          localStorage.setItem('isLogedIn', "true");
         }
       }
       ));
@@ -101,13 +105,20 @@ export class AuthenticationService implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this._cookiesTokenClient.delete().subscribe(
+      error => console.log(error)
+    );
+    localStorage.setItem('isLogedIn', "false");
     this.setToken(null);
     this._router.navigate(['/']);
   }
 
-  getTokenFromLocalStorage() {
-    return localStorage.getItem('token');
+  setTokenFromCookies() {
+    return this._cookiesTokenClient.get().pipe(take(1)).subscribe(token => {
+      this.setToken(token);
+    },
+      error => console.log(error)
+    );
   }
 
   getToken(): string {

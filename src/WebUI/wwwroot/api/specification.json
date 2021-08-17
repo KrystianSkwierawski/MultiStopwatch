@@ -257,6 +257,16 @@
           "Accounts"
         ],
         "operationId": "Accounts_Login",
+        "parameters": [
+          {
+            "name": "rememberMe",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 2
+          }
+        ],
         "requestBody": {
           "x-name": "userForAuthentication",
           "content": {
@@ -435,6 +445,49 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountStatsDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/CookiesToken": {
+      "get": {
+        "tags": [
+          "CookiesToken"
+        ],
+        "operationId": "CookiesToken_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CookiesToken"
+        ],
+        "operationId": "CookiesToken_Delete",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
