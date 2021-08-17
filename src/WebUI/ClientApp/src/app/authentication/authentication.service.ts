@@ -114,7 +114,6 @@ export class AuthenticationService implements OnInit {
   autoLogin() {
     return this._cookiesTokenClient.get().pipe(take(1)).subscribe(token => {
       this.setToken(token);
-      console.log(token);
     },
       error => console.log(error)
     );
