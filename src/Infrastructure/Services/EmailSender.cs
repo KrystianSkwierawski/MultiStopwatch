@@ -2,6 +2,7 @@
 using MimeKit;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.Models;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,8 @@ namespace Infrastructure.Service
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(_emailConfig.From));
+            MailboxAddress mailboxAddress = new(_emailConfig.From);
+            emailMessage.From.Add(mailboxAddress);
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
 
@@ -61,51 +63,48 @@ namespace Infrastructure.Service
 
         private void Send(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
-            {
-                try
-                {
-                    client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
+            using SmtpClient client = new();
 
-                    client.Send(mailMessage);
-                }
-                catch
-                {
-                    //log an error message or throw an exception, or both.
-                    throw;
-                }
-                finally
-                {
-                    client.Disconnect(true);
-                    client.Dispose();
-                }
+            try
+            {
+                client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
+
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                client.Disconnect(true);
+                client.Dispose();
             }
         }
 
         private async Task SendAsync(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
-            {
-                try
-                {
-                    await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+            using SmtpClient client = new();
 
-                    await client.SendAsync(mailMessage);
-                }
-                catch
-                {
-                    //log an error message or throw an exception, or both.
-                    throw;
-                }
-                finally
-                {
-                    await client.DisconnectAsync(true);
-                    client.Dispose();
-                }
+            try
+            {
+                await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+
+                await client.SendAsync(mailMessage);
+            }
+            catch
+            {
+                //log an error message or throw an exception, or both.
+                throw;
+            }
+            finally
+            {
+                await client.DisconnectAsync(true);
+                client.Dispose();
             }
         }
     }
