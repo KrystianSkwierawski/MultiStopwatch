@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth;
 using Infrastructure.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,7 @@ namespace Project.WebUI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ApplicationUser>> Get()
         {
             return await _userManager.FindByIdAsync(_currentUserService.UserId);
@@ -69,6 +71,7 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpGet("ResendConfirmationEmail")]
+        [Authorize]
         public async Task<ActionResult> ResendConfirmationEmail()
         {
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
@@ -220,6 +223,7 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<ActionResult> Delete(string password)
         {
             var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
@@ -246,6 +250,7 @@ namespace Project.WebUI.Controllers
         }
 
         [HttpPatch]
+        [Authorize]
         public async Task<ActionResult> Update(string email, string currentPassword, string newPassword)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
