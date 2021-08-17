@@ -42,7 +42,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     get(): Observable<ApplicationUser> {
-        let url_ = this.baseUrl + "/api/accounts";
+        let url_ = this.baseUrl + "/api/Accounts";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -90,7 +90,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     delete(password: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts?";
+        let url_ = this.baseUrl + "/api/Accounts?";
         if (password !== undefined && password !== null)
             url_ += "password=" + encodeURIComponent("" + password) + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -138,7 +138,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     update(email: string | null | undefined, currentPassword: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts?";
+        let url_ = this.baseUrl + "/api/Accounts?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
         if (currentPassword !== undefined && currentPassword !== null)
@@ -190,7 +190,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     confirmEmail(token: string | null | undefined, email: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/ConfirmEmail?";
+        let url_ = this.baseUrl + "/api/Accounts/ConfirmEmail?";
         if (token !== undefined && token !== null)
             url_ += "token=" + encodeURIComponent("" + token) + "&";
         if (email !== undefined && email !== null)
@@ -240,7 +240,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     resendConfirmationEmail(): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/ResendConfirmationEmail";
+        let url_ = this.baseUrl + "/api/Accounts/ResendConfirmationEmail";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -286,7 +286,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     sendResetPasswordEmail(email: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/SendResetPasswordEmail?";
+        let url_ = this.baseUrl + "/api/Accounts/SendResetPasswordEmail?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -334,7 +334,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     register(userForRegistration: UserForRegistration): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/Register";
+        let url_ = this.baseUrl + "/api/Accounts/Register";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(userForRegistration);
@@ -384,7 +384,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     login(userForAuthentication: UserForAuthentication): Observable<string> {
-        let url_ = this.baseUrl + "/api/accounts/Login";
+        let url_ = this.baseUrl + "/api/Accounts/Login";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(userForAuthentication);
@@ -436,7 +436,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     googleAuthenticate(idToken: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/accounts/GoogleAuthenticate?";
+        let url_ = this.baseUrl + "/api/Accounts/GoogleAuthenticate?";
         if (idToken !== undefined && idToken !== null)
             url_ += "idToken=" + encodeURIComponent("" + idToken) + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -486,7 +486,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     facebookAuthenticate(email: string | null | undefined, name: string | null | undefined, id: string | null | undefined, authToken: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/accounts/FacebookAuthenticate?";
+        let url_ = this.baseUrl + "/api/Accounts/FacebookAuthenticate?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
         if (name !== undefined && name !== null)
@@ -542,7 +542,7 @@ export class AccountsClient implements IAccountsClient {
     }
 
     resetPassword(email: string | null | undefined, token: string | null | undefined, newPassword: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/accounts/ResetPassword?";
+        let url_ = this.baseUrl + "/api/Accounts/ResetPassword?";
         if (email !== undefined && email !== null)
             url_ += "email=" + encodeURIComponent("" + email) + "&";
         if (token !== undefined && token !== null)

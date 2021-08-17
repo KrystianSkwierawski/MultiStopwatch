@@ -1,6 +1,5 @@
 ﻿using Google.Apis.Auth;
 using Infrastructure.Services;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
@@ -23,24 +22,20 @@ using System.Threading.Tasks;
 
 namespace Project.WebUI.Controllers
 {
-    [Route("api/accounts")]
-    [ApiController]
-    public class AccountsController : ControllerBase
+    public class AccountsController : ApiControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtHandler _jwtHandler;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly ISender _mediator;
         private readonly IEmailSender _emailSender;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, ISender mediator, IEmailSender emailSender)
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _currentUserService = currentUserService;
             _logger = logger;
-            _mediator = mediator;
             _emailSender = emailSender;
         }
 
@@ -219,6 +214,13 @@ namespace Project.WebUI.Controllers
             if (!resetPasswordResult.Succeeded)
                 return StatusCode((int)HttpStatusCode.InternalServerError, "An internal server error occurred or token expired");
 
+            user.HasPassword = true;
+
+            var updateUserResult = await _userManager.UpdateAsync(user);
+
+            if (!updateUserResult.Succeeded)
+                return BadRequest(updateUserResult.Errors.Select(x => x.Description));
+
             return Ok();
         }
 
@@ -236,7 +238,7 @@ namespace Project.WebUI.Controllers
             if (!await _userManager.CheckPasswordAsync(user, password))
                 return BadRequest("Invalid password");
 
-            await _mediator.Send(new DeleteAccountDataCommand());
+            await Mediator.Send(new DeleteAccountDataCommand());
 
             var deleteUserResult = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
@@ -254,6 +256,7 @@ namespace Project.WebUI.Controllers
         public async Task<ActionResult> Update(string email, string currentPassword, string newPassword)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(_currentUserService.UserId);
+
             if (user is null)
                 return Unauthorized();
 
@@ -273,8 +276,15 @@ namespace Project.WebUI.Controllers
 
                 var addPasswordResult = await _userManager.AddPasswordAsync(user, newPassword);
 
-                if (addPasswordResult.Succeeded)
-                    user.HasPassword = true;
+                if (!addPasswordResult.Succeeded)
+                    return BadRequest(addPasswordResult.Errors.Select(x => x.Description));
+
+                user.HasPassword = true;
+
+                var updateUserResult = await _userManager.UpdateAsync(user);
+
+                if (!updateUserResult.Succeeded)
+                    return BadRequest(updateUserResult.Errors.Select(x => x.Description));
             }
 
 
@@ -298,7 +308,7 @@ namespace Project.WebUI.Controllers
         {
             bool hasPassword = !String.IsNullOrEmpty(password);
 
-            ApplicationUser user = new ()
+            ApplicationUser user = new()
             {
                 Email = email,
                 UserName = Guid.NewGuid().ToString(),

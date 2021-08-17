@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/accounts": {
+    "/api/Accounts": {
       "get": {
         "tags": [
           "Accounts"
@@ -119,7 +119,7 @@
         ]
       }
     },
-    "/api/accounts/ConfirmEmail": {
+    "/api/Accounts/ConfirmEmail": {
       "get": {
         "tags": [
           "Accounts"
@@ -160,7 +160,7 @@
         }
       }
     },
-    "/api/accounts/ResendConfirmationEmail": {
+    "/api/Accounts/ResendConfirmationEmail": {
       "get": {
         "tags": [
           "Accounts"
@@ -186,7 +186,7 @@
         ]
       }
     },
-    "/api/accounts/SendResetPasswordEmail": {
+    "/api/Accounts/SendResetPasswordEmail": {
       "get": {
         "tags": [
           "Accounts"
@@ -218,7 +218,7 @@
         }
       }
     },
-    "/api/accounts/Register": {
+    "/api/Accounts/Register": {
       "post": {
         "tags": [
           "Accounts"
@@ -251,7 +251,7 @@
         }
       }
     },
-    "/api/accounts/Login": {
+    "/api/Accounts/Login": {
       "post": {
         "tags": [
           "Accounts"
@@ -283,7 +283,7 @@
         }
       }
     },
-    "/api/accounts/GoogleAuthenticate": {
+    "/api/Accounts/GoogleAuthenticate": {
       "post": {
         "tags": [
           "Accounts"
@@ -314,7 +314,7 @@
         }
       }
     },
-    "/api/accounts/FacebookAuthenticate": {
+    "/api/Accounts/FacebookAuthenticate": {
       "post": {
         "tags": [
           "Accounts"
@@ -372,7 +372,7 @@
         }
       }
     },
-    "/api/accounts/ResetPassword": {
+    "/api/Accounts/ResetPassword": {
       "put": {
         "tags": [
           "Accounts"
