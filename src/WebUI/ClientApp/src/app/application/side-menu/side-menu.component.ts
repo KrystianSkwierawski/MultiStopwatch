@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication/authentication.service';
@@ -8,10 +8,7 @@ import { PertCalculatorDialogComponent } from '../pert-calculator/pert-calculato
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss'],
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
+  styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit, AfterViewInit {
 
@@ -61,7 +58,9 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     });
   }
 
+  @HostListener('window:resize', ['$event'])
   onResize(): void {
+    console.log("resize");
     if (this.isDesktopDevice()) {
       this.menuIsActivated = true;
     }

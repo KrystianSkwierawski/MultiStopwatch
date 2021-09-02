@@ -4,7 +4,7 @@
   <button (click)="onOpenCreateProjectDialog()" class="add-new-project-button" aria-label="add"><i class="fas fa-plus"></i></button>
 
   <app-search-item-by-title *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
-                            (onKeyUp)="filterProjectsByTitle($event)"
+                            (keyUp)="filterProjectsByTitle($event)"
                             [options]="titlesArray">
   </app-search-item-by-title>
 
@@ -18,7 +18,7 @@
   </button>
 </div>
 
-<app-items-status-selector (onStatusChanged)="filterProjectsByStatus($event)"
+<app-items-status-selector (statusChanged)="filterProjectsByStatus($event)"
                            *ngIf="paginatedListOfProjectItemDto?.items.length > 0"
                            [status]="itemsStatus">
 
@@ -114,7 +114,7 @@
     <app-paginator #paginator
                    [totalCount]="paginatedListOfProjectItemDto?.totalCount"
                    [pageSize]="paginatedListOfProjectItemDto?.pageSize"
-                   (onUpdatePagination)="updatePagination($event)">
+                   (updatePagination)="onUpdatePagination($event)">
     </app-paginator>
   </ng-container>
 </app-generic-list>

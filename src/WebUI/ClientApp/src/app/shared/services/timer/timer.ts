@@ -8,9 +8,9 @@ export class Time {
   constructor(timeString: string) {
     const timeArray = timeString.split(':');
 
-    this.hours = parseInt(timeArray[0]),
-      this.minutes = parseInt(timeArray[1]),
-      this.seconds = parseInt(timeArray[2]);
+    this.hours = Number(timeArray[0]),
+    this.minutes = Number(timeArray[1]),
+    this.seconds = Number(timeArray[2]);
   }
 }
 

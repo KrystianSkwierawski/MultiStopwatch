@@ -11,7 +11,7 @@ export class ThemeSelectorComponent implements OnInit {
   @Input() theme: string;
   selected;
 
-  @Output() onSaveChanges: EventEmitter<string> = new EventEmitter<string>();
+  @Output() saveChanges: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -24,14 +24,14 @@ export class ThemeSelectorComponent implements OnInit {
       const defaultTheme = '#6264A7';
 
       this.theme = defaultTheme;
-      this.saveChanges(this.theme);
+      this.onSaveChanges(this.theme);
     }
 
     this.selected = new FormControl(this.theme);
   }
 
 
-  saveChanges(value) {
-    this.onSaveChanges.emit(value);
+  onSaveChanges(value) {
+    this.saveChanges.emit(value);
   }
 }

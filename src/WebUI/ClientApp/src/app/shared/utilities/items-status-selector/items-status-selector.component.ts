@@ -9,7 +9,7 @@ import { Status } from '../../../web-api-client';
 export class ItemsStatusSelectorComponent implements OnInit, OnChanges {
 
   @Input() status: Status | string;
-  @Output() onStatusChanged = new EventEmitter<Status>();
+  @Output() statusChanged = new EventEmitter<Status>();
 
   constructor() { }
 
@@ -24,6 +24,6 @@ export class ItemsStatusSelectorComponent implements OnInit, OnChanges {
   }
 
   onChange(status: string) {
-    this.onStatusChanged.emit(+status);
+    this.statusChanged.emit(+status);
   }
 }

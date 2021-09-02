@@ -13,7 +13,7 @@ export class SearchItemByTitleComponent implements OnChanges {
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   @Input() options: string[];
-  @Output() onKeyUp = new EventEmitter<string>();
+  @Output() keyUp = new EventEmitter<string>();
   @ViewChild('searchingTitle') searchingTitleInput: ElementRef;
 
   constructor() { }
@@ -31,9 +31,9 @@ export class SearchItemByTitleComponent implements OnChanges {
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  keyUp() {
+  onKeyUp() {
     const searchingTitle = this.searchingTitleInput.nativeElement.value;
-    this.onKeyUp.emit(searchingTitle);
+    this.keyUp.emit(searchingTitle);
   }
 
   cleanInput() {

@@ -232,7 +232,7 @@ export class StopwatchesListComponent implements OnInit {
     });
   }
 
-  async updatePagination(event: PageEvent) {
+  async onUpdatePagination(event: PageEvent) {
     this._timersService.clearAllIntervals();
 
     await this._localChangesHubService.saveStopwatchesChangesInDb();

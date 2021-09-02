@@ -11,14 +11,14 @@ export class PaginatorComponent implements OnInit {
   @Input() totalCount: number;
   @Input() pageSize: number;
 
-  @Output() onUpdatePagination = new EventEmitter<PageEvent>();
+  @Output() updatePagination = new EventEmitter<PageEvent>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  updatePagination(event: PageEvent) {
-    this.onUpdatePagination.emit(event);
+  onUpdatePagination(event: PageEvent) {
+    this.updatePagination.emit(event);
   }
 }

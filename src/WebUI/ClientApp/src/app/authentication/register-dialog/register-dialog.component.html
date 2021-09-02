@@ -34,7 +34,7 @@
     <button mat-flat-button color="primary" class="create-account-button" [disabled]="form.invalid" aria-label="create account" type="submit">Create account</button>
   </form>
 
-  <app-social-authentications (onLoggedIn)="handleLoggedInUsingSocial($event)"></app-social-authentications>
+  <app-social-authentications (logIn)="handleLoggedInUsingSocial($event)"></app-social-authentications>
 
   <div class="open-login-dialog-button">
     <p>Already have an account? </p><button (click)="openLoginDialog()">Sign in</button>

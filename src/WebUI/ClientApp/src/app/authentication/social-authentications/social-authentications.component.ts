@@ -9,7 +9,7 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class SocialAuthenticationsComponent implements OnInit {
 
-  @Output() onLoggedIn = new EventEmitter();
+  @Output() logIn = new EventEmitter<any>();
 
   constructor(private _router: Router, private _authService: AuthenticationService) { }
 
@@ -19,22 +19,22 @@ export class SocialAuthenticationsComponent implements OnInit {
   async loginWithGoogle() {
     (await this._authService.loginWithGoogle()).subscribe(token => {
       if (token) {
-        this.onLoggedIn.emit(null);
+        this.logIn.emit(null);
         this._router.navigateByUrl('app?items=1');
       }
     },
-      error => this.onLoggedIn.emit(error)
+      error => this.logIn.emit(error)
     );
   }
 
   async loginWithFacebook() {
     (await this._authService.loginWithFacebook()).subscribe(token => {
       if (token) {
-        this.onLoggedIn.emit(null);
+        this.logIn.emit(null);
         this._router.navigateByUrl('app?items=1');
       }
     },
-      error => this.onLoggedIn.emit(error)
+      error => this.logIn.emit(error)
     );
   }
 }

@@ -14,7 +14,7 @@
       <mat-error *ngIf="form.invalid">{{getErrorMessageFieldTime()}}</mat-error>
     </mat-form-field>
 
-    <app-theme-selector [theme]="stopwatchItem.theme" (onSaveChanges)="changeSelectedTheme($event)"></app-theme-selector>
+    <app-theme-selector [theme]="stopwatchItem.theme" (saveChanges)="changeSelectedTheme($event)"></app-theme-selector>
 
     <div>
       <button mat-stroked-button (click)="closeDialog()" class="mr-1 mb-1" aria-label="cancel" type="button">Cancel</button>

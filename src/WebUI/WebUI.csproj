@@ -64,7 +64,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\pert-calculator\estimates.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\shared\services\timer\timer.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\validators\must-match.ts" />
   </ItemGroup>
 

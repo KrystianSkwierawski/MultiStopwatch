@@ -179,7 +179,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     return items.filter(x => x.status === this.itemsStatus);
   }
 
-  updatePagination(event: PageEvent) {
+  onUpdatePagination(event: PageEvent) {
     this._projectsDataService.loadProjects(event.pageIndex + 1, event.pageSize);
   }
 

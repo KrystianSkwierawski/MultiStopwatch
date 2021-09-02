@@ -3,7 +3,7 @@
 <button (click)="onOpenCreateStopwatchDialog()" class="add-new-stopwatch-button" aria-label="open create stopwatch dialog"><i class="fas fa-plus"></i></button>
 
 <app-search-item-by-title *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
-                          (onKeyUp)="filterStopwatchesByTitle($event)"
+                          (keyUp)="filterStopwatchesByTitle($event)"
                           [options]="titlesArray">
 </app-search-item-by-title>
 
@@ -16,7 +16,7 @@
   <i class="fas fa-chart-pie"></i>
 </button>
 
-<app-items-status-selector (onStatusChanged)="filterStopwatchesByStatus($event)"
+<app-items-status-selector (statusChanged)="filterStopwatchesByStatus($event)"
                            *ngIf="paginatedListOfStopwatchItemDto?.items.length > 0"
                            [status]="itemsStatus">
 
@@ -131,7 +131,7 @@
     <app-paginator #paginator
                    [totalCount]="paginatedListOfStopwatchItemDto?.totalCount"
                    [pageSize]="paginatedListOfStopwatchItemDto?.pageSize"
-                   (onUpdatePagination)="updatePagination($event)">
+                   (updatePagination)="onUpdatePagination($event)">
     </app-paginator>
   </ng-container>
 </app-generic-list>
