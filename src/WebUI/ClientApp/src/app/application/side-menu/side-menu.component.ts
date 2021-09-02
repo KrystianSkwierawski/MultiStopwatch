@@ -60,7 +60,6 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
-    console.log("resize");
     if (this.isDesktopDevice()) {
       this.menuIsActivated = true;
     }
