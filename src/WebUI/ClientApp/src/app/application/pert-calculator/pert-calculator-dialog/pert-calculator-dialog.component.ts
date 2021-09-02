@@ -8,7 +8,8 @@ import { PertCalculatorService } from '../../../shared/services/pert-calculator/
 @Component({
   selector: 'app-pert-calculator-dialog',
   templateUrl: './pert-calculator-dialog.component.html',
-  styleUrls: ['./pert-calculator-dialog.component.scss']
+  styleUrls: ['./pert-calculator-dialog.component.scss'],
+  providers: [PertCalculatorService]
 })
 export class PertCalculatorDialogComponent implements OnInit, OnDestroy {
 

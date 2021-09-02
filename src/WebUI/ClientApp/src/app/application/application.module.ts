@@ -50,7 +50,6 @@ import { StopwatchesListComponent } from './stopwatch-items/stopwatches-list/sto
   ],
   providers: [
     TimersService,
-    PertCalculatorService
   ]
 })
 export class ApplicationModule { }
