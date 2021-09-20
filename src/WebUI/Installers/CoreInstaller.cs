@@ -16,8 +16,7 @@ namespace Project.WebUI.Installers
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
-            services.AddControllersWithViews().AddFluentValidation();
-            services.AddRazorPages();
+            services.AddControllers().AddFluentValidation();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
