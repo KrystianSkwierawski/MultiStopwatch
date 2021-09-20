@@ -1,5 +1,3 @@
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -8,20 +6,11 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using NSwag;
-using NSwag.Generation.Processors.Security;
-using Project.Application;
-using Project.Application.Common.Interfaces;
-using Project.Infrastructure;
-using Project.Infrastructure.Persistence;
-using Project.WebUI.Common.HealthChecks;
 using Project.WebUI.Hubs;
-using Project.WebUI.Services;
+using Project.WebUI.Installers;
 using System;
 using System.Linq;
-using System.Text;
 
 namespace Project.WebUI
 {
@@ -37,59 +26,7 @@ namespace Project.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
-            services.AddInfrastructure(Configuration);
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
-
-            services.AddControllersWithViews().AddFluentValidation();
-
-            services.AddRazorPages();
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-
-            services.AddOpenApiDocument(configure =>
-            {
-                configure.Title = "Project API";
-                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
-                {
-                    Type = OpenApiSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = OpenApiSecurityApiKeyLocation.Header,
-                    Description = "Type into the textbox: Bearer {your JWT token}."
-                });
-
-                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
-            });
-
-            services.AddHealthChecks()
-                .AddDbContextCheck<Context>();
-
-            services.AddHealthChecks()
-                .AddCheck<FacebookAuthHealthCheck>("API checking a facebook user token");
-
-            var jwtSettings = Configuration.GetSection("JwtSettings");
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                    ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value)),
-                };
-            });
-
+            services.InstallServicesInAssembly(Configuration);       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
