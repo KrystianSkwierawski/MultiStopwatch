@@ -7,6 +7,7 @@ using Project.Application.Common.CustomTokenProviders;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
+using Project.Application.Interfaces;
 using Project.Domain.Entities;
 using Project.Infrastructure.Persistence;
 using Project.Infrastructure.Services;
@@ -65,9 +66,10 @@ namespace Project.Infrastructure
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSenderService, EmailSenderService>();
+            services.AddSingleton<IFacebookAuthCheckerService, FacebookAuthCheckerService>();
 
-            services.AddScoped<JwtHandler>();
+            services.AddScoped<JwtHandler>();     
 
             services.AddSignalR();
 

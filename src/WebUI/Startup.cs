@@ -13,6 +13,8 @@ using NSwag.Generation.Processors.Security;
 using Project.Application;
 using Project.Application.Common.Interfaces;
 using Project.Infrastructure;
+using Project.Infrastructure.Persistence;
+using Project.WebUI.Common.HealthChecks;
 using Project.WebUI.Hubs;
 using Project.WebUI.Services;
 using System;
@@ -60,7 +62,11 @@ namespace Project.WebUI
                 configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
 
+            services.AddHealthChecks()
+                .AddDbContextCheck<Context>();
 
+            services.AddHealthChecks()
+                .AddCheck<FacebookAuthHealthCheck>("API checking a facebook user token");
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
@@ -102,6 +108,7 @@ namespace Project.WebUI
                 app.UseHsts();
             }
 
+            app.UseHealthChecks("/health");
 
             app.UseHttpsRedirection();
             if (!env.IsDevelopment())

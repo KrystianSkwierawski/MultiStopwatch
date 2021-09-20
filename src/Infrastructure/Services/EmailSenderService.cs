@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Service
 {
-    public class EmailSender : IEmailSender
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly EmailConfiguration _emailConfig;
 
-        public EmailSender(EmailConfiguration emailConfig)
+        public EmailSenderService(EmailConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
         }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Project.Application.Common.Interfaces
 {
-    public interface IEmailSender
+    public interface IEmailSenderService
     {
         void SendEmail(Message message);
         Task SendEmailAsync(Message message);

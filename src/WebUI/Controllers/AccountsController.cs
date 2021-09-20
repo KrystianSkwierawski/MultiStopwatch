@@ -11,6 +11,7 @@ using Project.Application.AccountData.Commands.DeleteAccountData;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.JwtFeatures;
 using Project.Application.Common.Models;
+using Project.Application.Interfaces;
 using Project.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -28,15 +29,18 @@ namespace Project.WebUI.Controllers
         private readonly JwtHandler _jwtHandler;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
+        private readonly IFacebookAuthCheckerService _facebookAuthCheckerService;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, IEmailSender emailSender)
+
+        public AccountsController(UserManager<ApplicationUser> userManager, JwtHandler jwtHandler, ICurrentUserService currentUserService, ILogger<DeletePersonalDataModel> logger, IEmailSenderService emailSender, IFacebookAuthCheckerService facebookAuthCheckerService)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _currentUserService = currentUserService;
             _logger = logger;
             _emailSender = emailSender;
+            _facebookAuthCheckerService = facebookAuthCheckerService;
         }
 
 
@@ -148,7 +152,7 @@ namespace Project.WebUI.Controllers
         [HttpPost("FacebookAuthenticate")]
         public async Task<ActionResult<string>> FacebookAuthenticate(string email, string name, string id, string authToken)
         {
-            var facebookAuthCheck = await GetFacebookAuthCheck(authToken);
+            JObject facebookAuthCheck = await _facebookAuthCheckerService.GetFacebookAuthCheck(authToken);
 
             if (facebookAuthCheck is null)
                 return StatusCode((int)HttpStatusCode.FailedDependency);
@@ -343,21 +347,6 @@ namespace Project.WebUI.Controllers
 
             var message = new Message(new string[] { user.Email }, "[MultiStopwatch] Confirm your email", emailContent, null);
             await _emailSender.SendEmailAsync(message);
-        }
-
-        private async Task<JObject> GetFacebookAuthCheck(string authToken)
-        {
-            using HttpClient client = new();
-
-            string url = "https://graph.facebook.com/me?access_token=" + authToken;
-            using HttpResponseMessage res = await client.GetAsync(url);
-
-            using HttpContent content = res.Content;
-
-            string data = await content.ReadAsStringAsync();
-            JObject dataObj = JObject.Parse(data);
-
-            return dataObj;
         }
     }
 }
