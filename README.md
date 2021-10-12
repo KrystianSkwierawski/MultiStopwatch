@@ -7,7 +7,7 @@ Multistopwatch is an application for the organization of work. Simply, you can m
 Thanks to the built-in <a href="https://www.linkedin.com/pulse/what-pert-how-can-we-use-dave-fourie-pmp-prince2-/">PERT</a>-Calculator you can also estimate project implementation time. It will allow you to build good habits and manage your time. In each project and stopwatch, you will find a diagram that shows the time of the tasks performed as a percentage. You can create any number of projects with tasks in a pleasant color palette. Projects can be added to favorites by clicking on the heart icon.
 
 ## Where did the idea for the project come from? 
-This project arose in need of projects time calculation as well as optimization and time prediction.
+This project arose in need of projects time calculation as well as optimization and time prediction. I have not found a suitable application of this type on the Internet.
  
 ## What did I learn?
 During the project, I had a lot of fun. In practice I exercised Angular and CleanArchitecture: AutoMaper - creating DTOs, NSwag - testing API and generating web API client, validations on several layers, and more.
