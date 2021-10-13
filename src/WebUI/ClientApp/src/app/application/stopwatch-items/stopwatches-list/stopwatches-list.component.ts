@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
-import { defaultTime } from '../../../shared/services/timer/Timer';
+import { defaultTime } from '../../../shared/services/timer/timer.model';
 import { TimersService } from '../../../shared/services/timer/timers.service';
 import { ConfirmDeleteDialogComponent } from '../../../shared/utilities/confirm-delete-dialog/confirm-delete-dialog.component';
 import { SearchItemByTitleComponent } from '../../../shared/utilities/search-item-by-title/search-item-by-title.component';

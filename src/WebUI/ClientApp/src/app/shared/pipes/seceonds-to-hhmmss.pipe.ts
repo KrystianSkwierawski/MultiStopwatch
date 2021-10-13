@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { defaultTime, totalSecondsToHHMMSS } from '../services/timer/Timer';
+import { defaultTime, totalSecondsToHHMMSS } from '../services/timer/timer.model';
 
 @Pipe({
   name: 'seceondsToHhmmss'
