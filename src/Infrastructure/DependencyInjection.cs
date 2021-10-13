@@ -31,18 +31,7 @@ namespace Project.Infrastructure
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(Context).Assembly.FullName)));
             }
-
-            services.AddScoped<IContext>(provider => provider.GetService<Context>());
-
-            services.AddTransient<IDateTime, DateTimeService>();
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Cookie.Name = ".AspNetCore.Identity.Application";
-            //    options.ExpireTimeSpan = TimeSpan.FromDays(20);
-            //    options.SlidingExpiration = true;
-            //});
-
+   
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 3;
@@ -66,8 +55,14 @@ namespace Project.Infrastructure
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
+
             services.AddScoped<IEmailSenderService, EmailSenderService>();
+
             services.AddSingleton<IFacebookAuthCheckerService, FacebookAuthCheckerService>();
+
+            services.AddScoped<IContext>(provider => provider.GetService<Context>());
+
+            services.AddTransient<IDateTime, DateTimeService>();
 
             services.AddScoped<JwtHandler>();     
 
