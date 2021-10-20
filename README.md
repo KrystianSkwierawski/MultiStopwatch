@@ -34,14 +34,15 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
  * HTML5
  * Angular Material
  
- ### Other
+### Other
  * Trello
  * JustColorPicker
  * VisualStudio
  * Git
  * Postman
  * Adobe XD
-
+ * Angular Material
+ 
 ## Status
 Project is in progress.
 
