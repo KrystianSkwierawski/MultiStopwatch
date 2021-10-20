@@ -40,6 +40,7 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
  * VisualStudio
  * Git
  * Postman
+ * Adobe XD
 
 ## Status
 Project is in progress.
