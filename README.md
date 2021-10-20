@@ -37,7 +37,7 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
 ### Other
  * Trello
  * JustColorPicker
- * VisualStudio
+ * Visual Studio
  * Git
  * Postman
  * Adobe XD
