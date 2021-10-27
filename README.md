@@ -14,7 +14,7 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
   
 ![multistopwatch](https://user-images.githubusercontent.com/52860350/123107278-ad42e980-d439-11eb-8e12-1677857b525a.jpg)
 
-## Main technologies: 
+## Tools: 
 
 ### Back-end
  * C#
@@ -32,7 +32,17 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
  * TypeScript
  * Sass
  * HTML5
-
+ * Angular Material
+ 
+### Other
+ * Trello
+ * JustColorPicker
+ * Visual Studio
+ * Git
+ * Postman
+ * Adobe XD
+ * Angular Material
+ 
 ## Status
 Project is in progress.
 
