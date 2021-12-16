@@ -41,7 +41,6 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
  * Git
  * Postman
  * Adobe XD
- * Angular Material
  
 ## Status
 Project is in progress.
