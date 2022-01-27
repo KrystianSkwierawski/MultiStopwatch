@@ -10,10 +10,8 @@ namespace Project.WebUI.Installers
         public void InstallServices(IServiceCollection services, IConfiguration Configuration)
         {
             services.AddHealthChecks()
-              .AddDbContextCheck<Context>();
-
-            services.AddHealthChecks()
-                .AddCheck<FacebookAuthHealthCheck>("API checking a facebook user token");
+              .AddDbContextCheck<Context>()
+              .AddCheck<FacebookAuthHealthCheck>("API checking a facebook user token");
         }
     }
 }
