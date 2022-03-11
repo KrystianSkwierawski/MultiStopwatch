@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Exceptions;
 using Project.Application.Common.Interfaces;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItem
             public async Task<ProjectItemDto> Handle(GetProjectItemQuery request, CancellationToken cancellationToken)
             {
                 ProjectItem entity = _context.ProjectItems
+                    .AsNoTracking()
                     .FirstOrDefault(x => x.Id == request.Id && x.CreatedBy == _currentUserService.UserId);
 
                 if (entity is null)

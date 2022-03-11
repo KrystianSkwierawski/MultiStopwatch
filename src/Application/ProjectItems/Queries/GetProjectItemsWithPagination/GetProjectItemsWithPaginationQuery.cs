@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
 using Project.Application.Common.Mappings;
 using Project.Application.Common.Models;
@@ -31,6 +32,7 @@ namespace Project.Application.ProjectItems.Queries.GetProjectItemsWithPagination
             public async Task<PaginatedList<ProjectItemDto>> Handle(GetProjectItemsWithPaginationQuery request, CancellationToken cancellationToken)
             {
                 return await _context.ProjectItems
+                    .AsNoTracking()
                     .Where(x => x.CreatedBy == _currentUserService.UserId)
                     .OrderByDescending(x => x.Id)
                     .ProjectTo<ProjectItemDto>(_mapper.ConfigurationProvider)

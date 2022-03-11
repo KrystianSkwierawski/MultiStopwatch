@@ -2,6 +2,7 @@
 using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Project.Application.Common.Interfaces;
 using Project.Domain.Entities;
 using System;
@@ -31,8 +32,8 @@ namespace Project.Application.AccountData.Queries.GetAccountStats
             {
                 string userId = _currentUserService.UserId;
 
-                IQueryable<ProjectItem> projectItems = _context.ProjectItems.Where(x => x.CreatedBy == userId);
-                IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.Where(x => x.CreatedBy == userId);
+                IQueryable<ProjectItem> projectItems = _context.ProjectItems.AsNoTracking().Where(x => x.CreatedBy == userId);
+                IQueryable<StopwatchItem> stopwatchItems = _context.StopWatchItems.AsNoTracking().Where(x => x.CreatedBy == userId);
                 ApplicationUser user = await _userManager.FindByEmailAsync(userId ?? "") ?? new ApplicationUser();
 
                 return new AccountStatsDto

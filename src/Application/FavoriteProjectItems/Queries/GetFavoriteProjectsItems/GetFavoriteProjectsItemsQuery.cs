@@ -28,6 +28,7 @@ namespace Project.Application.FavoriteProjectItems.Queries.GetFavoriteProjectsIt
             public async Task<List<FavoriteProjectItemDto>> Handle(GetFavoriteProjectsItemsQuery request, CancellationToken cancellationToken)
             {
                 return await _context.ProjectItems
+                 .AsNoTracking()
                  .Where(x => x.CreatedBy == _currentUserService.UserId && x.IsFavorite == true)
                  .OrderBy(x => x.OrderIndex)
                  .ProjectTo<FavoriteProjectItemDto>(_mapper.ConfigurationProvider)

@@ -1346,37 +1346,21 @@ export class StopwatchItemsClient implements IStopwatchItemsClient {
     }
 }
 
-/** Represents a user in the identity system */
 export class IdentityUserOfString implements IIdentityUserOfString {
-    /** Gets or sets the primary key for this user. */
     id?: string | undefined;
-    /** Gets or sets the user name for this user. */
     userName?: string | undefined;
-    /** Gets or sets the normalized user name for this user. */
     normalizedUserName?: string | undefined;
-    /** Gets or sets the email address for this user. */
     email?: string | undefined;
-    /** Gets or sets the normalized email address for this user. */
     normalizedEmail?: string | undefined;
-    /** Gets or sets a flag indicating if a user has confirmed their email address. */
     emailConfirmed?: boolean;
-    /** Gets or sets a salted and hashed representation of the password for this user. */
     passwordHash?: string | undefined;
-    /** A random value that must change whenever a users credentials change (password changed, login removed) */
     securityStamp?: string | undefined;
-    /** A random value that must change whenever a user is persisted to the store */
     concurrencyStamp?: string | undefined;
-    /** Gets or sets a telephone number for the user. */
     phoneNumber?: string | undefined;
-    /** Gets or sets a flag indicating if a user has confirmed their telephone address. */
     phoneNumberConfirmed?: boolean;
-    /** Gets or sets a flag indicating if two factor authentication is enabled for this user. */
     twoFactorEnabled?: boolean;
-    /** Gets or sets the date and time, in UTC, when any user lockout ends. */
     lockoutEnd?: Date | undefined;
-    /** Gets or sets a flag indicating if the user could be locked out. */
     lockoutEnabled?: boolean;
-    /** Gets or sets the number of failed login attempts for the current user. */
     accessFailedCount?: number;
 
     constructor(data?: IIdentityUserOfString) {
@@ -1436,41 +1420,24 @@ export class IdentityUserOfString implements IIdentityUserOfString {
     }
 }
 
-/** Represents a user in the identity system */
 export interface IIdentityUserOfString {
-    /** Gets or sets the primary key for this user. */
     id?: string | undefined;
-    /** Gets or sets the user name for this user. */
     userName?: string | undefined;
-    /** Gets or sets the normalized user name for this user. */
     normalizedUserName?: string | undefined;
-    /** Gets or sets the email address for this user. */
     email?: string | undefined;
-    /** Gets or sets the normalized email address for this user. */
     normalizedEmail?: string | undefined;
-    /** Gets or sets a flag indicating if a user has confirmed their email address. */
     emailConfirmed?: boolean;
-    /** Gets or sets a salted and hashed representation of the password for this user. */
     passwordHash?: string | undefined;
-    /** A random value that must change whenever a users credentials change (password changed, login removed) */
     securityStamp?: string | undefined;
-    /** A random value that must change whenever a user is persisted to the store */
     concurrencyStamp?: string | undefined;
-    /** Gets or sets a telephone number for the user. */
     phoneNumber?: string | undefined;
-    /** Gets or sets a flag indicating if a user has confirmed their telephone address. */
     phoneNumberConfirmed?: boolean;
-    /** Gets or sets a flag indicating if two factor authentication is enabled for this user. */
     twoFactorEnabled?: boolean;
-    /** Gets or sets the date and time, in UTC, when any user lockout ends. */
     lockoutEnd?: Date | undefined;
-    /** Gets or sets a flag indicating if the user could be locked out. */
     lockoutEnabled?: boolean;
-    /** Gets or sets the number of failed login attempts for the current user. */
     accessFailedCount?: number;
 }
 
-/** The default implementation of IdentityUser`1 which uses a string as a primary key. */
 export class IdentityUser extends IdentityUserOfString implements IIdentityUser {
 
     constructor(data?: IIdentityUser) {
@@ -1495,7 +1462,6 @@ export class IdentityUser extends IdentityUserOfString implements IIdentityUser 
     }
 }
 
-/** The default implementation of IdentityUser`1 which uses a string as a primary key. */
 export interface IIdentityUser extends IIdentityUserOfString {
 }
 
