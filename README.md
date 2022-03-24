@@ -14,8 +14,7 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
   
 ![multistopwatch](https://user-images.githubusercontent.com/52860350/123107278-ad42e980-d439-11eb-8e12-1677857b525a.jpg)
 
-## Tools: 
-
+## Tools
 ### Back-end
  * C#
  * .NET 5.0
