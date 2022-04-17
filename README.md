@@ -12,7 +12,7 @@ This project arose in need of projects time calculation as well as optimization 
 ## What did I learn?
 During the project, I had a lot of fun. In practice I exercised Angular and CleanArchitecture: AutoMaper - creating DTOs, NSwag - testing API and generating web API client, validations on several layers, and more.
   
-![multistopwatch](https://user-images.githubusercontent.com/52860350/123107278-ad42e980-d439-11eb-8e12-1677857b525a.jpg)
+![multistopwatch](https://user-images.githubusercontent.com/52860350/163707766-0ee1d1fb-ddd5-4069-8da3-c0c46a6c6aa3.jpg)
 
 ## Tools
 ### Back-end
