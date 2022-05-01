@@ -42,6 +42,6 @@ During the project, I had a lot of fun. In practice I exercised Angular and Clea
  * Adobe XD
  
 ## Status
-Project is in progress.
+Project(demo) is finished.
 
 
