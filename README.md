@@ -21,10 +21,7 @@ During the project, I had a lot of fun. In practice, I exercised Angular and Cle
  * .NET 5.0
  * Entity Framework
  * Microsoft SQL Server
- * MediatR
  * SignalR
- * NSwag
- * AutoMapper
  * NUnit
 
 ### Front-end
