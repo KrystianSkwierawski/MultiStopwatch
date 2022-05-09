@@ -22,7 +22,8 @@ export class LocalChangesHubService implements OnInit {
 
     this.hub.start().then(function () {
     }).catch(function (err) {
-      return console.error(err.toString());
+      //return console.error(err.toString());
+      return;
     });
   }
 
