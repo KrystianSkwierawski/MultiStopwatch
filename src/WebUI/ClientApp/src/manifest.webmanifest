@@ -8,8 +8,8 @@
   "start_url": "./",
   "icons": [
     {
-      "src": "img/assets/logo.svg",
-      "sizes": "72x72",
+      "src": "assets/img/logo.svg",
+      "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable any"
     }
