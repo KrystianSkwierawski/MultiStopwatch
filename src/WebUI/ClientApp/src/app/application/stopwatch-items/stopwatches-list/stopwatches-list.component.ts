@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LocalChangesHubService } from '../../../shared/services/local-changes-hub/local-changes-hub.service';
 import { defaultTime } from '../../../shared/services/timer/timer.model';
 import { TimersService } from '../../../shared/services/timer/timers.service';
@@ -42,6 +42,7 @@ export class StopwatchesListComponent implements OnInit {
     private _projectItemsClient: ProjectItemsClient,
     private _timersService: TimersService,
     private _localChangesHubService: LocalChangesHubService,
+    private _router: Router
   ) {
   }
 
@@ -54,6 +55,14 @@ export class StopwatchesListComponent implements OnInit {
 
     this.loadProject();
     this.loadStopwatches();
+
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.stopwatches.forEach((stopwatch) => {
+          this._timersService.pause(stopwatch);
+        });
+      }
+    });
   }
 
   onOpenCreateStopwatchDialog(): void {
