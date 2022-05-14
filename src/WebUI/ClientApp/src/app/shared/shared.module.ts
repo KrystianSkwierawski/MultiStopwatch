@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
-import { SecondsToHhmmssPipe } from './pipes/seceonds-to-hhmmss.pipe';
+import { SecondsToHHMMSSPipe } from './pipes/seconds-to-hhmmss.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe.';
 import { ConfirmDeleteDialogComponent } from './utilities/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -25,7 +25,7 @@ import { ThemeSelectorComponent } from './utilities/theme-selector/theme-selecto
     ShortenPipe,
     TypeofPipe,
     ItemsStatusSelectorComponent,
-    SecondsToHhmmssPipe,
+    SecondsToHHMMSSPipe,
     ErrorMessageComponent,
   ],
   imports: [
@@ -43,7 +43,7 @@ import { ThemeSelectorComponent } from './utilities/theme-selector/theme-selecto
     ShortenPipe,
     TypeofPipe,
     ItemsStatusSelectorComponent,
-    SecondsToHhmmssPipe,
+    SecondsToHHMMSSPipe,
     ErrorMessageComponent,
     MaterialModule
   ]

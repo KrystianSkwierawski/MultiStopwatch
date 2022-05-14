@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { defaultTime, totalSecondsToHHMMSS } from '../services/timer/timer.model';
 
 @Pipe({
-  name: 'seceondsToHhmmss'
+  name: 'secondsToHHMMSS'
 })
-export class SecondsToHhmmssPipe implements PipeTransform {
+export class SecondsToHHMMSSPipe implements PipeTransform {
 
   transform(value: unknown): unknown {
     if (value > 0) {
