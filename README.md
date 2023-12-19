@@ -1,5 +1,9 @@
 <a href="https://wiktoriaskorek.com/"><p align="center"><img src="https://user-images.githubusercontent.com/52860350/128186863-29be9f4a-9a6a-4677-a0f8-2833853e111e.png" alt="multistopwatch"/></p><a/>
- 
+
+<div align="center">
+  <img src="https://github.com/KrystianSkwierawski/MultiStopwatch/assets/52860350/bdf44f9d-79a7-4d17-a49c-81218709a052">
+</div>
+
 ## What is the MultiStopwatch?  
 Multistopwatch is an application for the organization of work. Simply, you can measure the time of every project and every task. This application helps to calculate the duration of the project. It might help optimize and predict project time. 
   
